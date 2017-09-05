@@ -1,0 +1,36 @@
+@charset "utf-8";
+/* CSS Document */
+
+.strength_meter{
+    display: inline-block;
+    width: 100px;
+	background: silver;
+    height: 25px;
+    vertical-align: top;
+}
+.strength_meter div{
+    height: 25px;
+	width: 100px;
+	text-align: center;
+    vertical-align: middle;
+	color: #555555;
+    font-size: 90%;
+	font-weight: bold;
+    line-height: 25px;
+}
+.veryweak{
+    background-color: #FFA0A0;
+    border-color: #F04040!important
+}
+.weak{
+    background-color: #FFB78C;
+    border-color: #FF853C!important;
+}
+.medium{
+    background-color: #FFEC8B;
+    border-color: #FC0!important;
+}
+.strong{
+    background-color: #C3FF88;
+    border-color: #8DFF1C!important;
+}

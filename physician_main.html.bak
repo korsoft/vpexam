@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252" http-equiv="content-type">
+    <title>Physician Main</title>
+    <style type="text/css">
+      body {
+        background-color: #c2bdbb;
+      }
+      .userInfo {
+        color: #191919;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      #userInfoName {
+        padding-left: 5px;
+      }
+      #userInfoNewExams {
+        color: #B20000;
+        padding-right: 20px;
+      }
+      #userInfoLogout {
+        padding-left: 20px;
+        padding-right: 5px;
+      }
+      #userInfoLogout:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      .divider {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        font-size: 20px;
+        color: #191919;
+        float:right;
+      }
+      .topBar {
+        background-color: #878482;
+        box-shadow: 0px 0px 5px #545252;
+        height: 30px;
+        width: 100%;
+      }
+      .mainContent {
+        background: #d8d8d8;
+        box-shadow: 0px 0px 5px #545252;
+      }
+      .wrapper {
+        margin-top: 20px;
+        width: 100%;
+      }
+      #patientsBox {
+        width: 31%;
+        padding: 10px;
+        float: left;
+        margin-right: 20px;
+      }
+      #recentlyViewed {
+        width: 31%;
+        padding: 10px;
+        float: left;
+        margin-right: 20px;
+      }
+      #listNewExams {
+        width: 31%;
+        padding: 10px;
+        float: left;
+      }
+      #patientInfoDiv {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 10px;
+      }
+      h2 {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+      }
+      ul {
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+      }
+      li {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        height: 30px;
+        vertical-align: middle;
+      }
+      .heading {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      td.listRow {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        height: 30px;
+        vertical-align: middle;
+        display:table-cell;
+      }
+      td.listRow:hover {
+        background: #cbcbcb;
+        cursor: pointer;
+      }
+      .patientInfoRow {
+        height: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div id="userBox" class="topBar">
+        <table style="height:100%; float: left;">
+          <tbody>
+            <tr>
+              <td id="userInfoName" class="userInfo">Welcome Eric Vestfals!</td>
+            </tr>
+          </tbody>
+        </table>
+        <table style="height:100%; float: right;">
+          <tbody>
+            <tr>
+              <td id="userInfoNewExams" class="userInfo"><strong>•</strong> 8
+                New Exams</td>
+              <td class="divider">|</td>
+              <td id="userInfoLogout" class="userInfo">Logout</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="wrapper" style="pading:10px;">
+      <div class="mainContent" id="patientInfoDiv">
+        <table>
+          <tbody>
+            <tr class="patientInfoRow">
+              <td style="padding-right: 20px;">Patient Name</td>
+              <td>Eric Vestfals</td>
+            </tr>
+            <tr class="patientInfoRow">
+              <td style="padding-right: 20px;">MRN</td>
+              <td>123456789</td>
+            </tr>
+            <tr class="patientInfoRow">
+              <td style="padding-right: 20px;">DOB</td>
+              <td>5/31/94</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="wrapper" style="pading:10px;">
+      <div class="mainContent" id="patientsBox"> <span class="heading">My
+          Patients</span>
+        <div style="overflow-y:scroll; height:600px;">
+          <table style="width: 100%; margin-top: 5px;">
+            <tbody>
+              <tr>
+                <td class="listRow">Eric Vestfals</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="mainContent" id="recentlyViewed"> <span class="heading">Recently
+          Viewed</span>
+        <div style="overflow-y:scroll; height:600px;">
+          <table style="width: 100%; margin-top: 5px;">
+            <tbody>
+              <tr>
+                <td class="listRow">Eric Vestfals</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="mainContent" id="listNewExams"> <span class="heading">New
+          Patients</span>
+        <div style="overflow-y:scroll; height:600px;">
+          <table style="width: 100%; margin-top: 5px;">
+            <tbody>
+              <tr>
+                <td class="listRow">Eric Vestfals</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

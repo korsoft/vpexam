@@ -1,0 +1,269 @@
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Bold.ttf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Regular.ttf);
+    font-style: italic;
+}
+
+body {
+    /*background-color: #c2bdbb;*/
+    font: normal .80em encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    background: #FFFFFF;/*#eeebff;*/
+    color: #555;
+    width: 100%;
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    width: 100%;
+    height: 100%;
+}
+
+.slideout-menu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    width: 256px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: none;
+}
+
+.slideout-panel {
+    position:relative;
+    z-index: 1;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+    overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+    display: block;
+}
+
+.btn {
+    color: white;
+    font-size: 14px;
+    min-height: 50px;
+    line-height: 50px;
+    width: calc(100% - 40px);
+    padding: 0 0 0 40px;
+    transition:all 0.3s ease;
+}
+
+.btn ul {
+    margin: 0 0 0 15px;
+    max-height: 100px;
+    overflow-y: auto;
+}
+.btn ul li {
+    list-style-type: none;
+    padding: 0;
+}
+.btn ul li label {
+    color: #fff;
+    cursor: pointer;
+}
+
+.waitingRoom ul li label:after {
+    content: url(/img/video-camera4.png); /* no need for qoutes */
+    opacity: 0;
+    transition:all 0.3s ease;
+}
+.waitingRoom ul li label:hover:after {
+    opacity: 1;
+}
+.waitingRoom ul li .removeFromWR {
+    cursor: pointer;
+    margin: 0 5px 0 0;
+}
+
+.btn:hover:not(.waitingRoom) {
+    background-color: #67c9e0;
+    cursor: pointer;
+}
+
+#panel {
+    background: white;
+    height: 100%;
+    width: 100%;
+}
+
+#menu {
+    background: #0082d2;
+}
+
+h2 {
+    color: white;
+}
+
+.menuHeaderText {
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 50px;
+    vertical-align: top;
+}
+
+.menuHeaderImg {
+    display: inline;
+}
+
+.headerDiv {
+    margin: 5px;
+}
+
+#panel header {
+    background: #0082d2;
+    height: 50px;
+}
+
+.mainContent {
+    background: white;
+    height: calc(100% - 50px);
+    padding: 0 50px 20px 50px;
+    /* The width of the main content should be 100%-100px (padding left & right) */
+    width: calc(100% - 100px);
+}
+
+.toggle-button {
+    margin: 10px;
+}
+
+.toggle-button:hover {
+    cursor: pointer;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+thead {
+    background: #67c9e0;
+}
+
+tbody:before {
+    line-height: 1em;
+    content: "\200C";
+    display: block;
+}
+
+thead tr {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    height: 45px;
+}
+
+th {
+    text-align: left;
+}
+
+.patientProfilePic {
+    height: 65px;
+    margin: 0 15px 0 0;
+    width: 65px;
+}
+
+.nameMRNDiv {
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+}
+
+.shortColumn {
+    width: 20%;
+}
+
+.longColumn {
+    width: calc(40% - 25px);
+}
+
+.tableContent tr {
+    height: 65px;
+}
+
+.tableHeaderDiv {
+    background: #67c9e0;
+    padding: 0 50px 0 50px;
+}
+
+td {
+    font-size: 14px;
+}
+
+.hoverableRow:hover {
+    background: lightgray;
+    cursor: pointer;
+}
+
+.headerText {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    padding-top: 12px;
+    text-align: center;
+    width: 80%;
+}
+
+.removePatientOuter {
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
+    background: red;
+    margin-right: 10px;
+}
+
+.removePatientOuter:hover {
+    background: #FF6666;
+}
+
+.removePatientInner {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 25px;
+    text-align: center;
+    width: 100%;
+}
+
+.welcomeDiv {
+    color: white;
+    display: inline-block;
+    float: right;
+    font-size: 16px;
+    line-height: 50px;
+    padding: 0 20px 0 0;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    width: 20%;
+}
+.waitingRoom ul {
+    max-height: none !important;
+}

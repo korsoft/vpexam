@@ -1,0 +1,229 @@
+<?php
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+ 
+sec_session_start();
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html" charset="UTF-8" http-equiv="content-type">
+        <link rel="stylesheet" type="text/css" href="style/physician_main.css">
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="msapplication-TileColor" content="#2d89ef">
+        <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
+        <script src="js/physician_main.js"></script>
+        <script src="js/underscore.js"></script>
+		<title>Physician Main</title>
+	</head>
+    <script>
+        <?php echo('setPhysicianId(' . $_SESSION['user_id'] . ');') ?>
+    </script>
+	<body>
+		<?php if ((login_check($mysqli) == true) && ($_SESSION['is_patient'] == false)) : ?>
+		<div>
+			<div id="userBox" class="topBar">
+				<div style="display: block;">
+					<table style="height:100%; float: left;">
+						<tbody>
+							<tr>
+								<td id="userInfoName" class="userInfo">Welcome <?php echo($_SESSION['first_name'].' '.$_SESSION['last_name'].'!'); ?></td>
+							</tr>
+						</tbody>
+					</table>
+					<table style="height:100%; float: right;">
+						<tbody>
+							<tr>
+								<td id="userInfoNewExams" class="userInfo"><strong>*</strong> 0
+								New Exams</td>
+								<td class="divider">|</td>
+								<td id="userInfoLogout" class="userInfo"><a href="includes/logout.php">Logout</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="wrapper">
+			<div class="mainContent" id="searchBoxDiv">
+				<div class="headingDiv">
+					<span class="heading">Search</span>
+				</div>
+				<div class="overflowContainer">
+					<table>
+						<tbody>
+							<tr>
+								<td>Gender:</td>
+								<td><input class="genderCheckbox" type="checkbox" name="gender" value="m">Male</input></td>
+								<td><input class="genderCheckbox" type="checkbox" name="gender" value="f">Female</input></td>
+							</tr>
+							<tr>
+								<td>Last name:</td>
+								<td colspan="2"><input type="text" name="lname" id="lname"/></td>
+							</tr>
+							<tr>
+								<td>First name:</td>
+								<td colspan="2"><input type="text" name="fname" id="fname"/></td>
+							</tr>
+							<tr>
+								<td colspan="2"></td>
+								<td align="right"><button id="btnSearch" onclick="search(<?php echo($_SESSION["user_id"]) ?>)">Search</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="mainContent" id="patientsBox">
+				<div class="headingDiv">
+					<span class="heading">My Patients</span>
+				</div>
+				<div class="overflowContainer" style="overflow-y:scroll; height:600px;">
+					<table id="myPatientsTable" style="width: 100%;">
+						<thead>
+							<tr class="headerRow">
+								<th>Name</th>
+								<th>Gender</th>
+								<th>Date of Birth</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php
+							$patientInfos = getPatientsOfPhysician($_SESSION['user_id'], $mysqli);
+							$indexCount = count($patientInfos);
+							for ($index = 0; $index < $indexCount; $index++) {
+								$singleInfo = $patientInfos[$index];
+								$name = $singleInfo->lastName.', '.$singleInfo->firstName;
+								$gender = ($singleInfo->gender == "male") ? "M" : "F";
+								$dob = $singleInfo->dob->format('m/d/Y');
+								$id = $singleInfo->patientId;
+								$td1 = "<td>".$name."</td>";
+								$td2 = "<td>".$gender."</td>";
+								$td3 = "<td>".$dob."</td>";
+								print("
+								<tr id=\"$id\" class=\"listRow\">
+									$td1
+									$td2
+									$td3
+								</tr>");
+							}
+						?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="mainContent" id="recentlyViewed">
+				<div class="headingDiv">
+					<span class="heading">Recently Viewed</span>
+				</div>
+				<div class="overflowContainer" style="overflow-y:scroll; height:600px;">
+					<table id="recentlyViewedTable" style="width: 100%;">
+						<thead>
+							<tr class="headerRow">
+								<th>Name</th>
+								<th>Gender</th>
+								<th>Date of Birth</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php
+                            $url = "https://vpexam.com/includes/getRecentList.php?physId=" . $_SESSION['user_id'];
+                            $ch = curl_init();
+                            curl_setopt($ch, CURLOPT_URL, $url);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                            $content = curl_exec($ch);
+                            curl_close($ch);
+
+                            $obj = json_decode($content);
+                            $arr = json_decode($obj->data);
+
+                            // MySQL fetches the patients in reverse order of the OR clauses, so we
+                            // must reverse the returned array.
+                            $infos = getPatientInfosFromArray($mysqli, $arr);
+							$indexCount = count($infos);
+							for ($index = 0; $index < $indexCount; $index++) {
+								$singleInfo = $infos[$index];
+								$name = $singleInfo->lastName.', '.$singleInfo->firstName;
+								$gender = ($singleInfo->gender == "male") ? "M" : "F";
+								$dob = $singleInfo->dob->format('m/d/Y');
+								$id = $singleInfo->patientId;
+								$td1 = "<td>".$name."</td>";
+								$td2 = "<td>".$gender."</td>";
+								$td3 = "<td>".$dob."</td>";
+								$td4 = "<td><button class=\"btnRemove\">Remove</button></td>";
+								print("
+								<tr id=\"$id\" class=\"listRow\">
+									$td1
+									$td2
+									$td3
+									$td4
+								</tr>");
+							}
+						?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="mainContent" id="listNewExams">
+				<div class="headingDiv">
+					<span class="heading">New Patients</span>
+				</div>
+				<div class="overflowContainer" style="overflow-y:scroll; height:600px;">
+					<table style="width: 100%;">
+						<thead>
+							<tr class="headerRow">
+								<th>Name</th>
+								<th>Gender</th>
+								<th>Date of Birth</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php
+							$patientInfos = getPatientsOfPhysician($_SESSION['user_id'], $mysqli);
+							$indexCount = count($patientInfos);
+							for ($index = 0; $index < $indexCount; $index++) {
+								$singleInfo = $patientInfos[$index];
+								$name = $singleInfo->lastName.', '.$singleInfo->firstName;
+								$gender = ($singleInfo->gender == "male") ? "M" : "F";
+								$dob = $singleInfo->dob->format('m/d/Y');
+								$id = $singleInfo->patientId;
+								$td1 = "<td>".$name."</td>";
+								$td2 = "<td>".$gender."</td>";
+								$td3 = "<td>".$dob."</td>";
+								print("
+								<tr id=\"$id\" class=\"listRow\">
+									$td1
+									$td2
+									$td3
+								</tr>");
+							}
+						?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<?php else : ?>
+		<p>
+			<span class="error">You are not authorized to access this page.</span> Please <a href="main.php">login</a>.
+		</p>
+		<?php endif; ?>
+	</body>
+</html>

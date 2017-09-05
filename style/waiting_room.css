@@ -1,0 +1,121 @@
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Bold.ttf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Regular.ttf);
+    font-style: italic;
+}
+
+html {
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: normal .80em encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    background: #FFFFFF;/*#eeebff;*/
+    color: #555;
+}
+
+#header {
+    background: #3051a6;/*#a6bddb;*/
+    height: 110px;
+    width: 100%;
+}
+
+#logo {
+    height: 110px;
+    margin-left: 50px;
+    background: transparent;
+}
+
+#logo #logo_text {
+    height: 100%;
+    float: left;
+}
+
+#logo img {
+    height: auto;
+    max-height: 100%;
+    width: auto;
+}
+#logo .topmenuItem {
+    cursor: pointer;
+}
+
+.main {
+    display: flex;
+    height: 89%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcomeDiv {
+    color: white;
+    display: inline-block;
+    float: right;
+    font-size: 120%;
+    position: absolute;
+    text-align: right;
+    width: auto;
+    top: 75px;
+}
+.hide {
+    display: none;
+}
+#chronometer {
+    bottom: 30px;
+    height: 0px;
+    left: 30px;
+    opacity: 0;
+    position: fixed;
+    text-align: left;
+    width: 3600px;
+    z-index: 1;
+}
+#chronometer img {
+    height: 100%;
+    margin: 0 5px 0 0;
+    width: auto;
+}
+#chronometer span {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 40px;
+    vertical-align: top;
+}
+#chronometer .Stop {
+    color : #28840b;
+}
+#msg {
+    margin: 0;
+    text-align: center;
+}
+#msg h1 {
+    font-size: 40px;
+}
+#msg h3 {
+    color: #3051a6;
+    margin: 20px 0 0 0;
+    font-size: 30px;
+}
+@media (max-width: 800px) {
+    #logo img{
+        max-height: 90% !important;
+        width: 90% !important;
+    }
+}

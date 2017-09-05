@@ -1,0 +1,481 @@
+var examParts = [];
+var allExamPartsAbbrevs = [];
+var allExamPartsNames = [];
+var examPartsIndices = [];
+var examPartsVideo = [];
+var currentIndex = getParameterByName('idx');
+var physicianId = -1;
+var examId = -1;
+var patientId = -1;
+var wavesurfer = null;
+var currentExamPartAbbrev = "";
+var intervalHandle = null;
+var audioTimeElem = null;
+
+$(document).on("ready", function() {
+    $('#btnExamOverview').on('click', function() {
+        var patientId = encodeURIComponent(getParameterByName("patientId"));
+        var examId = encodeURIComponent(getParameterByName("examId"));
+        window.location = "exam_main.php?patientId=" + patientId + "&examId=" + examId;
+    });
+
+    $('#btnEditNormal').on('click', function() {
+        $('#editNormalDialog').dialog("open");
+    });
+
+    $('#btnInsertNormal').on('click', function() {
+        $.ajax({
+            url: "api/getPhysicianNormal.php?physId=" + physicianId,
+            success: function(data) {
+                var rspObj = JSON.parse(data);
+                if (rspObj === null) {
+                    alert("Error loading 'Normal' text: Returned JSON failed to parse.");
+                } else if (!rspObj.success) {
+                    alert("Error loading 'Normal' text: " + rspObj.errorMsg);
+                } else if (rspObj.text === "") {
+                    $('#dialogConfirmAddNormal').dialog("open");
+                } else {
+                    var text = "<br />" + rspObj.text + "<br />";
+                    tinyMCE.execCommand('mceInsertContent', false, text);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                alert("Error loading 'Normal' text: " + errorThrown);
+            },
+            method: 'GET'
+        });
+    });
+
+    $('#editNormalDialog').dialog({
+        autoOpen: false,
+        dialogClass: "no-close",
+        draggable: true,
+        resizable: true,
+        modal: true,
+        width: 500,
+        buttons: {
+            "Save": function() {
+                tinymce.get('taNormalText').setProgressState(true);    // Show loading image
+                var postData = "physId=" + physicianId + "&content=" + encodeURIComponent(tinymce.get('taNormalText').getContent());
+                $.ajax({
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    },
+                    data: postData,
+                    url: "api/savePhysicianNormal.php",
+                    success: function(data) {
+                        tinyMCE.get('taNormalText').setProgressState(false);
+                        var rspObj = JSON.parse(data);
+                        if (rspObj === null)
+                            alert("Error saving 'Normal' text: Returned JSON failed to parse.");
+                        else if (!rspObj.success)
+                            alert("Error saving 'Normal' text: " + rspObj.errorMsg);
+                        else
+                            alert("Saved successfully");
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        tinymce.get('taNormalText').setProgressState(false);
+                        alert("Error saving 'Normal' text: " + errorThrown);
+                    },
+                    method: 'POST'
+                });
+            },
+            "Cancel": function() {
+                $(this).dialog("close");
+            }
+        },
+        open: function(event, ui) {
+            tinymce.init({
+                selector: '#taNormalText',
+                menubar: false,
+                resize: false,
+                width: "100%",
+                height: 500,
+                toolbar: ["undo redo | bold italic underline | fontselect | fontsizeselect"],
+                fontsize_formats: "8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 22pt 24pt 26pt 28pt 36pt 48pt 72pt",
+                setup: function(editor) {
+                    editor.on('init', function(e) {
+                        tinyMCE.get('taNormalText').setProgressState(true);
+                        $.ajax({
+                            url: "api/getPhysicianNormal.php?physId=" + physicianId,
+                            success: function(data) {
+                                tinyMCE.get('taNormalText').setProgressState(false);
+                                var rspObj = JSON.parse(data);
+                                if (rspObj === null) {
+                                    alert("Error loading 'Normal' text: Returned JSON failed to parse.");
+                                } else if (!rspObj.success) {
+                                    alert("Error loading 'Normal' text: " + rspObj.errorMsg);
+                                } else {
+                                    tinyMCE.get('taNormalText').setContent(rspObj.text);
+                                }
+                            },
+                            error: function(xhr, textStatus, errorThrown) {
+                                tinyMCE.get('taNormalText').setProgressState(false);
+                                alert("Error loading 'Normal' text: " + errorThrown);
+                            },
+                            method: 'GET'
+                        });
+                    });
+                }
+            });
+        }
+    });
+
+    $('#dialogConfirmAddNormal').dialog({
+        autoOpen: false,
+        dialogClass: "no-close",
+        draggable: false,
+        resizable: false,
+        modal: true,
+        buttons: {
+            "Yes": function() {
+                $(this).dialog("close");
+                $('#editNormalDialog').dialog("open");
+            },
+            "No": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+
+    audioTimeElem = $('#audioTime');
+    $("#controlBox").draggable();
+    $("#selectJumpTo").val(currentExamPartAbbrev);
+
+    loadAudio(true);
+});
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function setExamParts(parts) {
+    examParts = JSON.parse(decodeURIComponent(parts));
+}
+
+function setAllExamPartsAbbrevs(parts) {
+    allExamPartsAbbrevs = JSON.parse(decodeURIComponent(parts));
+}
+
+function setAllExamPartsNames(parts) {
+    allExamPartsNames = JSON.parse(decodeURIComponent(parts));
+}
+
+function setExamPartsIndices(parts) {
+    examPartsIndices = JSON.parse(decodeURIComponent(parts));
+}
+
+function setExamPartsVideo(parts) {
+    examPartsVideo = JSON.parse(decodeURIComponent(parts));
+}
+
+function setPhysician(phys) {
+    physicianId = phys;
+}
+
+function setExamId(id) {
+    examId = id;
+}
+
+function setPatientId(id) {
+    patientId = id;
+}
+
+function loadAudio(loop) {
+    'use strict';
+
+    // Create an instance
+    wavesurfer = Object.create(WaveSurfer);
+
+    // Init & load audio file
+    var options = {
+        container		: document.querySelector('#waveform'),
+        waveColor		: 'violet',
+        progressColor	: 'purple',
+        loaderColor		: 'purple',
+        cursorColor		: 'navy',
+        loop            : loop  // Custom option for looping
+    };
+
+    if (getParameterByName('scroll') == "true") {
+        options.minPxPerSec = 1000;
+        options.scrollParent = true;
+    }
+
+    // Init
+    wavesurfer.init(options);
+
+    // Load audio from URL
+    var url = '.uploads/' + physicianId + '/' + patientId + '/' + examId + '/audio/' + getParameterByName('abbrev') + '.wav';
+    wavesurfer.load(url);
+
+    // Regions
+    if (wavesurfer.enableDragSelection) {
+        wavesurfer.enableDragSelection({
+            color: 'rgba(0, 255, 0, 0.1)'
+        });
+    }
+
+    // Play at once when ready
+    // Won't work on iOS until you touch the page
+    wavesurfer.on('ready', function () {
+        //wavesurfer.play();
+        var totalTimeS = Math.floor(wavesurfer.backend.getDuration());
+        // Minutes and seconds
+        var minsTotal = ~~(totalTimeS / 60);
+        var secsTotal = totalTimeS % 60;
+
+        // Output like "1:01" or "4:03:59" or "123:03:59"
+        var timeTotal = "";
+
+        timeTotal += "" + minsTotal + ":" + (secsTotal < 10 ? "0" : "");
+        timeTotal += "" + secsTotal;
+
+        audioTimeElem.text("Time: 0:00" + " / " + timeTotal);
+    });
+
+    // Report errors
+    wavesurfer.on('error', function(err) {
+        console.error(err);
+    });
+
+    // Do something when the clip is over
+    wavesurfer.on('finish', function () {
+        console.log('Finished playing');
+        clearInterval(intervalHandle);
+        var btn = document.getElementById("btnPlay");
+        btn.setAttribute('src', 'images/play_up');
+
+        if (wavesurfer.params.loop) {
+            wavesurfer.seekTo(0);
+            $('#btnPlay').click();
+        }
+    });
+
+    /* Progress bar */
+    var progressDiv = document.querySelector('#progress-bar');
+    var progressBar = progressDiv.querySelector('.progress-bar');
+
+    var showProgress = function(percent) {
+        progressDiv.style.display = 'block';
+        progressBar.style.width = percent + '%';
+    };
+
+    var hideProgress = function() {
+        progressDiv.style.display = 'none';
+    };
+
+    wavesurfer.on('loading', showProgress);
+    wavesurfer.on('ready', hideProgress);
+    wavesurfer.on('destroy', hideProgress);
+    wavesurfer.on('error', hideProgress);
+}
+
+function plus2Space(str) {
+    return str.replace('+', / /g);
+}
+
+function formatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;	// The hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+}
+
+function ajaxLoad(patientId, examId) {
+    // Do the ajax call here
+    tinymce.activeEditor.setProgressState(true);	// Show progress
+    if (window.XMLHttpRequest) {
+        // Code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    } else {
+        // Code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4) {
+            tinymce.activeEditor.setProgressState(false);
+            if (xmlhttp.status == 200) {
+                var rsp = JSON.parse(xmlhttp.responseText);
+                if (!rsp.success) {
+                    alert(rsp.errorMsg);
+                } else {
+                    tinymce.activeEditor.setContent(rsp.text);
+                }
+            } else {
+                alert("Error: AJAX request returned " + xmlhttp.status);
+            }
+        }
+    };
+    xmlhttp.open("GET", "api/getClipboardContent.php?patientId=" + patientId + "&examId=" + examId + "&physId=" + physicianId, true);
+    xmlhttp.send();
+}
+
+function ajaxSave(patientId, examId) {
+    // Do the ajax call here
+    tinymce.activeEditor.setProgressState(true);	// Show progress
+    if (window.XMLHttpRequest) {
+        // Code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    } else {
+        // Code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4) {
+            tinymce.activeEditor.setProgressState(false);
+            if (xmlhttp.status == 200) {
+                var rsp = JSON.parse(xmlhttp.responseText);
+                if (!rsp.success) {
+                    alert(rsp.errorMsg);
+                } else {
+                    document.getElementById('lastSaved').innerHTML = "Last Saved: " + formatAMPM(new Date());
+                }
+            } else {
+                alert("Error: AJAX request returned " + xmlhttp.status);
+            }
+        }
+    }
+    xmlhttp.open("POST", "api/saveClipboardContent.php", true);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    var queryStr = "patientId=" + patientId + "&examId=" + examId + "&physId=" + physicianId + "&content=" + encodeURIComponent(tinymce.activeEditor.getContent());
+    xmlhttp.send(queryStr);
+}
+
+function playClickHandler() {
+    var btn = document.getElementById("btnPlay");
+    if (wavesurfer.backend.isPaused()) {
+        btn.setAttribute('src', 'images/pause_hover');
+        intervalHandle = setInterval(function() {
+            var currentTimeS = Math.floor(wavesurfer.backend.getCurrentTime());
+            var totalTimeS = Math.floor(wavesurfer.backend.getDuration());
+            // Minutes and seconds
+            var minsCurrent = ~~(currentTimeS / 60);
+            var minsTotal = ~~(totalTimeS / 60);
+            var secsCurrent = currentTimeS % 60;
+            var secsTotal = totalTimeS % 60;
+
+            // Output like "1:01" or "4:03:59" or "123:03:59"
+            var timeCurrent = "";
+            var timeTotal = "";
+
+            timeCurrent += "" + minsCurrent + ":" + (secsCurrent < 10 ? "0" : "");
+            timeCurrent += "" + secsCurrent;
+            timeTotal += "" + minsTotal + ":" + (secsTotal < 10 ? "0" : "");
+            timeTotal += "" + secsTotal;
+
+            audioTimeElem.text("Time: " + timeCurrent + " / " + timeTotal);
+        }, 250);
+        wavesurfer.play();
+    } else {
+        btn.setAttribute('src', 'images/play_hover');
+        clearInterval(intervalHandle);
+        wavesurfer.pause();
+    }
+}
+
+function prevClickHandler() {
+    var i = 0;
+    for (i; i < examPartsIndices.length; i++) {
+        if (examPartsIndices[i] == currentIndex)
+            break;
+    }
+    if (examPartsIndices[i] == examPartsIndices[0]) {
+        alert("No previous exam");
+    } else {
+        var name = allExamPartsNames[examPartsIndices[i - 1]];
+        var abbrev = allExamPartsAbbrevs[examPartsIndices[i - 1]];
+        var idx = examPartsIndices[i - 1];
+        var patientId = encodeURIComponent(getParameterByName("patientId"));
+        var examId = encodeURIComponent(getParameterByName("examId"));
+        var isVideo = examPartsVideo[examPartsIndices[i - 1]];
+        var url = (isVideo ? "exam_video_view.php?" : "exam_audio_view.php?") + "patientId=" + patientId + "&examId=" + examId + "&title=" + name + "&abbrev=" + abbrev + "&idx=" + idx;
+        window.location = url;
+    }
+}
+
+function nextClickHandler() {
+    var i = 0;
+    for (i; i < examPartsIndices.length; i++) {
+        if (examPartsIndices[i] == currentIndex)
+            break;
+    }
+    if (examPartsIndices[i] == examPartsIndices[examPartsIndices.length - 1]) {
+        alert("No next exam");
+    } else {
+        var name = allExamPartsNames[examPartsIndices[i + 1]];
+        var abbrev = allExamPartsAbbrevs[examPartsIndices[i + 1]];
+        var idx = examPartsIndices[i + 1];
+        var patientId = encodeURIComponent(getParameterByName("patientId"));
+        var examId = encodeURIComponent(getParameterByName("examId"));
+        var isVideo = examPartsVideo[examPartsIndices[i + 1]];
+        var url = (isVideo ? "exam_video_view.php?" : "exam_audio_view.php?") + "patientId=" + patientId + "&examId=" + examId + "&title=" + name + "&abbrev=" + abbrev + "&idx=" + idx;
+        window.location = url;
+    }
+}
+
+function hover(element) {
+    switch (element.id) {
+        case "btnPrev":
+            element.setAttribute('src', 'images/prev_hover');
+            break;
+        case "btnPlay":
+            if (wavesurfer.backend.isPaused())
+                element.setAttribute('src', 'images/play_hover');
+            else
+                element.setAttribute('src', 'images/pause_hover');
+            break;
+        case "btnNext":
+            element.setAttribute('src', 'images/next_hover');
+            break;
+    }
+}
+
+function unhover(element) {
+    var audio = document.getElementById("examAudio");
+    switch (element.id) {
+        case "btnPrev":
+            element.setAttribute('src', 'images/prev_up');
+            break;
+        case "btnPlay":
+            if (wavesurfer.backend.isPaused())
+                element.setAttribute('src', 'images/play_up');
+            else
+                element.setAttribute('src', 'images/pause_up');
+            break;
+        case "btnNext":
+            element.setAttribute('src', 'images/next_up');
+            break;
+    }
+}
+
+function setCurrentExamPartAbbrev(abbrev) {
+    currentExamPartAbbrev = abbrev;
+}
+
+function selectChangeHandler(elem) {
+    var selectControl = document.getElementById("selectJumpTo");
+
+    var patientId = encodeURIComponent(getParameterByName("patientId"));
+    var examId = encodeURIComponent(getParameterByName("examId"));
+    var title = encodeURIComponent(selectControl[selectControl["selectedIndex"]].text);
+    var abbrev = encodeURIComponent(selectControl[selectControl["selectedIndex"]].value);
+    var idx = 0;
+    for (var i = 0; i < allExamPartsAbbrevs.length; i++) {
+        if (allExamPartsAbbrevs[i] == abbrev) {
+            idx = i;
+            break;
+        }
+    }
+    var isVideo = examPartsVideo[idx];
+
+    var url = (isVideo ? "exam_video_view.php?" : "exam_audio_view.php?") + "patientId=" + patientId + "&examId=" + examId + "&title=" + title + "&abbrev=" + abbrev + "&idx=" + idx;
+    window.location = url;
+}

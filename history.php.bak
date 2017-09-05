@@ -1,0 +1,161 @@
+<?php
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+
+sec_session_start();
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html" charset="UTF-8" http-equiv="content-type">
+    <link rel="stylesheet" type="text/css" href="style/history.css">
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+    <script src="js/history.js"></script>
+    <title>Physical Exam Main</title>
+</head>
+<body>
+<?php
+parse_str($_SERVER['QUERY_STRING']);
+$exam = getSingleExam($patientId, $examId, $mysqli);
+$patientInfo = getExtendedPatientInfo($patientId, $mysqli);
+$history = getHistoryForExam($patientId, $examId, $mysqli);
+$symptoms = getSymptomsForExam($patientId, $examId, $mysqli);
+?>
+<?php if ((login_check($mysqli) == true) && ($_SESSION['is_patient'] == false)) : ?>
+    <div class="mainContainer">
+        <div class="leftColumn">
+            <div class="mainContent" id="patientInfoDiv">
+                <div class="headingDiv">
+                    <span class="heading">Patient Info</span>
+                </div>
+                <div class="boxDiv">
+                    <table id="tblSymp">
+                        <tbody>
+                        <tr class="hoverable">
+                            <td class="tdName"><span class="infoSpan" style="font-size: 14px; font-weight: bold;">Name:</span></td>
+                            <td><span class="infoSpan" id="tdName" style="font-size: 14px; font-weight: normal;"><?php echo($patientInfo->firstName.' '.$patientInfo->lastName) ?></span></td>
+                        </tr>
+                        <tr class="hoverable">
+                            <td class="tdName"><span class="infoSpan" style="font-size: 14px; font-weight: bold;">Gender:</span></td>
+                            <td><span class="infoSpan" id="tdGender" style="font-size: 14px; font-weight: normal;"><?php echo(($patientInfo->gender) == "male" ? "Male" : "Female") ?></span></td>
+                        </tr>
+                        <tr class="hoverable">
+                            <td class="tdName"><span class="infoSpan" style="font-size: 14px; font-weight: bold;">DOB:</span></td>
+                            <td><span class="infoSpan" id="tdDOB" style="font-size: 14px; font-weight: normal;"><?php echo($patientInfo->dob->format('m/d/Y')) ?></span></td>
+                        </tr>
+                        <tr class="hoverable">
+                            <td class="tdName"><span class="infoSpan" style="font-size: 14px; font-weight: bold;">Exam Date:</span></td>
+                            <td><span class="infoSpan" id="tdDate" style="font-size: 14px; font-weight: normal;"><?php echo($exam->examDate->format('m/d/Y')) ?></span></td>
+                        </tr>
+                        <tr class="hoverable">
+                            <td class="tdName"><span class="infoSpan" style="font-size: 14px; font-weight: bold;">MRN:</span></td>
+                            <td><span class="infoSpan" id="tdMRN" style="font-size: 14px; font-weight: normal;"><?php echo($patientInfo->mrn) ?></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div id="btnAddInfo" class="addBtn">
+                        <span class="btnText">Add to Clipboard</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mainContent" id="patientHistoryDiv">
+                <div class="headingDiv">
+                    <span class="heading">Patient History</span>
+                </div>
+                <div class="boxDiv">
+                    <div id="panelContainer">
+                        <?php
+                        for ($i = 0; $i < count($history); $i++) {
+                            echo('<h3 class="panelHeader">'.($i + 1).'. '.$history[$i]->description.'</h3>');
+                            echo('<div class="panelContent">');
+                            echo('<p>'.$history[$i]->patientResponse.'</p>');
+                            echo('</div>');
+                        }
+                        ?>
+                    </div>
+                    <div id="btnExpandCollapseAll" class="addBtn">
+                        <span class="btnText" id="btnExpandCollapseAllSpan">Expand All</span>
+                    </div>
+                    <div id="btnAddHist" class="addBtn">
+                        <span class="btnText">Add to Clipboard</span>
+                    </div>
+                </div>
+            </div>
+            <!--Symptoms Div -->
+        </div>
+        <div class="rightColumn">
+            <div class="mainContent">
+                <div class="headingDiv">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td><span class="heading">Clipboard</span></td>
+                            <td id="tdLastSaved"><span class="lastSaved" id="lastSavedText">Last Saved: Not Saved</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clipboardDiv">
+                    <textarea></textarea>
+                    <div id="btnSaveClipboard" class="addBtn">
+                        <span class="btnText">Save Clipboard</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mainContent" id="patientSymptomsDiv">
+                <div class="headingDiv">
+                    <span class="heading">Patient Symptoms</span>
+                </div>
+                <div class="boxDiv">
+                    <table id="tblSymptoms" width="100%">
+                        <tbody>
+                        <?php
+                        for ($i = 0; $i < count($symptoms); $i++) {
+                            $symptomsStr = "";
+                            echo('<tr class="hoverable">');
+                            echo('<td class="tdSympGroup"><span class="infoSpan" style="font-size: 14px; font-weight: bold;">'.$symptoms[$i][0]->groupName.'</span>');
+                            $numElems = count($symptoms[$i]);
+                            for ($j = 0; $j < $numElems; $j++) {
+                                if ($j == $numElems - 1)
+                                    $symptomsStr.=$symptoms[$i][$j]->description;
+                                else
+                                    $symptomsStr.=($symptoms[$i][$j]->description.', ');
+                            }
+                            echo('<td class="tdSympDescr"><span class="infoSpan" style="font-size: 14px; font-weight: normal;">'.$symptomsStr.'</span></td>');
+                            echo('</tr>');
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                    <div id="btnAddSymp" class="addBtn">
+                        <span class="btnText">Add to Clipboard</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php else : ?>
+    <p>
+        <span class="error">You are not authorized to access this page.</span> Please <a href="main.php">login</a>.
+    </p>
+<?php endif; ?>
+</body>
+</html>

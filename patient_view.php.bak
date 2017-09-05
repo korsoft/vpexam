@@ -1,0 +1,110 @@
+<?php
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+ 
+sec_session_start();
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html" charset="UTF-8" http-equiv="content-type">
+        <link rel="stylesheet" type="text/css" href="style/patient_view.css">
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="msapplication-TileColor" content="#2d89ef">
+        <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+		<script src="https://code.jquery.com/jquery-latest.js"></script>
+        <script src="js/patient_view.js"></script>
+		<title>Physician Main</title>
+	</head>
+	<body>
+		<?php if ((login_check($mysqli) == true) && ($_SESSION['is_patient'] == false)) : 
+				parse_str($_SERVER['QUERY_STRING']);
+				$pInfo = NULL;
+				$exams = [];
+				if (!is_null($patientId)) {
+					$pInfo = getExtendedPatientInfo($patientId, $mysqli);
+					$exams = getPatientExams($patientId, $mysqli);
+				}
+			?>
+			<div class="blackout">
+			</div>
+			<div class="msgbox">
+				<div class="title">NOTES</div>
+				<div class="closeBox">X</div>
+				<br /><br /><br /><br />
+				<center>
+					<div id="mainArea">You can put anything here :)
+						<br />
+					</div>
+				</center>
+			</div>
+			<div class="patientInfo">
+				<table style="width: 100%" cellspacing="0" cellpadding="0">
+					<tr>
+						<td><?php echo(strtoupper($pInfo->firstName).' '.strtoupper($pInfo->lastName)) ?></td>
+						<td align="right">[DEMOGRAPHICS]</td>
+					<tr>
+					<tr>
+						<td><?php echo("MRN: ".$pInfo->mrn); ?></td>
+						<td align="right">[BILLING]</td>
+					<tr>
+					<tr>
+						<td><?php echo("DOB: ".$pInfo->dob->format('m/d/Y')); ?></td>
+						<td align="right">[PRIOR HISTORY]</td>
+					<tr>
+					<tr>
+						<?php $phone = $pInfo->phone;
+							if (strlen($phone) == 10) {
+								// We have a standard 10-digit phone number including area code
+								$phone = '('.substr($phone, 0, 3).")-".substr($phone, 3, 3).'-'.substr($phone, 6);
+							}
+						?>
+						<td><?php echo("Phone: ".$phone); ?></td>
+						<td align="right">[TELECONFERENCE]</td>
+					<tr>
+				</table>
+				<br><br>
+				<div class="scrollable">
+					<table style="width: 100%" cellspacing="0" cellpadding="0">
+						<tr>
+							<td>Encounters:</td>
+						<tr>
+						<?php 
+							for ($i = 0; $i < count($exams); $i++) {
+								$trClass = ($i % 2 == 0) ? "encounterRowEven" : "encounterRowOdd";
+								$dt = $exams[$i]->examDate->format('m/d/Y');
+								$noteText = urlencode(nl2br($exams[$i]->notes));
+								$ahref = "exam_main.php?patientId=".$patientId."&examId=".$exams[$i]->examId;
+								echo(
+									"<tr class=\"$trClass\">
+										<td>$dt</td>
+										<td align=\"center\"><a href=\"$ahref\">FULL HISTORY AND PHYSICAL</a></td>
+										<td align=\"right\"><span class=\"notes\" onclick=\"strtBlackout('$noteText')\">NOTES</span></td>
+									</tr>"
+								);
+							}
+						?>
+					</table>
+				</div>
+			</div>
+		<?php else : ?>
+		<p>
+			<span class="error">You are not authorized to access this page.</span> Please <a href="main.php">login</a>.
+		</p>
+		<?php endif; ?>
+	</body>
+</html>

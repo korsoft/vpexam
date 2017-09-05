@@ -1,0 +1,126 @@
+<?php
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+ 
+sec_session_start();
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html" charset="UTF-8" http-equiv="content-type">
+        <link rel="stylesheet" type="text/css" href="style/exam_main.css">
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="msapplication-TileColor" content="#2d89ef">
+        <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
+        <script src="js/exam_main.js"></script>
+		<title>Physical Exam Main</title>
+	</head>
+	<body>
+		<?php if ((login_check($mysqli) == true) && ($_SESSION['is_patient'] == false)) : 
+			static $examPartsList = ["0"=>"HEAD TO TOE PAN", "1"=>"MUCOUS MEMBRANE EXAM", "2"=>"AUSCULTATE AORTIC SITE", "3"=>"AUSCULTATE PULMONIC SITE", "4"=>"AUSCULTATE TRICUSPID SITE", "5"=>"AUSCULTATE MITRAL SITE", "6"=>"AUSCULTATE LEFT APEX", "7"=>"AUSCULTATE RIGHT APEX", "8"=>"AUSCULTATE LEFT MIDDLE", "9"=>"AUSCULTATE RIGHT MIDDLE", "10"=>"AUSCULTATE LEFT LOWER", "11"=>"AUSCULTATE RIGHT LOWER", "12"=>"RIGHT JUGULAR VENOUS: ANTERIOR", "13"=>"RIGHT JUGULAR VENOUS", "14"=>"LEFT JUGULAR VENOUS: ANTERIOR", "15"=>"LEFT JUGULAR VENOUS: LATERAL", "16"=>"RIGHT HEPATOJUGULAR REFLUX", "17"=>"LEFT HEPATOJUGULAR REFLUX", "18"=>"RIGHT LOWER EXTREMITY EDEMA: KNEE", "19"=>"RIGHT LOWER EXTREMITY EDEMA: ANTERIOR", "20"=>"LEFT LOWER EXTREMITY EDEMA: KNEE", "21"=>"LEFT LOWER EXTREMITY EDEMA: ANTERIOR"];
+			static $examPartsAbbrev = ["0"=>"htt", "1"=>"mm", "2"=>"aas", "3"=>"aps", "4"=>"ats", "5"=>"ams", "6"=>"ala", "7"=>"ara", "8"=>"alm", "9"=>"arm", "10"=>"all", "11"=>"arl", "12"=>"rjva", "13"=>"rjv", "14"=>"ljva", "15"=>"ljvl", "16"=>"rhr", "17"=>"lhr", "18"=>"rleek", "19"=>"rleea", "20"=>"lleek", "21"=>"lleea"];
+            static $examPartsAbbrevReverse = ["htt"=>"0", "mm"=>"1", "aas"=>"2", "aps"=>"3", "ats"=>"4", "ams"=>"5", "ala"=>"6", "ara"=>"7", "alm"=>"8", "arm"=>"9", "all"=>"10", "arl"=>"11", "rjva"=>"12", "rjv"=>"13", "ljva"=>"14", "ljvl"=>"15", "rhr"=>"16", "lhr"=>"17", "rleek"=>"18", "rleea"=>"19", "rleek"=>"20", "lleea"=>"21"];
+			static $examPartsVideo = ["0"=>true, "1"=>true, "2"=>false, "3"=>false, "4"=>false, "5"=>false, "6"=>false, "7"=>false, "8"=>false, "9"=>false, "10"=>false, "11"=>false, "12"=>true, "13"=>true, "14"=>true, "15"=>true, "16"=>false, "17"=>false, "18"=>true, "19"=>true, "20"=>true, "21"=>true];
+			parse_str($_SERVER['QUERY_STRING']);
+			$examParts = getExamParts($patientId, $examId, $mysqli);
+			$patientInfo = getExtendedPatientInfo($patientId, $mysqli);
+			$exam = getSingleExam($patientId, $examId, $mysqli);
+			$examPartsIndexed = array_values($examParts);
+			echo('<script type="text/javascript">'.'setPatientGender("'.$patientInfo->gender.'"); setPhysicianId('.$exam->physicianId.');'.'</script>');
+		?>
+			<div class="mainContainer">
+				<div id="column-right" class="column">
+					<div class="mainContent" id="patientsBox">
+						<div class="headingDiv">
+							<span class="heading">Physical Exam</span>
+						</div>
+						<div style="display: inline-block;">
+							<div id="locationImgDiv">
+								<img alt="<?php echo($patientInfo->gender == "male" ? "Male" : "Female") ?> front" id="locationImg" src="images/<?php echo($patientInfo->gender == "male" ? "Step1Man.gif" : "generalexamwoman.gif") ?>" />
+							</div>
+							<div id="examItemList">
+								<?php
+									$classVals = [];
+									$ahrefVals = [];
+                                    $indicesArr = [];
+                                    for ($i = 0; $i < count($examParts); $i++)
+                                        array_push($indicesArr, $examPartsAbbrevReverse[$examParts[$i]]);
+                                    //asort($indicesArr);
+
+                                    for ($i = 0 ; $i < count($indicesArr); $i++) {
+                                        $ahref = ((bool)$examPartsVideo[$indicesArr[$i]]) ? "exam_video_view.php" : "exam_audio_view.php";
+                                        $ahref.=("?patientId=".$patientInfo->patientId."&examId=".$exam->examId."&title=".urlencode($examPartsList[$indicesArr[$i]])."&idx=".$indicesArr[$i]."&abbrev=".$examPartsAbbrev[$indicesArr[$i]]);
+                                        array_push($ahrefVals, $ahref);
+                                    }
+
+									$_SESSION["examParts"] = $ahrefVals;
+									$_SESSION["examPartsIndices"] = $indicesArr;
+									$_SESSION["examPartsNames"] = $examPartsList;
+									$_SESSION["allExamPartsAbbrevs"] = $examPartsAbbrev;
+									$_SESSION["allExamPartsNames"] = $examPartsList;
+                                    $_SESSION["examPartsVideo"] = $examPartsVideo;
+									$classVals = array_values($classVals);
+									echo("<table><thead><tr><th>Title</th><th>Key</th></tr></thead>");
+                                    for ($i = 0; $i < count($examParts); $i++) {
+                                        $lId = $examPartsAbbrev[$indicesArr[$i]];
+                                        $lPartName = $examPartsList[$indicesArr[$i]];
+                                        $lIsVid = $examPartsVideo[$indicesArr[$i]];
+                                        echo("<tr class=\"listRow\" id=\"$lId\" onmouseover=\"trMouseOver(this)\" onmouseout=\"trMouseOut(this)\"><td class=\"examPartName\"><a href=\"$ahrefVals[$i]\">$lPartName</a></td><td><img src=\"images/".($lIsVid ? "video_icon.png" : "audio_icon.png")."\" height=\"25\" width=\"25\" /></td></tr>");
+                                    }
+									echo("</table>");
+								?>
+							</div>
+						</div>
+						<div class="keyDiv">
+							<img style="display: inline;" src="images/audio_icon.png" height="15" width="15"><span class="keySpan">Indicates this part of the exam includes audio</span><br />
+							<img style="display: inline;" src="images/video_icon.png" height="15" width="15"><span class="keySpan">Indicates this part of the exam includes video</span>
+						</div>
+					</div>
+				</div>
+				<div id="column-left" class="column">
+					<div class="mainContent">
+						<div class="headingDiv">
+							<span class="heading">Patient Info</span>
+						</div>
+						<div class="pInfoDiv">
+							<span class="infoSpan" style="font-size: 14px; font-weight: bold;">Name:  </span><span class="infoSpan" style="font-size: 14px;"><?php echo($patientInfo->firstName.' '.$patientInfo->lastName); ?></span><br />
+                            <span class="infoSpan" style="font-size: 14px; font-weight: bold;">Gender:  </span><span class="infoSpan" style="font-size: 14px;"><?php echo(($patientInfo->gender) == "male" ? "Male" : "Female") ?></span><br />
+							<span class="infoSpan" style="font-size: 14px; font-weight: bold;">Exam Date:  </span><span class="infoSpan" style="font-size: 14px;"><?php echo($exam->examDate->format('m/d/Y')); ?></span><br />
+							<span class="infoSpan" style="font-size: 14px; font-weight: bold;">MRN:  </span><span class="infoSpan" style="font-size: 14px;"><?php echo($patientInfo->mrn); ?></span><br />
+						</div>
+					</div>
+					<div class="mainContent" id="bottomDiv">
+						<div class="headingDiv">
+							<span class="heading">Menu</span>
+						</div>
+						<div class="menuDiv">
+							<div class="btn" id="btnClipboard">Clipboard</div>
+							<div class="btn" id="btnHistory">History</div>
+							<div class="btn" id="btnOverview">Patient Overview</div>
+                            <div class="btn" id="btnMyPatients">My Patients</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php else : ?>
+		<p>
+			<span class="error">You are not authorized to access this page.</span> Please <a href="main.php">login</a>.
+		</p>
+		<?php endif; ?>
+	</body>
+</html>

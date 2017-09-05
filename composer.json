@@ -1,0 +1,12 @@
+{
+    "name": "el_brother/vp-site",
+    "authors": [
+        {
+            "name": "Omar Meraz",
+            "email": "omar.meraz@korsoftcorp.com"
+        }
+    ],
+    "require": {
+    	"katzgrau/klogger": "dev-master"
+    }
+}

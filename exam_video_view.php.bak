@@ -1,0 +1,152 @@
+<?php
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+ 
+sec_session_start();
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html" charset="UTF-8" http-equiv="content-type">
+        <link rel="stylesheet" type="text/css" href="style/exam_video_view.css">
+        <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link href="https://vjs.zencdn.net/4.12/video-js.css" rel="stylesheet" type="text/css">
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="msapplication-TileColor" content="#2d89ef">
+        <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        <script src="https://tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+        <script src="https://vjs.zencdn.net/4.12/video.js"></script>
+        <script src="js/exam_video_view.js"></script>
+        <title>Physical Exam Main</title>
+	</head>
+	<body>
+		<?php if ((login_check($mysqli) == true) && ($_SESSION['is_patient'] == false)) : 
+			parse_str($_SERVER['QUERY_STRING']);
+			$examPartsIndices = $_SESSION["examPartsIndices"];
+			$examPartsNames = $_SESSION["examPartsNames"];
+			$allExamPartsAbbrevs = $_SESSION["allExamPartsAbbrevs"];
+			$allExamPartsNames = $_SESSION["allExamPartsNames"];
+            $examPartsVideo = $_SESSION["examPartsVideo"];
+			$_SESSION["currentExamPart"] = $idx;
+			$title = urldecode($title);
+			$examInfo = getSingleExam($patientId, $examId, $mysqli);
+			$vidSource = ".uploads/".$examInfo->physicianId."/".$patientId."/".$examId."/video/".$abbrev.".mp4";
+
+			echo '<script type="text/javascript">'
+			   , 'setExamParts("'.urlencode(json_encode(array_values($_SESSION["examParts"]))).'");'
+			   , 'setAllExamPartsAbbrevs("'.urlencode(json_encode(array_values($allExamPartsAbbrevs))).'");'
+			   , 'setAllExamPartsNames(\''.json_encode(array_values($allExamPartsNames)).'\');'
+			   , 'setExamPartsIndices("'.urlencode(json_encode(array_values($examPartsIndices))).'");'
+			   , 'setCurrentExamPartAbbrev("'.$allExamPartsAbbrevs[$idx].'");'
+               , 'setExamPartsVideo("'.urlencode(json_encode(array_values($examPartsVideo))).'");'
+			   , 'setPhysician('.$examInfo->physicianId.');'
+			   , 'tinymce.init({'
+			   , '	selector: \'#taClipboard\','
+			   , '	menubar: false,'
+			   , '	toolbar: ["undo redo | bold italic underline | fontselect | fontsizeselect"],'
+			   , '	fontsize_formats: "8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 22pt 24pt 26pt 28pt 36pt 48pt 72pt",'
+			   , '	setup: function(editor) {'
+			   , '		editor.on(\'init\', function(e) {'
+			   , '			ajaxLoad('.$patientId.', '.$examId.')'
+			   , '		});'
+			   , '	}'
+			   , '});'
+			   , '</script>'
+			;
+		?>
+		<div class="mainContainer">
+			<div class="leftColumn">
+				<div class="videoBox">
+					<div class="headingDiv">
+						<span class="heading"><?php echo($title); ?></span>
+					</div>
+					<video class="video-js vjs-default-skin vjs-big-play-centered" data-setup='{"example_option":true}' id="examVid" height="700px" width="100%" controls loop >
+						<source src="<?php echo($vidSource); ?>" type="video/mp4">
+                        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p
+					</video>
+				</div>
+				
+				<div id="controlBox">
+					<div class="headingDiv">
+						<span class="heading">Controls</span>
+					</div>
+					<div class="innerDiv">
+						<img class="controlBtn" height="40" width="40" id="btnPrev" onclick="prevClickHandler()" src="images/prev_up.png" onmouseover="hover(this);" onmouseout="unhover(this);" />
+						<img class="controlBtn" height="40" width="40" id="btnPlay" onclick="playClickHandler()" src="images/play_up.png" onmouseover="hover(this);" onmouseout="unhover(this);" />
+						<img class="controlBtn" height="40" width="40" id="btnNext" onclick="nextClickHandler()" src="images/next_up.png" onmouseover="hover(this);" onmouseout="unhover(this);" />
+					</div>
+				</div>
+			</div>
+			<div class="rightColumn">
+				<div class="stdBox">
+					<div class="headingDiv">
+						<span class="heading">Actions</span>
+					</div>
+					<div class="innerDiv">
+                        <button class="b" id="btnInsertNormal">Insert My Normal</button>
+                        <div id="dialogConfirmAddNormal" title="Add 'Normal' Text">
+                            <p>It looks like you haven't set your 'Normal'. Would you like to do so now?</p>
+                        </div>
+                        <button class="b" id="btnEditNormal">Edit My Normal</button>
+                        <div id="editNormalDialog" title="Edit My Normal">
+                            <p>Enter your 'Normal' below</p>
+                            <textarea id="taNormalText"></textarea>
+                        </div>
+                        <button class="b" id="btnExamOverview">Exam Overview</button>
+					</div>
+				</div>
+				<div class="stdBox">
+					<div class="headingDiv">
+						<span class="heading">Jump To</span>
+					</div>
+					<div class="innerDiv">
+						<select id="selectJumpTo" onchange="selectChangeHandler(this)">
+							<?php
+								for ($i = 0; $i < count($examPartsIndices); $i++) {
+                                    $localName = $examPartsNames[$examPartsIndices[$i]];
+                                    $localAbbrev = $allExamPartsAbbrevs[$examPartsIndices[$i]];
+									echo("<option value=\"$localAbbrev\">$localName</option>");
+								}
+							?>
+						</select>
+					</div>
+				</div>
+				<div class="stdBox">
+					<div class="headingDiv">
+						<span class="heading">Clipboard</span>
+						<span class="heading" id="lastSaved">Last Saved: Not Saved</span>
+					</div>
+					<div class="innerDiv">
+						<textarea id="taClipboard">
+							<p></p>
+						</textarea>
+						<div id="saveClipContainer">
+							<button class="button" id="btnClipboard" type="button" onclick="<?php echo('ajaxSave('.$patientId.', '.$examId.', \''.$abbrev.'\')'); ?>">Save Clipboard</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php else : ?>
+		<p>
+			<span class="error">You are not authorized to access this page.</span> Please <a href="main.php">login</a>.
+		</p>
+		<?php endif; ?>
+	</body>
+</html>

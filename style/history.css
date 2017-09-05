@@ -1,0 +1,426 @@
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Bold.ttf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Regular.ttf);
+    font-style: italic;
+}
+
+body {
+    /*background-color: #c2bdbb;*/
+    font: normal .80em encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    background: #FFFFFF;/*#eeebff;*/
+    color: #555;
+    width: 100%;
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    width: 100%;
+    height: 100%;
+}
+
+.slideout-menu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    width: 256px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: none;
+}
+
+.slideout-panel {
+    position:relative;
+    z-index: 1;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+    overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+    display: block;
+}
+
+.btn {
+    color: white;
+    font-size: 14px;
+    height: 50px;
+    line-height: 50px;
+    width: calc(100% - 40px);
+    padding: 0 0 0 40px;
+}
+
+.btn:hover {
+    background-color: #67c9e0;
+    cursor: pointer;
+}
+
+#panel {
+    background: white;
+    height: 100%;
+    width: 100%;
+}
+
+#menu {
+    background: #0082d2;
+}
+
+h2 {
+    color: white;
+}
+
+.menuHeaderText {
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 50px;
+    vertical-align: top;
+}
+
+.menuHeaderImg {
+    display: inline;
+}
+
+.headerDiv {
+    margin: 5px;
+}
+
+#panel header {
+    background: #0082d2;
+    height: 50px;
+}
+
+.mainContent {
+    background: white;
+    height: calc(100% - 50px);
+}
+
+.toggle-button {
+    margin: 10px;
+}
+
+.toggle-button:hover {
+    cursor: pointer;
+}
+
+.welcomeDiv {
+    color: white;
+    display: inline-block;
+    float: right;
+    font-size: 16px;
+    line-height: 50px;
+    padding: 0 20px 0 0;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    width: 20%;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+thead {
+    background: #67c9e0;
+}
+
+tbody:before {
+    line-height: 1em;
+    content: "\200C";
+    display: block;
+}
+
+thead tr {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    height: 45px;
+}
+
+th {
+    text-align: left;
+}
+
+.patientProfilePic {
+    height: 65px;
+    margin: 0 15px 0 0;
+    width: 65px;
+}
+
+.nameMRNDiv {
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+}
+
+.shortColumn {
+    width: 20%;
+}
+
+.longColumn {
+    width: 40%;
+}
+
+.tableContent tr {
+    height: 65px;
+}
+
+.tableHeaderDiv {
+    background: #67c9e0;
+    padding: 0 50px 0 50px;
+}
+
+td {
+    font-size: 14px;
+}
+
+.hoverableRow:hover {
+    background: lightgray;
+    cursor: pointer;
+}
+
+.headerText {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    padding-top: 12px;
+    text-align: center;
+    white-space: pre;
+    width: 80%;
+}
+
+#profilePic {
+    height: 150px;
+    width: 150px;
+}
+
+.smallProfileDiv {
+    display: inline-block;
+    width: 450px;
+}
+
+.patientInfoBox {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 0 0 10px;
+}
+
+.infoText {
+    font-size: 16px;
+    display: block;
+    height: 25px;
+}
+
+.infoTextName {
+    font-weight: bold;
+}
+
+.container {
+    margin: 0 auto 0 auto;
+    padding: 20px 0 20px 0;
+    width: 85%;
+}
+
+.demographicsDiv {
+    display: block;
+    margin: 20px 0 0 0;
+    width: 450px;
+}
+
+.vitalsDiv {
+    display: block;
+    margin: 20px 0 0 0;
+    width: 450px;
+}
+
+.symptomsDiv {
+    display: block;
+    margin: 20px 0 0 0;
+    width: 450px;
+}
+
+.symptom {
+    display: block;
+    font-size: 16px;
+    height: 25px;
+}
+
+.title {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.subTitle {
+    color: red;
+    display: block;
+    font-size: 12px;
+}
+
+.sideTable td {
+    font-size: 16px;
+}
+
+.sideTable tr {
+    height: 25px;
+}
+
+.sideTableTitleTd {
+    width: 150px;
+}
+
+.left {
+    display: inline-block;
+    width: 450px;
+}
+
+.right {
+    display: inline-block;
+    margin: 0 0 0 10px;
+    vertical-align: top;
+    width: calc(100% - 470px);
+}
+
+#symptomsTitle {
+    margin: 0 0 15px 0;
+}
+
+.button-dark-image {
+    background-color: #0082d2;
+    color: white;
+    display: inline-block;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 0 5px 0;
+    text-align: center;
+    width: 33%;
+}
+
+.button-dark-image:hover {
+    background-color: #67c9e0;
+    cursor: pointer;
+}
+
+.button-dark {
+    background-color: #0082d2;
+    color: white;
+    display: inline-block;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 40px 10px 40px;
+}
+
+.button-dark:hover {
+    background-color: #67c9e0;
+    cursor: pointer;
+}
+
+.button-dark-modified {
+    background-color: #0082d2;
+    color: white;
+    display: inline-block;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 20px 10px 20px;
+}
+
+.button-dark-modified:hover {
+    background-color: #67c9e0;
+    cursor: pointer;
+}
+
+.clipboardDiv {
+    display: block;
+    margin: 30px 0 0 0;
+}
+
+.controlsDiv {
+    display: block;
+    margin: 0 0 20px 0;
+}
+
+#taClipboardMain {
+    display: block;
+    /* Having the clipboard set to width 100% causes the right border to be cut-off...
+    at least on Windoze */
+    width: 99.5%;
+}
+
+.imgButtonSpan {
+    line-height: 25px;
+    vertical-align: top;
+}
+
+.spanLastSaved {
+    float: left;
+}
+
+.jumpTable {
+    width: 100%;
+}
+
+.jumpTable tr {
+    height: 30px;
+}
+
+.jumpTable tr:hover {
+    background: lightgray;
+    cursor: pointer;
+}
+
+.jumpTable td {
+    padding: 0 5px 0 5px;
+    vertical-align: middle;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    padding: 0 20px 0 20px;
+}
+
+.header {
+    font-size: 14px;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 5px 0 5px;
+    width: 100%;
+}
+
+.header:hover {
+    background: lightgray;
+    cursor: pointer;
+}

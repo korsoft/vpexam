@@ -1,0 +1,801 @@
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Bold.ttf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Regular.ttf);
+    font-style: italic;
+}
+
+body {
+    /*background-color: #c2bdbb;*/
+    font: normal .80em encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    background: #DDDDDD;
+    color: #555;
+    width: 100%;
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    width: 100%;
+    height: 100%;
+}
+
+.hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    border-top: 1px solid #CCCCCC;
+}
+
+.slideout-menu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    width: 256px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: none;
+}
+
+.slideout-panel {
+    position:relative;
+    z-index: 1;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+    overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+    display: block;
+}
+
+.btn {
+    color: white;
+    font-size: 14px;
+    min-height: 50px;
+    line-height: 50px;
+    width: calc(100% - 40px);
+    padding: 0 0 0 40px;
+    transition:all 0.3s ease;
+}
+
+.btn ul {
+    margin: 0 0 0 15px;
+    max-height: 100px;
+    overflow-y: auto;
+}
+.btn ul li {
+    list-style-type: none;
+    padding: 0;
+}
+.btn ul li label {
+    color: #fff;
+    cursor: pointer;
+}
+
+.waitingRoom ul {
+    max-height: none !important;
+}
+
+.waitingRoom ul li label:after {
+    content: url(/img/video-camera4.png); /* no need for qoutes */
+    opacity: 0;
+    transition:all 0.3s ease;
+}
+.waitingRoom ul li label:hover:after {
+    opacity: 1;
+}
+.waitingRoom ul li .removeFromWR {
+    cursor: pointer;
+    margin: 0 5px 0 0;
+}
+
+.btn:hover:not(.waitingRoom) {
+    background-color: #67c9e0;
+    cursor: pointer;
+}
+
+#panel {
+    height: 100%;
+    width: 100%;
+}
+
+#menu {
+    background: #0082d2;
+}
+
+h2 {
+    color: white;
+}
+
+.menuHeaderText {
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 50px;
+    vertical-align: top;
+}
+
+.menuHeaderImg {
+    display: inline;
+}
+
+.headerDiv {
+    margin: 5px;
+}
+
+#panel header {
+    background: #0082d2;
+    height: 50px;
+}
+
+.mainContent {
+    background: #DDDDDD;
+    height: calc(100% - 50px);
+}
+
+.toggle-button {
+    margin: 10px;
+}
+
+.toggle-button:hover {
+    cursor: pointer;
+}
+
+.welcomeDiv {
+    color: white;
+    display: inline-block;
+    float: right;
+    font-size: 16px;
+    line-height: 50px;
+    padding: 0 20px 0 0;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    width: 20%;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+}
+
+.patientProfilePic {
+    height: 65px;
+    margin: 0 15px 0 0;
+    width: 65px;
+}
+
+.nameMRNDiv {
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+}
+
+.shortColumn {
+    width: 20%;
+}
+
+.longColumn {
+    width: 40%;
+}
+
+.tableContent tr {
+    height: 65px;
+}
+
+.tableHeaderDiv {
+    background: #67c9e0;
+    padding: 0 50px 0 50px;
+}
+
+td {
+    font-size: 14px;
+}
+
+.hoverableRow:hover {
+    background: lightgray;
+    cursor: pointer;
+}
+
+.headerText {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    padding-top: 12px;
+    text-align: center;
+    width: 80%;
+}
+
+.container {
+    margin: 0 auto 0 auto;
+    padding: 20px 0 20px 0;
+    width: 85%;
+}
+
+#profilePic {
+    height: 150px;
+    width: 150px;
+}
+
+.smallProfileDiv {
+    background: white;
+    -webkit-box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.2);
+    display: block;
+    padding: 15px 0 10px 0;
+    text-align: center;
+}
+
+.patientInfoBox {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 0 0 10px;
+}
+
+.infoText {
+    font-size: 16px;
+    display: block;
+    height: 25px;
+}
+
+.infoTextName {
+    font-weight: bold;
+}
+
+.button-dark {
+    background-color: #0082d2;
+    color: white;
+    display: inline-block;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 40px 10px 40px;
+}
+
+.button-dark:hover {
+    background-color: #67c9e0;
+    cursor: pointer;
+}
+
+.button-red {
+    background-color: #FF0000;
+}
+
+.button-red:hover {
+    background-color: #FF4C4C;
+}
+
+.button-dark-smaller {
+    background-color: #0082d2;
+    color: white;
+    display: inline-block;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 20px 5px 20px;
+}
+
+.button-dark-smaller:hover {
+    background-color: #67c9e0;
+    cursor: pointer;
+}
+
+.left {
+    display: inline-block;
+    width: 20%;
+}
+
+.right {
+    display: inline-block;
+    margin-left: 20px;
+    vertical-align: top;
+    width: calc(80% - 23px);
+}
+
+.groupHeader {
+    background-color: #67c9e0;
+    color: white;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 5px 0 5px;
+}
+
+.settingsDiv {
+    display: block;
+}
+
+.headerTitle {
+    font-size: 18px;
+    display: block;
+}
+
+.headerBold {
+    font-weight: bold;
+}
+
+.subHeaderTitle {
+    font-size: 16px;
+    display: block;
+}
+
+.subHeader {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px 0 5px 0;
+}
+
+.subSettingsDiv {
+    background: white;
+    -webkit-box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.innerSettingsDiv {
+    padding: 5px 20px 5px 20px;
+}
+
+.innerInnerSettingsDiv {
+    padding: 0 20px 0 20px;
+}
+
+.normalTextBlock {
+    font-size: 14px;
+    display: block;
+}
+
+#btnEditPracticeAddr {
+    margin: 10px 0 0 0;
+}
+
+.titleTd {
+    width: 120px;
+}
+
+.titleTdPwd {
+    width: 200px;
+}
+
+.baaTitleTd {
+    width: 200px;
+}
+
+#btnChangePassword {
+    margin-top: 10px;
+}
+
+input.holo[type='text'], input.holo[type='password'] {
+    color: #555;
+    width: 200px;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 8px 8px 6px 8px;
+    position: relative;
+    display: block;
+    outline: none;
+    border: none;
+    background: bottom left linear-gradient(#a9a9a9, #a9a9a9) no-repeat, bottom center linear-gradient(#a9a9a9, #a9a9a9) repeat-x, bottom right linear-gradient(#a9a9a9, #a9a9a9) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+input.holo[type='text']:hover, input.holo[type='password']:hover, input.holo[type='text']:focus, input.holo[type='password']:focus {
+    background: bottom left linear-gradient(#0099cc, #0099cc) no-repeat, bottom center linear-gradient(#0099cc, #0099cc) repeat-x, bottom right linear-gradient(#0099cc, #0099cc) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+input.incomplete[type='text'], input.incomplete[type='password'], input.incomplete[type='text']:hover, input.incomplete[type='password']:hover {
+    background: bottom left linear-gradient(red, red) no-repeat, bottom center linear-gradient(red, red) repeat-x, bottom right linear-gradient(red, red) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+table tr {
+    height: 31px;
+}
+
+select.holo {
+    color: #555;
+    width: 200px;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 8px 8px 6px 8px;
+    position: relative;
+    display: block;
+    outline: none;
+    border: none;
+    background: bottom left linear-gradient(#a9a9a9, #a9a9a9) no-repeat, bottom center linear-gradient(#a9a9a9, #a9a9a9) repeat-x, bottom right linear-gradient(#a9a9a9, #a9a9a9) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+    width: 100%;
+}
+
+select.holo:hover, select.holo:focus {
+    background: bottom left linear-gradient(#0099cc, #0099cc) no-repeat, bottom center linear-gradient(#0099cc, #0099cc) repeat-x, bottom right linear-gradient(#0099cc, #0099cc) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+select.incomplete, select.incomplete:hover {
+    background: bottom left linear-gradient(red, red) no-repeat, bottom center linear-gradient(red, red) repeat-x, bottom right linear-gradient(red, red) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+#practiceAddressDiv {
+    display: block;
+}
+
+#practiceAddressDivEdit {
+    display: none;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+#btnChooseImage {
+    margin: 10px 0 0 0;
+}
+
+.cropBoxContainer {
+    width: 600px;
+    height: 400px;
+}
+
+.cropBoxOuterContainer {
+    display: none;
+    margin: 10px 0 0 0;
+}
+
+#fileChooser {
+    display: none;
+}
+
+.cropBoxControlsContainer {
+    margin: 5px 0 0 0;
+}
+
+.img-button {
+    background-color: #0082d2;
+    display: inline-block;
+    height: 35px;
+    margin: 0 -2px 0 -2px;
+    width: 45px;
+}
+
+.img-button img {
+    height: 25px;
+    margin: 5px 10px 5px 10px;
+    width: 25px;
+}
+
+.img-button:hover {
+    background-color: #67c9e0;
+    cursor: pointer;
+}
+
+.img-text-button {
+    background-color: #0082d2;
+    color: white;
+    display: inline-block;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    height: 35px;
+}
+
+.img-text-button span {
+    display: inline-block;
+    line-height: 35px;
+    margin: 0 10px 0 0;
+    vertical-align: top;
+}
+
+.img-text-button img {
+    height: 25px;
+    margin: 5px 10px 5px 10px;
+    width: 25px;
+}
+
+.img-text-button:hover {
+    background-color: #67c9e0;
+    cursor: pointer;
+}
+
+.text-button {
+    background-color: #0082d2;
+    color: white;
+    display: inline-block;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    height: 35px;
+}
+
+.text-button span {
+    display: inline-block;
+    line-height: 35px;
+    margin: 0 10px 0 10px;
+    vertical-align: top;
+}
+
+.text-button:hover {
+    background-color: #67c9e0;
+    cursor: pointer;
+}
+
+.loadingContainer {
+    display: none;
+}
+
+.divider {
+    background: #555;
+    height: 1px;
+    margin: 0 0 20px 0;
+    width: 100%;
+}
+
+#uploadProgress {
+    margin: 10px 0 0 0;
+}
+
+.dropContainer {
+    border: 2px solid black;
+    display: table-cell;
+    height: 400px;
+    text-align: center;
+    vertical-align: middle;
+    width: 600px;
+}
+
+.dropContainer:hover {
+    cursor: pointer;
+}
+
+.dropContainerText {
+    color: lightgray;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 80px;
+}
+
+#btnNewImage {
+    vertical-align: top;
+}
+
+.cropResultDiv {
+    text-align: center;
+}
+
+#cropResult {
+    height: 200px;
+    width: 200px;
+}
+
+.resultContainer {
+    display: none;
+    margin: 10px 0 0 0;
+}
+
+.errorContainer {
+    display: none;
+    margin: 10px 0 0 0;
+}
+
+.errorContainer span {
+    display: block;
+    line-height: 25px;
+}
+
+.dropContainerHover {
+    border: 2px solid blue;
+}
+
+.clipboardContainer {
+    width: 600px;
+}
+
+#normalLastSaved {
+    color: red;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    padding: 0 20px 0 20px;
+}
+
+.header {
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 5px 0 5px;
+    width: 100%;
+}
+
+.header:hover {
+    background: lightgray;
+    cursor: pointer;
+}
+
+.frame {
+    border: 2px solid #555555;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -o-border-radius: 10px;
+    margin: 10px 0 0 0;
+    padding: 15px 15px 15px 33px;
+}
+
+.frameTitle {
+    background: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 0 30px;
+    padding: 0 5px 0 5px;
+    position: absolute;
+}
+
+.frameContainer {
+    margin: 0 0 10px 0;
+    padding: 8px 0 0 0;
+}
+
+#btnEditPhone {
+    margin: 10px 0 0 0;
+}
+
+#btnCancelPhoneEdit {
+    display: none;
+    margin: 10px 0 0 0;
+}
+
+#btnSavePhone {
+    display: none;
+    margin: 10px 0 0 0;
+}
+
+.tab {
+    background-color: #0082d2;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    display: inline-block;
+    margin: 0 10px 0 0;
+    vertical-align: middle;
+    width: 100px;
+}
+
+.tab a {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 35px;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+}
+
+.tab a, .tab a:visited, .tab a:hover, .tab a:active {
+    color: white;
+}
+
+.tab:hover {
+    background-color: #67c9e0;
+}
+
+.tab.active {
+    background-color: #67c9e0;
+    position: relative;
+}
+
+.tab-container {
+    padding: 10px;
+}
+
+.panel-container {
+    margin-bottom: 10px;
+}
+
+.tab-container ul li {
+    padding: 0;
+}
+
+.etabs {
+    margin: 0 0 20px 0;
+}
+
+#baaNeedInfoText {
+    font-size: 14px;
+    max-width: 500px;
+}
+
+h3 {
+    margin-bottom: 10px;
+}
+
+#noBAAContainer {
+    font-size: 14px;
+    margin: 10px 0 10px 0;
+}
+
+#baaOverlay {
+    background: rgba(255, 255, 255, 0.8);
+    position: absolute;
+    z-index: 100;
+}
+
+#screenDimmer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+}
+
+#qtipContent td {
+    font-size: 10px;
+    font-weight: normal;
+}
+
+#qtipContent tr {
+    height: 15px;
+}
+
+#qtipContent table {
+    width: 250px;
+}
+
+#qtipContent {
+    width: 250px;
+}
+#spin {
+    bottom: 0;
+    height: auto;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    width: auto;
+}
+#success_msg {
+    color: #2f913e;
+    display: none;
+    font-weight: bold;
+    margin-left: 10px;
+}

@@ -1,0 +1,115 @@
+.loginBox {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    -ms-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 8px black;
+    -moz-box-shadow: 0 0 8px black;
+    -o-box-shadow: 0 0 8px black;
+    -ms-box-shadow: 0 0 8px black;
+    box-shadow: 0 0 8px black;
+    left: calc(50% - 178px);
+    padding: 20px;
+    position: absolute;
+    top: calc(50% - 98px);
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+}
+
+.tableContent tr {
+    height: 65px;
+}
+
+.tableHeaderDiv {
+    background: #67c9e0;
+    padding: 0 50px 0 50px;
+}
+
+td {
+    font-size: 14px;
+}
+
+.titleTd {
+    width: 120px;
+}
+
+input.holo[type='text'] {
+    color: #555;
+    width: 200px;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 8px 8px 6px 8px;
+    position: relative;
+    display: block;
+    outline: none;
+    border: none;
+    background: bottom left linear-gradient(#a9a9a9, #a9a9a9) no-repeat, bottom center linear-gradient(#a9a9a9, #a9a9a9) repeat-x, bottom right linear-gradient(#a9a9a9, #a9a9a9) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+input.holo[type='text']:hover, input.holo[type='text']:focus {
+    background: bottom left linear-gradient(#0099cc, #0099cc) no-repeat, bottom center linear-gradient(#0099cc, #0099cc) repeat-x, bottom right linear-gradient(#0099cc, #0099cc) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+input.holo[type='password'] {
+    color: #555;
+    width: 200px;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 8px 8px 6px 8px;
+    position: relative;
+    display: block;
+    outline: none;
+    border: none;
+    background: bottom left linear-gradient(#a9a9a9, #a9a9a9) no-repeat, bottom center linear-gradient(#a9a9a9, #a9a9a9) repeat-x, bottom right linear-gradient(#a9a9a9, #a9a9a9) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+input.holo[type='password']:hover, input.holo[type='text']:focus {
+    background: bottom left linear-gradient(#0099cc, #0099cc) no-repeat, bottom center linear-gradient(#0099cc, #0099cc) repeat-x, bottom right linear-gradient(#0099cc, #0099cc) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+table tr {
+    height: 31px;
+}
+
+.boxHeader {
+    background: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+
+.button-small {
+    padding: 5px 40px 5px 40px;
+}
+
+#btnLogin {
+    margin: 20px 0 0 0;
+}
+
+.header {
+    background: #0082d2;
+    height: 110px;
+}
+
+.errorBox {
+    display: none;
+    margin: 20px 0 0 0;
+}
+
+.errorText {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}

@@ -1,0 +1,128 @@
+.column-left {
+	float: left;
+	width: 33%;
+}
+.column-right {
+	float: right;
+	width: 20%;
+}
+.column-center {
+	text-align: center;
+	display: inline-block;
+	width: 46%;
+}
+.defButton {
+	background: -webkit-linear-gradient(#fafafa, #bebebe); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#fafafa, #bebebe); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#fafafa, #bebebe); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#fafafa, #bebebe); /* Standard syntax (must be last) */
+	height: 200px;
+	box-shadow: 0px 0px 5px #545252;
+	color: #000;
+	cursor: auto;
+	font-size: 30px;
+	width: 80%;
+	margin: 20px;
+}
+.defButton:hover {
+	background: -webkit-linear-gradient(#bebebe, #fafafa); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#bebebe, #fafafa); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#bebebe, #fafafa); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#bebebe, #fafafa); /* Standard syntax (must be last) */
+	box-shadow: 0px 0px 5px #545252
+	cursor: pointer;
+	width: 80%;
+	margin: 20px;
+}
+.defButtonSm {
+	background: -webkit-linear-gradient(#fafafa, #bebebe); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#fafafa, #bebebe); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#fafafa, #bebebe); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#fafafa, #bebebe); /* Standard syntax (must be last) */
+	box-shadow: 0px 0px 5px #545252;
+	color: #000;
+	cursor: auto;
+	height: 30px;
+	width: 120px;
+	font-size: 16px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.defButtonSm:hover {
+	background: -webkit-linear-gradient(#bebebe, #fafafa); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#bebebe, #fafafa); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#bebebe, #fafafa); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#bebebe, #fafafa); /* Standard syntax (must be last) */
+	box-shadow: 0px 0px 5px #545252
+	cursor: pointer;
+	height: 30px;
+	width: 120px;
+	font-size: 16px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.title {
+	color: #6ea0b0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 60px;
+	text-shadow: 2px 2px 2px #FFFFFF;
+}
+.loginDiv {
+	background: -webkit-linear-gradient(#fafafa, #bebebe); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#fafafa, #bebebe); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#fafafa, #bebebe); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#fafafa, #bebebe); /* Standard syntax (must be last) */
+	box-shadow: 0px 0px 5px #545252;
+	height: 400px;
+	margin: 20px;
+}
+.loginDivTitle {
+	font-size: 20px;
+	color: #000;
+	padding-top: 25px;
+	padding-right: 25px;
+	padding-bottom: 25px;
+	padding-left: 25px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.loginForm {
+	margin: 20px 20px 20px 20px;
+}
+.loginW {
+	font-family: Arial, Helvetica, sans-serif;
+}
+#user, #password {
+	color: #000;
+	font-size: 18px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.footer {
+	background: -webkit-linear-gradient(#fafafa, #bebebe); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#fafafa, #bebebe); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#fafafa, #bebebe); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#fafafa, #bebebe); /* Standard syntax (must be last) */
+	box-shadow: 0px 0px 5px #545252;
+	clear: both; /*may be omitted*/
+	position: absolute;
+	bottom: 0;
+	width: 99%;
+	height: 80px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-right: 20px;
+}
+.footerLink {
+	color: #000000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 24px;
+}
+a:link {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+a:active {
+	text-decoration: underline;
+}

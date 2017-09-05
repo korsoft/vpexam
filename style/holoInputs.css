@@ -1,0 +1,103 @@
+input.holo[type='text'] {
+    color: #555;
+    width: 100%;
+    height: 31px;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 8px 8px 6px 8px;
+    position: relative;
+    display: block;
+    outline: none;
+    border: none;
+    background: bottom left linear-gradient(#a9a9a9, #a9a9a9) no-repeat, bottom center linear-gradient(#a9a9a9, #a9a9a9) repeat-x, bottom right linear-gradient(#a9a9a9, #a9a9a9) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+input.holo[type='text']:hover, input.holo[type='text']:focus {
+    background: bottom left linear-gradient(#0099cc, #0099cc) no-repeat, bottom center linear-gradient(#0099cc, #0099cc) repeat-x, bottom right linear-gradient(#0099cc, #0099cc) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+input.holo[type='email'] {
+    color: #555;
+    width: 100%;
+    height: 31px;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 8px 8px 6px 8px;
+    position: relative;
+    display: block;
+    outline: none;
+    border: none;
+    background: bottom left linear-gradient(#a9a9a9, #a9a9a9) no-repeat, bottom center linear-gradient(#a9a9a9, #a9a9a9) repeat-x, bottom right linear-gradient(#a9a9a9, #a9a9a9) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+input.holo[type='email']:hover, input.holo[type='text']:focus {
+    background: bottom left linear-gradient(#0099cc, #0099cc) no-repeat, bottom center linear-gradient(#0099cc, #0099cc) repeat-x, bottom right linear-gradient(#0099cc, #0099cc) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+input.holo[type='password'] {
+    color: #555;
+    width: 100%;
+    height: 31px;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 8px 8px 6px 8px;
+    position: relative;
+    display: block;
+    outline: none;
+    border: none;
+    background: bottom left linear-gradient(#a9a9a9, #a9a9a9) no-repeat, bottom center linear-gradient(#a9a9a9, #a9a9a9) repeat-x, bottom right linear-gradient(#a9a9a9, #a9a9a9) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+input.holo[type='password']:hover, input.holo[type='text']:focus {
+    background: bottom left linear-gradient(#0099cc, #0099cc) no-repeat, bottom center linear-gradient(#0099cc, #0099cc) repeat-x, bottom right linear-gradient(#0099cc, #0099cc) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+input.incomplete[type='text'], input.incomplete[type='text']:hover {
+    background: bottom left linear-gradient(red, red) no-repeat, bottom center linear-gradient(red, red) repeat-x, bottom right linear-gradient(red, red) no-repeat;
+    background-size: 2px 6px, 1px 2px, 2px 6px;
+}
+
+input.incomplete[type='email'], input.incomplete[type='email']:hover {
+    background: bottom left linear-gradient(red, red) no-repeat, bottom center linear-gradient(red, red) repeat-x, bottom right linear-gradient(red, red) no-repeat;
+    background-size: 2px 6px, 1px 2px, 2px 6px;
+}
+
+input.incomplete[type='password'], input.incomplete[type='password']:hover {
+    background: bottom left linear-gradient(red, red) no-repeat, bottom center linear-gradient(red, red) repeat-x, bottom right linear-gradient(red, red) no-repeat;
+    background-size: 2px 6px, 1px 2px, 2px 6px;
+}
+
+select.holo {
+    color: #555;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 8px 8px 6px 8px;
+    position: relative;
+    display: block;
+    outline: none;
+    border: none;
+    background: bottom left linear-gradient(#a9a9a9, #a9a9a9) no-repeat, bottom center linear-gradient(#a9a9a9, #a9a9a9) repeat-x, bottom right linear-gradient(#a9a9a9, #a9a9a9) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+    height: 31px;
+    width: 100%;
+}
+
+select.holo:hover, select.holo:focus {
+    background: bottom left linear-gradient(#0099cc, #0099cc) no-repeat, bottom center linear-gradient(#0099cc, #0099cc) repeat-x, bottom right linear-gradient(#0099cc, #0099cc) no-repeat;
+    background-size: 1px 6px, 1px 1px, 1px 6px;
+}
+
+select.incomplete, select.incomplete:hover {
+    background: bottom left linear-gradient(red, red) no-repeat, bottom center linear-gradient(red, red) repeat-x, bottom right linear-gradient(red, red) no-repeat;
+    background-size: 2px 6px, 1px 2px, 2px 6px;
+}

@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html" charset="UTF-8" http-equiv="content-type">
+        <link rel="stylesheet" type="text/css" href="style/physician_main.css">
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="msapplication-TileColor" content="#2d89ef">
+        <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        <meta http-equiv="cleartype" content="on">
+        <meta name="MobileOptimized" content="320">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
+        <script src="js/physician_main.js"></script>
+        <script src="js/slideout.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                var slideout = new Slideout({
+                    'panel': $('#panel')[0],
+                    'menu': $('#menu')[0],
+                    'padding': 256,
+                    'tolerance': 70
+                });
+
+                $('.toggle-button').on('click', function() {
+                    slideout.toggle();
+                });
+            });
+        </script>
+
+		<title>Physician Main</title>
+	</head>
+
+	<body>
+        <nav id="menu">
+            <header>
+                <div class="headerDiv">
+                    <img class="menuHeaderImg" src="img/logo_img_no_text.png" height="50">
+                    <span class="menuHeaderText">VPExam</span>
+                </div>
+                <div class="btn">Patient Overview</div>
+                <div class="btn">Patient Demographics</div>
+                <div class="btn">History</div>
+                <div class="btn">Physical Exam</div>
+                <div class="btn">Clipboard/Notes</div>
+                <div class="btn">Connect via Doxy.me</div>
+                <div class="btn">My Patients</div>
+                <div class="btn">Search</div>
+                <div class="btn">My Account Settings</div>
+                <div class="btn">Logout</div>
+            </header>
+        </nav>
+
+        <main id="panel">
+            <header>
+                <img class="toggle-button" src="img/menu_white.png" width="40">
+                <span class="headerText">MY PATIENTS</span>
+                <div class="welcomeDiv">
+                    Welcome, Long Name Person!
+                </div>
+            </header>
+            <div class="tableHeaderDiv">
+                <table class="tableHeader">
+                    <thead>
+                        <tr>
+                            <th class="shortColumn">FIRST NAME</th>
+                            <th class="shortColumn">LAST NAME</th>
+                            <th class="shortColumn">DOB</th>
+                            <th class="longColumn">CONTACT INFO</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="mainContent">
+                <table class="tableContent">
+                    <tbody>
+
+                    <tr class="hoverableRow patientsTable" id="1003">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=1003&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Good</div>
+                                    <div>12345678B</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Patient</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>11/30/-0001</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>, ,  0</div>
+                                    <div>H: </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="removePatientOuter">
+                                <div class="removePatientInner">X</div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="1007">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=1007&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Dwight</div>
+                                    <div>12345678C</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Schrute</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>01/20/1968</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>1725 Slough Ave, Scranton, PA 18503</div>
+                                    <div>H: (570) 123-4567</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="1008">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=1008&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Michael</div>
+                                    <div>12345678D</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Scott</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>03/15/1964</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>1725 Slough Avenue, Scranton, PA 18503</div>
+                                    <div>H: (570) 123-4567</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="12668410">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=12668410&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Brian</div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Griffin</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>12/20/0998</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>31 Spooner St, Quahog, RI 02861</div>
+                                    <div>H: (401) 654-9876</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="30445614">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=30445614&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Ardalan</div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Alizadeh</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>05/04/1983</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>590 E Buchtel, Akron, OH 44304</div>
+                                    <div>H: (330) 957-9733</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="32562749">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=32562749&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Ardalan </div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Jan2016</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>01/23/2016</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>ASEC 605, Department of Electrical Engineering, AKRON, OH 44325</div>
+                                    <div>H: (330) 957-9733</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="38131405">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=38131405&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Thomas</div>
+                                    <div>562354</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Edison</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>02/11/1847</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>9 Edison Dr., Milan, OH 44846</div>
+                                    <div>H: (419) 499-2135</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="48667508">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=48667508&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div> Cosmo</div>
+                                    <div>1112344234</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Kramer</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>07/24/1949</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>129 West 81 St, Apt 5B, New York, NY 10024</div>
+                                    <div>H: (212) 646-1234</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="54525936">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=54525936&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>ardalaninsideapp</div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">jan2016</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>01/23/2016</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>nowhere, Akron, AL 44444</div>
+                                    <div>H: (330) 957-9733</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="55515916">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=55515916&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Jerry</div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Seinfeld</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>04/29/1954</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>129 West 81st St, Apt 5A, New York, NY 10024</div>
+                                    <div>H: (212) 123-4567</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="55782225">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=55782225&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Stanley</div>
+                                    <div>12345678E</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Hudson</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>02/19/1958</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>1725 Slough Ave, Scranton, PA 18503</div>
+                                    <div>H: (570) 342-7711</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="61152359">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=61152359&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Holly</div>
+                                    <div>12345678H</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Flax</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>05/03/1968</div>
+                                    <div>Female</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>1725 Slough Ave, Scranton, PA 18503</div>
+                                    <div>H: (570) 123-4567</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="62459366">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=62459366&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Raj</div>
+                                    <div>1452345</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Koothrappali</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>10/06/1981</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>143 East Walnut Ave., Pasadena, CA 91101</div>
+                                    <div>H: (613) 543-4435</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="81267954">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=81267954&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Jan</div>
+                                    <div>4567892T</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Levinson</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>06/29/1967</div>
+                                    <div>Female</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>1725 Slough Ave, Scranton, PA 18503</div>
+                                    <div>H: (570) 123-4568</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="87378078">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=87378078&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Lois</div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">Griffin</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>02/15/1973</div>
+                                    <div>Female</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>31 Spooner St, Quahog, RI 02861</div>
+                                    <div>H: (401) 123-4567</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="95527079">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=95527079&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>Walter</div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">White</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>03/07/1956</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>308 Negra Arroyo Ln, Albuquerque, NM 87110</div>
+                                    <div>H: (505) 123-4567</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="hoverableRow patientsTable" id="98573212">
+                        <td class="shortColumn">
+                            <img class="patientProfilePic" src="includes/getProfileImage.php?id=98573212&amp;type=1">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>MOHAMMED</div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="shortColumn">IMRAN</td>
+
+                        <td class="shortColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>08/01/1989</div>
+                                    <div>Male</div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="longColumn">
+                            <div class="nameMRNDiv">
+                                <div style="margin: 20px 0 0 0;">
+                                    <div>105,Budhwar Ward,, Malegaon, MD 42320</div>
+                                    <div>H: (917) 385-7353</div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+		<!--<div>
+			<div id="userBox" class="topBar">
+				<div style="display: block;">
+					<table style="height:100%; float: left;">
+						<tbody>
+							<tr>
+								<td id="userInfoName" class="userInfo">Welcome <?php echo($_SESSION['first_name'].' '.$_SESSION['last_name'].'!'); ?></td>
+							</tr>
+						</tbody>
+					</table>
+					<table style="height:100%; float: right;">
+						<tbody>
+							<tr>
+								<td id="userInfoNewExams" class="userInfo"><strong>*</strong> 0
+								New Exams</td>
+								<td class="divider">|</td>
+								<td id="userInfoLogout" class="userInfo"><a href="includes/logout.php">Logout</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="wrapper">
+			<div class="mainContent" id="searchBoxDiv">
+				<div class="headingDiv">
+					<span class="heading">Search</span>
+				</div>
+				<div class="overflowContainer">
+					<table>
+						<tbody>
+							<tr>
+								<td>Gender:</td>
+								<td><input class="genderCheckbox" type="checkbox" name="gender" value="m">Male</input></td>
+								<td><input class="genderCheckbox" type="checkbox" name="gender" value="f">Female</input></td>
+							</tr>
+							<tr>
+								<td>Last name:</td>
+								<td colspan="2"><input type="text" name="lname" id="lname"/></td>
+							</tr>
+							<tr>
+								<td>First name:</td>
+								<td colspan="2"><input type="text" name="fname" id="fname"/></td>
+							</tr>
+							<tr>
+								<td colspan="2"></td>
+								<td align="right"><button id="btnSearch" onclick="search()">Search</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="mainContent" id="patientsBox">
+				<div class="headingDiv">
+					<span class="heading">My Patients</span>
+				</div>
+				<div class="overflowContainer" style="overflow-y:scroll; height:600px;">
+					<table id="myPatientsTable" style="width: 100%;">
+						<thead>
+							<tr class="headerRow">
+								<th>Name</th>
+								<th>Gender</th>
+								<th>Date of Birth</th>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="mainContent" id="recentlyViewed">
+				<div class="headingDiv">
+					<span class="heading">Recently Viewed</span>
+				</div>
+				<div class="overflowContainer" style="overflow-y:scroll; height:600px;">
+					<table id="recentlyViewedTable" style="width: 100%;">
+						<thead>
+							<tr class="headerRow">
+								<th>Name</th>
+								<th>Gender</th>
+								<th>Date of Birth</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="mainContent" id="listNewExams">
+				<div class="headingDiv">
+					<span class="heading">New Patients</span>
+				</div>
+				<div class="overflowContainer" style="overflow-y:scroll; height:600px;">
+					<table style="width: 100%;">
+						<thead>
+							<tr class="headerRow">
+								<th>Name</th>
+								<th>Gender</th>
+								<th>Date of Birth</th>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>-->
+	</body>
+</html>

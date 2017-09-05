@@ -1,0 +1,418 @@
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Bold.ttf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: encode-sans;
+    src: url(../font/EncodeSans-Regular.ttf);
+    font-style: italic;
+}
+
+html {
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: normal .80em encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    background: #FFFFFF;/*#eeebff;*/
+    color: #555;
+    height: 100%;
+}
+
+#header {
+    background: #0082d2;/*#a6bddb;*/
+    height: 110px;
+}
+
+#logo {
+    height: 140px;
+    margin-left: 50px;
+    background: transparent;
+}
+
+#logo #logo_text {
+    display: inline-block;
+    top: 10px;
+    left: 0;
+}
+
+#logo img {
+    height: 100px;
+    width: auto;
+}
+
+#site_content {
+    overflow: hidden;
+}
+
+#sidebarLoginPhysician {
+    z-index: 999;
+    display: none;
+    position: absolute;
+    right: 0;
+    width: 224px;
+    margin: 0 35px 0 0;
+}
+
+.sidebar_item {
+    background: white;
+    border-radius: 15px;
+    border: 2px solid #67c9e0;
+    padding: 0 15px;
+    width: 192px;
+}
+
+.sidebar_item h3 {
+    margin: 10px 0 10px 0;
+}
+
+#footer {
+    width: 100%;
+    font-size: 100%;
+    height: 30px;
+    padding: 28px 0 5px 0;
+    text-align: center;
+    background: #0082d2;
+}
+
+#footer p {
+    color: white;
+    line-height: 1.7em;
+    padding: 0 0 10px 0;
+}
+
+.login {
+    color: #5D5D5D;
+    border: 1px solid #BBB;
+    padding: 4px;
+    font: 100% encode-sans, Verdana, Arial, Helvetica, sans-serif;
+}
+
+.button {
+    font: 100% encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    background: #5A5A5A;
+    box-shadow: none;
+    border: none;
+    color: #FFFFFF;
+    padding: 5px 15px 5px 15px;
+    width: 80px;
+}
+
+.button:hover {
+    background: #c2bdbb;
+    cursor: pointer;
+}
+
+.buttonRequestTrial {
+    font: 100% encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    background: #5A5A5A;
+    box-shadow: none;
+    border: none;
+    color: #FFFFFF;
+    padding: 5px 15px 5px 15px;
+    margin-top: 20px;
+}
+
+.buttonRequestTrial:hover {
+    background: #c2bdbb;
+    cursor: pointer;
+}
+
+.aboutDiv p {
+    font-size: 150%;
+    line-height: 1.4em;
+}
+
+.aboutDiv h1 {
+    color: #555555;
+    font-weight: bold;
+}
+
+.featuresDiv {
+    margin-left: 30px;
+}
+
+.featuresDiv p {
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+ul {
+    list-style-position: inside;
+}
+
+li {
+    font-size: 150%;
+    line-height: 2.5em;
+}
+
+#introText {
+    font-size: 180%;
+    font-weight: bold;
+    max-width: 1200px;
+    margin: 30px auto 30px auto;
+}
+
+.blockDiv {
+    background: #3051a6;
+    color: #ffffff;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: center;
+}
+
+.blockDiv h1 {
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.swiper-container {
+    height: 600px;
+    max-width: 1000px;
+}
+
+.swiper-container img {
+    width: auto;
+    height: 600px;
+}
+
+.topmenu {
+    display: inline-block;
+    float: right;
+    padding: 10px;
+}
+
+.topmenuItem {
+    color: white;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px 10px 5px 10px;
+}
+
+.topmenuItem a {
+    color: white;
+    text-decoration: none;
+}
+
+#divAvailSoon p {
+    display: inline-block;
+    line-height: 60px;
+    margin: 0 30px 0 0;
+    vertical-align: top;
+}
+
+#googlePlayLink:hover {
+    cursor: pointer;
+}
+
+.descrDiv {
+    max-width: 1000px;
+    margin: 20px auto 20px auto;
+}
+
+.descrDiv h1 {
+    margin-bottom: 10px;
+}
+
+.arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+
+    border-bottom: 20px solid #67c9e0;
+    margin: 0 auto 0 auto
+}
+
+#centerContent img {
+    width: 100%;
+}
+
+.signUpDiv {
+    background-color: white;
+    display: inline-block;
+    text-align: center;
+    margin-right: 100px;
+    margin-left: 50px;
+}
+.signUpDiv2 {
+    background-color: white;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.signUpDiv2 h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.signUpDiv h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.signUpDiv img {
+    display: inline;
+    height: 30px;
+    margin-left: 10px;
+    vertical-align: middle;
+    width: 30px;
+}
+
+.signUpDiv span {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.signUpDiv p {
+    margin-bottom: 15px;
+}
+
+.signUpContainerDiv {
+    width: 100%;
+}
+
+.signUpInnerDiv {
+    text-align: center;
+}
+
+.signUpFeatureDiv#free {
+    margin-bottom: 10px;
+}
+
+.signUpFeatureDiv#secure {
+    margin-top: 10px;
+}
+
+.button-dark {
+    background-color: #3051a6;
+    color: white;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 40px 10px 40px;
+}
+
+.button-dark:hover {
+    background-color: #67c9e0;
+    cursor: pointer;
+}
+
+.main {
+    margin: 15px 200px 15px 200px;
+}
+
+#profileImg {
+    display: block;
+    height: 250px;
+    width: 250px;
+}
+
+.profileImgDiv {
+    border: 1px solid black;
+    display: inline-block;
+    padding: 5px;
+    width: 260px;
+}
+
+.profileInner {
+    display: inline-block;
+}
+
+.profileText {
+    display: inline-block;
+    margin-left: 20px;
+    vertical-align: top;
+}
+
+.profileTextTitle {
+    font-size: 90%;
+    font-weight: bold;
+}
+
+.profileTextTitleCol {
+    width: 150px;
+}
+
+.profileTextData {
+    font-size: 90%;
+}
+
+option {
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 90%;
+}
+
+option:checked {
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 90%;
+}
+
+tr {
+    height: 30px;
+}
+
+#btnChangeImg {
+    margin-top: 15px;
+    width: 180px;
+}
+
+table {
+    width: 100%;
+}
+
+.textbox {
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    padding: 2px;
+    width: 100%;
+}
+
+.required {
+    color: red;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 130%;
+    padding: 0 10px 0 10px;
+}
+
+.main h1 {
+    font-size: 170%;
+    padding: 10px 10px 10px 10px;
+}
+
+.main h3 {
+    font-size: 130%;
+    padding: 20px 10px 20px 10px;
+}
+
+.contactDiv {
+    margin: 80px 0 80px 0;
+    text-align: center;
+}
+
+.contactDiv h2 {
+    font-size: 180%;
+}
+
+.contactDiv p {
+    font-size: 140%;
+    margin: 10px 0 0 0;
+}

@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=windows-1252" />
+    <title>Test Login Page</title>
+    <style type="text/css">
+			.column-left {
+				float: left;
+				width: 33%;
+			}
+			.column-right {
+				float: right;
+				width: 20%;
+			}
+			.column-center {
+				text-align: center;
+				display: inline-block;
+				width: 46%;
+			}
+			.defButton {
+				background: -webkit-linear-gradient(#fafafa, #bebebe); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(#fafafa, #bebebe); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(#fafafa, #bebebe); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(#fafafa, #bebebe); /* Standard syntax (must be last) */
+				height: 200px;
+				box-shadow: 0px 0px 5px #545252;
+				color: #000;
+				cursor: auto;
+				font-size: 30px;
+				width: 80%;
+				margin: 20px;
+			}
+			.defButton:hover {
+				background: -webkit-linear-gradient(#bebebe, #fafafa); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(#bebebe, #fafafa); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(#bebebe, #fafafa); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(#bebebe, #fafafa); /* Standard syntax (must be last) */
+				box-shadow: 0px 0px 5px #545252
+				cursor: pointer;
+				width: 80%;
+				margin: 20px;
+			}
+			.defButtonSm {
+				background: -webkit-linear-gradient(#fafafa, #bebebe); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(#fafafa, #bebebe); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(#fafafa, #bebebe); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(#fafafa, #bebebe); /* Standard syntax (must be last) */
+				box-shadow: 0px 0px 5px #545252;
+				color: #000;
+				cursor: auto;
+				height: 30px;
+				width: 120px;
+				font-size: 16px;
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			.defButtonSm:hover {
+				background: -webkit-linear-gradient(#bebebe, #fafafa); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(#bebebe, #fafafa); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(#bebebe, #fafafa); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(#bebebe, #fafafa); /* Standard syntax (must be last) */
+				box-shadow: 0px 0px 5px #545252
+				cursor: pointer;
+				height: 30px;
+				width: 120px;
+				font-size: 16px;
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			.title {
+				color: #6ea0b0;
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 60px;
+				text-shadow: 2px 2px 2px #FFFFFF;
+			}
+			.loginDiv {
+				background: -webkit-linear-gradient(#fafafa, #bebebe); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(#fafafa, #bebebe); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(#fafafa, #bebebe); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(#fafafa, #bebebe); /* Standard syntax (must be last) */
+				box-shadow: 0px 0px 5px #545252;
+				height: 400px;
+				margin: 20px;
+			}
+			.loginDivTitle {
+				font-size: 20px;
+				color: #000;
+				padding-top: 25px;
+				padding-right: 25px;
+				padding-bottom: 25px;
+				padding-left: 25px;
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			.loginForm {
+				margin: 20px 20px 20px 20px;
+			}
+			.loginW {
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			#user, #pwd {
+				color: #000;
+				font-size: 18px;
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			.footer {
+				background: -webkit-linear-gradient(#fafafa, #bebebe); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(#fafafa, #bebebe); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(#fafafa, #bebebe); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(#fafafa, #bebebe); /* Standard syntax (must be last) */
+				box-shadow: 0px 0px 5px #545252;
+				clear: both; /*may be omitted*/
+				position: absolute;
+				bottom: 0;
+				width: 99%;
+				height: 60px;
+				margin-top: 20px;
+				margin-bottom: 20px;
+				margin-right: 20px;
+			}
+			.footerLink {
+				color: #000000;
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 24px;
+			}
+			a:link {
+				text-decoration: none;
+			}
+			a:visited {
+				text-decoration: none;
+			}
+			a:hover {
+				text-decoration: underline;
+			}
+			a:active {
+				text-decoration: underline;
+			}
+		</style>
+  </head>
+  <body style=" background-color: #c2bdbb;">
+    <div class="container"> <img src="logo.png" alt="logo" title="logo" style="width: 705px; height: 568px;" />
+      <div class="column-left"> <button class="defButton" id="btnHCProviders" name="btnHCProviders"
+          type="button">For Health Care Providers</button><br />
+        <button class="defButton" id="btnPatientFamily" name="btnPatientFamily"
+          type="button">For Patients and Families</button><br />
+        <button class="defButton" id="btnRequestTrial" name="btnRequestTrial" type="button">Not
+          Yet a Subscriber?<br />
+          <br />
+          Request your Free Trial</button> </div>
+      <div class="column-right">
+        <div class="loginDiv">
+          <p class="loginDivTitle">Login</p>
+          <form class="loginForm"><label class="loginW" for="user">Username:</label><br />
+            <input type="text" id="user" name="firstname" /><br />
+            <br />
+            <label class="loginW" for="user">Password:</label><br />
+            <input type="text" id="pwd" name="password" /><br />
+            <br />
+            <input type="checkbox" name="remember" /><label class="loginW" for="remember">Remember
+              Me</label><br />
+            <br />
+            <input type="submit" value="Login" class="defButtonSm" name="btnLogin" />
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <table style="width:100%; height:100%; text-align: center;">
+        <tbody>
+          <tr>
+            <td><a href="http://www.google.com/" class="footerLink">Success
+                Stories</a></td>
+            <td><a href="http://www.google.com/" class="footerLink">HIPAA
+                Compliance</a></td>
+            <td><a href="http://www.google.com/" class="footerLink">FDA Approval</a></td>
+            <td><a href="http://www.google.com/" class="footerLink">TeleHealth
+                Care Solutions</a></td>
+            <td><a href="http://www.google.com/" class="footerLink">Contact Us</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

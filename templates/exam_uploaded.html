@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>{{title}}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<style type="text/css">
+		    @import url('http://fonts.googleapis.com/css?family=Open+Sans');
+		    .emailContent {
+		    	font-family:'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+		    	margin: 0;
+		    	padding: 0;
+		    	text-align: center;
+		    }
+		    .emailContent table {
+		    	margin: 0 auto;
+		    	width: 600px;
+		    }
+		    .emailContent a {
+		    	color: #3051a6;
+		    	text-decoration: none;
+		    }
+		    .emailContent .logo {
+		    	background-color: #0082d2; 
+		    	padding: 40px 0 30px 0;
+		    	text-align: center;
+		    }
+		    .emailContent .logo img {
+		    	display: block;
+		    	margin: 0 auto;
+		    	width: 300px;
+		    }
+		    .emailContent .body {
+		    	background-color: #fff;
+		    	padding: 20px;
+		    	text-align: justify;
+		    }
+		    .emailContent .footer {
+		    	background-color: #0082d2;
+		    	color: #fff;
+		    	padding: 30px;
+		    	text-align: center;
+		    }
+		</style>
+	</head>
+	<body class="emailContent">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="logo">
+					<img src="https://vpexam.com/img/logo_img.png" alt="VPExam" />
+				</td>
+			</tr>
+			<tr>
+				<td class="body">
+					<h2>Hello {{name}},</h2>
+					{{sender}} has uploaded a VPExam, you can check it on <a href="{{url}}">{{url}}</a><br /><br />
+					<b>Kind regards,</b><br />
+					<b>VPExam Team</b>
+				</td>
+			</tr>
+			<tr>
+				<td class="footer">
+				 	Copyright 2015 &copy; TeleHealth Care Solutions
+				</td>
+			</tr>
+		</table>
+		[[tracking_beacon]]
+	</body>
+</html>
