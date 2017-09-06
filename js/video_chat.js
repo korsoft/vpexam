@@ -10,7 +10,7 @@ var isChrome    = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(naviga
     isFirefox   = !!navigator.mozGetUserMedia,
     isIE        = /(MSIE|Edge)/.test(window.navigator.userAgent),
     isWin       = -1 != window.navigator.appVersion.indexOf('Win'),
-       = window.constraints = {
+    constraints = window.constraints = {
       audio: (isWin && isChrome)?false:true,
       video: true
     };
