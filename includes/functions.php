@@ -796,6 +796,47 @@ function removePatientsNotToDisplay(&$patientList, $physId, $mysqli) {
     }
 }
 
+/**
+ * Funcion que obtiene el listado de pacientes de un doctor ya eliminando los que no quiere que se 
+ * desplieguen
+ *
+ * @param Integer $id        Id del doctor
+ * @param Object  $mysqli    Coneccion de mysql 
+ * @param Integer $numOffSet El primer indice que tomara 
+ * @param Integer $numLimit  Total de elementos a tomar
+ *
+ * @return array el listado de pacientes, si no manda limite se mandaran todos
+ **/
+function getPatientsOfPhysicianAndRemoveNotDisplay($id, $mysqli, $numOffSet = 0, $numLimit = 0) {
+    $response = [];
+    $strQuery = 'SELECT pat.patient_id, pat.username, pat.first_name, pat.middle_name, ' .
+                'pat.last_name, pat.gender, pat.dob, pat.mrn, pat.phone, pat.phone_type, ' .
+                'pat.address, pat.city, pat.state, pat.zip FROM patient_physicians pah ' .
+                'JOIN patients pat ON pah.id = pat.patient_id ' .
+                'LEFT JOIN patients_no_display pnd ON pnd.patient_id = pat.patient_id AND ' .
+                'pnd.phys_id = pah.physician_id ' .
+                'WHERE physician_id = ' . $id . ' AND pnd.patient_id IS NULL ' . 
+                'ORDER BY pat.patient_id DESC ';
+    if( $numLimit > 0 ){
+        $strQuery .=  ' LIMIT ' . $numLimit . ' OFFSET ' . $numOffSet;
+    }
+    // error_log( __METHOD__ . ' :: $strQuery :: ' . $strQuery  );
+    $result   = $mysqli->query($strQuery);
+    if (is_object($result) && property_exists($result, 'num_rows') && $result->num_rows > 0) {
+        $response = array_map(
+            function($patient) {
+                extract($patient);
+                $dob = DateTime::createFromFormat('Y-m-d', $dob, new DateTimeZone('UTC'));
+                return new PatientInfo($username, $patient_id, $first_name, $middle_name, 
+                                       $last_name, $gender, $dob, $mrn, $phone, $phone_type, 
+                                       $address, $city, $state, $zip);
+            }, $result->fetch_all(MYSQLI_ASSOC)
+        );
+
+    }
+    return $response;
+}
+
 // This function get the patients associated with the provided physician id
 function getPatientsOfPhysician($id, $mysqli) {
 	/*

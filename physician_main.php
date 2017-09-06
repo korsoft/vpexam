@@ -5,6 +5,12 @@
     sec_session_start();
 
     $waitingroom = getPatientsFromWaitingRoom($mysqli, $_SESSION['user_id']);
+
+    $numPage     = intval(empty($_GET['page'])?0:$_GET['page'] );
+    $numPage     = $numPage<0?0:$numPage; 
+    $numLimit    = 20;
+    $numOffSet   = ($numPage)*$numLimit; 
+    $blnHasNext  = false;
 ?>
 <!DOCTYPE html>
 <html>
@@ -87,9 +93,12 @@
                 <table class="tableContent">
                     <tbody>
                         <?php
-                            $patientInfos = getPatientsOfPhysician($_SESSION['user_id'], $mysqli);
-                            removePatientsNotToDisplay($patientInfos, $_SESSION['user_id'], $mysqli);
+                            $patientInfos = getPatientsOfPhysicianAndRemoveNotDisplay($_SESSION['user_id'], $mysqli, $numOffSet, $numLimit+1);
                             $num = count($patientInfos);
+                            if( $num > $numLimit ){
+                                $blnHasNext = true;
+                                array_pop($patientInfos);
+                            }
                             foreach ($patientInfos as $info) {
                                 $fname = $info->firstName;
                                 $lname = $info->lastName;
@@ -161,6 +170,26 @@
                             }
                         ?>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" align='right'>
+                                <?php 
+                                if($numPage > 0 ){
+                                    $strBack = '/physician_main.php'; 
+                                    if($numPage > 1){
+                                        $strBack .= '?page=' . ($numPage -1 ); 
+                                    }
+                                ?>
+                                <a class='button_pagination' href="<?php echo $strBack ;?>" target='_self'>&laquo; Back</a>
+                                <?php 
+                                }
+                                if($blnHasNext ){  
+                                ?>
+                                <a class='button_pagination' href="/physician_main.php?page=<?php echo $numPage+1;?>" target='_self'>Next &raquo;</a>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </main>
