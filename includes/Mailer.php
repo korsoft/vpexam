@@ -1,5 +1,5 @@
 <?php
-require '../libs/MadMimi.class.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/libs/MadMimi.class.php';
 
 class Mailer {
     private $mimi;

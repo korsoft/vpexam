@@ -62,7 +62,7 @@
                     <a href="/physician_main.php" target="_self"><div class="btn" id="btnMenuMyPatients">My Patients</div></a>
                     <div class="btn" id="btnMenuSearch"><a href='/search.php' target="_self">Search</a></div>
                     <div class="btn" id="btnMenuSettings"><a href='/physician_settings.php' target="_self">My Account Settings</a></div>
-                    <div class="btn" id="btnMenuLogout"><a href='/logoun.php' target="_self">Logout</a></div>
+                    <div class="btn" id="btnMenuLogout"><a href='/logout.php' target="_self">Logout</a></div>
                 <?php } ?>
             </header>
         </nav>
