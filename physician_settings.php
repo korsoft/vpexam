@@ -1,113 +1,39 @@
 <?php
     include_once 'includes/db_connect.php';
     include_once 'includes/functions.php';
-
     sec_session_start();
+    include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/constants.php';
+    $_strPageTitle   = 'Physician Settings';
+    $_strHeaderTitle = 'MY SETTINGS';
+    $_arrStyles[]    = '/style/physician_settings.css';
+    $_arrStyles[]    = 'https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css';
+    $_arrStyles[]    = '/js/cropper/cropper.css';
+    $_arrStyles[]    = '/style/checkboxes.css';
+    $_arrStyles[]    = '/js/qtip2/jquery.qtip.min.css';
 
-    $waitingroom = getPatientsFromWaitingRoom($mysqli, $_SESSION['user_id']);
+
+    $_arrScripts[]   = 'https://code.jquery.com/ui/1.11.4/jquery-ui.js';
+    $_arrScripts[]   = 'https://tinymce.cachefly.net/4.1/tinymce.min.js';
+    $_arrScripts[]   = '/js/sha512.js';
+    $_arrScripts[]   = '/js/physician_settings.js';
+    $_arrScripts[]   = '/js/cropper/cropper.min.js';
+    $_arrScripts[]   = '/js/filereader.js';
+    $_arrScripts[]   = '/js/jquery.ajax-progress.js';
+    $_arrScripts[]   = '/js/jquery-easy-tabs/lib/jquery.easytabs.js';
+    $_arrScripts[]   = '/js/spin.js';
+    $_arrScripts[]   = '/js/jquery.spin.js';
+    $_arrScripts[]   = '/js/pdf.js/pdf.js';
+    $_arrScripts[]   = '/js/numeric/jquery.numeric.js';
+    $_arrScripts[]   = '/js/qtip2/jquery.qtip.min.js';
+    $_arrScripts[]   = '/js/waiting_room.js';
+
+
+    $physId                 = $_SESSION['user_id'];
+    $physInfo               = getExtendedPhysicianInfo($physId, $mysqli);
+    $selectedExamComponents = getPhysicianSelectedExamComponents($physId, $mysqli);
+    $maxStethRecordTime     = getMaxStethRecordTime($mysqli, $physId)['data']['max_steth_record_time'];
+    include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/header_physician.php';
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta content="text/html" charset="UTF-8" http-equiv="content-type">
-        <meta name="msapplication-TileColor" content="#2d89ef">
-        <meta name="msapplication-TileImage" content="/mstile-144x144.png">
-        <meta name="theme-color" content="#ffffff">
-        <meta http-equiv="cleartype" content="on">
-        <meta name="MobileOptimized" content="320">
-        <meta name="HandheldFriendly" content="True">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <title>Physician Settings</title>
-        <link rel="stylesheet" type="text/css" href="style/physician_settings.css">
-        <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" type="text/css" href="js/cropper/cropper.css">
-        <link rel="stylesheet" type="text/css" href="style/checkboxes.css">
-        <link rel="stylesheet" type="text/css" href="js/qtip2/jquery.qtip.min.css">
-        <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
-        <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
-        <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
-        <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
-        <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
-        <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
-        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
-        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-        <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
-        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
-        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-        <link rel="stylesheet" type="text/css" href="/style/sweetalert.css" />
-        <link rel="manifest" href="/manifest.json">
-        <style>
-            .ui-dialog {
-                font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
-                z-index: 10000000000 !important;
-            }
-            .ui-widget-header {
-                background: #0082d2;
-                color: white;
-                font-weight: bold;
-            }
-            .ui-widget-content {
-                color: #555;
-            }
-            .ui-progressbar {
-                position: relative;
-            }
-            .ui-widget-overlay {
-                background: rgba(0, 0, 0, 0.6);
-                opacity: 1;
-            }
-            .progress-label {
-                color: lightgray;
-                position: absolute;
-                left: 40%;
-                top: 4px;
-                font-weight: bold;
-                text-shadow: 1px 1px 0 #000;
-            }
-        </style>
-    </head>
-    <body>
-        <?php if ((login_check($mysqli) == true) && ($_SESSION['is_patient'] == false)) {
-            $physId                 = $_SESSION['user_id'];
-            $physInfo               = getExtendedPhysicianInfo($physId, $mysqli);
-            $selectedExamComponents = getPhysicianSelectedExamComponents($physId, $mysqli);
-            $maxStethRecordTime     = getMaxStethRecordTime($mysqli, $physId)['data']['max_steth_record_time'];
-        ?>
-            <nav id="menu">
-                <header>
-                    <div class="headerDiv">
-                        <img class="menuHeaderImg" src="img/logo_img_no_text.png" height="50">
-                        <span class="menuHeaderText">VPExam</span>
-                    </div>
-                    <?php if(0 < count($waitingroom)) { ?>
-                        <div class="btn waitingRoom" data-id="<?php echo $_SESSION['user_id']; ?>">
-                            Waiting Room
-                            <ul>
-                                <?php
-                                    foreach ($waitingroom as $patient) {
-                                        echo "<li id=\"menu-li-patient{$patient['id']}\" data-id=\"{$patient['id']}\"><img src=\"/img/remove.png\" alt=\"X\" class=\"removeFromWR\" /><label>{$patient['name']}</label></li>";
-                                    }
-                                ?>
-                            </ul>
-                        </div>
-                    <?php } ?>
-                    <div class="btn" id="btnMenuMyPatients">My Patients</div>
-                    <div class="btn" id="btnMenuSearch">Search</div>
-                    <div class="btn" id="btnMenuSettings">My Account Settings</div>
-                    <div class="btn" id="btnMenuLogout">Logout</div>
-                </header>
-            </nav>
-            <main id="panel">
-                <header>
-                    <img class="toggle-button" src="img/menu_white.png" width="40">
-                    <span class="headerText">MY SETTINGS</span>
-                    <div class="welcomeDiv">
-                        Welcome, <?php echo($_SESSION['first_name']); ?>!
-                    </div>
-                </header>
                 <div class="mainContent">
                     <div class="container">
                         <div class="left">
@@ -563,30 +489,5 @@
                     </div>
                 </div>
                 <div id="spin"></div>
-            </main>
-        <?php } else { ?>
-            <p><span class="error">You are not authorized to access this page.</span> Please <a href="/main.php">login</a>.</p>
-        <?php } ?>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
-        <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="https://tinymce.cachefly.net/4.1/tinymce.min.js"></script>
-        <script type="text/javascript" src="/js/sha512.js" type="text/JavaScript"></script>
-        <script type="text/javascript" src="/js/physician_settings.js"></script>
-        <script type="text/javascript" src="/js/slideout.min.js"></script>
-        <script type="text/javascript" src="/js/cropper/cropper.min.js"></script>
-        <script type="text/javascript" src="/js/filereader.js"></script>
-        <script type="text/javascript" src="/js/jquery.ajax-progress.js"></script>
-        <script type="text/javascript" src="/js/jquery-easy-tabs/lib/jquery.easytabs.js"></script>
-        <script type="text/javascript" src="/js/spin.js"></script>
-        <script type="text/javascript" src="/js/jquery.spin.js"></script>
-        <script type="text/javascript" src="/js/pdf.js/pdf.js"></script>
-        <script type="text/javascript" src="/js/numeric/jquery.numeric.js"></script>
-        <script type="text/javascript" src="/js/qtip2/jquery.qtip.min.js"></script>
-        <script type="text/javascript" src="/js/sweetalert.min.js"></script>
-        <script type="text/javascript" src="/js/waiting_room.js"></script>
-        <script type="text/javascript">
-            setPhysicianId(<?php echo($physId); ?>);
-        </script>
-        <?php include 'video_chat.php';?>
-    </body>
-</html>
+<?php
+    include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/footer_physician.php';

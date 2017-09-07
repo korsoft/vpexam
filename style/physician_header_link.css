@@ -1,0 +1,60 @@
+header a{
+    color: #FFFFFF;
+    text-decoration:none;
+}
+
+#panel header {
+    height: 100px !important;
+}
+#panel header div.submenu{
+    background-color:#004987;
+    padding-bottom: 13px;
+}
+
+.headerText{
+    width:100% !important;
+}
+div.button_content{
+    width: 62%;
+    overflow: hidden !important;
+    height: 50px;
+    margin: auto;
+    margin-top: -50px;
+}
+
+a.button_waiting_room{
+    display: table;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    border-color: #67c9e0 !important;
+    background: #67c9e0 !important;
+    color: #FFFFFF;
+    text-decoration: none;
+    margin: auto;
+    margin-bottom: 0;
+    margin-top: 6px;
+}
+
+div.welcomeDiv{
+    position:relative !important;
+    width:20% !important;
+    padding:0px !important;
+    margin-right: 20px;
+    overflow:hidden !important;
+    height:50px !important;
+}

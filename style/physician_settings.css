@@ -799,3 +799,30 @@ h3 {
     font-weight: bold;
     margin-left: 10px;
 }
+            .ui-dialog {
+                font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+                z-index: 10000000000 !important;
+            }
+            .ui-widget-header {
+                background: #0082d2;
+                color: white;
+                font-weight: bold;
+            }
+            .ui-widget-content {
+                color: #555;
+            }
+            .ui-progressbar {
+                position: relative;
+            }
+            .ui-widget-overlay {
+                background: rgba(0, 0, 0, 0.6);
+                opacity: 1;
+            }
+            .progress-label {
+                color: lightgray;
+                position: absolute;
+                left: 40%;
+                top: 4px;
+                font-weight: bold;
+                text-shadow: 1px 1px 0 #000;
+            }

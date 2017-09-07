@@ -25,7 +25,7 @@ $(document).on("ready", function() {
 
     $('#btnMenuMyPatients').on('click', function() {
         // Already here
-        location.href = location.href;
+        location.href = '/physician_main.php';
     });
 
     $('#btnMenuSearch').on('click', function() {

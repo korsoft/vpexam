@@ -1599,6 +1599,8 @@ function getInfoForEmail($mysqli, $senderid = 0, $recipientids = 0, $ispatientse
     return $response;
 }
 function checkInWaitingRoom($mysqli, $physicianid, $patient) {
+
+    $patient['name'] = addslashes($patient['name']);
     $response = [
         'success'  => true,
         'errorMsg' => ''
@@ -1617,15 +1619,39 @@ function checkInWaitingRoom($mysqli, $physicianid, $patient) {
 function getPatientsFromWaitingRoom($mysqli, $physicianid) {
     $response = [];
     $result = $mysqli->query("
-        SELECT patient_id AS id, patient_name AS name 
-        FROM waiting_room 
-        WHERE physician_id = $physicianid
+        SELECT 
+        war.patient_id AS id, war.patient_name AS name, IFNULL(pat.gender, '') AS gender, 
+        IFNULL(pat.dob, '') AS dob, IFNULL(pat.mrn, '') AS mrn, IFNULL(pat.phone, '') AS phone,
+        IFNULL(pat.phone_type, '') AS phone_type, IFNULL(pat.address, '') AS address, 
+        IFNULL(pat.city, '') AS city, IFNULL(pat.state,'') AS state, IFNULL( pat.zip, '') AS zip
+        FROM waiting_room war
+        LEFT JOIN patients pat ON pat.patient_id = war.patient_id
+        WHERE war.physician_id = $physicianid
     ");
 
     if (is_object($result) && property_exists($result, 'num_rows') && $result->num_rows > 0) {
-        $response = $result->fetch_all(MYSQLI_ASSOC);
+        $response = array_map(
+            function($patient) {
+                extract($patient);
+                error_log($dob);
+                $oDate = DateTime::createFromFormat('Y-m-d', $dob, new DateTimeZone('UTC'));
+                if( !($oDate === false) ){
+                    $dob = $oDate->format('m/d/Y');
+                } 
+                return array(
+                        'id'         => $id,
+                        'name'       => $name,
+                        'gender'     => ucfirst($gender),
+                        'dob'        => $dob,
+                        'mrn'        => $mrn,
+                        'phone'      => ($phone!=''?( ucfirst($phone_type). ' ' . 
+                                        getFormattedPhone($phone)):''),
+                        'address'    => ($address!=''?($address . ", " . $city . ", " . $state . 
+                                        " " . $zip):''),
+                       );
+            }, $result->fetch_all(MYSQLI_ASSOC)
+        );
     }
-    error_log(print_r($response, true));
     return $response;
 }
 function isInWaitingRoom($mysqli, $patientid) {
