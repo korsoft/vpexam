@@ -1,0 +1,17 @@
+.PatientsWaiting table tbody tr td  .removeFromWR, 
+.PatientsWaiting table tbody tr td.chat_open, 
+{
+    cursor: pointer;
+    margin: 0 2px 0 0;
+}
+
+div.Hide{
+    display:none;
+}
+
+div.PatientsWaitingLoading{
+    width:100px;
+    margin-left:50px;
+    margin-top: 25px;
+    content: url(/img/loading.gif); 
+}

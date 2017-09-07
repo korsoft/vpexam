@@ -200,6 +200,7 @@ wss.on('connection', function(connection) {
 					sendTo(conn, { type: 'leave' }); 
 				}  
 			} 
+                        con.query('DELETE FROM waiting_room WHERE patient_id = ' + connection.id + ';');
 		}  
 	});
 });
