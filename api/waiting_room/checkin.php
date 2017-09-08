@@ -30,8 +30,8 @@ try {
         include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/Mailer.php';
 	$infoforemail       = getInfoForEmail($mysqli, $patientid, $physicianid);
         $infoforemail[0][0] = array(
-                               'name'  => 'James V. Cireddu MD',
-                               'email' => 'cireddujv@gmail.com',
+                               'name'  => 'webmaster',
+                               'email' => 'webmaster@vpexam.com',
                               );
         $mailer = new Mailer('waiting_room_patient', 'A new patient has checked into your waiting room.', $infoforemail[0][0], $infoforemail[1], [
             'url'        => 'https://vpexam.com/',
