@@ -56,7 +56,6 @@
                 <?php if($_blnShowPatientMenu){ ?>
                     <div class="btn" id="btnMenuPatientOverview">Patient Overview</div>
                     <div class="btn" id="btnMenuPatientDem">Patient Demographics</div>
-                    <div class="btn" id="btnMenuConnectDoxy">Connect via Doxy.me</div>
                 <?php } ?>
                 <?php if($_blnShowMenu){ ?>
                     <a href="/physician_main.php" target="_self"><div class="btn" id="btnMenuMyPatients">My Patients</div></a>

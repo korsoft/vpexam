@@ -94,7 +94,6 @@ sec_session_start();
         <div class="btn" id="btnMenuPatientOverview">Patient Overview</div>
         <div class="btn" id="btnMenuPatientDem">Patient Demographics</div>
         <div class="btn" id="btnMenuHistory">History</div>
-        <div class="btn" id="btnMenuConnectDoxy">Connect via Doxy.me</div>
         <div class="btn" id="btnMenuMyPatients">My Patients</div>
         <div class="btn" id="btnMenuSearch">Search</div>
         <div class="btn" id="btnMenuSettings">My Account Settings</div>

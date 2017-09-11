@@ -170,14 +170,13 @@
                                 <li>Patients can actively participate in their care/view and update your profile/respond to the Virtual History</li>
                                 <li>Physicians' home for reviewing patients' Virtual Physical Exams</li>
                                 <li>Focus on your patients instead of documentation/auto-populate notes and effectively review comprehensive exams</li>
-                                <li>Connect in real-time/Live video conferencing through <a href="https://doxy.me/">Doxy.me</a> - Coming Soon!</li>
                                 <!--<li>Portal for patients allowing them to view and update profile information</li>
                                 <li>Portal for clinicians allowing them to view patients' exams</li>
                                 <li>Features easy controls for moving from one part of the exam to the next</li>
                                 <li>"Clipboard" feature provided so that clinicians can easily document any abnormalities and make notes</li>
                                 <li>"My Normal" feature allows clinicians to easily fill out the "Clipboard" with predetermined text</li>
                                 <li>Waveform view provides graphical representation of auscultation audio</li>
-                                <li>Live video conferencing management through <a href="https://doxy.me/">Doxy.me</a> - Coming Soon!</li>-->
+                                -->
                             </ul>
                             <br /><br />
                             <h1>Security</h1>
