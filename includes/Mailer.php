@@ -2,6 +2,9 @@
 require_once $_SERVER['DOCUMENT_ROOT'] .'/libs/MadMimi.class.php';
 
 class Mailer {
+    CONST SENDER_MAIL = 'webmaster@vpexam.com';
+    CONST SENDER_NAME = 'Webmaster';
+
     private $mimi;
 	private $_invalidemails = [];
 	private $_recipients    = [];
@@ -9,11 +12,10 @@ class Mailer {
 	private $_subject       = '';
 	private $_template      = '';
 	private $_templatespath = 'templates/';
-    public function __construct($templatename = '', $subject = '', $sender = '', $recipients = '', $content) {
+    public function __construct($templatename = '', $subject = '', $recipients = '', $content) {
         $this->mimi = new MadMimi('louis@korsoftcorp.com', '11b0b9a05fcfedc1db23787742664991');
     	$this->setTemplate($templatename);
     	$this->setSubject($subject);
-        $this->setSender($sender);
      	$this->setRecipients($recipients);
         $this->setContent($content);
     }
@@ -54,21 +56,6 @@ class Mailer {
         //Regresamos la lista de correos invalidos
         return $this->_invalidemails;
     }
-    function setSender($sender = '') {
-        if(is_string($sender)) {
-            if('' == $sender || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                throw new Exception("Invalid email sender { $email } ", 1);
-            }
-            $this->_sender = [
-                'name'  => $sender,
-                'email' => $sender
-            ];
-        }
-        else if(is_array($sender) && 0 < count($sender)) {
-            $this->_sender['name']  = isset($sender['name'])?$sender['name']:'';
-            $this->_sender['email'] = isset($sender['email'])?$sender['email']:'';
-        }
-    }
     function setSubject($subject) {
     	$this->_subject = $subject;
     }
@@ -97,7 +84,7 @@ class Mailer {
                 'recipients'     => "{$recipient['name']} <{$recipient['email']}>", 
                 'promotion_name' => 'VPExam', 
                 'subject'        => $this->_subject, 
-                'from'           => "{$this->_sender['name']} <{$this->_sender['email']}>",
+                'from'           => ( Mailer::SENDER_NAME ." <" . Mailer::SENDER_MAIL . ">" ),
             ];
             try {
                 $this->mimi->SendHTML($options, $body);

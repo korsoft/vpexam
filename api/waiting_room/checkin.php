@@ -29,14 +29,13 @@ try {
 	$response = checkInWaitingRoom($mysqli, $physicianid, ['id' => $patientid, 'name' => $patientname]);
         include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/Mailer.php';
 	$infoforemail       = getInfoForEmail($mysqli, $patientid, $physicianid);
-        $infoforemail[0][0] = array(
-                               'name'  => 'webmaster',
-                               'email' => 'webmaster@vpexam.com',
-                              );
-        $mailer = new Mailer('waiting_room_patient', 'A new patient has checked into your waiting room.', $infoforemail[0][0], $infoforemail[1], [
-            'url'        => 'https://vpexam.com/',
-            'img_header' => 'https://vpexam.com/img/logo_img.png'
-        ]);
+        $mailer             = new Mailer('waiting_room_patient', 
+                              'A new patient has checked into your waiting room.',                  
+                              $infoforemail[1], 
+                              [
+                               'url'        => 'https://vpexam.com/',
+                               'img_header' => 'https://vpexam.com/img/logo_img.png'
+                              ]);
         $mailer->send();
 }
 catch(Exception $e) {
