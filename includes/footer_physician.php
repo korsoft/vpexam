@@ -18,7 +18,11 @@
             }
         ?>
         <script type="text/javascript">
-            setPhysicianId(<?php echo $_SESSION['user_id'] ?>);
+            <?php 
+                foreach( $_arrFunctionsExec as $_strFunctionsExec ){
+                    echo $_strFunctionsExec;
+                }
+            ?>
             $(document).ready(function() {
                 var slideout = new Slideout({
                     'panel': $('#panel')[0],
