@@ -3,12 +3,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] .'/libs/MadMimi.class.php';
 
 class Mailer {
     CONST SENDER_MAIL = 'webmaster@vpexam.com';
-    CONST SENDER_NAME = 'Webmaster';
+    CONST SENDER_NAME = 'VPExam Team';
 
     private $mimi;
 	private $_invalidemails = [];
 	private $_recipients    = [];
-    private $_sender        = [];
 	private $_subject       = '';
 	private $_template      = '';
 	private $_templatespath = 'templates/';
@@ -26,6 +25,7 @@ class Mailer {
         if(is_array($content) && 0 < count($content)) {
             foreach($content as $key => $value) {
                 $this->_template = str_replace('{{' . $key . '}}', $value, $this->_template);
+                $this->_subject  = str_replace('{{' . $key . '}}', $value, $this->_subject);
             }
         }
     }
@@ -67,15 +67,6 @@ class Mailer {
     }
     function send() {
         $body = $this->_template;
-        if(0 <= strpos($this->_subject, '{{sender}}')) {
-            $this->_subject = str_replace('{{sender}}', $this->_sender['name'], $this->_subject);
-        }
-        if(0 <= strpos($this->_template, '{{title}}')) {
-            $this->_template = str_replace('{{title}}', $this->_subject, $this->_template);
-        }
-        if(0 <= strpos($this->_template, '{{sender}}')) {
-            $this->_template = str_replace('{{sender}}', $this->_sender['name'], $this->_template);
-        }
         foreach ($this->_recipients as $recipient) {
             if(0 <= strpos($this->_template, '{{name}}')) {
                 $body = preg_replace('/[\t\n]/', '', str_replace('{{name}}', $recipient['name'], $this->_template));

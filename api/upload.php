@@ -275,8 +275,9 @@ varErrorLog($returnVals);
 try {
 	$infoforemail = getInfoForEmail($mysqli, $patientId, $physId);
     $mailer = new Mailer('exam_uploaded', '{{sender}} has uploaded a VPExam', $infoforemail[1], [
-        'url'        => 'https://vpexam.com/',
-        'img_header' => 'https://vpexam.com/img/logo_img.png'
+    	'url'    => 'https://vpexam.com/',
+    	'sender' => $infoforemail[0][0]['name'],
+    	'title'  => 'VPExam - New exam uploaded'
     ]);
     $mailer->send();
 }

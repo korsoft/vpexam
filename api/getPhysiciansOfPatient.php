@@ -49,6 +49,7 @@ function getPhysiciansAPI($token, $patientId, $mysqli) {
                     $mname = "";
                     $lname = "";
                     $gender = "";
+                    $username = '';
                     $dob = "";
                     $pName = "";
                     $pAddr = "";
@@ -57,9 +58,9 @@ function getPhysiciansAPI($token, $patientId, $mysqli) {
                     $pZip = "";
                     $stmtGetPhysicianInfo->bind_param('i', $physIds[$i]);
                     $stmtGetPhysicianInfo->execute();
-                    $stmtGetPhysicianInfo->bind_result($id, $npi, $fname, $mname, $lname, $gender, $dob, $pName, $pAddr, $pCity, $pState, $pZip);
+                    $stmtGetPhysicianInfo->bind_result($id, $npi, $fname, $mname, $lname, $username, $gender, $dob, $pName, $pAddr, $pCity, $pState, $pZip);
                     $stmtGetPhysicianInfo->fetch();
-                    $physicians[] = array("physicianId" => $id, "npi" => $npi, "firstName" => $fname, "middleName" => $mname, "lastName" => $lname, "gender" => $gender, "dob" => $dob, "practiceName" => $pName, "practiceAddress" => $pAddr, "practiceCity" => $pCity, "practiceState" => $pState, "practiceZip" => $pZip);
+                    $physicians[] = array("physicianId" => $id, "npi" => $npi, "firstName" => $fname, "middleName" => $mname, "lastName" => $lname, "username" => $username, "gender" => $gender, "dob" => $dob, "practiceName" => $pName, "practiceAddress" => $pAddr, "practiceCity" => $pCity, "practiceState" => $pState, "practiceZip" => $pZip);
                     $stmtGetPhysicianInfo->close();
                 } else {
                     $errorMsg = "Error preparing SQL statement";
