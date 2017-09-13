@@ -50,6 +50,7 @@
                 </table>
             </div>
             <div class="PatientsWaitingLoading "></div>
+            <div class="PatientsWaitingEmpty Hide">There are no people in the waiting room at this moment. </div>
             <div class="mainContent PatientsWaiting Hide">
                 <table class="tableContent">
                     <tbody>

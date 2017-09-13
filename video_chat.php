@@ -10,8 +10,8 @@
     <video id="remoteVideo" autoplay class="hide"></video>
     <video id="localVideo" autoplay muted></video>
     <div class="buttons">
-        <div id="answerButton" class="disabled" title="Pick up the phone"></div>
-        <div id="declineButton" class="disabled" title="Hangout the call"></div>
+        <div id="answerButton" class="disabled" title="Accept"></div>
+        <div id="declineButton" class="disabled" title="End Call"></div>
     </div>
 </div>
 <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
