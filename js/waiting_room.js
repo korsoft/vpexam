@@ -21,15 +21,15 @@ var WaitingRoom = {
                     //Cerramos el sweetalert
                     swal.close();
                     //Agregamos el cronometro para mostrar el tiempo de espera del paciente hasta que lo antiendan
-                    var chronometer = $('<div id="chronometer"><img src="/img/waiting_room.png" alt="" /><span></span></div>');
+                    var chronometer = $('<div id="chronometer"><img src="/img/waiting_room.png" alt="" /><img src="/img/indicator.gif" alt="" /></div>');
                     WaitingRoom.timer = new Timer();
                     WaitingRoom.timer.start();
-                    WaitingRoom.timer.addEventListener('secondsUpdated', function (e) {
+                    /*WaitingRoom.timer.addEventListener('secondsUpdated', function (e) {
                         chronometer.find('span').text(WaitingRoom.timer.getTimeValues().toString());
-                    });
+                    });*/
                     $('body').append(chronometer);
                     chronometer.animate({
-                        height : '35px',
+                        height : '75px',
                         opacity  : 1
                     }, 500);
                     VideoChat.init(response.data);
