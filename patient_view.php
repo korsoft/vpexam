@@ -16,6 +16,9 @@
     parse_str($_SERVER['QUERY_STRING']);
     $pInfo = NULL;
     $exams = [];
+    $_arrFunctionsExec   = array(
+                            ( 'setPatientId(' . $patientId . ');'),
+                           );
     if (!is_null($patientId)) {
         $pInfo = getExtendedPatientInfo($patientId, $mysqli);
         $exams = getPatientExams($patientId, $mysqli);
@@ -125,3 +128,4 @@
                     </div>
 <?php
     include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/footer_physician.php';
+?>

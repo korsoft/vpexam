@@ -172,7 +172,7 @@ function trMouseOver(elem) {
 }
 
 function trMouseOut(elem) {
-    $modelImg.attr("src", (patientGender == 'male') ? "images/male.jpg" : "female.jpg");
+    $modelImg.attr("src", (patientGender == 'male') ? "images/male.jpg" : "images/female.jpg");
 }
 
 function getParameterByName(name) {

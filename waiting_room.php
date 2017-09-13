@@ -81,7 +81,7 @@
         </div>
         <div class="main">
             <div id="msg">
-                <h1>Wait until <?php echo $physician['name']; ?> call you.</h1>
+                <h1>Wait until <?php echo $physician['name']; ?> calls you.</h1>
                 <h3>Thank you</h3>
             </div>
         </div>

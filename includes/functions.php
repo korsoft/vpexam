@@ -231,7 +231,6 @@ function login($email, $password, $mysqli) {
 	} else {*/
     // Check if the password in the database matches
     // the password the user submitted.
-    error_log("LOGIN :: db_password { $db_password }");
  
     if ($db_password == $password) {
         // Password is correct!

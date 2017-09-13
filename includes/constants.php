@@ -26,6 +26,9 @@ $_arrScripts         = array(
                         '/js/slideout.min.js',
                         '/js/sweetalert.min.js',
                        );
+$_arrFunctionsExec   = array(
+                        ( 'setPhysicianId(' . $_SESSION['user_id'] . ');' ),
+                       );
 
 if ( !( (login_check($mysqli) == true) && ($_SESSION['is_patient'] == false) )) { 
     $_arrStyles[]        = '/style/physician_main.css';

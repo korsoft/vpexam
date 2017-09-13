@@ -49,6 +49,15 @@ function removePatients( strKey ){
     delete _patients[strKey];
 
     $('#tr_menu-li-patient' + strKey).remove();
+
+    var numCount = $('div.PatientsWaiting table tbody').children('tr').length;
+    if(numCount > 0 ){
+        $('div.PatientsWaitingEmpty').addClass('Hide');
+        $('div.PatientsWaiting').removeClass('Hide');
+    }else{
+        $('div.PatientsWaitingEmpty').removeClass('Hide');
+        $('div.PatientsWaiting').addClass('Hide');
+    }
 }
 
 /**
@@ -105,6 +114,15 @@ function appendPatient( strKey, oJsonPatient ){
                      "</tr>" ;
 
     $('div.PatientsWaiting table tbody').append(strElement);
+
+    var numCount = $('div.PatientsWaiting table tbody').children('tr').length;
+    if(numCount > 0 ){
+        $('div.PatientsWaitingEmpty').addClass('Hide');
+        $('div.PatientsWaiting').removeClass('Hide');
+    }else{
+        $('div.PatientsWaitingEmpty').removeClass('Hide');
+        $('div.PatientsWaiting').addClass('Hide');
+    }
 }
 
 
@@ -166,7 +184,8 @@ tempResultOfFoo.startWorker = function() {
                        }
         oWorker.postMessage({'cmd': 'start', 'msg': oMessage});
         $('div.PatientsWaitingLoading').addClass('Hide');
-        $('div.PatientsWaiting').removeClass('Hide');
+        $('div.PatientsWaitingEmpty').removeClass('Hide');
+
     }else{
         setTimeout('tempResultOfFoo.startWorker();', 2000);
     }
