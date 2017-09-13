@@ -461,7 +461,7 @@ function validate() {
             elem: "#zipInput"
         });
         returnObj.validated = false;
-    }
+    }*/
 
     if (physician === "" || physId === "") {
         returnObj.errors.push({
@@ -469,7 +469,7 @@ function validate() {
             elem: "#physicianInput"
         });
     }
-
+/*
     if (pwd !== "") {
         if (pwdConfirm === "") {
             returnObj.errors.push({

@@ -212,6 +212,7 @@
 
                             </div>
                         </td>
+                        <td class="star">*</td>
                     </tr>
                     <tr>
                         <td class="title">Insurance Company</td>

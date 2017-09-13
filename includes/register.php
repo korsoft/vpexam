@@ -59,8 +59,17 @@ if (strcmp($pageName, "register_patient.php") === 0) {
         $insIssueDateFormatted = $insIssueDateFormatted->format('Y-m-d');
     }
 
+    $validDatedob=false;
+    //Validate date of birth format mm/dd/yyyy
+    if (!empty($_POST['dob']) && preg_match ("/^(0\d|1[0-2])([-\\/])(0[1-9]|1[0-9]|3[01])([-\\/])((?:19|20)\d{2})$/",$_POST['dob'],$res_match)) {
+            $validDatedob=true;
+    }
+
     // At least these fields need to be present, if not send to error page.
-    if (isset($_POST['fname'], $_POST['lname'], $_POST['dob'], $_POST['gender'])) {
+    if (!empty($_POST['fname'])  && !empty($_POST['lname']) && !empty($_POST['dob']) && !empty($_POST['gender']) && 
+        !empty($_POST['physId']) && ctype_digit($_POST['physId']) && (int)$_POST['physId'] > 0 && $validDatedob) 
+
+    {
         if ($havePwd && strlen($_POST['pwdHashed']) !== 128) {
             header('Location: ../error.php?error=1001&l='.__LINE__);
             exit();
