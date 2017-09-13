@@ -1450,7 +1450,7 @@ function getExtendedPhysicianInfo($physId, $mysqli) {
  */
 function getExamComponents($mysqli) {
     $examComponents = [];
-    $prepStmtGetExamComponents = "SELECT * FROM exam_components";
+    $prepStmtGetExamComponents = "SELECT * FROM exam_components ORDER BY sort";
     $stmtGetExamComponents = $mysqli->prepare($prepStmtGetExamComponents);
     if ($stmtGetExamComponents) {
         $id = -1;
@@ -1458,8 +1458,9 @@ function getExamComponents($mysqli) {
         $type = '';
         $abbrev = '';
         $desc = '';
+        $sort = '';
         $stmtGetExamComponents->execute();
-        $stmtGetExamComponents->bind_result($id, $title, $type, $abbrev, $desc);
+        $stmtGetExamComponents->bind_result($id, $title, $type, $abbrev, $desc, $sort);
         while ($stmtGetExamComponents->fetch())
             $examComponents[$abbrev] = new ExamComponent($id, $title, $type, $abbrev, $desc);
         $stmtGetExamComponents->close();
