@@ -429,6 +429,32 @@ if (strcmp($pageName, "register_patient.php") === 0) {
                         }
                         $userId = $mysqli->insert_id;
                         $stmtInsert->close();
+
+                        // Hay que insertar al doctor los componentes defaults
+                        try{
+                           $strQuery = 'INSERT INTO physician_prefs( id, normal, phone_home, ' .
+                                       'phone_work, phone_cell, exam_components, ' . 
+                                       'max_steth_record_time) VALUES( ?, ?, ?, ?, ?, ?, ? );';
+                           $oStmt    = $mysqli->prepare($strQuery);
+                           $strDef   = '';
+                           $numDef   = 0;
+                           $strComp  = '["htt","mm","aas","aps","ats","ams","ala","alm","arm",' .
+                                       '"rjva","ljva","rleek","lleek","mv1"]';
+                           if ($oStmt) {
+                               $oStmt->bind_param('isssssi', $userId, $strDef, $strDef, $strDef, $strDef, $strComp, $numDef);
+                               
+                               if (!$oStmt->execute()) {
+                                   error_log( __METHOD__ . ':: Cant create a physician_prefs ::' ) ;
+                               }
+			       $oStmt->close();
+                           }else{
+                               error_log( __FILE__ . ':: NO EXISTE EL OSTMT  :: ' );
+                           }
+                        }catch( Exception $e ){
+                            error_log( __METHOD__ . ':: Exception ::' . $e->getMessage()) ;
+                        }
+                        // Hay que insertar al doctor los componentes defaults
+
                     } else {
                         header('Location: ../error.php?error=2000&l='.__LINE__);
                         error_log("MySQL statement preparation failure: " . $prepStmtInsert);

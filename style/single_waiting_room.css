@@ -8,10 +8,16 @@
 div.Hide{
     display:none;
 }
-
-div.PatientsWaitingLoading{
+div.PatientsWaitingLoading,
+div.PatientsWaitingEmpty{
     width:100px;
     margin-left:50px;
     margin-top: 25px;
+}
+
+div.PatientsWaitingLoading{
     content: url(/img/loading.gif); 
+}
+div.PatientsWaitingEmpty{
+    width:100%;
 }
