@@ -186,7 +186,7 @@ $(document).on("ready", function() {
             }
         }
         var isVideo = examPartsVideo[idx];
-        var url = (isVideo ? "exam_video_view.php?" : "exam_audio_view.php?") + "patientId=" + patientId + "&examId=" + examId + "&title=" + title + "&abbrev=" + abbrev + "&idx=" + idx;
+        var url = (isVideo ? "exam_video_view.php?" : "exam_audio_view.php?") + "patientId=" + patientId + "&examId=" + examId + "&abbrev=" + abbrev + "&idx=" + idx;
         window.location.href = url;
     });
 

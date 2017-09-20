@@ -35,7 +35,7 @@ sec_session_start();
 		<script src="js/wavesurfer.js/wavesurfer.min.js"></script>
 		<script src="js/slideout.min.js"></script>
 		<script src="js/jquery-simple-slider/js/simple-slider.js"></script>
-		<script src="js/exam_audio_view.js"></script>
+		<script src="js/exam_audio_view.js?v=1"></script>
 		<script src="js/jquery.fullscreen.js"></script>
         <script src="js/jquery.cookie.js"></script>
 		<title>Physical Exam Audio</title>
