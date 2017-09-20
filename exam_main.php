@@ -65,7 +65,7 @@ sec_session_start();
             $examDateLocal = $exam->examDate;
             $examDateLocal->setTimezone(new DateTimeZone(date_default_timezone_get()));
             $examDate = $examDateLocal->format('m/d/Y');
-            $fullName = ($patientInfo->firstName . ($patientInfo->middleName === "" ? " " : (" " . $patientInfo->middleName . " ")) . $patientInfo->lastName);
+            $fullName = $patientInfo->name;
             $gender = ($patientInfo->gender === "male") ? "Male" : "Female";
             $dob = $patientInfo->dob->format('m/d/Y');
             $age = getAge($patientInfo->dob);

@@ -984,7 +984,7 @@ function getPatientInfo($patientId, $mysqli) {
 
 function getExtendedPatientInfo($patientId, $mysqli) {
 	$prepStmtGetPatientInfoEx = "
-        SELECT patient_id, patients.username, CONCAT(patients.first_name, ' ', patients.last_name) AS name, patients.email, mrn, patients.gender, phone_type, patients.phone, patients.dob, address, city, state, zip, IFNULL(CONCAT(physicians.first_name , ' ', physicians.last_name), '') AS physicians_name 
+        SELECT patient_id, patients.username, CONCAT(patients.first_name, ' ', IF('' <> patients.middle_name, CONCAT(' ', patients.middle_name), ''), patients.last_name) AS name, patients.email, mrn, patients.gender, phone_type, patients.phone, patients.dob, address, city, state, zip, IFNULL(CONCAT(physicians.first_name , ' ', physicians.last_name), '') AS physicians_name 
         FROM patients 
         LEFT JOIN patient_physicians ON id = patient_id 
         LEFT JOIN physicians         ON physicians.physician_id = patient_physicians.physician_id
@@ -1510,9 +1510,10 @@ function __getExamComponentByParam($paramType, $param, $mysqli) {
         $type = '';
         $abbrev = '';
         $desc = '';
+        $sort = 1;
         $stmtGetExamComponent->bind_param(($paramType === "id") ? 'i' : 's', $param);
         $stmtGetExamComponent->execute();
-        $stmtGetExamComponent->bind_result($id, $title, $type, $abbrev, $desc);
+        $stmtGetExamComponent->bind_result($id, $title, $type, $abbrev, $desc, $sort);
         $stmtGetExamComponent->fetch();
         $stmtGetExamComponent->close();
 
@@ -1766,6 +1767,64 @@ function getPatientExam($mysqli, $patientid, $physicianid) {
         $response['success']  = false;
         $response['errorMsg'] = "Exam for patient { $patientid } and physician { $physicianid } not found.";
         error_log(__METHOD__ . ':: Error: ' . $mysqli->error);
+    }
+    return $response;
+}
+
+function generateToken($mysqli, $id) {
+    $response = [
+        'success'  => true,
+        'errorMsg' => ''
+    ];
+    try {
+        if(empty($id)) {
+            throw new Exception('ID not specified as query string parameter.', 400);
+        }
+        $userCount = 0;
+        $stmtCheckUserExists = $mysqli->prepare('SELECT COUNT(patient_id) FROM patients WHERE patient_id = ?');
+        if ($stmtCheckUserExists) {
+            $stmtCheckUserExists->bind_param('i', $id);
+            $stmtCheckUserExists->execute();
+            $stmtCheckUserExists->bind_result($userCount);
+            $stmtCheckUserExists->fetch();
+            $stmtCheckUserExists->close();
+        } else {
+            throw new Exception('Error preparing MySQL statement', 500);
+        }
+        // Check physicians
+        if (0 == $userCount) {
+            $stmtCheckUserExists = $mysqli->prepare('SELECT COUNT(physician_id) FROM physicians WHERE physician_id = ?');
+            if ($stmtCheckUserExists) {
+                $stmtCheckUserExists->bind_param('i', $id);
+                $stmtCheckUserExists->execute();
+                $stmtCheckUserExists->bind_result($userCount);
+                $stmtCheckUserExists->fetch();
+                $stmtCheckUserExists->close();
+            } else {
+                throw new Exception('Error preparing MySQL statement', 500);
+            }
+        }
+        // Generate a unique token, and put it in the DB
+        if ($userCount > 0) {
+            $token = sha1(uniqid((string)$userCount, true));
+            $stmtInsertToken = $mysqli->prepare('INSERT INTO pending_users (user_id, token, tstamp) VALUES (?, ?, ?)');
+            if ($stmtInsertToken) {
+                $stmtInsertToken->bind_param('isi', $id, $token, $_SERVER['REQUEST_TIME']);
+                if ($stmtInsertToken->execute()) {
+                    $stmtInsertToken->close();
+                    $response['token'] = $token;
+                }
+            } else {
+                throw new Exception('Error preparing MySQL statement', 500);
+            }
+        } else {
+            throw new Exception('User ID does not exist in database.', 400);
+        }
+    }
+    catch(Exception $e) {
+        $response['success']  = false;
+        $response['errorMsg'] = $e->getMessage();
+        error_log(__METHOD__ . ':: Error: ' . $e->getMessage());
     }
     return $response;
 }

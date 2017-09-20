@@ -78,23 +78,13 @@ sec_session_start();
     $fullName = $patientInfo->name;
     $dob = $patientInfo->dob->format('m/d/Y');
 
+    $videoURL = '';
     // Generate token that will be used to get access to video url
-    $generateTokenURL = 'https://' . $_SERVER['HTTP_HOST'] . (endsWith($_SERVER['HTTP_HOST'], '/') ? '' : '/') . 'includes/generateToken.php?id='. $examInfo->physicianId;
-    $curlHandle = curl_init();
-    curl_setopt($curlHandle, CURLOPT_URL, $generateTokenURL);
-    curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, false);
-    $content = curl_exec($curlHandle);
-    curl_close($curlHandle);
+    $token = generateToken($mysqli, $examInfo->physicianId);
 
-    $json = json_decode($content);
-    if (!is_null($json)) {
-        if ($json->success) {
-            $token = $json->token;
-
-            // We've successfully requested and gotten a token to play the video
-            $videoURL = 'includes/getMedia.php?token=' . $token . '&physicianId=' . $examInfo->physicianId . '&patientId=' . $patientInfo->patientId . '&examId=' . $examInfo->examId . '&abbrev=' . $abbrev . '&type=v';
-        }
+    if($token['success']) {
+        // We've successfully requested and gotten a token to play the video
+        $videoURL = 'includes/getMedia.php?token=' . $token['token'] . '&physicianId=' . $examInfo->physicianId . '&patientId=' . $patientInfo->patientId . '&examId=' . $examInfo->examId . '&abbrev=' . $abbrev . '&type=v';
     }
 ?>
 <script type="text/javascript">

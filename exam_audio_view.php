@@ -70,27 +70,17 @@ sec_session_start();
 		$examInfo = getSingleExam($patientId, $examId, $mysqli);
 		$examParts = getExamParts($patientId, $examId, $mysqli);
 		$patientInfo = getExtendedPatientInfo($patientId, $mysqli);
-		$fullName = ($patientInfo->firstName . ($patientInfo->middleName === "" ? " " : (" " . $patientInfo->middleName . " ")) . $patientInfo->lastName);
+		$fullName = $patientInfo->name;
 		$dob = $patientInfo->dob->format('m/d/Y');
 
-		// Generate token that will be used to get access to video url
-		$generateTokenURL = 'https://vpexam.com/includes/generateToken.php?id='. $examInfo->physicianId;
-		$curlHandle = curl_init();
-		curl_setopt($curlHandle, CURLOPT_URL, $generateTokenURL);
-		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, false);
-		$content = curl_exec($curlHandle);
-		curl_close($curlHandle);
+		$audioURL = '';
+	    // Generate token that will be used to get access to video url
+	    $token = generateToken($mysqli, $examInfo->physicianId);
 
-		$json = json_decode($content);
-		if (!is_null($json)) {
-			if ($json->success) {
-				$token = $json->token;
-
-				// We've successfully requested and gotten a token to play the video
-				$audioURL = 'includes/getMedia.php?token=' . $token . '&physicianId=' . $examInfo->physicianId . '&patientId=' . $patientInfo->patientId . '&examId=' . $examInfo->examId . '&abbrev=' . $abbrev . '&type=a';
-			}
-		}
+	    if($token['success']) {
+	        // We've successfully requested and gotten a token to play the audio
+	        $audioURL = 'includes/getMedia.php?token=' . $token['token'] . '&physicianId=' . $examInfo->physicianId . '&patientId=' . $patientInfo->patientId . '&examId=' . $examInfo->examId . '&abbrev=' . $abbrev . '&type=a';
+	    }
 	?>
 	<script type="text/javascript">
 		<?php
