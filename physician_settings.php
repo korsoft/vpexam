@@ -171,6 +171,90 @@
                                                 </div>
                                             </div>
                                             <div class="subSettingsDiv">
+                                                <span class="subHeader">Waiting Room</span>
+                                                <div class="hr"></div>
+                                                <div class="innerSettingsDiv">
+                                                    <div>
+                                                        <div>
+                                                        <label style="font-size: 14px; margin: 0 0 0 10px;">Edit Waiting Room URL</label>
+                                                            <label for="inputWRUrl" style="font-size: 12px; font-weight: bold; margin: 0 0 0 10px;">https://vpexam.com/</label><input class="holo" style="display: inline;" maxlength="100" type="text" id="inputWRUrl" value="<?php echo($physInfo->username); ?>">
+                                                            <div class="button-dark-smaller" id="btnWRUrl" style="display: inline; margin: 0 0 0 10px;">Save</div><label id="success_msgWR">Saved successfully</label>
+                                                        </div>
+                                                    </div>  
+                                                    <div class="hr"></div> 
+                                                    <div>
+                                                        <div >
+                                                            <label style="font-size: 14px; margin: 0 0 0 10px;">Change Waiting Room Background Image</label>
+                                                        </div> 
+                                                        <div class="smallPreviewWRDiv">
+                                                            <div><img id="BackgroundImgWR" src="includes/getProfileImage.php?id=<?php echo($physInfo->physicianId); ?>&type=3"></div>
+                                                            <div class="button-dark" id="btnChangeProfileWRI">Change Image</div>
+                                                        </div> 
+                                                    </div>                                           
+                                                    <div class="changeProfilePicDialogWRI" title="Change Waiting Room Background Image">
+                                                        <div class="outerDropContainerWRI">
+                                                            <p style="margin: 0 0 10px 0;">Click the button below to select an image to upload or drag and drop one.<br />
+                                                                You will then have the chance to crop the image how you would like.<br /><br />
+                                                                Note: Large images may take a few seconds to load
+                                                            </p>
+                                                            <div class="dropContainerWRI">
+                                                                <span class="dropContainerTextWRI">Click Here To Choose An Image</span><br />
+                                                                <span class="dropContainerTextWRI">OR</span><br />
+                                                                <span class="dropContainerTextWRI">Drag And Drop An Image Here</span>
+                                                            </div>
+                                                        </div>
+                                                        <input accept="image/*" type="file" id="fileChooserWRI">
+                                                        <div class="cropBoxOuterContainerWRI">
+                                                            <div class="cropBoxContainerWRI">
+                                                                <img src="">
+                                                            </div>
+                                                            <div class="cropBoxControlsContainerWRI">
+                                                                <div style="display: inline-block; margin: 0 0 0 2px;">
+                                                                    <div class="img-button" id="btnZoomInWRI">
+                                                                        <img src="img/zoom_in.png">
+                                                                    </div>
+                                                                    <div class="img-button" id="btnZoomOutWRI">
+                                                                        <img src="img/zoom_out.png">
+                                                                    </div>
+                                                                    <div class="img-button" id="btnRotateCCWWRI">
+                                                                        <img src="img/rotate_ccw.png">
+                                                                    </div>
+                                                                    <div class="img-button" id="btnRotateCWWRI">
+                                                                        <img src="img/rotate_cw.png">
+                                                                    </div>
+                                                                </div>
+                                                                <div style="display: inline-block; float: right;">
+                                                                    <div class="text-button" id="btnNewImageWRI">
+                                                                        <span>New Image</span>
+                                                                    </div>
+                                                                    <div id="btnCropWRI" class="img-text-button" style="margin: 0 0 0 20px;">
+                                                                        <img src="img/crop.png">
+                                                                        <span>Crop Image</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="loadingContainerWRI">
+                                                            <span>Please wait while your image is being uploaded and cropped.</span>
+                                                            <div id="uploadProgressWRI"><div class="progress-labelWRI">Uploading...</div></div>
+                                                        </div>
+                                                        <div class="errorContainerWRI">
+                                                            <span>An error occurred while uploading and cropping the selected image.</span>
+                                                            <span id="errorCodeWRI"></span>
+                                                            <span>If this error persists, please contact the <a href="mailto:webmaster@vpexam.com">site administrator</a>.</span>
+                                                        </div>
+                                                        <div class="resultContainerWRI">
+                                                            <div class="cropResultDivWRI">
+                                                                <img id="cropResultWRI" src="">
+                                                            </div>
+                                                            <div style="float: right; margin: 5px 0 0 0;">
+                                                                <div class="button-dark" id="btnResultOkWRI">Ok</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="subSettingsDiv">
                                                 <span class="subHeader">My Practice Address</span>
                                                 <div class="hr"></div>
                                                 <div class="innerSettingsDiv">

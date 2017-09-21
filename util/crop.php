@@ -142,7 +142,8 @@
         return "Unknown error";
     }
 
-    const PROFILE_PICTURE_PATH = '/var/www/.uploads/profile/physicians/img/';
+    const BACKGROUND_IMAGE_PATH = '/var/www/.uploads/profile/physicians/background/';
+    const PROFILE_PICTURE_PATH  = '/var/www/.uploads/profile/physicians/img/';
     const VPEXAM_TEMP_DIR = '/var/tmp/';
 
     if (!isset($_FILES['originalImage']) || !isset($_POST['cropData']) || !isset($_POST['physicianId'])) {
@@ -170,6 +171,9 @@
     $imgDestFilename = "";
     $cropData = json_decode($_POST['cropData']);
     $physicianId = $_POST['physicianId'];
+    $backgroundImg = false;
+    if(!empty($_POST['backgroundImg']) && true==trim($_POST['backgroundImg']))
+         $backgroundImg = true;
 
     // Check to make sure that the FILE upload was successful by
     // checking the error code
@@ -183,7 +187,10 @@
                 $filename = $physicianId . '.png';
                 $uploadDest = VPEXAM_TEMP_DIR . $filename;
                 $retVal = move_uploaded_file($tmpImageFilename, $uploadDest);
-                $croppedImgDest = PROFILE_PICTURE_PATH . $filename;
+                if($backgroundImg)
+                    $croppedImgDest = BACKGROUND_IMAGE_PATH . $filename;
+                else
+                    $croppedImgDest = PROFILE_PICTURE_PATH . $filename;
                 if (!$retVal) {
                     $error = "Error moving uploaded file.";
                     $success = false;

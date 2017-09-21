@@ -241,6 +241,11 @@ td {
     width: 150px;
 }
 
+#BackgroundImgWR {
+    height: 120px;
+    width: 180px;
+}
+
 .smallProfileDiv {
     background: white;
     -webkit-box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.2);
@@ -249,6 +254,17 @@ td {
     display: block;
     padding: 15px 0 10px 0;
     text-align: center;
+}
+
+.smallPreviewWRDiv {
+    background: white;
+    -webkit-box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.2);
+    display: block;
+    padding: 15px 0 10px 0;
+    text-align: center;
+    width: 30%;
 }
 
 .patientInfoBox {
@@ -387,6 +403,10 @@ td {
     width: 200px;
 }
 
+.titleTdWR {
+    width: 200px;
+}
+
 .baaTitleTd {
     width: 200px;
 }
@@ -471,7 +491,17 @@ input[type="file"] {
     height: 400px;
 }
 
+.cropBoxContainerWRI {
+    width: 600px;
+    height: 400px;
+}
+
 .cropBoxOuterContainer {
+    display: none;
+    margin: 10px 0 0 0;
+}
+
+.cropBoxOuterContainerWRI {
     display: none;
     margin: 10px 0 0 0;
 }
@@ -480,7 +510,15 @@ input[type="file"] {
     display: none;
 }
 
+#fileChooserWRI {
+    display: none;
+}
+
 .cropBoxControlsContainer {
+    margin: 5px 0 0 0;
+}
+
+.cropBoxControlsContainerWRI {
     margin: 5px 0 0 0;
 }
 
@@ -557,6 +595,10 @@ input[type="file"] {
     display: none;
 }
 
+.loadingContainerWRI {
+    display: none;
+}
+
 .divider {
     background: #555;
     height: 1px;
@@ -565,6 +607,10 @@ input[type="file"] {
 }
 
 #uploadProgress {
+    margin: 10px 0 0 0;
+}
+
+#uploadProgressWRI {
     margin: 10px 0 0 0;
 }
 
@@ -577,7 +623,20 @@ input[type="file"] {
     width: 600px;
 }
 
+.dropContainerWRI {
+    border: 2px solid black;
+    display: table-cell;
+    height: 400px;
+    text-align: center;
+    vertical-align: middle;
+    width: 600px;
+}
+
 .dropContainer:hover {
+    cursor: pointer;
+}
+
+.dropContainerWRI:hover {
     cursor: pointer;
 }
 
@@ -588,7 +647,14 @@ input[type="file"] {
     line-height: 80px;
 }
 
-#btnNewImage {
+.dropContainerTextWRI {
+    color: lightgray;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 80px;
+}
+
+#btnNewImage,#btnNewImageWRI {
     vertical-align: top;
 }
 
@@ -596,7 +662,16 @@ input[type="file"] {
     text-align: center;
 }
 
+.cropResultDivWRI {
+    text-align: center;
+}
+
 #cropResult {
+    height: 200px;
+    width: 200px;
+}
+
+#cropResultWRI {
     height: 200px;
     width: 200px;
 }
@@ -606,7 +681,17 @@ input[type="file"] {
     margin: 10px 0 0 0;
 }
 
+.resultContainerWRI {
+    display: none;
+    margin: 10px 0 0 0;
+}
+
 .errorContainer {
+    display: none;
+    margin: 10px 0 0 0;
+}
+
+.errorContainerWRI {
     display: none;
     margin: 10px 0 0 0;
 }
@@ -616,7 +701,16 @@ input[type="file"] {
     line-height: 25px;
 }
 
+.errorContainerWRI span {
+    display: block;
+    line-height: 25px;
+}
+
 .dropContainerHover {
+    border: 2px solid blue;
+}
+
+.dropContainerHoverWRI {
     border: 2px solid blue;
 }
 
@@ -794,6 +888,13 @@ h3 {
     width: auto;
 }
 #success_msg {
+    color: #2f913e;
+    display: none;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+#success_msgWR {
     color: #2f913e;
     display: none;
     font-weight: bold;

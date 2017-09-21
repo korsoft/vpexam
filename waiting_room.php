@@ -79,8 +79,9 @@
                 </div>
             </div>
         </div>
-        <div class="main">
+        <div class="main" >
             <div id="msg">
+                <img src="includes/getProfileImage.php?id=<?php echo $physician['id']; ?>&type=3&time=<?php $var = new DateTime(); echo $var->getTimestamp(); ?>" />
                 <h1>Wait until <?php echo $physician['name']; ?> calls you.</h1>
                 <h3>Thank you</h3>
             </div>

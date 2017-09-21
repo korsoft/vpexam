@@ -442,6 +442,7 @@ function getAge($bday) {
 class ExtendedPhysicianInfo {
     public $physicianId = -1;
     public $npi = '';
+    public $username = '';
     public $email = '';
     public $firstName = '';
     public $middleName = '';
@@ -459,11 +460,12 @@ class ExtendedPhysicianInfo {
     public $homeState = '';
     public $homeZip = '';
 
-    function __construct($physId, $npi, $email, $fname, $mname, $lname, $gender, $dob, $phone, $practiceName,
+    function __construct($physId, $npi, $username, $email, $fname, $mname, $lname, $gender, $dob, $phone, $practiceName,
                          $practiceAddr, $practiceCity, $practiceState, $practiceZip, $homeAddr,
                          $homeCity, $homeState, $homeZip) {
         $this->physicianId = $physId;
         $this->npi = $npi;
+        $this->username = $username;
         $this->email = $email;
         $this->firstName = $fname;
         $this->middleName = $mname;
@@ -1406,11 +1408,12 @@ function setBAANeeded($physId, $baaNeeded, $mysqli) {
  * database fields for physician info.
  */
 function getExtendedPhysicianInfo($physId, $mysqli) {
-    $prepStmtGetPhysInfo = "SELECT physician_id, npi, email, first_name, middle_name, last_name, gender, dob, phone, practice_name, practice_addr, practice_city, practice_state, practice_zip, home_addr, home_city, home_state, home_zip FROM physicians WHERE physician_id = ?";
+    $prepStmtGetPhysInfo = "SELECT physician_id, npi, username, email, first_name, middle_name, last_name, gender, dob, phone, practice_name, practice_addr, practice_city, practice_state, practice_zip, home_addr, home_city, home_state, home_zip FROM physicians WHERE physician_id = ?";
     $stmtGetPhysInfo = $mysqli->prepare($prepStmtGetPhysInfo);
     if ($stmtGetPhysInfo) {
         $physicianId = -1;
         $npi = '';
+        $username = '';        
         $email = '';
         $firstName = '';
         $middleName = '';
@@ -1429,11 +1432,11 @@ function getExtendedPhysicianInfo($physId, $mysqli) {
         $homeZip = '';
         $stmtGetPhysInfo->bind_param('i', $physId);
         $stmtGetPhysInfo->execute();
-        $stmtGetPhysInfo->bind_result($physicianId, $npi, $email, $firstName, $middleName, $lastName, $gender, $dob, $phone, $practiceName,
+        $stmtGetPhysInfo->bind_result($physicianId, $npi, $username, $email, $firstName, $middleName, $lastName, $gender, $dob, $phone, $practiceName,
             $practiceAddr, $practiceCity, $practiceState, $practiceZip, $homeAddr, $homeCity, $homeState, $homeZip);
         $stmtGetPhysInfo->fetch();
         $dob = DateTime::createFromFormat("Y-m-d", $dob);
-        return new ExtendedPhysicianInfo($physId, $npi, $email, $firstName, $middleName, $lastName, $gender, $dob, $phone, $practiceName,
+        return new ExtendedPhysicianInfo($physId, $npi, $username, $email, $firstName, $middleName, $lastName, $gender, $dob, $phone, $practiceName,
             $practiceAddr, $practiceCity, $practiceState, $practiceZip, $homeAddr, $homeCity, $homeState, $homeZip);
     } else {
         return NULL;

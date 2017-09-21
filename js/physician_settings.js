@@ -1,7 +1,10 @@
 var currentFile;
+var currentFileWRI;
 var physicianId = -1;
 var $uploadProgressLbl;
+var $uploadProgressLblWRI;
 var $uploadProgress;
+var $uploadProgressWRI;
 var $inputHomePhone, $inputWorkPhone, $inputCellPhone, $homePhoneSpan, $workPhoneSpan, $cellPhoneSpan;
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
@@ -132,6 +135,10 @@ $(document).on('ready', function() {
         aspectRatio: 1
     });
 
+    $('.cropBoxContainerWRI > img').cropper({
+        aspectRatio: 1
+    });    
+
     $uploadProgressLbl = $('.progress-label');
 
     $uploadProgress = $('#uploadProgress').progressbar({
@@ -145,6 +152,18 @@ $(document).on('ready', function() {
         }
     });
 
+    $uploadProgressLblWRI = $('.progress-labelWRI');
+
+    $uploadProgressWRI = $('#uploadProgressWRI').progressbar({
+        value: false,
+        change: function() {
+            $uploadProgressLblWRI.text($uploadProgressWRI.progressbar('value') + '%');
+            var lblLeft = Math.floor($uploadProgressWRI.width() / 2) - Math.floor($uploadProgressLblWRI.width() / 2);
+            $uploadProgressLblWRI.css({
+                left: lblLeft + 'px'
+            });
+        }
+    });
     $('#fileChooser, .dropContainer').fileReaderJS({
         accept: 'image/*',
         dragClass: 'dropContainerHover',
@@ -163,6 +182,25 @@ $(document).on('ready', function() {
     }
         }
     });
+
+    $('#fileChooserWRI, .dropContainerWRI').fileReaderJS({
+        accept: 'image/*',
+        dragClass: 'dropContainerHoverWRI',
+        readAsMap: {
+            'image/*': 'DataURL'
+        },
+        on: {
+            loadend: function(e, file) {
+                currentFileWRI = file;
+                $('.outerDropContainerWRI').hide(300);
+                $('.cropBoxOuterContainerWRI').show(300);
+                $('.cropBoxContainerWRI > img').cropper('replace', e.target.result);
+            },
+            skip: function(e, file) {
+                alert("The file you chose could not be loaded because it is not a valid image file.");
+    }
+        }
+    });    
 
     tinymce.init({
         selector: '#taNormalText',
@@ -190,31 +228,84 @@ $(document).on('ready', function() {
         $(this).empty().append('<span class="dropContainerText">Click Here To Choose An Image</span><br /><span class="dropContainerText">OR</span><br /><span class="dropContainerText">Drag And Drop An Image Here</span>');
     });
 
+    $('.dropContainerWRI').on('click', function() {
+        $('#fileChooserWRI').click();
+    }).on('dragenter', function() {
+        $(this).empty().append('<span class="dropContainerText">Release Mouse To Upload Image</span>');
+    }).on('dragleave', function() {
+        $(this).empty().append('<span class="dropContainerText">Click Here To Choose An Image</span><br /><span class="dropContainerText">OR</span><br /><span class="dropContainerText">Drag And Drop An Image Here</span>');
+    }).on('dragover', function() {
+        $(this).empty().append('<span class="dropContainerText">Release Mouse To Upload Image</span>');
+    }).on('drop', function() {
+        $(this).empty().append('<span class="dropContainerText">Click Here To Choose An Image</span><br /><span class="dropContainerText">OR</span><br /><span class="dropContainerText">Drag And Drop An Image Here</span>');
+    });
+
     $('#btnNewImage').on('click', function() {
         $('.cropBoxOuterContainer').hide(300);
         $('.outerDropContainer').show(300);
+    });
+
+    $('#btnNewImageWRI').on('click', function() {
+        $('.cropBoxOuterContainerWRI').hide(300);
+        $('.outerDropContainerWRI').show(300);
     });
 
     $('#btnZoomIn').on('click', function() {
         $('.cropBoxContainer > img').cropper('zoom', 0.1);
     });
 
+    $('#btnZoomInWRI').on('click', function() {
+        $('.cropBoxContainerWRI > img').cropper('zoom', 0.1);
+    });    
+
     $('#btnZoomOut').on('click', function() {
         $('.cropBoxContainer > img').cropper('zoom', -0.1);
     });
+
+    $('#btnZoomOutWRI').on('click', function() {
+        $('.cropBoxContainerWRI > img').cropper('zoom', -0.1);
+    });    
 
     $('#btnRotateCCW').on('click', function() {
         $('.cropBoxContainer > img').cropper('rotate', -90);
     });
 
+    $('#btnRotateCCWWRI').on('click', function() {
+        $('.cropBoxContainerWRI > img').cropper('rotate', -90);
+    });    
+
     $('#btnRotateCW').on('click', function() {
         $('.cropBoxContainer > img').cropper('rotate', 90);
+    });
+
+    $('#btnRotateCWWRI').on('click', function() {
+        $('.cropBoxContainerWRI > img').cropper('rotate', 90);
+    });    
+
+ $('#inputWRUrl').keypress(function (e) {
+        //Allow only letters, numbers and _ -
+        var regex = new RegExp(/^[a-zA-Z\b\_\-\d]+$/);
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        if(code == 37 || code == 38 || code == 39 || code == 40) { // allow arrows keys
+            return;
+        }else if (regex.test(str)) {
+            return true;
+        }
+        else {
+            e.preventDefault();
+            return false;
+        }
     });
 
     $('#btnCrop').on('click', function() {
         var data = $('.cropBoxContainer > img').cropper("getData");
         ajaxUpload(physicianId, currentFile, data);
     });
+
+    $('#btnCropWRI').on('click', function() {
+        var data = $('.cropBoxContainerWRI > img').cropper("getData");
+        ajaxUploadWRI(physicianId, currentFileWRI, data);
+    });    
 
     $('#btnSaveNormal').on('click', function() {
         ajaxSaveNormal();
@@ -223,6 +314,10 @@ $(document).on('ready', function() {
     $('#btnResultOk').on('click', function() {
         $('.changeProfilePicDialog').dialog("close");
     });
+
+    $('#btnResultOkWRI').on('click', function() {
+        $('.changeProfilePicDialogWRI').dialog("close");
+    });    
 
     $('.changeProfilePicDialog').dialog({
         autoOpen: false,
@@ -238,11 +333,29 @@ $(document).on('ready', function() {
         width: 'auto'
     });
 
+    $('.changeProfilePicDialogWRI').dialog({
+        autoOpen: false,
+        close: function(event, ui) {
+            $('.cropBoxOuterContainerWRI').hide();
+            $('.loadingContainerWRI').hide();
+            $('.errorContainerWRI').hide();
+            $('.resultContainerWRI').hide();
+            $('.outerDropContainerWRI').show();
+        },
+        dialogClass: 'cppDlg',
+        resizable: false,
+        width: 'auto'
+    });    
+
     $('input[type="range"]').addClass(browser);
 
     $('#btnChangeProfilePic').on('click', function() {
         $('.changeProfilePicDialog').dialog('open');
     });
+
+    $('#btnChangeProfileWRI').on('click', function() {
+        $('.changeProfilePicDialogWRI').dialog('open');
+    });    
 
     $('#btnEditPracticeAddr').on('click', function() {
         $('#practiceAddressDiv').hide(300);
@@ -330,6 +443,11 @@ $(document).on('ready', function() {
         saveExamComponents(jsonStr);
     });
 
+
+    $('#inputWRUrl').focus(function() {
+        $('#success_msgWR').hide();
+    });
+
     $('#inputMaxTime').focus(function() {
         $('#success_msg').hide();
     })
@@ -360,6 +478,51 @@ $(document).on('ready', function() {
                 updateMaxStethRecordTime($('#inputMaxTime').val())
         }
     });
+
+    $('#btnWRUrl').on('click', function() {
+        var regex = new RegExp(/^[a-zA-Z\b\_\-0-9]+$/);
+        var regexAlpha = new RegExp(/^[a-zA-Z]/);
+        var regexDoubleUn = new RegExp(/^(?!.*?__).*$/);
+        var regexDoubleHyphen = new RegExp(/^(?!.*?--).*$/); 
+        var regexDoubleUH = new RegExp(/^(?!.*?-_).*$/);
+        var regexDoubleHU = new RegExp(/^(?!.*?_-).*$/);
+        if ($('#inputWRUrl').val() === "") {
+            alert("You must enter a valid URL");
+        } 
+        else if(!regex.test($('#inputWRUrl').val()))
+        {
+            alert("Please input alphanumeric characters only");
+        }
+        else if(!regexAlpha.test($('#inputWRUrl').val()))
+        {
+            alert("Url must start with letters");
+        }    
+        else if(100<$('#inputWRUrl').val().length)
+        {
+            alert("Url must be less than 100 characters.");
+        } 
+        else if(!regexDoubleUn.test($('#inputWRUrl').val()))
+        {
+            alert("Double special characters not allowed.");
+        } 
+        else if(!regexDoubleHyphen.test($('#inputWRUrl').val()))
+        {
+            alert("Double special characters not allowed.");
+        }  
+        else if(!regexDoubleUH.test($('#inputWRUrl').val()))
+        {
+            alert("Double special characters not allowed.");
+        } 
+        else if(!regexDoubleHU.test($('#inputWRUrl').val()))
+        {
+            alert("Double special characters not allowed.");
+        }         
+        else {
+            updateWRUrl($('#inputWRUrl').val())
+        }
+    });    
+
+
 
     $('#inputNewPassword').qtip({
         content: {
@@ -479,6 +642,30 @@ function updateMaxStethRecordTime(time) {
             $('#success_msg').show();
         },
         url: "api/updateMaxStethRecordTime.php"
+    });
+}
+
+function updateWRUrl(UrlUsername) {
+
+    var target  = document.getElementById('spin'),
+        spinner = new Spinner(opts).spin(target);
+    $(target).data('spinner', spinner);
+    $.ajax({
+        async: true,
+        data: 'physId=' + physicianId + '&UrlUsername=' + UrlUsername,
+        error: function(xhr, textStatus, errorThrown) {
+            $('#maxTimeLoadingOverlay').spin(false);
+            alert("Error processing request: " + textStatus + ": " + errorThrown);
+        },
+        method: 'POST',
+        success: function(data) {
+            var result = JSON.parse(data);
+            if (!result.success)
+                alert("Error processing request: " + result.errorMsg);
+            $('#spin').data('spinner').stop();
+            $('#success_msgWR').show();
+        },
+        url: "api/updateUrlUsername.php"
     });
 }
 
@@ -642,8 +829,8 @@ function ajaxUpload(physId, file, cropData) {
                     left: lblLeft + 'px'
                 });
                 $('.resultContainer').show(300);
-                $('#cropResult').attr('src', 'includes/getProfileImage.php?id=' + physId + '&type=2');
-                $('#profilePic').attr('src', 'includes/getProfileImage.php?id=' + physId + '&type=2');
+                $('#cropResult').attr('src', 'includes/getProfileImage.php?id=' + physId + '&type=2&time='+(new Date()).getTime());
+                $('#profilePic').attr('src', 'includes/getProfileImage.php?id=' + physId + '&type=2&time='+(new Date()).getTime());
             } else {
                 $('#errorCode').text(rsp.error);
                 $('.errorContainer').show(300);
@@ -659,6 +846,60 @@ function ajaxUpload(physId, file, cropData) {
             if (e.lengthComputable) {
                 var percentComplete = Math.round((e.loaded / e.total) * 100);
                 $uploadProgress.progressbar("value", percentComplete);
+            }
+        }
+    });
+}
+
+function ajaxUploadWRI(physId, file, cropData) {
+    var cropDataStr = JSON.stringify(cropData);
+    var data = new FormData();
+
+    data.append('originalImage', file);
+    data.append('cropData', cropDataStr);
+    data.append('physicianId', physId.toString());
+    data.append('backgroundImg', true);    
+    for(let i of data){
+    console.log(i)
+    }
+    $.ajax({
+        url: 'util/crop.php',
+        type: 'POST',
+        data: data,
+        processData: false,
+        contentType: false,
+
+        beforeSend: function(jqXHR, settings) {
+            $('.cropBoxOuterContainerWRI').hide(300);
+            $('.loadingContainerWRI').show(300);
+        },
+
+        success: function(data) {
+            var rsp = JSON.parse(data);
+            if (rsp.success) {
+                $uploadProgressLblWRI.text("Upload Complete");
+                var lblLeft = Math.floor($uploadProgressWRI.width() / 2) - Math.floor($uploadProgressLblWRI.width() / 2);
+                $uploadProgressLblWRI.css({
+                    left: lblLeft + 'px'
+                });
+                $('.resultContainerWRI').show(300);
+                $('#cropResultWRI').attr('src', 'includes/getProfileImage.php?id=' + physId + '&type=3&time='+(new Date()).getTime());
+                $('#BackgroundImgWR').attr('src', 'includes/getProfileImage.php?id=' + physId + '&type=3&time='+(new Date()).getTime());
+            } else {
+                $('#errorCodeWRI').text(rsp.error);
+                $('.errorContainerWRI').show(300);
+            }
+        },
+
+        error: function(jqXHR, textStatus, error) {
+            $('#errorCodeWRI').text(textStatus + ": " + error);
+            $('.errorContainerWRI').show(300);
+        },
+
+        progress: function(e) {
+            if (e.lengthComputable) {
+                var percentComplete = Math.round((e.loaded / e.total) * 100);
+                $uploadProgressWRI.progressbar("value", percentComplete);
             }
         }
     });
