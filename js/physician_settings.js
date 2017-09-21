@@ -285,8 +285,8 @@ $(document).on('ready', function() {
  $('#inputWRUrl').keypress(function (e) {
         //Allow only letters, numbers and _ -
         var regex = new RegExp(/^[a-zA-Z\b\_\-\d]+$/);
-        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-        if(code == 37 || code == 38 || code == 39 || code == 40) { // allow arrows keys
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);     
+        if(e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40) { // allow arrows keys
             return;
         }else if (regex.test(str)) {
             return true;

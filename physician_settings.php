@@ -183,7 +183,7 @@
                                                     </div>  
                                                     <div class="hr"></div> 
                                                     <div>
-                                                        <div >
+                                                        <div style="margin: 0 0 10px 0;">
                                                             <label style="font-size: 14px; margin: 0 0 0 10px;">Change Waiting Room Background Image</label>
                                                         </div> 
                                                         <div class="smallPreviewWRDiv">
