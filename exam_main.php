@@ -243,7 +243,7 @@ sec_session_start();
                                             $examPartsVideo[$i] = $isVid;
                                             $ahref = $isVid ? "exam_video_view.php" : "exam_audio_view.php";
                                             $ahref .= ("?patientId=" . $patientInfo->patientId . "&examId=" . $exam->examId . "&idx=" . $i . "&abbrev=" . $examComponent->abbrev);
-                                            echo("<tr class=\"hoverableRow trExam\" data-link=\"$ahref\" id=\"$examComponent->abbrev\" onmouseover=\"trMouseOver(this)\" onmouseout=\"trMouseOut(this)\">");
+                                            echo("<tr class=\"hoverableRow trExam\" data-link=\"$ahref\" id=\"$examComponent->id\" onmouseover=\"trMouseOver(this)\" onmouseout=\"trMouseOut(this)\" data-time=\"$examComponent->time\">");
                                             echo("  <td class=\"examPartName\">$examComponent->title</td>");
                                             echo("  <td><img src=\"images/" . ($isVid ? "video_icon.png" : "audio_icon.png") . "\" height=\"30\" width=\"30\" /></td>");
                                             echo("</tr>");

@@ -677,13 +677,15 @@ class ExamComponent {
     public $type = '';
     public $abbrev = '';
     public $desc = '';
+    public $time = '';
 
-    function __construct($id, $title, $type, $abbrev, $desc) {
+    function __construct($id, $title, $type, $abbrev, $desc, $time) {
         $this->id = $id;
         $this->title = $title;
         $this->type = $type;
         $this->abbrev = $abbrev;
         $this->desc = $desc;
+        $this->time = strtotime($time);
     }
 }
 
@@ -1463,9 +1465,9 @@ function getExamComponents($mysqli) {
         $desc = '';
         $sort = '';
         $stmtGetExamComponents->execute();
-        $stmtGetExamComponents->bind_result($id, $title, $type, $abbrev, $desc, $sort);
+        $stmtGetExamComponents->bind_result($id, $title, $type, $abbrev, $desc, $sort, $public, $author_physician, $strDate);
         while ($stmtGetExamComponents->fetch())
-            $examComponents[$abbrev] = new ExamComponent($id, $title, $type, $abbrev, $desc);
+            $examComponents[$abbrev] = new ExamComponent($id, $title, $type, $abbrev, $desc, $strDate);
         $stmtGetExamComponents->close();
     }
     return $examComponents;
@@ -1516,11 +1518,11 @@ function __getExamComponentByParam($paramType, $param, $mysqli) {
         $sort = 1;
         $stmtGetExamComponent->bind_param(($paramType === "id") ? 'i' : 's', $param);
         $stmtGetExamComponent->execute();
-        $stmtGetExamComponent->bind_result($id, $title, $type, $abbrev, $desc, $sort);
+        $stmtGetExamComponent->bind_result($id, $title, $type, $abbrev, $desc, $sort, $public, $author_physician, $strDate);
         $stmtGetExamComponent->fetch();
         $stmtGetExamComponent->close();
 
-        return new ExamComponent($id, $title, $type, $abbrev, $desc);
+        return new ExamComponent($id, $title, $type, $abbrev, $desc, $strDate);
     }
     return NULL;
 }
