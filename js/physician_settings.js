@@ -1,11 +1,15 @@
 var currentFile;
 var currentFileWRI;
 var physicianId = -1;
+var examComponentId = 0;
 var $uploadProgressLbl;
 var $uploadProgressLblWRI;
 var $uploadProgress;
 var $uploadProgressWRI;
+var objComponents;
 var $inputHomePhone, $inputWorkPhone, $inputCellPhone, $homePhoneSpan, $workPhoneSpan, $cellPhoneSpan;
+var fileLimitSize = 700000;
+var fSExt = new Array('Bytes', 'KB', 'MB', 'GB');
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 if (!Object.keys) {
@@ -362,6 +366,15 @@ $(document).on('ready', function() {
         $('#btnEditPracticeAddr').hide(300);
         $('#practiceAddressDivEdit').show(300);
     });
+    
+    $('#btnCreateExamComponents').on('click', function() {
+        $('#success_msgEC').hide();
+        resetExamComponents();
+        $('#createExamComponentsDlg').show(300);
+        $('#btnSetExamComponents').hide(300);
+        $('#btnCreateExamComponents').hide(300);          
+    });    
+    
     $('#btnSavePracticeAddr').on('click', function() {
         var name = $('#inputPracticeName').val();
         var addr = $('#inputPracticeAddr').val();
@@ -386,6 +399,17 @@ $(document).on('ready', function() {
         $('#practiceAddressDiv').show(300);
         $('#btnEditPracticeAddr').show(300);
     });
+
+    $('#btnCancelCreateComponent').on('click', function() {
+        $('#createExamComponentsDlg').hide(300);
+        $('#btnSetExamComponents').show(300);
+        $('#btnCreateExamComponents').show(300);  
+        $('#success_msgEC').hide();
+        resetExamComponents();       
+    });
+
+
+
 
     $('#dlgConfirmDeleteBAA').dialog({
         autoOpen: false,
@@ -424,23 +448,19 @@ $(document).on('ready', function() {
             // Load default exam components
             fetchExamComponents();
         },
-        closeOnEscape: false,
+        closeOnEscape: true,
         dialogClass: 'cppDlg',
         modal: true,
-        resizable: false,
-        width: '480px'
+        resizable: true,
+        width: '480px',
+        maxHeight: 600,
+        position: { my: "center top", at: "center top" }
     });
+   
 
     $('#btnSetExamComponents').on('click', function() {
+        objComponents = null;
         $('#setExamComponentsDlg').dialog('open');
-    });
-
-    $('#btnSaveComponents').on('click', function() {
-        var selected = $('.cbExamComponent:checkbox:checked').map(function() {
-            return this.id;
-        }).get();
-        var jsonStr = JSON.stringify(selected);
-        saveExamComponents(jsonStr);
     });
 
 
@@ -522,7 +542,42 @@ $(document).on('ready', function() {
         }
     });    
 
-
+    $('#btnSaveCreateComponent').on('click', function() {
+        var regex = new RegExp(/^[a-zA-Z \b\_\.\:\-0-9]+$/);
+        var blEmptyfield = false;
+        var blSpeciaChar = false;
+        var blSpeciaChar = false;        
+        $('#inputComponentAbbrev, #inputComponentDesc, #inputComponentTitle').each(function() {
+            if ($(this).val() == '') {
+              blEmptyfield = true;
+              $(this).parent().effect('shake', {times: 3}, 50);
+            }
+            else if(!regex.test($(this).val()))
+            {
+                blSpeciaChar=true;
+                $(this).parent().effect('shake', {times: 3}, 50);
+            }
+        });   
+     
+      if(blEmptyfield)
+          alert('Please fill all required fields [Title,Abbrev,Desription]');
+      else if(blSpeciaChar)
+          alert("Please input alphanumeric characters only");  
+      else if(2048<$('#inputComponentTitle').val().length)
+      {
+          alert("Exam component title must be less than 2048 characters.");
+      } 
+      else if(50<$('#inputComponentAbbrev').val().length)
+      {
+          alert("Exam component abbrev must be less than 50 characters.");
+      }
+      else if(4096<$('#inputComponentDesc').val().length)
+      {
+          alert("Exam component description must be less than 4096 characters.");
+      }       
+      else
+        saveExamComponent();
+    }); 
 
     $('#inputNewPassword').qtip({
         content: {
@@ -613,9 +668,156 @@ $(document).on('ready', function() {
             });
         }
     });
+    
+    $('#btnChangeImgMale').on('click', function() {
+        $('#fileToUploadMale').trigger('click');
+    });    
+    
+    $('#btnChangeImgFemale').on('click', function() {
+        $('#fileToUploadFemale').trigger('click');
+    });
+    
+    $('#btnChangeAudio').on('click', function() {
+        $('#fileToUploadAudio').trigger('click');
+    });    
+        
+       
+    $('#fileToUploadMale').on('change',function() {
+        var preview = document.querySelector('#imgMaleModel');
+        var file    = document.querySelector('#fileToUploadMale').files[0];
+        var regex = new RegExp("(.*?)\.(png|jpeg|jpg|gif)$");
+       
+        if(!(regex.test(document.querySelector('#fileToUploadMale').files[0].type))) {
+            alert('3D-model male image format is not supported');
+        }
+	else if(0 >= document.querySelector('#fileToUploadMale').files[0].size ||  fileLimitSize < document.querySelector('#fileToUploadMale').files[0].size) {
 
+            fSize = document.querySelector('#fileToUploadMale').files[0].size; 
+            i=0;while(fSize>900){fSize/=1024;i++;}
+            alert('3D-model male image size exceeds 700 Kb limit file size. Current file size = '+((Math.round(fSize*100)/100)+' '+fSExt[i]))+'.';
+            $("#fileToUploadMale").val(null);
+	}
+        else
+        {        
+            $("#imgMaleModel").show();
+            var reader  = new FileReader();
+            reader.addEventListener("load", function () {
+              preview.src = reader.result;
+            }, false);
+
+            if (file) {
+              reader.readAsDataURL(file);
+            }
+        }
+    }); 
+    
+    $('#fileToUploadFemale').on('change',function() {
+        var preview = document.querySelector('#imgFemaleModel');
+        var file    = document.querySelector('#fileToUploadFemale').files[0];
+        var regex = new RegExp("(.*?)\.(png|jpeg|jpg|gif)$");
+       
+        if(!(regex.test(document.querySelector('#fileToUploadFemale').files[0].type))) {
+            alert('3D-model female image format is not supported');
+        }
+	else if(0 >= document.querySelector('#fileToUploadFemale').files[0].size ||  fileLimitSize < document.querySelector('#fileToUploadFemale').files[0].size) {
+
+            fSize = document.querySelector('#fileToUploadFemale').files[0].size; 
+            i=0;while(fSize>900){fSize/=1024;i++;}
+            alert('3D-model female image size exceeds 700 Kb limit file size. Current file size = '+((Math.round(fSize*100)/100)+' '+fSExt[i]))+'.';
+            $("#fileToUploadFemale").val(null);
+	}
+        else
+        {
+             $("#imgFemaleModel").show();
+            var reader  = new FileReader();
+            reader.addEventListener("load", function () {
+              preview.src = reader.result;
+            }, false);
+
+            if (file) {
+              reader.readAsDataURL(file);
+            }
+        }
+    }); 
+    
+    $('#fileToUploadAudio').on('change',function() {
+        var preview = document.querySelector('#sndAudio');
+        var file    = document.querySelector('#fileToUploadAudio').files[0];
+        var regex = new RegExp("(.*?)\.(mp3|wav|mpeg)$");
+       
+        if(!(regex.test(document.querySelector('#fileToUploadAudio').files[0].type))) {
+            alert('Audio instructions file extension is not supported');
+        }
+	else if(0 >= document.querySelector('#fileToUploadAudio').files[0].size ||  fileLimitSize < document.querySelector('#fileToUploadAudio').files[0].size) {
+
+            fSize = document.querySelector('#fileToUploadAudio').files[0].size; 
+            i=0;while(fSize>900){fSize/=1024;i++;}
+            alert('Audio instructions size exceeds 700 Kb limit file size. Current file size = '+((Math.round(fSize*100)/100)+' '+fSExt[i]))+'.';
+            $("#fileToUploadAudio").val(null);
+	}
+        else
+        {          
+            $('#sndAudio').show(300);
+            var reader  = new FileReader();
+            reader.addEventListener("load", function () {
+              preview.src = reader.result;
+            }, false);
+
+            if (file) {
+              reader.readAsDataURL(file);
+            }
+        }
+    }); 
+    
     checkHaveBAAOrNotNeeded();
+    
 });
+
+function uploadComponentFile(idComponent,typeFile){
+    var data = null;
+    if(typeFile==='M')
+        data = new FormData(document.querySelector('#myFormMale'));
+    else if(typeFile==='F')
+        data = new FormData(document.querySelector('#myFormFemale'));
+    else if(typeFile==='A')
+        data = new FormData(document.querySelector('#myFormAudio'));
+    
+    data.append('idComponent', idComponent);
+    data.append('typeFile', typeFile);
+    $.ajax({
+        url: '/includes/upload_exam_component_image_audio.php',
+        type: 'POST',
+        data: data,
+        processData: false,
+        contentType: false,
+        success: function(result) {
+            var rsp = JSON.parse(result);
+        }
+    });
+}
+    function saveComponents() {
+        var selected = $('.cbExamComponent:checkbox:checked').map(function() {
+            return this.id;
+        }).get();
+        var jsonStr = JSON.stringify(selected);
+        saveExamComponents(jsonStr);
+    }
+
+function resetExamComponents()
+{
+        $('#inputComponentTitle').val('');
+        $('#cmdComponentType').val('a');
+        $('#inputComponentAbbrev').val('');
+        $('#inputComponentDesc').val('');
+        $('input[name=rdComponentPublic]').attr('disabled',false).val([1]);
+        $("#fileToUploadMale").val(null);
+        $("#fileToUploadFemale").val(null);
+        $("#fileToUploadAudio").val(null);
+        $("#imgMaleModel").hide();
+        $("#imgFemaleModel").hide();
+        $('#sndAudio').hide();
+        examComponentId=0;     
+}
 
 function setPhysicianId(id) {
     physicianId = id;
@@ -669,6 +871,55 @@ function updateWRUrl(UrlUsername) {
     });
 }
 
+
+function saveExamComponent() {
+    var title = $('#inputComponentTitle').val();
+    var type = $('#cmdComponentType').val();
+    var abbrev = $('#inputComponentAbbrev').val();
+    var description = $('#inputComponentDesc').val();
+    var public = $('input[name=rdComponentPublic]:checked').val();
+
+    var target  = document.getElementById('spin'),
+        spinner = new Spinner(opts).spin(target);
+    $(target).data('spinner', spinner);
+    $.ajax({
+        async: true,
+        data: 'author_physician=' + physicianId + '&title=' + title
+        + '&type=' + type
+        + '&abbrev=' + abbrev
+        + '&description=' + description
+        + '&public=' + public
+        + '&id=' + examComponentId,
+        error: function(xhr, textStatus, errorThrown) {
+            $('#maxTimeLoadingOverlay').spin(false);
+            alert("Error processing request: " + textStatus + ": " + errorThrown);
+        },
+        method: 'POST',
+        success: function(data) {
+            var result = JSON.parse(data);
+            if (!result.success){
+                alert("Error processing request: " + result.errorMsg);
+            }
+            else
+            {
+                examComponentId=result.id;
+                $('#success_msgEC').show();
+                if($.trim($("#imgMaleModel").attr("src")) != "")
+                    uploadComponentFile(examComponentId,'M');
+                if($.trim($("#imgFemaleModel").attr("src")) != "")
+                    uploadComponentFile(examComponentId,'F');
+                if($.trim($("#sndAudio").attr("src")) != "")
+                    uploadComponentFile(examComponentId,'A');
+                resetExamComponents();
+            }
+            $('#spin').data('spinner').stop();
+        },
+        url: "api/saveExamComponent.php"
+    });
+}
+
+
+
 function fetchExamComponents() {
     $.ajax({
         async: true,
@@ -676,19 +927,65 @@ function fetchExamComponents() {
             alert("Error fetching exam components: " + textStatus + ": " + errorThrown);
         },
         method: 'GET',
-        success: function(data) {
-            var result = JSON.parse(data);
+        success: function(result) {
+          $( "#setExamComponentsDlg").empty();
+
             if (!result.success) {
                 alert("Error fetching exam components: " + result.errorMsg);
             } else {
-                var components = result.examComponents;
-                $.each(components, function(index, val) {
-                    $('#' + val).prop('checked', true);
-                });
-            }
+              objComponents = null;
+              objComponents = result.examComponents;
+            var strHeader = '<p>You may use the checkboxes below to select which exam components you would like your patients to submit. The '
+                            +'exam components you select here will be automatically selected in the VPExam app. Make sure to <strong>save</strong>'
+                            + 'your selections using the button at the bottom of this dialog.</p> <br /><table>';
+                    
+            var strFooter = '</table> <div style="margin-top: 10px; text-align: right;">'
+                            + '<div class="button-dark-smaller" id="btnSaveComponents" onclick="saveComponents();">Save</div></div>';
+                                                            
+            var trHTML = '';
+        $.each(objComponents, function (abbrev, element) {
+            trHTML += '<tr><td style=\'min-width: 400px;\'>';
+            trHTML += '<input class="cbExamComponent" type="checkbox" id="' + abbrev + '"' + (element.selected==="1" ? ' checked' : '') + '>';
+            trHTML += '<label for="' + abbrev + '">' + element.title + '</label>';
+            trHTML += '</td>';
+            trHTML += '<td>' + (1==element.author_physician ? '<img src=\'../images/pencil.jpg\' width=\'25\' height=\'25\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="displayExamComponent(\''+abbrev+'\');">' : '&nbsp;') + '</td>';
+            trHTML += '<td><img src=\'../images/' + (element.type === "v" ? "video_icon.png" : "audio_icon.png") + '\' width=\'25\' height=\'25\'></td>';
+            trHTML += '</tr>';
+        });                                                            
+                                                            
+        $( "#setExamComponentsDlg").append( strHeader+trHTML +strFooter);}
         },
         url: "api/getDefaultExamComponents.php?physId=" + physicianId
     });
+}
+
+function displayExamComponent(element){
+    var objComponentDesc = objComponents[element];
+    var rdComponentPublicValue = [];
+    rdComponentPublicValue.push(objComponentDesc.public);
+    examComponentId=objComponentDesc.id;
+    $('#inputComponentTitle').val(objComponentDesc.title);
+    $('#cmdComponentType').val(objComponentDesc.type);
+    $('#inputComponentAbbrev').val(objComponentDesc.abbrev);
+    $('#inputComponentDesc').val(objComponentDesc.desc);
+    $('input[name=rdComponentPublic]').attr('disabled',true).val(rdComponentPublicValue);
+    $('#setExamComponentsDlg').dialog('close');
+    $('#createExamComponentsDlg').show(300);
+    $('#btnSetExamComponents').hide(300);
+    $('#btnCreateExamComponents').hide(300);   
+    $('#imgMaleModel').show(300); 
+    $('#imgFemaleModel').show(300); 
+    $('#sndAudio').show(300); 
+
+    var src = "/images/exam/component/" + ((new Date()).getTime()) + "/" + examComponentId + "/male.gif";
+    $('#imgMaleModel').attr("src", src); 
+    
+    var src = "/images/exam/component/" + ((new Date()).getTime())+ "/" + examComponentId + "/female.gif";
+    $('#imgFemaleModel').attr("src", src); 
+    
+    var src = "/images/exam/component/" + ((new Date()).getTime()) + "/" + examComponentId + "/audio.gif";
+    $('#sndAudio').attr("src", src);     
+    
 }
 
 function saveExamComponents(jsonStr) {

@@ -696,6 +696,9 @@ class SelectedExamComponent {
     public $abbrev = '';
     public $desc = '';
     public $selected = false;
+    public $sort = -1;
+    public $public = -1;
+    public $author_physician = -1;
 
     /**
      * SelectedExamComponent constructor.
@@ -707,8 +710,11 @@ class SelectedExamComponent {
         $this->title = $ec->title;
         $this->type = $ec->type;
         $this->abbrev = $ec->abbrev;
-        $this->desc = $ec->desc;
-        $this->selected = $sel;
+        $this->desc = (isset($ec->description)?$ec->description:$ec->desc);
+        $this->selected = (isset($ec->selected)?$ec->selected:$sel);
+        $this->sort = $ec->sort;
+        $this->public = $ec->public;
+        $this->author_physician = $ec->author_physician;        
     }
 }
 
@@ -1537,29 +1543,14 @@ function __getExamComponentByParam($paramType, $param, $mysqli) {
  * @return array SelectedExamComponent
  */
 function getPhysicianSelectedExamComponents($physId, $mysqli) {
-    $allComponents = getExamComponents($mysqli);
-    $prepStmtGetSelectedComps = "SELECT exam_components FROM physician_prefs WHERE id = ?";
-    $stmtGetSelectedComps = $mysqli->prepare($prepStmtGetSelectedComps);
-    $examComponents = '';
-    if ($stmtGetSelectedComps) {
-        $stmtGetSelectedComps->bind_param('i', $physId);
-        $stmtGetSelectedComps->execute();
-        $stmtGetSelectedComps->bind_result($examComponents);
-        $stmtGetSelectedComps->fetch();
-        $stmtGetSelectedComps->close();
-    }
-    if ($examComponents === '')
-        $examComponents = [];
-    else
-        $examComponents = json_decode($examComponents);
-
-    $selectedComponents = [];
-    foreach ($allComponents as $val)
-        $selectedComponents[$val->abbrev] = new SelectedExamComponent($val, false);
-
-    for ($i = 0; $i < count($examComponents); $i++)
-        $selectedComponents[$examComponents[$i]]->selected = true;
-
+    $sql = "CALL sp_select_exam_components_author_physician($physId);";
+    $selectedComponents = array();
+    if ($result = $mysqli->query($sql)) {
+        while($row =$result->fetch_object()){
+            $selectedComponents[$row->abbrev] = new SelectedExamComponent($row, false);
+        }
+        $result->close();
+    }    
     return $selectedComponents;
 }
 

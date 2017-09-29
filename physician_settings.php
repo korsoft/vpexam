@@ -26,11 +26,10 @@
     $_arrScripts[]   = '/js/numeric/jquery.numeric.js';
     $_arrScripts[]   = '/js/qtip2/jquery.qtip.min.js';
     $_arrScripts[]   = '/js/waiting_room.js';
-
-
+    
+    
     $physId                 = $_SESSION['user_id'];
     $physInfo               = getExtendedPhysicianInfo($physId, $mysqli);
-    $selectedExamComponents = getPhysicianSelectedExamComponents($physId, $mysqli);
     $maxStethRecordTime     = getMaxStethRecordTime($mysqli, $physId)['data']['max_steth_record_time'];
     include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/header_physician.php';
 ?>
@@ -376,31 +375,73 @@
                                                 <div class="hr"></div>
                                                 <div class="innerSettingsDiv">
                                                     <div class="button-dark" id="btnSetExamComponents">Set Physical Exam Components</div>
-                                                    <div id="setExamComponentsDlg" title="Set Exam Components">
-                                                        <div style="max-height: 500px; overflow-y: auto;">
-                                                            <p>You may use the checkboxes below to select which exam components you would like your patients to submit. The
-                                                                exam components you select here will be automatically selected in the VPExam app. Make sure to <strong>save</strong>
-                                                                your selections using the button at the bottom of this dialog.
-                                                            </p> <br />
-                                                            <?php
-                                                                echo("<table>");
-                                                                foreach ($selectedExamComponents as $ec) {
-                                                                    echo("<tr><td style='min-width: 400px;'>");
-                                                                    $input = '<input class="cbExamComponent" type="checkbox" id="' . $ec->abbrev . '"' . ($ec->selected ? ' checked' : '') . '>';
-                                                                    $label = '<label for="' . $ec->abbrev . '">' . $ec->title . '</label>';
-                                                                    echo($input);
-                                                                    echo($label);
-                                                                    echo("</td>");
-                                                                    echo("<td><img src='../images/" . ($ec->type === "v" ? "video_icon.png" : "audio_icon.png") . "' width='25' height='25'>" . "</td>");
-                                                                    echo("</tr>");
-                                                                }
-                                                                echo("</table>");
-                                                            ?>
-                                                            <div style="margin-top: 10px; text-align: right;">
-                                                                <div class="button-dark-smaller" id="btnSaveComponents">Save</div>
-                                                            </div>
-                                                        </div>
+                                                    <div class="button-dark" id="btnCreateExamComponents">Create Custom Physical Exam Components</div>
+                                                    <div id="setExamComponentsDlg" title="Set Exam Components" ></div>
                                                     </div>
+                                                    <div class="innerSettingsDiv">
+                                                    <div id="createExamComponentsDlg" title="Create Exam Component" s>
+                                                        <table >
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td class="titleTd">Title</td>
+                                                                        <td><input class="holo" id="inputComponentTitle" type="text" value=""></td>
+                                                                        <td rowspan="5" style="text-align: center; vertical-align: bottom;padding: 5px  " >
+                                                                            <img id="imgMaleModel" src="" alt="" />
+                                                                            <form action="/includes/upload_exam_component_image_audio.php" id="myFormMale" name="myFormMale" method="post" enctype="multipart/form-data">
+                                                                                <input type="file" name="fileToUploadMale" id="fileToUploadMale" style="display: none;" >
+                                                                                <div class="button-dark" id="btnChangeImgMale" >3D model - Male</div>
+                                                                            </form>
+                                                                        </td>
+                                                                        <td rowspan="5" style="text-align: center; vertical-align: bottom;padding: 5px " >
+                                                                            <img id="imgFemaleModel" src="" alt="" />
+                                                                            <form action="/includes/upload_exam_component_image_audio.php" id="myFormFemale" name="frmuploadFemale" method="post" enctype="multipart/form-data">
+                                                                                <input type="file" name="fileToUploadFemale" id="fileToUploadFemale" style="display: none;">
+                                                                                <div class="button-dark" id="btnChangeImgFemale">3D model - Female</div>
+                                                                            </form>
+                                                                        </td>
+                                                                        <td rowspan="5" style="text-align: center; vertical-align: bottom;padding: 5px  " >
+                                                                            <audio  controls id="sndAudio" name="sndAudio"  style="display: none;">
+                                                                                    Your browser does not support the audio element.
+                                                                            </audio>
+                                                                            <form action="/includes/upload_exam_component_image_audio.php" id="myFormAudio" name="frmuploadAudio" method="post" enctype="multipart/form-data">
+                                                                                <input type="file" name="fileToUploadAudio" id="fileToUploadAudio" style="display: none;">
+                                                                                <div class="button-dark" id="btnChangeAudio">Audio instructions</div>
+                                                                            </form>
+                                                                        </td>                                                                   
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="titleTd">Abbrev</td>
+                                                                        <td><input class="holo" id="inputComponentAbbrev" type="text" value=""></td>
+                                                                    </tr>  
+                                                                    <tr>
+                                                                        <td class="titleTd">Description</td>
+                                                                        <td><input class="holo" id="inputComponentDesc" type="text" value=""></td>
+                                                                    </tr>                                                                      
+                                                                    <tr>
+                                                                        <td class="titleTd">Type</td>
+                                                                        <td>
+                                                                            <select name="cmdComponentType" id="cmdComponentType">
+                                                                                <option value="a">Audio</option>
+                                                                                <option value="v">Video</option>
+                                                                            </select>
+                                                                        </td>
+                                                                    </tr>                                                                    
+                                                                    <tr>
+                                                                        <td><input type="radio" id="rdComponentPublicPb"   name="rdComponentPublic" value="1"  checked="checked">
+                                                                            <label for="rdComponentPublicPb">Public</label></td>
+                                                                       <td>
+                                                                            <input type="radio" id="rdComponentPublicPv"
+                                                                                 name="rdComponentPublic" value="0">
+                                                                            <label for="rdComponentPublicPv">Private</label>                                                                            
+                                                                        </td>
+                                                                    </tr>                                                                    
+                                                                    </tbody>
+                                                                </table>
+                                                        <div style="margin: 10px 0 0 0;">
+                                                            <div class="button-dark-smaller" id="btnSaveCreateComponent">Save</div>
+                                                            <div class="button-dark-smaller" id="btnCancelCreateComponent">Cancel</div><label id="success_msgEC">Saved successfully</label>
+                                                        </div>
+                                                    </div>                                                    
                                                 </div>
                                             </div>
                                             <div class="subSettingsDiv" style="margin: 20px 0 0 0;">

@@ -478,6 +478,10 @@ select.incomplete, select.incomplete:hover {
     display: none;
 }
 
+#createExamComponentsDlg {
+    display: none;
+}
+
 input[type="file"] {
     display: none;
 }
@@ -894,12 +898,13 @@ h3 {
     margin-left: 10px;
 }
 
-#success_msgWR {
+#success_msgWR,#success_msgEC {
     color: #2f913e;
     display: none;
     font-weight: bold;
     margin-left: 10px;
 }
+
             .ui-dialog {
                 font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
                 z-index: 10000000000 !important;
@@ -927,3 +932,13 @@ h3 {
                 font-weight: bold;
                 text-shadow: 1px 1px 0 #000;
             }
+
+#imgMaleModel, #imgFemaleModel {
+    height: 170px;
+    width: 150px;
+}
+
+#sndAudio {
+   
+    width: 200px;
+}
