@@ -37,6 +37,7 @@
 video::-webkit-media-controls {
   display:none !important;
 }
+#mute { display: none;}
 .icon-fullscreen-alt, .icon-fullscreen-exit-alt, .icon-play, .icon-pause, .icon-volume, .icon-volume-2 {
  /* font-family: 'icomoon';*/
   background: #d63826;
