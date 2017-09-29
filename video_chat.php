@@ -7,16 +7,29 @@
 <input type="hidden" id="calling" value='<?php echo isset($calling)?json_encode($calling):"" ?>' />
 <a href="#videochat" id="chat" class="hide"><img src="/img/video-camera.png" alt="Video chat" /></a>
 <div id="videochat" class="hide">
-    <video id="remoteVideo" autoplay class="hide"></video>
-    <video id="localVideo" autoplay muted></video>
-    <div class="buttons">
-        <div id="answerButton" class="disabled" title="Accept"></div>
-        <div id="declineButton" class="disabled" title="End Call"></div>
+    <div class="custom-video" id="custom-video">
+        <video id="remoteVideo" autoplay class="hide"></video>
+        <video id="localVideo" autoplay></video>
+        <div id="mycontrols">
+            <button id="playpause" class="icon-play"></button>
+            <div class="seeker">
+                <progress id="progressbar" class="progressbar" max="100" value="0"></progress>
+                <input type="range" id="seekbar" value="0" class="seekbar">
+            </div>
+            <button id="mute" class="icon-volume-2"></button>
+            <input type="range" id="volumebar" class="volumebar" value="1" min="0" max="1" step="0.1">
+            <button id="fullscreen" class="icon-fullscreen-alt"></button>
+        </div>
+        <div class="buttons">
+            <div id="answerButton" class="disabled" title="Accept"></div>
+            <div id="declineButton" class="disabled" title="End Call"></div>
+        </div>
     </div>
 </div>
 <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script type="text/javascript" src="/js/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="/js/video_chat.js?time=<?php echo time(); ?>"></script>
+<script type="text/javascript" src="/js/customvideo.js"></script>
 <script type="text/javascript">
     var is_patient = <?php echo isset($ispatient)?'true':'false'; ?>;
 </script>
