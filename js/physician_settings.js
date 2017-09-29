@@ -558,7 +558,6 @@ $(document).on('ready', function() {
                 $(this).parent().effect('shake', {times: 3}, 50);
             }
         });   
-     
       if(blEmptyfield)
           alert('Please fill all required fields [Title,Abbrev,Desription]');
       else if(blSpeciaChar)
@@ -574,6 +573,14 @@ $(document).on('ready', function() {
       else if(4096<$('#inputComponentDesc').val().length)
       {
           alert("Exam component description must be less than 4096 characters.");
+      }      
+      else if($.trim($("#imgMaleModel").attr("src")) == "")
+      {
+          alert("Please select 3D male model image.");
+      } 
+      else if($.trim($("#imgFemaleModel").attr("src")) == "")
+      {
+          alert("Please select 3D female model image.");
       }       
       else
         saveExamComponent();
@@ -816,6 +823,8 @@ function resetExamComponents()
         $("#imgMaleModel").hide();
         $("#imgFemaleModel").hide();
         $('#sndAudio').hide();
+        $("#imgMaleModel").attr("src", '');
+        $("#imgFemaleModel").attr("src", '');
         examComponentId=0;     
 }
 
@@ -937,19 +946,19 @@ function fetchExamComponents() {
               objComponents = result.examComponents;
             var strHeader = '<p>You may use the checkboxes below to select which exam components you would like your patients to submit. The '
                             +'exam components you select here will be automatically selected in the VPExam app. Make sure to <strong>save</strong>'
-                            + 'your selections using the button at the bottom of this dialog.</p> <br /><table>';
+                            + 'your selections using the button at the bottom of this dialog.</p> <br /><table class=\'Component\'> ';
                     
             var strFooter = '</table> <div style="margin-top: 10px; text-align: right;">'
                             + '<div class="button-dark-smaller" id="btnSaveComponents" onclick="saveComponents();">Save</div></div>';
                                                             
             var trHTML = '';
         $.each(objComponents, function (abbrev, element) {
-            trHTML += '<tr><td style=\'min-width: 400px;\'>';
+            trHTML += '<tr ><td>';
             trHTML += '<input class="cbExamComponent" type="checkbox" id="' + abbrev + '"' + (element.selected==="1" ? ' checked' : '') + '>';
             trHTML += '<label for="' + abbrev + '">' + element.title + '</label>';
             trHTML += '</td>';
-            trHTML += '<td>' + (1==element.author_physician ? '<img src=\'../images/pencil.jpg\' width=\'25\' height=\'25\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="displayExamComponent(\''+abbrev+'\');">' : '&nbsp;') + '</td>';
-            trHTML += '<td><img src=\'../images/' + (element.type === "v" ? "video_icon.png" : "audio_icon.png") + '\' width=\'25\' height=\'25\'></td>';
+            trHTML += '<td>' + (1==element.author_physician ? '<img src=\'../images/pencil.jpg\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="displayExamComponent(\''+abbrev+'\');">' : '&nbsp;') + '</td>';
+            trHTML += '<td><img src=\'../images/' + (element.type === "v" ? "video_icon.png" : "audio_icon.png") + '\' ></td>';
             trHTML += '</tr>';
         });                                                            
                                                             

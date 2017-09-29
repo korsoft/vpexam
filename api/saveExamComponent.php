@@ -5,13 +5,12 @@ include_once '../includes/functions.php';
 $success = false;
 $errorMsg = "";
 
-foreach($_POST as $key => $value) {
-    $$key = $value;
-}
+extract($_POST);
+
 $sort=0;
 $idresult=0;
 
-if (empty($title) || empty($abbrev) || empty($description) || empty($type) || empty($public) || $author_physician==0) {
+if (empty($title) || empty($abbrev) || empty($description) || empty($type) || $author_physician==0) {
     $errorMsg = "One or more required parameters was not set.";
     echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
     exit();
