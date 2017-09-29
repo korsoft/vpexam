@@ -1,0 +1,1 @@
+ALTER TABLE exam_components ADD COLUMN `author_physician` INT(10) UNSIGNED NOT NULL DEFAULT 0 AFTER `public`
