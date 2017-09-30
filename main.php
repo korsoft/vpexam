@@ -13,8 +13,8 @@
         <meta name="msapplication-TileColor" content="#2d89ef">
         <meta name="msapplication-TileImage" content="/mstile-144x144.png">
         <meta name="theme-color" content="#ffffff">
-        <meta name="description" content="website description">
-        <meta name="keywords" content="website keywords, website keywords">
+        <meta name="description" content="The Virtual Physical Exam platform provides comprehensive, personalized Telemedicine for clinicians and patients.">
+        <meta name="keywords" content="physician, doctor, hospital, exam, physical">
         <title>VPExam - Main</title>
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
