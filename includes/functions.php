@@ -1515,7 +1515,7 @@ function getExamComponentByAbbrev($abbrev, $mysqli) {
  * @return ExamComponent
  */
 function __getExamComponentByParam($paramType, $param, $mysqli) {
-    $prepStmtGetExamComponent = "SELECT * FROM exam_components WHERE " . $paramType . " = ?";
+    $prepStmtGetExamComponent = "SELECT id, title, type, abbrev, description, sort, public, author_physician, updated_at FROM exam_components WHERE " . $paramType . " = ?";
     $stmtGetExamComponent = $mysqli->prepare($prepStmtGetExamComponent);
     if ($stmtGetExamComponent) {
         $id = -1;
@@ -1825,4 +1825,13 @@ function generateToken($mysqli, $id) {
         error_log(__METHOD__ . ':: Error: ' . $e->getMessage());
     }
     return $response;
+}
+
+function get_is_browser($user_agent)
+{
+    if (stristr($user_agent, 'Opera')  || stristr($user_agent, 'OPR/')   || 
+        stristr($user_agent, 'Edge')   || stristr($user_agent, 'Chrome') || 
+        stristr($user_agent, 'Safari') || stristr($user_agent, 'Firefox')|| 
+        stristr($user_agent, 'MSIE')   || stristr($user_agent, 'Trident/7')) 
+            return true; 
 }
