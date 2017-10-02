@@ -14,7 +14,7 @@ var isChrome    = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(naviga
       audio: (isWin && isChrome)?false:true,
       video: true
     };
-
+var muteMicbutton = document.getElementById('mute');
 var VideoChat = {
   audio     : null,
   callback  : false,
@@ -437,7 +437,25 @@ var VideoChat = {
     });
   },
   send      : function(msg) { this.service.wsc.send(JSON.stringify(msg)); },
-  title     : function(text) { $('.fancybox-title > span').text(text); }
+  title     : function(text) { $('.fancybox-title > span').text(text); },
+  muteMic   : function(){
+    console.info('MuteMic');
+    //mediaStream.getAudioTracks()[0].enabled = true; // or false to mute it.
+    //VideoChat.video.local.stream.getVideoTracks()[0].stop();
+    //mediaStream.getVideoTracks()[0].enabled = !(mediaStream.getVideoTracks()[0].enabled);
+    if(VideoChat.video.local.stream.getAudioTracks()[0].enabled){
+        muteMicbutton.classList.add('icon-volume');
+        muteMicbutton.classList.remove('icon-volume-2');
+        
+        console.info('video_chat.js entra video muted true volumen = ');
+    }
+    else{
+        console.info('video_chat.js entra video muted false else');
+        muteMicbutton.classList.add('icon-volume-2');
+        muteMicbutton.classList.remove('icon-volume');
+    }
+    VideoChat.video.local.stream.getAudioTracks()[0].enabled = !(VideoChat.video.local.stream.getAudioTracks()[0].enabled);
+  }
 };
 
 var Loading = {
@@ -484,7 +502,7 @@ $(document).ready(function() {
   if(/^\/(patient_view)\.php(.*)$/g.test(window.location.pathname)) {
     $('#chat').removeClass('hide');
   }
-  
+
   if('' != $('#caller').val()) {
     var caller           = JSON.parse($('#caller').val()),
         storeStreamError = function(obj) {
@@ -581,6 +599,10 @@ $(document).ready(function() {
       afterClose : VideoChat.leave
     });
   }
+  
+  muteMicbutton.addEventListener('click', function(){
+    VideoChat.muteMic();
+  });
 });
 
 //TODO: Stop rining for caller when user called decline

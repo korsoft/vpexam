@@ -19,10 +19,7 @@
             seek = document.getElementById('seekbar'),
             volume = document.getElementById('volumebar'),
             vval = volume.value,
-            //progressbar = document.getElementById('progressbar'),
-            bufferbar = document.getElementById('bufferbar');        
-
-
+            bufferbar = document.getElementById('bufferbar');
     
         if(video.autoplay){
             playbutton.classList.add('icon-pause');
@@ -61,22 +58,6 @@
         
         playbutton.addEventListener('click', playpause, false);
         video.addEventListener('click', playpause, false);
-
-        mutebutton.addEventListener('click', function(){
-            if(video.muted){
-                video.muted = false;
-                mutebutton.classList.add('icon-volume-2');
-                mutebutton.classList.remove('icon-volume');
-                volume.value = vval;
-            }
-            else{
-                video.muted = true;
-                volume.value = 0;
-                mutebutton.classList.add('icon-volume');
-                mutebutton.classList.remove('icon-volume-2');
-            }   
-        }, false);
-        
         var isFullscreen= false;
         fullscreenbutton.addEventListener('click', function() {
             if(!isFullscreen){
@@ -155,14 +136,6 @@
             playbutton.classList.add('icon-pause');
         }, false);
 
-        //update progress bar as video plays
-        
-        /*video.addEventListener('timeupdate', function() { 
-            var percent = Math.floor((100 / video.duration) * video.currentTime); 
-            progressbar.value = percent; 
-            progressbar.getElementsByTagName('span')[0].innerHTML = percent; 
-        }, false);
-        */
         //change seek position as video plays
         video.addEventListener('timeupdate', function(){
             var value = (100/video.duration) * video.currentTime;
@@ -191,8 +164,6 @@
             playbutton.classList.remove('icon-pause');
             seek.classList.remove('light');
         });
-
-        
     });
 
 })(jQuery, window, document);
