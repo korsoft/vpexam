@@ -806,8 +806,7 @@ function uploadComponentFile(idComponent,typeFile){
         var selected = $('.cbExamComponent:checkbox:checked').map(function() {
             return this.id;
         }).get();
-        var jsonStr = JSON.stringify(selected);
-        saveExamComponents(jsonStr);
+        saveExamComponents(selected.join());
     }
 
 function resetExamComponents()
@@ -1005,8 +1004,7 @@ function saveExamComponents(jsonStr) {
             alert("Error saving exam components: " + textStatus + ": " + errorThrown);
         },
         method: 'POST',
-        success: function(data) {
-            var result = JSON.parse(data);
+        success: function(result) {
             if (!result.success)
                 alert("Error saving exam components: " + result.errorMsg);
             $('#setExamComponentsDlg').dialog('close');

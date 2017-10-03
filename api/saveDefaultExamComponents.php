@@ -2,37 +2,23 @@
 include_once '../includes/db_connect.php';
 include_once '../includes/functions.php';
 
-$success = false;
-$errorMsg = "";
+$response = ['success' => false, 'errorMsg' => ''];
 
-if (!isset($_POST['physId'], $_POST['ecString'])) {
-    $success = false;
-    $errorMsg = "One or more required parameters was not set.";
-    echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
-    exit();
-} else {
-    $physId = $_POST['physId'];
-    $ecStr = $_POST['ecString'];
-
-    $prepStmtInsertECString = "INSERT INTO physician_prefs (id, exam_components)
-      VALUES(?, ?) ON DUPLICATE KEY UPDATE
-      id = VALUES(id),
-      exam_components = VALUES(exam_components)";
-    $stmtInsertECString = $mysqli->prepare($prepStmtInsertECString);
-    if ($stmtInsertECString) {
-        $stmtInsertECString->bind_param('is', $physId, $ecStr);
-        $stmtInsertECString->execute();
-        $stmtInsertECString->close();
-    } else {
-        $success = false;
-        $errorMsg = "Error preparing MySQL insert statement.";
-        echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
-        exit();
+try {
+    if (empty($_POST['physId']) || 0 > $_POST['physId']) {
+        throw new Exception('Invalid physId param.', 1);
+    }
+    if (empty($_POST['ecString'])) {
+        throw new Exception('Invalid ecString param.', 1);
     }
 
-    $success = true;
-    $errorMsg = "";
-    echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
+    $mysqli->query("CALL sp_set_physician_exam_components({$_POST['physId']}, '{$_POST['ecString']}');");
+    
+    $response['success'] = true;
 }
-
-?>
+catch(Exception $e) {
+    $response['errorMsg'] = $e->getMessage();
+}
+header('Content-Type: application/json');
+echo(json_encode($response));
+exit();
