@@ -6,7 +6,7 @@ BEGIN
     DECLARE idresult INT(6);
     DECLARE getCount INT(10);
         SET getCount = (
-            SELECT COUNT(id)
+            SELECT MAX(id)
             FROM exam_components) + 1;
     IF NOT EXISTS (SELECT id FROM exam_components WHERE title=_title AND abbrev=_abbrev AND deleted_at IS NULL) THEN 
         INSERT INTO exam_components(title,type,abbrev,description,sort,public,author_physician) VALUES (_title,_type,_abbrev,_description,getCount,_public,_author_physician); 
