@@ -377,6 +377,12 @@
                                                     <div class="button-dark" id="btnSetExamComponents">Set Physical Exam Components</div>
                                                     <div class="button-dark" id="btnCreateExamComponents">Create Custom Physical Exam Components</div>
                                                     <div id="setExamComponentsDlg" title="Set Exam Components" ></div>
+                                                    <div id="dlgConfirmDeleteExCom" title="Delete Exam Component?">
+                                                       <p>
+                                                           <img src="caution.png" width="30" height="30" style="display: inline; float:left; margin:0 7px 20px 0;" />
+                                                           Once your Exam Component "<label id="lblExamComponent"></label>" is deleted it cannot be recovered and will be removed from other physicians who have selected it. Are you sure you want to delete it?
+                                                       </p>
+                                                    </div>
                                                     </div>
                                                     <div class="innerSettingsDiv">
                                                     <div id="createExamComponentsDlg" title="Create Exam Component" s>

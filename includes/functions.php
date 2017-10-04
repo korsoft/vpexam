@@ -1463,7 +1463,7 @@ function getExtendedPhysicianInfo($physId, $mysqli) {
  */
 function getExamComponents($mysqli) {
     $examComponents = [];
-    $prepStmtGetExamComponents = "SELECT * FROM exam_components ORDER BY sort";
+    $prepStmtGetExamComponents = "SELECT * FROM exam_components WHERE deleted_at IS NULL ORDER BY sort";
     $stmtGetExamComponents = $mysqli->prepare($prepStmtGetExamComponents);
     if ($stmtGetExamComponents) {
         $id = -1;

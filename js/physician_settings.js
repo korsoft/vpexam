@@ -426,6 +426,22 @@ $(document).on('ready', function() {
             }
         }
     });
+    
+    $('#dlgConfirmDeleteExCom').dialog({
+        autoOpen: false,
+        resizable: false,
+        modal: true,
+        width: 375,
+        buttons: {
+            "Delete": function() {
+                $(this).dialog("close");
+                deleteExamComponent($("#dlgConfirmDeleteExCom").data('idExComp'));
+            },
+            Cancel: function() {
+                $(this).dialog("close");
+            }
+        }
+    });    
 
     $('#btnDeleteBAA').on('click', function() {
         $('#dlgConfirmDeleteBAA').dialog("open");
@@ -956,7 +972,7 @@ function fetchExamComponents() {
             trHTML += '<input class="cbExamComponent" type="checkbox" id="' + abbrev + '"' + (element.selected==="1" ? ' checked' : '') + '>';
             trHTML += '<label for="' + abbrev + '">' + element.title + '</label>';
             trHTML += '</td>';
-            trHTML += '<td>' + (1==element.author_physician ? '<img src=\'../images/pencil.jpg\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="displayExamComponent(\''+abbrev+'\');">' : '&nbsp;') + '</td>';
+            trHTML += '<td nowrap="nowrap">' + (1==element.author_physician ? '<img src=\'../images/pencil.jpg\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="displayExamComponent(\''+abbrev+'\');"><img src=\'../images/trash.png\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="deleteExamComponentDialog('+element.id+',\''+element.title+'\');">' : '&nbsp;') + '</td>';
             trHTML += '<td><img src=\'../images/' + (element.type === "v" ? "video_icon.png" : "audio_icon.png") + '\' ></td>';
             trHTML += '</tr>';
         });                                                            
@@ -1584,3 +1600,30 @@ var opts = {
 , hwaccel: false // Whether to use hardware acceleration
 , position: 'absolute' // Element positioning
 };
+
+function deleteExamComponentDialog(idExamComponent,titleExamComponent) {
+    $('#lblExamComponent').show();
+    $('#lblExamComponent').text(titleExamComponent);
+    $('#setExamComponentsDlg').dialog('close');
+    $('#dlgConfirmDeleteExCom').data('idExComp', idExamComponent).dialog('open');
+}
+       
+function deleteExamComponent(idExamComponent) {
+
+    $.ajax({
+        async: true,
+        method: 'POST',
+        data: 'idExCom='+idExamComponent,
+        success: function(result) {
+            var rspObj = JSON.parse(result);
+            if (rspObj.success) {
+                swal(
+                    'Deleted!',
+                    'Your exam component has been deleted.',
+                    'success'
+                  )
+            }
+        },
+        url: "includes/removeExamComponent.php"
+    });   
+}       

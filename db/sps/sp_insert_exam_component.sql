@@ -8,7 +8,7 @@ BEGIN
         SET getCount = (
             SELECT COUNT(id)
             FROM exam_components) + 1;
-    IF NOT EXISTS (SELECT id FROM exam_components WHERE title=_title AND abbrev=_abbrev) THEN 
+    IF NOT EXISTS (SELECT id FROM exam_components WHERE title=_title AND abbrev=_abbrev AND deleted_at IS NULL) THEN 
         INSERT INTO exam_components(title,type,abbrev,description,sort,public,author_physician) VALUES (_title,_type,_abbrev,_description,getCount,_public,_author_physician); 
         SET idresult = LAST_INSERT_ID();
     ELSE

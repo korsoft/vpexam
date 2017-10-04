@@ -53,6 +53,9 @@ else {
             $success = true;
             $idresult=$objResult->idresult;
         }
+        else {
+            $errorMsg = "Exam component already exists.";
+        }        
     }
     else {
         $errorMsg = "Error preparing mysql statement.";

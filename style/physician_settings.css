@@ -942,7 +942,9 @@ h3 {
    
     width: 200px;
 }
-
+table.Component {
+    width: 100%;
+}
 table.Component td:first-child {
     width: 87%;
 }
@@ -952,4 +954,7 @@ table.Component td:last-child {
 table.Component  img {
     height: 25px;
     width: 25px;
+}
+#lblExamComponent{
+    font-weight: bold
 }
