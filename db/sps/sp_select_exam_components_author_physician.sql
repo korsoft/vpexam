@@ -4,7 +4,7 @@ CREATE  PROCEDURE sp_select_exam_components_author_physician(IN _physician_id IN
 BEGIN 
     SELECT id, title, type, abbrev, description, sort, public, 
     IF(_physician_id = author_physician, 1, 0) AS author_physician, 
-    IF(created_at IS NOT NULL, 1, 0) AS selected,updated_at
+    IF(created_at IS NOT NULL, 1, 0) AS selected,UNIX_TIMESTAMP(updated_at) AS updated_at
     FROM exam_components 
     LEFT JOIN physicians_exam_components ON exam_component_abbrev = abbrev AND physician_id = _physician_id 
     WHERE active=1 AND deleted_at IS NULL
