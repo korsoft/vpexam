@@ -7,7 +7,7 @@ BEGIN
     IF(created_at IS NOT NULL, 1, 0) AS selected,updated_at
     FROM exam_components 
     LEFT JOIN physicians_exam_components ON exam_component_abbrev = abbrev AND physician_id = _physician_id 
-    WHERE deleted_at IS NULL
+    WHERE active=1 AND deleted_at IS NULL
     ORDER BY sort;
 END ;;
 DELIMITER ;
