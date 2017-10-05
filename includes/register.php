@@ -77,13 +77,16 @@ if (strcmp($pageName, "register_patient.php") === 0) {
 
         if ($haveEmail) {
             // Check to see if email already exists in DB of both patients AND physicians
-            $prepStmtCheckEmail = "SELECT patient_id FROM patients WHERE email = ?";
+            $prepStmtCheckEmail = "CALL sp_select_email_physician_patient(?);";
             $stmtCheckEmail = $mysqli->prepare($prepStmtCheckEmail);
             if ($stmtCheckEmail) {
                 $stmtCheckEmail->bind_param('s', $email);
                 $stmtCheckEmail->execute();
-                $stmtCheckEmail->store_result();
-                if ($stmtCheckEmail->num_rows == 1) {
+                $result = $stmtCheckEmail->get_result();
+
+                # fetch object
+                $objResult = $result->fetch_object();
+                if ($objResult->intTotal!=0) {
                     $stmtCheckEmail->close();
                     header('Location: ../error.php?error=1002&l='.__LINE__);
                     exit();
@@ -94,7 +97,7 @@ if (strcmp($pageName, "register_patient.php") === 0) {
                 exit();
             }
         }
-
+        
         // Now, check to make sure that the physician ID was not tampered with,
         // and is a real physician
         if ($havePhysId) {
@@ -335,23 +338,26 @@ if (strcmp($pageName, "register_patient.php") === 0) {
 
     // Physician Registration
     if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_POST['dob'], $_POST['gender'], $_POST['npi'], $_POST['hospital'])) {
-        // Check to see if email already exists in DB of both patients AND physicians
-        $prepStmtCheckEmail = "SELECT physician_id FROM physicians WHERE email = ?";
-        $stmtCheckEmail = $mysqli->prepare($prepStmtCheckEmail);
-        if ($stmtCheckEmail) {
-            $stmtCheckEmail->bind_param('s', $email);
-            $stmtCheckEmail->execute();
-            $stmtCheckEmail->store_result();
-            if ($stmtCheckEmail->num_rows == 1) {
+            // Check to see if email already exists in DB of both patients AND physicians
+            $prepStmtCheckEmail = "CALL sp_select_email_physician_patient(?);";
+            $stmtCheckEmail = $mysqli->prepare($prepStmtCheckEmail);
+            if ($stmtCheckEmail) {
+                $stmtCheckEmail->bind_param('s', $email);
+                $stmtCheckEmail->execute();
+                $result = $stmtCheckEmail->get_result();
+
+                # fetch object
+                $objResult = $result->fetch_object();
+                if ($objResult->intTotal!=0) {
+                    $stmtCheckEmail->close();
+                    header('Location: ../error.php?error=1002&l='.__LINE__);
+                    exit();
+                }
                 $stmtCheckEmail->close();
-                header('Location: ../error.php?error=1002&l='.__LINE__);
+            } else {
+                header('Location: ../error.php?error=2000&l='.__LINE__);
                 exit();
-            }
-            $stmtCheckEmail->close();
-        } else {
-            header('Location: ../error.php?error=2000&l='.__LINE__);
-            exit();
-        }
+            }        
 
         $data = getNPIVerification($npi);
         if (is_null($data)) {

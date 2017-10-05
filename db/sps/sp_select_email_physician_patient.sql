@@ -1,13 +1,16 @@
-DROP PROCEDURE IF EXISTS sp_select_exam_components_author_physician;
+DROP PROCEDURE IF EXISTS sp_select_email_physician_patient;
 DELIMITER ;;
-CREATE  PROCEDURE sp_select_exam_components_author_physician(IN _physician_id INT(10) UNSIGNED) 
+CREATE  PROCEDURE sp_select_email_physician_patient(IN _email VARCHAR(150)) 
 BEGIN 
-    SELECT id, title, type, abbrev, description, sort, public, 
-    IF(_physician_id = author_physician, 1, 0) AS author_physician, 
-    IF(created_at IS NOT NULL, 1, 0) AS selected 
-    FROM exam_components 
-    LEFT JOIN physicians_exam_components ON exam_component_abbrev = abbrev AND physician_id = _physician_id 
-    WHERE deleted_at IS NULL
-    ORDER BY sort;
+    DECLARE intTotal TINYINT(1) DEFAULT 0;
+    process1: BEGIN 
+        SELECT COUNT(*) INTO intTotal FROM patients WHERE email = _email LIMIT 1;
+    END;
+    process2: BEGIN 
+        IF (intTotal=0) THEN
+            SELECT COUNT(*) INTO intTotal FROM physicians WHERE email = _email LIMIT 1;
+        END IF;
+    END;
+    SELECT intTotal;
 END ;;
 DELIMITER ;
