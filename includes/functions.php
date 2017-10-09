@@ -1553,7 +1553,7 @@ function getPhysicianSelectedExamComponents($physId, $mysqli) {
         //console.log('********************getPhysicianSelectedExamComponents***************');
         //console.log($result);
         while($row =$result->fetch_object()){
-            $selectedComponents[$row->abbrev] = new SelectedExamComponent($row, false);
+            $selectedComponents[$row->sort] = new SelectedExamComponent($row, false);
         }
         $result->close();
     }    
