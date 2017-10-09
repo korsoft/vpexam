@@ -978,11 +978,11 @@ function fetchExamComponents() {
             var valoor = 1;
         $.each(objComponents, function (abbrev, element) {
             trHTML += '<li id="'+element.id+'" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span> <div class="box1">';
-            trHTML += '<input class="cbExamComponent" type="checkbox" id="' + abbrev + '"' + (element.selected==="1" ? ' checked' : '') + '>';
-            trHTML += '<label for="' + abbrev + '">' + element.title + '</label>';
+            trHTML += '<input class="cbExamComponent" type="checkbox" id="' + element.abbrev + '"' + (element.selected===1 ? ' checked' : '') + '>';
+            trHTML += '<label for="' + element.abbrev + '">' + element.title + '</label>';
             trHTML += '<span class="sortablenumber">'+(valoor++)+'</span>';
             trHTML += '</div>';
-            trHTML += '<div class="box2">' + (1==element.author_physician ? '<img src=\'../images/pencil.jpg\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="displayExamComponent(\''+abbrev+'\');"><img src=\'../images/trash.png\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="deleteExamComponentDialog('+element.id+',\''+element.title+'\');">' : '&nbsp;') + '</div>';
+            trHTML += '<div class="box2">' + (1==element.author_physician ? '<img src=\'../images/pencil.jpg\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="displayExamComponent(\''+element.abbrev+'\');"><img src=\'../images/trash.png\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="deleteExamComponentDialog('+element.id+',\''+element.title+'\');">' : '&nbsp;') + '</div>';
             trHTML += '<div class="box3"><img src=\'../images/' + (element.type === "v" ? "video_icon.png" : "audio_icon.png") + '\' ></div>';
             trHTML += '</li>';
         });

@@ -1550,10 +1550,8 @@ function getPhysicianSelectedExamComponents($physId, $mysqli) {
     $sql = "CALL sp_select_exam_components_author_physician($physId);";
     $selectedComponents = array();
     if ($result = $mysqli->query($sql)) {
-        //console.log('********************getPhysicianSelectedExamComponents***************');
-        //console.log($result);
         while($row =$result->fetch_object()){
-            $selectedComponents[$row->sort] = new SelectedExamComponent($row, false);
+            $selectedComponents[] = new SelectedExamComponent($row, false);
         }
         $result->close();
     }    

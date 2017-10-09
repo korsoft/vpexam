@@ -20,6 +20,10 @@ if (get_is_browser($_SERVER['HTTP_USER_AGENT'])) {
     catch(Exception $e) {
        echo  $response['errorMsg'] = $e->getMessage();
     }
+    
+    header('Content-Type: application/json');
+    echo(json_encode($response,JSON_NUMERIC_CHECK));
+    exit();
 }
  else {
     try {
