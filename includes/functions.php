@@ -701,6 +701,7 @@ class SelectedExamComponent {
     public $sort = -1;
     public $public = -1;
     public $author_physician = -1;
+    public $updated_at = null;
 
     /**
      * SelectedExamComponent constructor.
@@ -716,7 +717,8 @@ class SelectedExamComponent {
         $this->selected = (isset($ec->selected)?$ec->selected:$sel);
         $this->sort = $ec->sort;
         $this->public = $ec->public;
-        $this->author_physician = $ec->author_physician;        
+        $this->author_physician = $ec->author_physician;   
+        $this->updated_at =(isset($ec->updated_at)?$ec->updated_at:'');
     }
 }
 

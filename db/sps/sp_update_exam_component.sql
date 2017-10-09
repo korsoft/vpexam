@@ -9,7 +9,9 @@ BEGIN
             SELECT sort
             FROM exam_components WHERE id=_id);
 
-    IF EXISTS (SELECT id FROM exam_components WHERE id=_id) THEN 
+    IF EXISTS (SELECT id FROM exam_components WHERE (title=_title OR abbrev=_abbrev) AND deleted_at IS NULL AND id<>_id) THEN
+        SET idresult = 0;
+    ELSEIF EXISTS (SELECT id FROM exam_components WHERE id=_id) THEN 
         UPDATE exam_components
         SET title=_title,type=_type,abbrev=_abbrev,description=_description,sort=orsort,public=_public,author_physician=_author_physician
         WHERE id=_id; 
