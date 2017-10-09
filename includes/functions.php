@@ -1465,7 +1465,7 @@ function getExtendedPhysicianInfo($physId, $mysqli) {
  */
 function getExamComponents($mysqli) {
     $examComponents = [];
-    $prepStmtGetExamComponents = "SELECT * FROM exam_components WHERE active=1 AND deleted_at IS NULL ORDER BY sort";
+    $prepStmtGetExamComponents = "SELECT * FROM exam_components WHERE deleted_at IS NULL ORDER BY sort";
     $stmtGetExamComponents = $mysqli->prepare($prepStmtGetExamComponents);
     if ($stmtGetExamComponents) {
         $id = -1;
@@ -1474,9 +1474,8 @@ function getExamComponents($mysqli) {
         $abbrev = '';
         $desc = '';
         $sort = '';
-        $active = '';
         $stmtGetExamComponents->execute();
-        $stmtGetExamComponents->bind_result($id, $title, $type, $abbrev, $desc, $sort, $active, $public, $author_physician, $strDate);
+        $stmtGetExamComponents->bind_result($id, $title, $type, $abbrev, $desc, $sort, $public, $author_physician, $strDate);
         while ($stmtGetExamComponents->fetch())
             $examComponents[$abbrev] = new ExamComponent($id, $title, $type, $abbrev, $desc, $strDate);
         $stmtGetExamComponents->close();
@@ -1551,6 +1550,8 @@ function getPhysicianSelectedExamComponents($physId, $mysqli) {
     $sql = "CALL sp_select_exam_components_author_physician($physId);";
     $selectedComponents = array();
     if ($result = $mysqli->query($sql)) {
+        //console.log('********************getPhysicianSelectedExamComponents***************');
+        //console.log($result);
         while($row =$result->fetch_object()){
             $selectedComponents[$row->abbrev] = new SelectedExamComponent($row, false);
         }

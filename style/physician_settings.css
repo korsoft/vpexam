@@ -958,3 +958,33 @@ table.Component  img {
 #lblExamComponent{
     font-weight: bold
 }
+span.sortablenumber {
+    position: relative !important;
+    margin: 0 !important;
+    display: none;
+}
+.box1 {
+    display: inline-block;
+}
+.box2 {
+    position: absolute;
+    right: 40px;
+    display: inline-block;
+}
+.box2 img {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+.box3 {
+    display: inline-block;
+    position: absolute;
+    right: 25px;
+}
+.box3 img {
+    position: absolute;
+    vertical-align: top;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}

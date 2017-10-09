@@ -822,7 +822,14 @@ function uploadComponentFile(idComponent,typeFile){
         var selected = $('.cbExamComponent:checkbox:checked').map(function() {
             return this.id;
         }).get();
-        saveExamComponents(selected.join());
+        //obtener orden return ( ($(this).index()+1) != this.id ? ([id:($(this).index()+1), sort:this.id]) : null);
+        var searchCriteria = [];
+        var ordered = $('#sortable li').map(function() {
+            console.info('***************ordered*************');
+            //var returnar = ($(this).index()+1) != this.id ? ({'id':($(this).index()+1), 'sort':this.id}) : null;
+            return this.id;
+        }).get();
+        saveExamComponents(selected.join(),ordered.join());
     }
 
 function resetExamComponents()
@@ -952,6 +959,7 @@ function fetchExamComponents() {
         },
         method: 'GET',
         success: function(result) {
+          //console.log(result);
           $( "#setExamComponentsDlg").empty();
 
             if (!result.success) {
@@ -961,23 +969,45 @@ function fetchExamComponents() {
               objComponents = result.examComponents;
             var strHeader = '<p>You may use the checkboxes below to select which exam components you would like your patients to submit. The '
                             +'exam components you select here will be automatically selected in the VPExam app. Make sure to <strong>save</strong>'
-                            + 'your selections using the button at the bottom of this dialog.</p> <br /><table class=\'Component\'> ';
+                            + 'your selections using the button at the bottom of this dialog.</p> <br /><ul id=\'sortable\' class=\'Component\'> ';
                     
-            var strFooter = '</table> <div style="margin-top: 10px; text-align: right;">'
+            var strFooter = '</ul> <div style="margin-top: 10px; text-align: right;">'
                             + '<div class="button-dark-smaller" id="btnSaveComponents" onclick="saveComponents();">Save</div></div>';
                                                             
             var trHTML = '';
+            var valoor = 1;
         $.each(objComponents, function (abbrev, element) {
-            trHTML += '<tr ><td>';
+            trHTML += '<li id="'+element.id+'" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span> <div class="box1">';
             trHTML += '<input class="cbExamComponent" type="checkbox" id="' + abbrev + '"' + (element.selected==="1" ? ' checked' : '') + '>';
             trHTML += '<label for="' + abbrev + '">' + element.title + '</label>';
-            trHTML += '</td>';
-            trHTML += '<td nowrap="nowrap">' + (1==element.author_physician ? '<img src=\'../images/pencil.jpg\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="displayExamComponent(\''+abbrev+'\');"><img src=\'../images/trash.png\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="deleteExamComponentDialog('+element.id+',\''+element.title+'\');">' : '&nbsp;') + '</td>';
-            trHTML += '<td><img src=\'../images/' + (element.type === "v" ? "video_icon.png" : "audio_icon.png") + '\' ></td>';
-            trHTML += '</tr>';
-        });                                                            
+            trHTML += '<span class="sortablenumber">'+(valoor++)+'</span>';
+            trHTML += '</div>';
+            trHTML += '<div class="box2">' + (1==element.author_physician ? '<img src=\'../images/pencil.jpg\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="displayExamComponent(\''+abbrev+'\');"><img src=\'../images/trash.png\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="deleteExamComponentDialog('+element.id+',\''+element.title+'\');">' : '&nbsp;') + '</div>';
+            trHTML += '<div class="box3"><img src=\'../images/' + (element.type === "v" ? "video_icon.png" : "audio_icon.png") + '\' ></div>';
+            trHTML += '</li>';
+        });
+        var strjs='<script>$( function() {'+
+                        '$( "#sortable" ).sortable({'+
+                            'placeholder: "ui-state-highlight",'+
+                            'helper: "clone",'+
+                            'sort: function(e, ui) {'+
+                                '$(ui.placeholder).html(Number($("#sortable > li:visible").index(ui.placeholder)) + 1);'+
+                            '},'+
+                            'update: function(event, ui) {'+
+                                'var $lis = $(this).children("li");'+
+                                '$lis.each(function() {'+
+                                    //'var $li = $(this);'+
+                                    'var newVal = $(this).index() + 1;'+
+                                    '$(this).children(".sortablenumber").html(newVal);'+
+                                    //'$(this).children(\'#item_display_order\').val(newVal);'+ 
+                                '});'+
+                                '}'+
+                        '});'+
+                        '$( "#sortable" ).disableSelection();'+
+                        '} );'+
+                    '</script>';                                                       
                                                             
-        $( "#setExamComponentsDlg").append( strHeader+trHTML +strFooter);}
+        $( "#setExamComponentsDlg").append( strHeader+trHTML +strFooter + strjs);}
         },
         url: "api/getDefaultExamComponents.php?physId=" + physicianId
     });
@@ -1012,10 +1042,17 @@ function displayExamComponent(element){
     
 }
 
-function saveExamComponents(jsonStr) {
+function saveExamComponents(jsonStr, otroJson) {
+    console.info('************** primerJson *************');
+    console.info(jsonStr);
+    console.info('************** otroJson *************');
+    console.info(otroJson);
+     /*$.each(otroJson, function(i, item) {
+        alert('id= '+item.id +' sort= '+item.sort);
+      });*/
     $.ajax({
         async: true,
-        data: "physId=" + physicianId + "&ecString=" + encodeURIComponent(jsonStr),
+        data: "physId=" + physicianId + "&ecString=" + encodeURIComponent(jsonStr)+"&exorderString="+encodeURIComponent(otroJson),
         error: function(xhr, textStatus, errorThrown) {
             alert("Error saving exam components: " + textStatus + ": " + errorThrown);
         },
@@ -1061,7 +1098,7 @@ function checkHaveBAAOrNotNeeded() {
                     display: 'block'
                 });
 
-                renderPDF("https://vpexam.com/includes/getBAAPDF.php?physId=" + physicianId, document.getElementById("pdfContainer"));
+                renderPDF("https://dev.vpexam.com/includes/getBAAPDF.php?physId=" + physicianId, document.getElementById("pdfContainer"));
             } else if (jsObj.needBAA && !jsObj.haveBAA) {
                 $('#cbNoBAA').prop('checked', false);
             } else if (!jsObj.needBAA) {

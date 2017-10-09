@@ -1,0 +1,1 @@
+ALTER TABLE physicians ADD COLUMN order_exam_components varchar(1000) NULL;

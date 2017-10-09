@@ -32,7 +32,20 @@
     $physInfo               = getExtendedPhysicianInfo($physId, $mysqli);
     $maxStethRecordTime     = getMaxStethRecordTime($mysqli, $physId)['data']['max_steth_record_time'];
     include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/header_physician.php';
-?>
+    //
+?>   
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!--link rel="stylesheet" href="/resources/demos/style.css"-->
+    <style>
+        #sortable { list-style-type: none; margin: 0; padding: 0;}
+        #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; position: relative; }
+        #sortable li span { position: absolute; margin-left: -1.3em; }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+
                 <div class="mainContent">
                     <div class="container">
                         <div class="left">
