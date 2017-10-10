@@ -1,5 +1,6 @@
 <?php
 include_once 'functions.php';
+include_once '../util/crop_resize_img.php';
 
 sec_session_start();
 
@@ -101,8 +102,11 @@ try {
         }
     }
         
-	$folder=COMPONENT_IMAGE_PATH.$_POST['idComponent']."/".$strFileName;
-	move_uploaded_file($filetmp, $folder);
+	$file=COMPONENT_IMAGE_PATH.$_POST['idComponent']."/".$strFileName;
+        $folder=COMPONENT_IMAGE_PATH.$_POST['idComponent']."/";
+	move_uploaded_file($filetmp, $file);
+        if($_POST['typeFile']==='M')        
+            createThumbnail($file,$folder,$filetype);
 	$response = ['success' => true];
 }
 catch(Exception $e) {

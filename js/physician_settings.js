@@ -804,7 +804,7 @@ function uploadComponentFile(idComponent,typeFile){
         data = new FormData(document.querySelector('#myFormFemale'));
     else if(typeFile==='A')
         data = new FormData(document.querySelector('#myFormAudio'));
-    
+
     data.append('idComponent', idComponent);
     data.append('typeFile', typeFile);
     $.ajax({
@@ -982,7 +982,7 @@ function fetchExamComponents() {
             trHTML += '<label for="' + element.abbrev + '">' + element.title + '</label>';
             trHTML += '<span class="sortablenumber">'+(valoor++)+'</span>';
             trHTML += '</div>';
-            trHTML += '<div class="box2">' + (1==element.author_physician ? '<img src=\'../images/pencil.jpg\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="displayExamComponent(\''+element.abbrev+'\');"><img src=\'../images/trash.png\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="deleteExamComponentDialog('+element.id+',\''+element.title+'\');">' : '&nbsp;') + '</div>';
+            trHTML += '<div class="box2">' + (1===element.author_physician ? '<img src=\'../images/pencil.jpg\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="displayExamComponent(\''+abbrev+'\');"><img src=\'../images/trash.png\'  onMouseOver="this.style.cursor=\'pointer\'" onClick="deleteExamComponentDialog('+element.id+',\''+element.title+'\');">' : '&nbsp;') + '</div>';
             trHTML += '<div class="box3"><img src=\'../images/' + (element.type === "v" ? "video_icon.png" : "audio_icon.png") + '\' ></div>';
             trHTML += '</li>';
         });
