@@ -398,13 +398,15 @@
                                                     </div>
                                                     </div>
                                                     <div class="innerSettingsDiv">
-                                                    <div id="createExamComponentsDlg" title="Create Exam Component" s>
+                                                    <div id="createExamComponentsDlg" title="Create Exam Component">
                                                         <table >
                                                                     <tbody>
                                                                     <tr>
                                                                         <td class="titleTd">Title</td>
                                                                         <td><input class="holo" id="inputComponentTitle" type="text" value=""></td>
                                                                         <td rowspan="5" style="text-align: center; vertical-align: bottom;padding: 5px  " >
+                                                                            <video id="vidMaleModel" width="200" height="170" controls poster="/images/player_poster.jpg">
+                                                                            </video>
                                                                             <img id="imgMaleModel" src="" alt="" />
                                                                             <form action="/includes/upload_exam_component_image_audio.php" id="myFormMale" name="myFormMale" method="post" enctype="multipart/form-data">
                                                                                 <input type="file" name="fileToUploadMale" id="fileToUploadMale" style="display: none;" >
@@ -412,6 +414,8 @@
                                                                             </form>
                                                                         </td>
                                                                         <td rowspan="5" style="text-align: center; vertical-align: bottom;padding: 5px " >
+                                                                            <video id="vidFemaleModel" width="200" height="170" controls poster="/images/player_poster.jpg">
+                                                                            </video>
                                                                             <img id="imgFemaleModel" src="" alt="" />
                                                                             <form action="/includes/upload_exam_component_image_audio.php" id="myFormFemale" name="frmuploadFemale" method="post" enctype="multipart/form-data">
                                                                                 <input type="file" name="fileToUploadFemale" id="fileToUploadFemale" style="display: none;">

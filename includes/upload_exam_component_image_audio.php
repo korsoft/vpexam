@@ -55,29 +55,44 @@ try {
 	}
         
         $strFileName = '';
+        $isVideoFemale=false;
+        $isVideoMale=false;
         if($_POST['typeFile']==='M')
         {
             $strFileName = 'male';
+            $strFileName2 = 'male_video';
             $filetype = $_FILES['fileToUploadMale']['type'];
             $filesize = $_FILES['fileToUploadMale']['size'];
             $filetmp  = $_FILES['fileToUploadMale']['tmp_name'];      
             if (!preg_match('/^(image)\/(png|jpeg|jpg|gif)$/', $filetype, $matches)) {
+                $strFileName = 'male_video';
+                $strFileName2='male';
+                $isVideoMale = true;
+                if(!preg_match('/^(video)\/(avi|flv|wmv|mov|mp4|x-flv|x-ms-wmv|quicktime)$/', $filetype, $matches)){
                     throw new Exception("Invalid image type: $filetype", 3);
+                }
             }            
         }
         elseif($_POST['typeFile']==='F')
         {
             $strFileName = 'female';
+            $strFileName2 = 'female_video';
             $filetype = $_FILES['fileToUploadFemale']['type'];
             $filesize = $_FILES['fileToUploadFemale']['size'];
             $filetmp  = $_FILES['fileToUploadFemale']['tmp_name'];     
             if (!preg_match('/^(image)\/(png|jpeg|jpg|gif)$/', $filetype, $matches)) {
+                $strFileName = 'female_video';
+                $strFileName2 = 'female';
+                $isVideoFemale=true;
+                if (!preg_match('/^(video)\/(avi|flv|wmv|mov|mp4|x-flv|x-ms-wmv|quicktime)$/', $filetype, $matches)) {
                     throw new Exception("Invalid image type: $filetype", 3);
+                }
             }            
         }
         elseif($_POST['typeFile']==='A')
         {
             $strFileName = 'audio';
+            $strFileName2='';
             $filetype = $_FILES['fileToUploadAudio']['type'];
             $filesize = $_FILES['fileToUploadAudio']['size'];
             $filetmp  = $_FILES['fileToUploadAudio']['tmp_name'];  
@@ -103,10 +118,30 @@ try {
     }
         
 	$file=COMPONENT_IMAGE_PATH.$_POST['idComponent']."/".$strFileName;
-        $folder=COMPONENT_IMAGE_PATH.$_POST['idComponent']."/";
-	move_uploaded_file($filetmp, $file);
-        if($_POST['typeFile']==='M')        
+    $file2=COMPONENT_IMAGE_PATH.$_POST['idComponent']."/".$strFileName2;
+    
+    $videoFile=COMPONENT_IMAGE_PATH.$_POST['idComponent']."/".$strFileName;
+    $folder=COMPONENT_IMAGE_PATH.$_POST['idComponent']."/";
+    if ($_POST['typeFile']!=='A' && file_exists($file2)){
+       unlink($file2); 
+    }
+    
+    if ($_POST['typeFile']!=='A' && ($isVideoMale === true || $isVideoFemale === true)){
+        exec("/opt/local/bin/ffmpeg -i $filetmp -f mp4 $videoFile");
+    }else{
+        move_uploaded_file($filetmp, $file);
+    }
+
+
+    $thumFile = COMPONENT_IMAGE_PATH.$_POST['idComponent']."/thumbnail";
+    if($_POST['typeFile']==='M') {
+        exec("/opt/local/bin/ffmpeg -y -i $videoFile -f gif $thumFile");
+        if(!file_exists($videoFile)){
             createThumbnail($file,$folder,$filetype);
+        }
+        
+    }        
+            
 	$response = ['success' => true];
 }
 catch(Exception $e) {

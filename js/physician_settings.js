@@ -590,13 +590,13 @@ $(document).on('ready', function() {
       {
           alert("Exam component description must be less than 4096 characters.");
       }      
-      else if($.trim($("#imgMaleModel").attr("src")) == "")
+      else if( ($.trim($("#imgMaleModel").attr("src")) == "") && ($.trim($("#vidMaleModel source").attr("src")) == ""))
       {
-          alert("Please select 3D male model image.");
+          alert("Please select 3D male model image or video.");
       } 
-      else if($.trim($("#imgFemaleModel").attr("src")) == "")
+      else if(($.trim($("#imgFemaleModel").attr("src")) == "") && ($.trim($("#vidFemaleModel source").attr("src")) == ""))
       {
-          alert("Please select 3D female model image.");
+          alert("Please select 3D female model image or video.");
       }       
       else
         saveExamComponent();
@@ -704,40 +704,56 @@ $(document).on('ready', function() {
         $('#fileToUploadAudio').trigger('click');
     });    
         
-       
+    // AVI, FLV, WMV, MOV, MP4   
     $('#fileToUploadMale').on('change',function() {
         var preview = document.querySelector('#imgMaleModel');
-        var file    = document.querySelector('#fileToUploadMale').files[0];
-        var regex = new RegExp("(.*?)\.(png|jpeg|jpg|gif)$");
+        var fileM    = document.querySelector('#fileToUploadMale').files[0];
+        var regex = new RegExp("(.*?)\.(png|jpeg|jpg|gif|avi|flv|wmv|mov|mp4|x-flv|x-ms-wmv|quicktime)$");
        
         if(!(regex.test(document.querySelector('#fileToUploadMale').files[0].type))) {
             alert('3D-model male image format is not supported');
         }
-	else if(0 >= document.querySelector('#fileToUploadMale').files[0].size ||  fileLimitSize < document.querySelector('#fileToUploadMale').files[0].size) {
+	    else if(0 >= document.querySelector('#fileToUploadMale').files[0].size ||  fileLimitSize < document.querySelector('#fileToUploadMale').files[0].size) {
 
             fSize = document.querySelector('#fileToUploadMale').files[0].size; 
             i=0;while(fSize>900){fSize/=1024;i++;}
             alert('3D-model male image size exceeds 700 Kb limit file size. Current file size = '+((Math.round(fSize*100)/100)+' '+fSExt[i]))+'.';
             $("#fileToUploadMale").val(null);
-	}
+	    }
         else
-        {        
-            $("#imgMaleModel").show();
+        {
             var reader  = new FileReader();
             reader.addEventListener("load", function () {
-              preview.src = reader.result;
+                $('#vidMaleModel source').remove();
+                $('#imgMaleModel').attr("src", '');
+                //console.log(reader.result);
+
+                var mimeType = reader.result.split(",")[0].split(":")[1].split(";")[0];
+                console.log(mimeType);
+                if(mimeType == 'video/quicktime' || mimeType == 'video/x-flv' || mimeType == 'video/mp4' || mimeType == 'video/x-ms-wmv' || mimeType == 'video/avi'){
+                    var video = document.getElementById('vidMaleModel');
+                    var source = document.createElement('source');
+                    source.setAttribute('src', reader.result);
+                    video.appendChild(source);
+                    $("#imgMaleModel").hide();
+                    $("#vidMaleModel").show();
+                }else{
+                    preview.src = reader.result;
+                    $("#vidMaleModel").hide();
+                    $("#imgMaleModel").show();
+                }
             }, false);
 
-            if (file) {
-              reader.readAsDataURL(file);
+            if (fileM) {
+              reader.readAsDataURL(fileM);
             }
         }
     }); 
     
     $('#fileToUploadFemale').on('change',function() {
-        var preview = document.querySelector('#imgFemaleModel');
+        var previewF = document.querySelector('#imgFemaleModel');
         var file    = document.querySelector('#fileToUploadFemale').files[0];
-        var regex = new RegExp("(.*?)\.(png|jpeg|jpg|gif)$");
+        var regex = new RegExp("(.*?)\.(png|jpeg|jpg|gif|avi|flv|wmv|mov|mp4|x-flv|x-ms-wmv|quicktime)$");
        
         if(!(regex.test(document.querySelector('#fileToUploadFemale').files[0].type))) {
             alert('3D-model female image format is not supported');
@@ -751,14 +767,30 @@ $(document).on('ready', function() {
 	}
         else
         {
-             $("#imgFemaleModel").show();
-            var reader  = new FileReader();
-            reader.addEventListener("load", function () {
-              preview.src = reader.result;
+            $("#imgFemaleModel").show();
+            var readerF  = new FileReader();
+            readerF.addEventListener("load", function () {
+                $('#vidFemaleModel source').remove();
+                $('#imgFemaleModel').attr("src", '');
+                
+                var mimeType = readerF.result.split(",")[0].split(":")[1].split(";")[0];
+                console.log(mimeType);
+                if(mimeType == 'video/quicktime' || mimeType == 'video/x-flv' || mimeType == 'video/mp4' || mimeType == 'video/x-ms-wmv' || mimeType == 'video/avi'){
+                   var videoF = document.getElementById('vidFemaleModel');
+                    var sourceF = document.createElement('source');
+                    sourceF.setAttribute('src', readerF.result);
+                    videoF.appendChild(sourceF);
+                    $("#imgFemaleModel").hide();
+                    $("#vidFemaleModel").show();
+                }else{
+                    previewF.src = readerF.result;
+                    $("#vidFemaleModel").hide();
+                    $("#imgFemaleModel").show();
+                }
             }, false);
 
             if (file) {
-              reader.readAsDataURL(file);
+              readerF.readAsDataURL(file);
             }
         }
     }); 
@@ -804,7 +836,6 @@ function uploadComponentFile(idComponent,typeFile){
         data = new FormData(document.querySelector('#myFormFemale'));
     else if(typeFile==='A')
         data = new FormData(document.querySelector('#myFormAudio'));
-
     data.append('idComponent', idComponent);
     data.append('typeFile', typeFile);
     $.ajax({
@@ -847,6 +878,10 @@ function resetExamComponents()
         $('#sndAudio').hide();
         $("#imgMaleModel").attr("src", '');
         $("#imgFemaleModel").attr("src", '');
+        $('#vidMaleModel').hide();
+        $('#vidMaleModel source').remove();
+        $('#vidFemaleModel').hide();
+        $('#vidFemaleModel source').remove();
         examComponentId=0;     
 }
 
@@ -902,7 +937,6 @@ function updateWRUrl(UrlUsername) {
     });
 }
 
-
 function saveExamComponent() {
     var title = $('#inputComponentTitle').val();
     var type = $('#cmdComponentType').val();
@@ -935,9 +969,9 @@ function saveExamComponent() {
             {
                 examComponentId=result.id;
                 $('#success_msgEC').show();
-                if($.trim($("#imgMaleModel").attr("src")) != "")
+                if($.trim($("#imgMaleModel").attr("src")) != "" || $("#vidMaleModel source").attr("src") != "")
                     uploadComponentFile(examComponentId,'M');
-                if($.trim($("#imgFemaleModel").attr("src")) != "")
+                if($.trim($("#imgFemaleModel").attr("src")) != "" || $("#vidFemaleModel source").attr("src") != "")
                     uploadComponentFile(examComponentId,'F');
                 if($.trim($("#sndAudio").attr("src")) != "")
                     uploadComponentFile(examComponentId,'A');
@@ -948,8 +982,6 @@ function saveExamComponent() {
         url: "api/saveExamComponent.php"
     });
 }
-
-
 
 function fetchExamComponents() {
     $.ajax({
@@ -1028,16 +1060,73 @@ function displayExamComponent(element){
     $('#btnSetExamComponents').hide(300);
     $('#btnCreateExamComponents').hide(300);   
     $('#imgMaleModel').show(300); 
+    $('#vidMaleModel').show(300); 
     $('#imgFemaleModel').show(300); 
+    $('#vidFemaleModel').show(300); 
     $('#sndAudio').show(300); 
 
-    var src = "/images/exam/component/" + ((new Date()).getTime()) + "/" + examComponentId + "/male.gif";
-    $('#imgMaleModel').attr("src", src); 
+    var srcMale = "/images/exam/component/" + ((new Date()).getTime()) + "/" + examComponentId + "/male";
+
+    var geturl;
+    geturl = $.ajax({
+        type: "GET",
+        url: srcMale,
+        success: function () {
+            var mimeMale = geturl.getResponseHeader("Content-Type");
+            console.log(srcMale);
+            console.log(mimeMale);
+            //$('#imgMaleModel').attr("src", srcMale);
+            if(mimeMale == 'video/mp4'){
+                var videoMale = document.getElementById('vidMaleModel');
+                var sourceMale = document.createElement('source');
+                sourceMale.setAttribute('src', srcMale);
+                videoMale.appendChild(sourceMale);
+                $('#imgMaleModel').hide();
+                $('#vidMaleModel').show();
+            }else{
+                $('#imgMaleModel').attr("src", srcMale);
+                $('#vidMaleModel').hide();
+                $('#imgMaleModel').show();
+            }
+        }
+    }).fail(function() { 
+        console.log('error');
+        $('#imgMaleModel').hide();
+        $('#vidMaleModel').hide();
+    });
     
-    var src = "/images/exam/component/" + ((new Date()).getTime())+ "/" + examComponentId + "/female.gif";
-    $('#imgFemaleModel').attr("src", src); 
+    var srcFemale = "/images/exam/component/" + ((new Date()).getTime())+ "/" + examComponentId + "/female";
     
-    var src = "/images/exam/component/" + ((new Date()).getTime()) + "/" + examComponentId + "/audio.gif";
+    
+     var geturlFemale;
+    geturlFemale = $.ajax({
+        type: "GET",
+        url: srcFemale,
+        success: function () {
+            var mimeMale = geturlFemale.getResponseHeader("Content-Type");
+            console.log(srcFemale);
+            console.log(mimeMale);
+            //$('#imgFemaleModel').attr("src", srcFemale);
+            if(mimeMale == 'video/mp4'){
+                var video = document.getElementById('vidFemaleModel');
+                var source = document.createElement('source');
+                source.setAttribute('src', srcFemale);
+                video.appendChild(source);
+                $('#imgFemaleModel').hide();
+                $('#vidFemaleModel').show();
+            }else{
+                $('#imgFemaleModel').attr("src", srcFemale);
+                $('#vidFemaleModel').hide();
+                $('#imgFemaleModel').show();
+            }
+        }
+    }).fail(function() { 
+        console.log('error');
+        $('#imgFemaleModel').hide();
+        $('#vidFemaleModel').hide();
+    });
+
+    var src = "/images/exam/component/" + ((new Date()).getTime()) + "/" + examComponentId + "/audio";
     $('#sndAudio').attr("src", src);     
     
 }
@@ -1047,7 +1136,8 @@ function saveExamComponents(jsonStr, otroJson) {
     console.info(jsonStr);
     console.info('************** otroJson *************');
     console.info(otroJson);
-     /*$.each(otroJson, function(i, item) {
+     /*
+     $.each(otroJson, function(i, item) {
         alert('id= '+item.id +' sort= '+item.sort);
       });*/
     $.ajax({
