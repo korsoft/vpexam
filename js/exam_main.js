@@ -42,6 +42,54 @@ $(document).on("ready", function() {
         location.href = ("patient_view.php?patientId=" + patientId);
     });
 
+    $('.remove_document').on('click', function(event) {
+        event.preventDefault();
+        removeDocument($(this).data('id'));
+    });
+    //Prueba editar
+    $('.edit_document').click(function(){
+        var trid ='#id_'+$(this).data('id');
+        $(trid +' .edit_document').hide();
+        $(trid +' td.examPartName2').each(function(){
+            var content = $(this).html();
+            $(this).html('<input type="text" value="'+ content+' ">');
+        });
+        $(trid +' .save').show();
+        $(trid +' .cancel').show();
+        $('.info').fadeIn('fast');
+    });
+
+    $('.save').click(function(){
+        var id = $(this).data('id');
+        var trid ='#id_'+ $(this).data('id');
+        $(trid +' td .save').hide();
+        $(trid +' td .cancel').hide();
+        $(trid +' td input').each(function(){
+            var content = $(this).val();//.replace(/\n/g,"<br>");
+            $('#idspan_'+id).html(content);
+            $(this).html(content);
+            $(this).contents().unwrap();
+            editDocument(id, content);
+        }); 
+
+        $('.edit_document').show(); 
+    });
+    $('.cancel').click(function(){
+        var trid ='#id_'+$(this).data('id');
+        var id = $(this).data('id');
+        var originalValue = $('#idspan_'+id).html();
+        console.log('#idspan_'+id +' = '+originalValue);
+        $(trid +' td .save').hide();
+        $(trid +' td .cancel').hide();
+        $(trid +' td input').each(function(){
+            var content = $(this).val();//.replace(/\n/g,"<br>");
+            $(this).html(originalValue);
+            $(this).contents().unwrap();
+            console.log(content);
+        }); 
+        $('.edit_document').show(); 
+    });
+//fin prueba editar
     $('#btnMenuPatientDem').on('click', function() {
         // TODO: Implement this
     });
@@ -126,5 +174,63 @@ function removeExam() {
             }
         },
         url: "api/removeExam.php?physId=" + physicianId + "&patientId=" + getParameterByName("patientId") + "&examId=" + getParameterByName("examId")
+    });
+}
+
+function removeDocument(id) {
+    swal({
+      closeOnConfirm     : true,
+      confirmButtonColor : '#2b8c36',
+      confirmButtonText  : 'Ok',
+      type               : 'warning',
+      text               : 'You won\'t be able to revert this!',
+      title              : 'Are you sure? ',
+      showCancelButton   : true,
+      cancelButtonText  : 'Cancel',
+      showCloseButton: true
+    }, function(isConfirm) {
+        if (isConfirm) {
+            $.ajax({
+                async: true,
+                error: function(jqxhr, textStatus, error) {
+                    alert("There was an error while trying to delete the document: " + textStatus + ": " + error);
+                },
+                method: 'GET',
+                success: function(data, textStatus, jqxhr) {
+                    var rspObj = JSON.parse(data);
+                    if (rspObj.success) {
+                        var examId = getParameterByName('examId');
+                        var patientId = getParameterByName('patientId');
+                        location.href = ("exam_main.php?patientId="+patientId+"&examId=" + examId);
+                    } else {
+                        alert("Error while deleting the document: " + rspObj.errorMsg);
+                    }
+                },
+                url: "api/removeDocument.php?documentId=" + id+"&physId=" + physicianId + "&patientId=" + getParameterByName("patientId") + "&examId=" + getParameterByName("examId")
+            });
+        }
+    });
+}
+
+function editDocument(id, name) {
+    $.ajax({
+        async: true,
+        error: function(jqxhr, textStatus, error) {
+            alert("There was an error while trying to save the document: " + textStatus + ": " + error);
+        },
+        method: 'GET',
+        success: function(data, textStatus, jqxhr) {
+            var rspObj = JSON.parse(data);
+            if (rspObj.success) {
+                swal(
+                    'Success!',
+                    'Your exam document has been edited.',
+                    'success'
+                );
+            } else {
+                alert("Error while deleting the document: " + rspObj.errorMsg);
+            }
+        },
+        url: "api/updateDocument.php?documentId=" + id + "&nameDocument=" + name
     });
 }

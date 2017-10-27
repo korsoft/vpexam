@@ -295,16 +295,16 @@ td {
     width: 150px;
 }
 
-.examComponentsTable tr {
+.examComponentsTable tr, , .exam_documents_table tr {
     height: 35px;
     vertical-align: middle;
 }
 
-.examComponentsTable th {
+.examComponentsTable th, .exam_documents_table th {
     padding: 0 0 0 10px;
 }
 
-.examComponentsTable td {
+.examComponentsTable td, , .exam_documents_table td {
     font-size: 16px;
     padding: 0 0 0 15px;
 }
@@ -369,3 +369,29 @@ td {
 #btnRemoveExam {
     margin: 20px 0 0 0;
 }
+
+.save, .info, .cancel {
+  display: none;
+}
+
+.info {
+  color: #999;
+}
+
+textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  margin: 0;
+  padding: 2px;
+}
+.button-dark-smaller {
+    border: 0;
+    background-color: #0082d2;
+    color: white;
+    font-family: encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 20px 5px 20px;
+}
+.hide{display: none;}

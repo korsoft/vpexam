@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS `patients_documents`;
+CREATE TABLE IF NOT EXISTS `patients_documents` (
+`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, 
+`exam_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+`name_document` VARCHAR(255) NOT NULL DEFAULT '',
+`filename` VARCHAR(255) NOT NULL DEFAULT '', 
+`created_at` INT(11) UNSIGNED NOT NULL DEFAULT 0, 
+`updated_at` INT(11) UNSIGNED NOT NULL DEFAULT 0, 
+`deleted_at` TIMESTAMP NULL, 
+PRIMARY KEY(`id`), 
+INDEX `idx_exam_id` (`exam_id`) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

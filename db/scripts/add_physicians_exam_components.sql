@@ -24,7 +24,9 @@ BEGIN
 
 		SET __components = REPLACE(REPLACE(REPLACE(__components, '"', ''), '[', ''), ']', '');
 
-		SET @query = CONCAT('INSERT IGNORE INTO physicians_exam_components(exam_component_abbrev, physician_id, created_at) VALUES(TRIM(', REPLACE(QUOTE(__components), ',', CONCAT("'), ", __id, ", ", __date, "), (TRIM('")), '), ', __id, ', ', __date, ')');
+		SET @query = CONCAT('INSERT IGNORE 
+							INTO physicians_exam_components(exam_component_abbrev, physician_id, created_at) 
+							VALUES(TRIM(', REPLACE(QUOTE(__components), ',', CONCAT("'), ", __id, ", ", __date, "), (TRIM('")), '), ', __id, ', ', __date, ')');
 
 	    PREPARE stmt FROM @query;
 	    EXECUTE stmt;

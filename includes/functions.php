@@ -722,6 +722,22 @@ class SelectedExamComponent {
     }
 }
 
+class SelectedExamDocument {
+    public $id = -1;
+    public $filename = '';
+    public $name_document = '';
+    /**
+     * SelectedExamDocument constructor.
+     * @param ExamDocument $ed
+     * @param boolean $sel
+     */
+    function __construct($ed, $sel) {
+        $this->id = $ed->id;
+        $this->filename = $ed->filename;
+        $this->name_document = $ed->name_document;
+    }
+}
+
 /**
  * The purpose of this function is to take in an array of patient IDs
  * and return an array of @PatientInfo objects for each one, thus
@@ -1836,4 +1852,25 @@ function get_is_browser($user_agent)
         stristr($user_agent, 'Safari') || stristr($user_agent, 'Firefox')|| 
         stristr($user_agent, 'MSIE')   || stristr($user_agent, 'Trident/7')) 
             return true; 
+}
+
+/**
+ * This function gets and returns ExamDocuments objects by 
+ * exam in the db, noting which ones were selected by
+ * the specified physician.
+ *
+ * @param int $examId
+ * @param mysqli $mysqli
+ * @return array SelectedExamDocument
+ */
+function getExamDocuments($examId, $mysqli) {
+    $sql = "CALL sp_select_exam_documents($examId);";
+    $selectedDocuments = array();
+    if ($result = $mysqli->query($sql)) {
+        while($row =$result->fetch_object()){
+            $selectedDocuments[] = new SelectedExamDocument($row, false);
+        }
+        $result->close();
+    }    
+    return $selectedDocuments;
 }

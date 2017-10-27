@@ -10,6 +10,7 @@ sec_session_start();
         <meta content="text/html" charset="UTF-8" http-equiv="content-type">
         <link rel="stylesheet" type="text/css" href="style/exam_main.css">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="/style/sweetalert.css" />
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
         <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
@@ -36,6 +37,7 @@ sec_session_start();
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="js/exam_main.js"></script>
         <script src="js/slideout.min.js"></script>
+        <script type="text/javascript" src="/js/sweetalert.min.js"></script>
 
         <title>Patient Overview</title>
 
@@ -266,6 +268,36 @@ sec_session_start();
                                             echo("  <td><img src=\"images/" . ($lIsVid ? "video_icon.png" : "audio_icon.png") . "\" height=\"30\" width=\"30\" /></td>");
                                             echo("</tr>");
                                         }*/
+                                    ?>
+                                </tbody>
+                            </table>
+                            <table class="exam_documents_table">
+                                <thead>
+                                <tr>
+                                    <th>EXAM DOCUMENTS</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        $examDocument = getExamDocuments($exam->examId, $mysqli);
+                                        for ($i = 0; $i < count($examDocument); $i++) {
+                                            $aurl = "/".$exam->physicianId."/".$patientId."/".$examId."/documents/".$examDocument[$i]->filename;
+                                            $ahref = "exam_document_view.php";
+                                            $ahref .= ("?documentId=" . $examDocument[$i]->id . "&examId=" . $exam->examId ."&filename=" . $examDocument[$i]->filename);
+                                            echo("<tr class=\"hoverableRow2 trDoc2\" id=\"id_".$examDocument[$i]->id."\">");
+                                            echo("  <td class=\"examPartName2\">".$examDocument[$i]->name_document."</td>");
+                                            echo("  <td>");
+                                            echo("     <span id=\"idspan_".$examDocument[$i]->id."\" class=\"hide\">".$examDocument[$i]->name_document."</span>");
+                                            echo("     <img data-id=\"".$examDocument[$i]->id."\" class=\"edit_document\" src=\"../images/pencil.jpg\" height=\"20\" width=\"20\"/>");
+                                            echo("     <button data-id=\"".$examDocument[$i]->id."\" class=\"save button-dark-smaller\"><span class=\"glyphicon glyphicon-save\"></span> Save</button>");
+                                            echo("     <button data-id=\"".$examDocument[$i]->id."\" class=\"cancel button-dark-smaller\"><span class=\"glyphicon glyphicon-save\"></span> Cancel</button>");
+                                            echo("     <a target=\"_blank\" href=\"".$aurl."\"><img class=\"download_document\" data-id=\"".$examDocument[$i]->id."\" src=\"../images/download.png\" height=\"20\" width=\"20\" />");
+                                            echo("     <img class=\"remove_document\" data-id=\"".$examDocument[$i]->id."\" src=\"../images/trash.png\" height=\"20\" width=\"20\" />");
+                
+                                            echo("  </td>");
+                                            echo("</tr>");
+                                        }
                                     ?>
                                 </tbody>
                             </table>
