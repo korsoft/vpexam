@@ -206,7 +206,7 @@ function removeDocument(id) {
                         alert("Error while deleting the document: " + rspObj.errorMsg);
                     }
                 },
-                url: "api/removeDocument.php?documentId=" + id+"&physId=" + physicianId + "&patientId=" + getParameterByName("patientId") + "&examId=" + getParameterByName("examId")
+                url: "api/removeDocument.php?documentId=" + id
             });
         }
     });

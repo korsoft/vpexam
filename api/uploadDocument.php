@@ -62,13 +62,13 @@ if (isset($physId) && isset($patientId) && isset($examId) && isset($nameDocument
 		file_put_contents($targetDir.$filename, $output);
 	}else {
 	    $success = false;
-	    $errorMsg = "The filesize exceeds the limit of 5242880 bytes or image type is incorrect 4.";
+	    $errorMsg = "The filesize exceeds the limit of 5242880 bytes or image type is incorrect.";
 	    echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
 	    exit();
 	}
 }else {
     $success = false;
-    $errorMsg = "One or more of the required parameters are missing 3.";
+    $errorMsg = "One or more of the required parameters are missing.";
     echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
     exit();
 }

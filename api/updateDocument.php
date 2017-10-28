@@ -11,12 +11,11 @@ $documentId = $_GET['documentId'];
 $nameDocument = $_GET['nameDocument'];
 
 if (isset($documentId) && isset($nameDocument)) {
-    //echo('<script>console.log("CALL sp_update_exam_document({'.$documentId}.',{'.$nameDocument.'});");</script>');
     $mysqli->query("CALL sp_update_exam_document({$documentId},'{$nameDocument}');");
     
 }else {
     $success = false;
-    $errorMsg = "One or more of the required parameters are missing 3.1.";
+    $errorMsg = "One or more of the required parameters are missing.";
     echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
     exit();
 }
