@@ -28,6 +28,16 @@
         }
         //Definimos que es paciente
         $ispatient = true;
+        
+        //Detectamos el el navegador, version y SO.
+        $navigator = get_browser(null, true);
+        $browser   = [
+            'browser'    => $navigator['browser'],
+            'browser_version' => $navigator['majorver'],
+            'platform' => $navigator['platform_description']
+        ];        
+        
+        
     }
     catch(Exception $e) {
         header('Location: /main.php');
@@ -79,6 +89,16 @@
                 </div>
             </div>
         </div>
+        <?php if($browser['browser']=='Chrome' && intval($browser['browser_version'])>=61  && 0 === strpos($browser['platform'], 'Windows')) {   ?>
+        <div class="mainChrome" >
+            <div id="msg">
+                <img src="includes/getProfileImage.php?id=<?php echo $physician['id']; ?>&type=3&time=<?php $var = new DateTime(); echo $var->getTimestamp(); ?>" />
+                <h1>Wait until <?php echo $physician['name']; ?> calls you.</h1>
+                <h3>Thank you</h3>
+            </div>
+            <video id="remoteVideoChrome" autoplay class="hide" ></video>
+        </div>
+        <?php } else {?>
         <div class="main" >
             <div id="msg">
                 <img src="includes/getProfileImage.php?id=<?php echo $physician['id']; ?>&type=3&time=<?php $var = new DateTime(); echo $var->getTimestamp(); ?>" />
@@ -86,6 +106,7 @@
                 <h3>Thank you</h3>
             </div>
         </div>
+        <?php } ?>
         <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
         <script type="text/javascript" src="/js/easytimer.min.js"></script>
         <script type="text/javascript" src="/js/sweetalert.min.js"></script>

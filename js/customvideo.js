@@ -11,7 +11,7 @@
 
     $(function () {
         var video = document.getElementById('localVideo'),
-            remoteVideo = document.getElementById('remoteVideo'),
+            remoteVideo = ($('#remoteVideoChrome').length==1)?document.getElementById('remoteVideoChrome'):document.getElementById('remoteVideo'),
             container = document.getElementById('custom-video'),
             playbutton = document.getElementById('playpause'),
             mutebutton = document.getElementById('mute'),

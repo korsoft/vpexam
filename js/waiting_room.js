@@ -2,6 +2,7 @@ var WaitingRoom = {
     timer : null,
     init : function(physician, patient) {
         var isIE    = /(MSIE|Edge)/.test(window.navigator.userAgent),
+            isChrome    = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
             checkin = function(patientname) {
             patientname = patientname || '';
             $.ajax({
@@ -21,7 +22,10 @@ var WaitingRoom = {
                     //Cerramos el sweetalert
                     swal.close();
                     //Agregamos el cronometro para mostrar el tiempo de espera del paciente hasta que lo antiendan
-                    var chronometer = $('<div id="chronometer"><img src="/img/waiting_room.png" alt="" /><img src="/img/indicator.gif" alt="" /></div>');
+                    if(isChrome)
+                        var chronometer = $('<div id="chronometer"></div>');
+                    else
+                        var chronometer = $('<div id="chronometer"><img src="/img/waiting_room.png" alt="" /><img src="/img/indicator.gif" alt="" /></div>');
                     WaitingRoom.timer = new Timer();
                     WaitingRoom.timer.start();
                     /*WaitingRoom.timer.addEventListener('secondsUpdated', function (e) {
@@ -32,7 +36,7 @@ var WaitingRoom = {
                         height : '75px',
                         opacity  : 1
                     }, 500);
-                    VideoChat.init(response.data);
+                   VideoChat.init(response.data);
                 }
             })
             .fail(function(err) {
