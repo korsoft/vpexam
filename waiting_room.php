@@ -89,7 +89,7 @@
                 </div>
             </div>
         </div>
-        <?php if($browser['browser']=='Chrome' && intval($browser['browser_version'])>=61  && 0 === strpos($browser['platform'], 'Windows')) {   ?>
+        <?php if($browser['browser']=='Chrome' && intval($browser['browser_version'])>=61) {   ?>
         <div class="mainChrome" >
             <div id="msg">
                 <img src="includes/getProfileImage.php?id=<?php echo $physician['id']; ?>&type=3&time=<?php $var = new DateTime(); echo $var->getTimestamp(); ?>" />
