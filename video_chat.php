@@ -8,7 +8,7 @@
         'platform' => $navigator['platform_description']
     ];
     ?>
-    <?php if($browser['browser']=='Chrome' && intval($browser['browser_version'])>=61  && 0 === strpos($browser['platform'], 'Windows')) {   ?>
+    <?php if($browser['browser']=='Chrome' && intval($browser['browser_version'])>=61) {   ?>
             <link rel="stylesheet" type="text/css" href="/js/fancybox/jquery.fancybox.css" media="screen" />
             <link rel="stylesheet" type="text/css" href="/style/video_chat.css?time=<?php echo time() ?>" />
             <input type="hidden" id="caller"  value='<?php echo $caller ?>' />
@@ -60,7 +60,7 @@
                 </div>
             </div>
     <?php } ?>
-    <?php if($browser['browser']=='Chrome' && intval($browser['browser_version'])>=61  && 0 === strpos($browser['platform'], 'Windows')) {  ?>
+    <?php if($browser['browser']=='Chrome' && intval($browser['browser_version'])>=61) {  ?>
         <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
         <script type="text/javascript" src="/js/fancybox/jquery.fancybox.pack.js"></script>
         <script type="text/javascript" src="/js/video_chat_chrome.js?time=<?php echo time(); ?>"></script>    
