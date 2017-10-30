@@ -7,7 +7,7 @@ require_once '../util/JSLikeHTMLElement.php';
 
 
 // Include the autoloader
-require_once '../js/dompdf/autoload.inc.php';
+require_once '../dompdf/autoload.inc.php';
 
 // Reference and use the dompdf class
 use Dompdf\Dompdf;
