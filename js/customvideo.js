@@ -27,19 +27,7 @@
         }
         video.addEventListener('playing', function(){
             seek.classList.add('light');
-        }, false);
-    
-        if(video.muted){
-            mutebutton.classList.add('icon-volume');
-            mutebutton.classList.remove('icon-volume-2');
-            volume.value = 0;
-        }
-        else{
-            mutebutton.classList.add('icon-volume-2');
-            mutebutton.classList.remove('icon-volume');
-        }
-    
-        
+        }, false);    
     
         function playpause(){
             if(video.paused){

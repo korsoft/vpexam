@@ -15,7 +15,7 @@
             <input type="hidden" id="calling" value='<?php echo isset($calling)?json_encode($calling):"" ?>' />
             <div id="videochatChrome" class="hide" >
                 <div class="custom-videoChrome" id="custom-videoChrome">
-                    <video id="localVideo" autoplay ></video>   
+                    <video id="localVideo" autoplay muted></video>   
                     <div id="mycontrols">
                         <button id="playpause" class="icon-play"></button>
                         <div class="seeker">
@@ -41,8 +41,8 @@
             <a href="#videochat" id="chat" class="hide"><img src="/img/video-camera.png" alt="Video chat" /></a>
             <div id="videochat" class="hide">
                 <div class="custom-video" id="custom-video">
-                    <video id="remoteVideo" autoplay  class="hide"></video>
-                    <video id="localVideo" autoplay></video>
+                    <video id="remoteVideo" autoplay class="hide"></video>
+                    <video id="localVideo" autoplay muted></video>
                     <div id="mycontrols">
                         <button id="playpause" class="icon-play"></button>
                         <div class="seeker">
