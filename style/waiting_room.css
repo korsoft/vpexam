@@ -104,6 +104,7 @@ body {
 #msg {
     margin: 0;
     text-align: center;
+    padding: 25;
 }
 #msg h1 {
     font-size: 40px;
@@ -114,7 +115,10 @@ body {
     font-size: 30px;
 }
 #msg img {
-    margin-bottom: 10px;
+    margin-bottom: 25px;
+    width: 100%;
+    height: auto;
+    max-width: 300px;
 }
 @media (max-width: 800px) {
     #logo img{
