@@ -11,7 +11,7 @@ var isChrome    = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(naviga
     isIE        = /(MSIE|Edge)/.test(window.navigator.userAgent),
     isWin       = -1 != window.navigator.appVersion.indexOf('Win'),
     constraints = window.constraints = {
-      audio: (isWin && isChrome)?false:true,
+      audio: true,
       video: true
     };
 var muteMicbutton = document.getElementById('mute');
