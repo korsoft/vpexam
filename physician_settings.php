@@ -405,8 +405,10 @@
                                                                         <td class="titleTd">Title</td>
                                                                         <td><input class="holo" id="inputComponentTitle" type="text" value=""></td>
                                                                         <td rowspan="5" style="text-align: center; vertical-align: bottom;padding: 5px  " >
-                                                                            <video id="vidMaleModel" width="200" height="170" controls poster="/images/player_poster.jpg">
-                                                                            </video>
+                                                                            <div id="contentvidMaleModel">
+                                                                                <video id="vidMaleModel" width="200" height="170" controls poster="/images/player_poster.jpg" preload="metadata">
+                                                                                </video>
+                                                                            </div>
                                                                             <img id="imgMaleModel" src="" alt="" />
                                                                             <form action="/includes/upload_exam_component_image_audio.php" id="myFormMale" name="myFormMale" method="post" enctype="multipart/form-data">
                                                                                 <input type="file" name="fileToUploadMale" id="fileToUploadMale" style="display: none;" >
@@ -414,8 +416,10 @@
                                                                             </form>
                                                                         </td>
                                                                         <td rowspan="5" style="text-align: center; vertical-align: bottom;padding: 5px " >
-                                                                            <video id="vidFemaleModel" width="200" height="170" controls poster="/images/player_poster.jpg">
-                                                                            </video>
+                                                                            <div id="contentvidFemaleModel">
+                                                                                <video id="vidFemaleModel" width="200" height="170" controls poster="/images/player_poster.jpg" preload="metadata">
+                                                                                </video>
+                                                                            </div>
                                                                             <img id="imgFemaleModel" src="" alt="" />
                                                                             <form action="/includes/upload_exam_component_image_audio.php" id="myFormFemale" name="frmuploadFemale" method="post" enctype="multipart/form-data">
                                                                                 <input type="file" name="fileToUploadFemale" id="fileToUploadFemale" style="display: none;">
@@ -434,7 +438,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="titleTd">Abbrev</td>
-                                                                        <td><input class="holo" id="inputComponentAbbrev" type="text" value=""></td>
+                                                                        <td><input class="holo" id="inputComponentAbbrev" maxlength="10" type="text" value=""></td>
                                                                     </tr>  
                                                                     <tr>
                                                                         <td class="titleTd">Description</td>

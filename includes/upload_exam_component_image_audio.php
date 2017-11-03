@@ -43,7 +43,7 @@ function FileSizeConvert($bytes) {
 
 const COMPONENT_IMAGE_PATH  = '/var/www/.uploads/exam/components/';
 $response = [];
-try {  
+try {
 	if(empty($_POST['idComponent'])) {
 		throw new Exception('empty user id', 1);
 	}
@@ -123,11 +123,13 @@ try {
     $videoFile=COMPONENT_IMAGE_PATH.$_POST['idComponent']."/".$strFileName;
     $folder=COMPONENT_IMAGE_PATH.$_POST['idComponent']."/";
     if ($_POST['typeFile']!=='A' && file_exists($file2)){
-       unlink($file2); 
+        unlink($file2); 
+    }else if(file_exists($file)){
+        unlink($file); 
     }
-    
-    if ($_POST['typeFile']!=='A' && ($isVideoMale === true || $isVideoFemale === true)){
+    if ($_POST['typeFile']!=='A' && ($isVideoMale == true || $isVideoFemale == true)){
         exec("/opt/local/bin/ffmpeg -i $filetmp -f mp4 $videoFile");
+        $filetmp='';
     }else{
         move_uploaded_file($filetmp, $file);
     }

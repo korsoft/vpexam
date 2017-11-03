@@ -560,10 +560,11 @@ $(document).on('ready', function() {
 
     $('#btnSaveCreateComponent').on('click', function() {
         var regex = new RegExp(/^[a-zA-Z \b\_\.\:\-0-9]+$/);
+        var regexabbrev = new RegExp(/^[a-z0-9\/\-\_]+$/);
         var blEmptyfield = false;
         var blSpeciaChar = false;
-        var blSpeciaChar = false;        
-        $('#inputComponentAbbrev, #inputComponentDesc, #inputComponentTitle').each(function() {
+        var blSpeciaChar2 = false;        
+        $('#inputComponentDesc, #inputComponentTitle').each(function() {
             if ($(this).val() == '') {
               blEmptyfield = true;
               $(this).parent().effect('shake', {times: 3}, 50);
@@ -573,11 +574,24 @@ $(document).on('ready', function() {
                 blSpeciaChar=true;
                 $(this).parent().effect('shake', {times: 3}, 50);
             }
-        });   
+        });
+        $('#inputComponentAbbrev').each(function() {
+            if ($(this).val() == '') {
+              blEmptyfield = true;
+              $(this).parent().effect('shake', {times: 3}, 50);
+            }
+            else if(!regexabbrev.test($(this).val()))
+            {
+                blSpeciaChar2=true;
+                $(this).parent().effect('shake', {times: 3}, 50);
+            }
+        }); 
       if(blEmptyfield)
           alert('Please fill all required fields [Title,Abbrev,Desription]');
       else if(blSpeciaChar)
           alert("Please input alphanumeric characters only");  
+      else if(blSpeciaChar2)
+          alert("Please input only lowercase characters, numbers, - and _ ");  
       else if(2048<$('#inputComponentTitle').val().length)
       {
           alert("Exam component title must be less than 2048 characters.");
@@ -732,13 +746,17 @@ $(document).on('ready', function() {
                 console.log(mimeType);
                 if(mimeType == 'video/quicktime' || mimeType == 'video/x-flv' || mimeType == 'video/mp4' || mimeType == 'video/x-ms-wmv' || mimeType == 'video/avi'){
                     var video = document.getElementById('vidMaleModel');
+
                     var source = document.createElement('source');
                     source.setAttribute('src', reader.result);
                     video.appendChild(source);
+                    video.load();
+                    console.log('vidMaleModel physician_settings.js');
                     $("#imgMaleModel").hide();
                     $("#vidMaleModel").show();
                 }else{
                     preview.src = reader.result;
+                    console.log('vidMaleModel physician_settings.js else');
                     $("#vidMaleModel").hide();
                     $("#imgMaleModel").show();
                 }
@@ -776,10 +794,11 @@ $(document).on('ready', function() {
                 var mimeType = readerF.result.split(",")[0].split(":")[1].split(";")[0];
                 console.log(mimeType);
                 if(mimeType == 'video/quicktime' || mimeType == 'video/x-flv' || mimeType == 'video/mp4' || mimeType == 'video/x-ms-wmv' || mimeType == 'video/avi'){
-                   var videoF = document.getElementById('vidFemaleModel');
+                    var videoF = document.getElementById('vidFemaleModel');
                     var sourceF = document.createElement('source');
                     sourceF.setAttribute('src', readerF.result);
                     videoF.appendChild(sourceF);
+                    videoF.load();
                     $("#imgFemaleModel").hide();
                     $("#vidFemaleModel").show();
                 }else{
@@ -865,24 +884,27 @@ function uploadComponentFile(idComponent,typeFile){
 
 function resetExamComponents()
 {
-        $('#inputComponentTitle').val('');
-        $('#cmdComponentType').val('a');
-        $('#inputComponentAbbrev').val('');
-        $('#inputComponentDesc').val('');
-        $('input[name=rdComponentPublic]').attr('disabled',false).val([1]);
-        $("#fileToUploadMale").val(null);
-        $("#fileToUploadFemale").val(null);
-        $("#fileToUploadAudio").val(null);
-        $("#imgMaleModel").hide();
-        $("#imgFemaleModel").hide();
-        $('#sndAudio').hide();
-        $("#imgMaleModel").attr("src", '');
-        $("#imgFemaleModel").attr("src", '');
-        $('#vidMaleModel').hide();
-        $('#vidMaleModel source').remove();
-        $('#vidFemaleModel').hide();
-        $('#vidFemaleModel source').remove();
-        examComponentId=0;     
+    console.log('resetear componentes');
+    $('#inputComponentTitle').val('');
+    $('#cmdComponentType').val('a');
+    $('#inputComponentAbbrev').val('');
+    $('#inputComponentDesc').val('');
+    $('input[name=rdComponentPublic]').attr('disabled',false).val([1]);
+    $("#fileToUploadMale").val(null);
+    $("#fileToUploadFemale").val(null);
+    $("#fileToUploadAudio").val(null);
+    $("#imgMaleModel").hide();
+    $("#imgFemaleModel").hide();
+    $('#sndAudio').hide();
+    $("#imgMaleModel").attr("src", '');
+    $("#imgFemaleModel").attr("src", '');
+    $('#contentvidFemaleModel video').remove();
+    $('#contentvidFemaleModel').html('<video id="vidFemaleModel" width="200" height="170" controls poster="/images/player_poster.jpg" preload="metadata"></video>');
+    $('#vidFemaleModel').hide();
+    $('#contentvidMaleModel video').remove();
+    $('#contentvidMaleModel').html('<video id="vidMaleModel" width="200" height="170" controls poster="/images/player_poster.jpg" preload="metadata"></video>');
+    $('#vidMaleModel').hide();
+    examComponentId=0;     
 }
 
 function setPhysicianId(id) {
@@ -1081,6 +1103,7 @@ function displayExamComponent(element){
                 var sourceMale = document.createElement('source');
                 sourceMale.setAttribute('src', srcMale);
                 videoMale.appendChild(sourceMale);
+                videoMale.load();
                 $('#imgMaleModel').hide();
                 $('#vidMaleModel').show();
             }else{
@@ -1112,6 +1135,7 @@ function displayExamComponent(element){
                 var source = document.createElement('source');
                 source.setAttribute('src', srcFemale);
                 video.appendChild(source);
+                video.load();
                 $('#imgFemaleModel').hide();
                 $('#vidFemaleModel').show();
             }else{
@@ -1121,7 +1145,7 @@ function displayExamComponent(element){
             }
         }
     }).fail(function() { 
-        console.log('error');
+        console.log('error female');
         $('#imgFemaleModel').hide();
         $('#vidFemaleModel').hide();
     });
