@@ -19,7 +19,7 @@ BEGIN
                    IF(created_at IS NOT NULL, 1, 0) AS selected,UNIX_TIMESTAMP(updated_at) AS updated_at 
             FROM exam_components 
             LEFT JOIN physicians_exam_components ON exam_component_abbrev = abbrev AND physician_id =', _physician_id, '
-            WHERE deleted_at IS NULL
+            WHERE deleted_at IS NULL AND (public = 1 OR (public = 0 AND author_physician = ', _physician_id, '))
             ORDER BY FIELD(id, ', @num_ids, ')');
         PREPARE stmt FROM @query;
         EXECUTE stmt;
@@ -30,7 +30,7 @@ BEGIN
         IF(created_at IS NOT NULL, 1, 0) AS selected,UNIX_TIMESTAMP(updated_at) AS updated_at
         FROM exam_components 
         LEFT JOIN physicians_exam_components ON exam_component_abbrev = abbrev AND physician_id = _physician_id 
-        WHERE deleted_at IS NULL
+        WHERE deleted_at IS NULL AND (public = 1 OR (public = 0 AND author_physician = _physician_id))
         ORDER BY sort;
     END IF;
 END ;;
