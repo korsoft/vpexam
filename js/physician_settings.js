@@ -1041,7 +1041,7 @@ function fetchExamComponents() {
                                                             
         $( "#setExamComponentsDlg").append( strHeader+trHTML +strFooter + strjs);}
         },
-        url: "api/getDefaultExamComponents.php?physId=" + physicianId
+        url: "api/getAllExamComponents.php?physId=" + physicianId
     });
 }
 

@@ -1,6 +1,6 @@
-DROP PROCEDURE IF EXISTS sp_select_exam_components_author_physician;
+DROP PROCEDURE IF EXISTS sp_select_exam_components;
 DELIMITER ;;
-CREATE  PROCEDURE sp_select_exam_components_author_physician(IN _physician_id INT(10) UNSIGNED)
+CREATE  PROCEDURE sp_select_exam_components(IN _physician_id INT(10) UNSIGNED)
 BEGIN
     SET SESSION group_concat_max_len = 1000000000;
     SET @query_ids = CONCAT('
@@ -17,11 +17,10 @@ BEGIN
             SELECT id, title, type, abbrev, description, sort, public,
                    IF(', _physician_id, ' = author_physician, 1, 0) AS author_physician, 
                    IF(created_at IS NOT NULL, 1, 0) AS selected,UNIX_TIMESTAMP(updated_at) AS updated_at 
-            FROM physicians_exam_components 
-            JOIN exam_components ON abbrev = exam_component_abbrev AND deleted_at IS NULL
-            WHERE physician_id =', _physician_id, '
+            FROM exam_components 
+            LEFT JOIN physicians_exam_components ON exam_component_abbrev = abbrev AND physician_id =', _physician_id, '
+            WHERE deleted_at IS NULL
             ORDER BY FIELD(id, ', @num_ids, ')');
-        
         PREPARE stmt FROM @query;
         EXECUTE stmt;
         DEALLOCATE PREPARE stmt;
@@ -29,11 +28,10 @@ BEGIN
         SELECT id, title, type, abbrev, description, sort, public, 
         IF(_physician_id = author_physician, 1, 0) AS author_physician, 
         IF(created_at IS NOT NULL, 1, 0) AS selected,UNIX_TIMESTAMP(updated_at) AS updated_at
-        FROM physicians_exam_components 
-        JOIN exam_components ON abbrev = exam_component_abbrev AND deleted_at IS NULL
-        WHERE physician_id = _physician_id 
+        FROM exam_components 
+        LEFT JOIN physicians_exam_components ON exam_component_abbrev = abbrev AND physician_id = _physician_id 
+        WHERE deleted_at IS NULL
         ORDER BY sort;
     END IF;
 END ;;
 DELIMITER ;
-

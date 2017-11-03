@@ -1562,6 +1562,27 @@ function __getExamComponentByParam($paramType, $param, $mysqli) {
  * @param mysqli $mysqli
  * @return array SelectedExamComponent
  */
+function getAllExamComponents($physId, $mysqli) {
+    $sql = "CALL sp_select_exam_components($physId);";
+    $selectedComponents = array();
+    if ($result = $mysqli->query($sql)) {
+        while($row =$result->fetch_object()){
+            $selectedComponents[] = new SelectedExamComponent($row, false);
+        }
+        $result->close();
+    }    
+    return $selectedComponents;
+}
+
+/**
+ * This function gets and returns ExamComponent objects for all
+ * exam components in the db, noting which ones were selected by
+ * the specified physician.
+ *
+ * @param int $physId
+ * @param mysqli $mysqli
+ * @return array SelectedExamComponent
+ */
 function getPhysicianSelectedExamComponents($physId, $mysqli) {
     $sql = "CALL sp_select_exam_components_author_physician($physId);";
     $selectedComponents = array();

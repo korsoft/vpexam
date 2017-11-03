@@ -10,11 +10,11 @@
         <meta name="msapplication-TileColor" content="#2d89ef">
         <meta name="msapplication-TileImage" content="/mstile-144x144.png">
 
-        <meta name="description" content="WebRTC code samples">
+        <meta name="description" content="VPExam - Patient">
         <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
-        <meta itemprop="description" content="Client-side WebRTC code samples">
+        <meta itemprop="description" content="VPExam - Patient">
         <meta itemprop="image" content="../../../images/webrtc-icon-192x192.png">
-        <meta itemprop="name" content="WebRTC code samples">
+        <meta itemprop="name" content="VPExam - Patient">
         <meta name="mobile-web-app-capable" content="yes">
         <meta id="theme-color" name="theme-color" content="#ffffff">
 
