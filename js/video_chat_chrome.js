@@ -227,7 +227,7 @@ var VideoChat = {
     VideoChat.video.local.dom  = $('#localVideo');
     VideoChat.video.remote.dom = $('#remoteVideoChrome');
     VideoChat.audio            = new Audio('/sounds/ringing.ogg');
-    VideoChat.audio.volume     = 0;//hktr cambiar a 1
+    VideoChat.audio.volume     = 1;
     //Se define loop para el audio de "llamando"
     VideoChat.audio.addEventListener('ended', function() {
       this.currentTime = 0;
@@ -319,7 +319,7 @@ var VideoChat = {
   },
   ready     : function(_calling) {
     var container = $('.fancybox-inner');
-    if(undefined !== _calling && 0 < _calling.id && 0 == VideoChat.video.remote.user.id) {
+    if(undefined !== _calling && 0 < _calling.id) {
       VideoChat.video.remote.user = _calling;
     }
     if('finalized' == VideoChat.status) {

@@ -315,7 +315,7 @@ var VideoChat = {
   },
   ready     : function(_calling) {
     var container = $('.fancybox-inner');
-    if(undefined !== _calling && 0 < _calling.id && 0 == VideoChat.video.remote.user.id) {
+    if(undefined !== _calling && 0 < _calling.id) {
       VideoChat.video.remote.user = _calling;
     }
     if('finalized' == VideoChat.status) {
