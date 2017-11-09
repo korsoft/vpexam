@@ -5,15 +5,23 @@ include_once '../includes/functions.php';
 $response = ['success' => false, 'errorMsg' => ''];
 
    try {
-        if (!isset($_GET['physId'])) {
+        if (!isset($_GET['physId']) || !preg_match("/^[0-9]+$/",$_GET['physId'])) {
             throw new Exception('One or more required parameters was not set.', 1);
         }
-        $physId   = $_GET['physId'];
+        else
+        {
+            $physId   = $_GET['physId'];
 
-        $allComponents=getPhysicianSelectedExamComponents($physId, $mysqli);
-        
-        $response['success']        = true;
-        $response['examComponents'] = $allComponents;
+            $allComponents=getPhysicianSelectedExamComponents($physId, $mysqli);
+
+            foreach ($allComponents as $value) {
+                $strFolder="/var/www/.uploads/exam/components/$value->id/"; 
+                $value->male=(file_exists($strFolder . 'male'))?'image/gif':((file_exists($strFolder . "male_video"))?'video/mp4':'');
+                $value->female=(file_exists($strFolder . 'female'))?'image/gif':((file_exists($strFolder . "female_video"))?'video/mp4':'');  
+            }
+            $response['success']        = true;
+            $response['examComponents'] = $allComponents;
+        }
     }
     catch(Exception $e) {
        echo  $response['errorMsg'] = $e->getMessage();
