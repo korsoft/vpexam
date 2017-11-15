@@ -224,7 +224,7 @@ var VideoChat = {
     VideoChat.status           = 'initialized';
     VideoChat.video.local.dom  = $('#localVideo');
     VideoChat.video.remote.dom = $('#remoteVideo');
-    VideoChat.audio            = new Audio('/sounds/ringing.ogg');
+    VideoChat.audio            = new Audio('/sounds/ringing_sound.mp3');
     VideoChat.audio.volume     = 1;
     //Se define loop para el audio de "llamando"
     VideoChat.audio.addEventListener('ended', function() {

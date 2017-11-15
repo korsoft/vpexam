@@ -15,6 +15,30 @@ var isChrome    = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(naviga
       video: true
     };
     
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function fncPlayRing() {
+    var source = audioCtx.createBufferSource();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/sounds/ringing_sound.mp3');
+    xhr.responseType = 'arraybuffer';
+    xhr.addEventListener('load', function (r) {
+            console.log(xhr.response);
+            audioCtx.decodeAudioData(
+                            xhr.response, 
+                            function (buffer) {
+                                    source.buffer = buffer;
+                                    source.connect(audioCtx.destination);
+                                    source.loop = true;
+                            });
+            playsound();
+    });
+    xhr.send();
+    var playsound = function () {
+            source.start(0);
+    };
+};
 var muteMicbutton = document.getElementById('mute');
 var VideoChat = {
   audio     : null,
@@ -226,7 +250,7 @@ var VideoChat = {
     VideoChat.status           = 'initialized';
     VideoChat.video.local.dom  = $('#localVideo');
     VideoChat.video.remote.dom = $('#remoteVideoChrome');
-    VideoChat.audio            = new Audio('/sounds/ringing.ogg');
+    VideoChat.audio            = new Audio('/sounds/ringing_sound.mp3');
     VideoChat.audio.volume     = 1;
     //Se define loop para el audio de "llamando"
     VideoChat.audio.addEventListener('ended', function() {
@@ -421,7 +445,7 @@ var VideoChat = {
     }
   },
   ringing   : function() {
-    VideoChat.audio.play();
+    fncPlayRing();
     VideoChat.alert({
       cancelButtonText   : 'Decline',
       closeOnConfirm     : true,
@@ -433,11 +457,12 @@ var VideoChat = {
       title              : VideoChat.video.remote.user.name
     }, function(isConfirm) {
       if (isConfirm) {
-        //$('#chat').click();
+        audioCtx.close();
         VideoChat.ready(JSON.parse($('#calling').val()));
         VideoChat.callback = function() {  VideoChat.answer(true); };
       }
       else {
+        audioCtx.close();
         VideoChat.leave();
       }
     });
