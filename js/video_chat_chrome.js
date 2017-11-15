@@ -16,9 +16,11 @@ var isChrome    = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(naviga
     };
     
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
-var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+var audioCtx = null;
 
 function fncPlayRing() {
+    audioCtx = null;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     var source = audioCtx.createBufferSource();
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/sounds/ringing_sound.mp3');
