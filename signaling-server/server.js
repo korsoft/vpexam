@@ -149,7 +149,7 @@ wss.on('connection', function(connection) {
 							}
 						}
 						break;
-					case 'record' :
+					/*case 'record' :
 						//Get the user
 						var user = users[data.id]; 
 						//If the user exists
@@ -177,7 +177,7 @@ wss.on('connection', function(connection) {
 							  }
 							);
 						}
-						break;
+						break;*/
 			      	default :
 			         	sendTo(connection, { 
 			            	type    : 'error', 
@@ -200,7 +200,7 @@ wss.on('connection', function(connection) {
 					sendTo(conn, { type: 'leave' }); 
 				}  
 			} 
-                        con.query('DELETE FROM waiting_room WHERE patient_id = ' + connection.id + ';');
+                        con.query('CALL sp_delete_patient_in_waitingroom(' + connection.id + ');');
 		}  
 	});
 });
