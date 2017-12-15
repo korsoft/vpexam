@@ -21,3 +21,110 @@ div.PatientsWaitingLoading{
 div.PatientsWaitingEmpty{
     width:100%;
 }
+.dvsidenavPhys {
+    height: 100%; /* 100% Full-height */
+    width: 10px; /* 0 width - change this with JavaScript */
+    position: absolute; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 145px; /* Stay at the top */
+    right: -11px;
+    background-color: #FFFFFF;
+    padding-top: 5px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the dvsidenav */
+    background-repeat: no-repeat;
+    border-left: 20px solid #3051A6;
+    white-space:nowrap;
+}
+
+/* The navigation menu links */
+.dvsidenavPhys a {
+    padding: 8px 8px 8px 45px;
+    text-decoration: none;
+    font-size: 25px;
+    width: 200px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    background-color: #FFFFFF;
+}
+
+/* When you mouse over the navigation links, change their color */
+.dvsidenavPhys a:hover {
+    color: #000;
+}
+.dvsidenavPhys a img {
+    float: left;
+    height:27px; 
+    width:27px;
+}
+/* On smaller screens, where height is less than 450px, change the style of the dvsidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .dvsidenavPhys {padding-top: 15px;}
+    .dvsidenavPhys a {font-size: 18px;}
+}
+
+#imgToolPhys{
+    height:30px;
+    width: 30px;
+    position:absolute;
+    top: 4px;
+    left: 4px;
+}
+
+#divToolPhys{
+    height: 38px;
+    width: 38px;
+    background-color: #FFFFFF;
+    position: absolute;
+    top: 25px;
+    left: -42px;
+    z-index: 2;
+    border-radius: 20px;
+}
+
+#modalSoundTest{
+	background-color: black;
+	bottom: 0;
+	display: none;
+	left: 0;
+	right: 0;
+	top: 0;
+	opacity: 0.5;
+	position: absolute;
+	z-index: 8011;
+}
+#messageSoundTest {
+    background-color: #BEBEBE;
+    height: auto;
+    left: 40%;
+    position: absolute;
+    text-align: center;
+    top:  20%;
+    width: 282px;
+    z-index: 8012;
+}
+#messageSoundTest a{
+    right: 0;
+    position: absolute;
+}  
+#dlgTestSoundDialog p{
+    font-size: 20px;
+    font-weight: bold;
+}
+#audSoundTest{
+    width: 85%;
+}
+.button-dark {
+    background-color: #3051a6;
+    color: white;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 40px 10px 40px;
+}
+
+.button-dark:hover {
+    background-color: #67c9e0;
+    cursor: pointer;
+}

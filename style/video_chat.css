@@ -25,15 +25,12 @@
 	position: relative;
 	width: 100%;
 }
-#remoteVideo:-webkit-full-screen, #remoteVideoChrome:mozFullScreen,#remoteVideo:mozFullScreen,#localVideo:mozFullScreen, .fancybox-inner:-webkit-full-screen, .fancybox-wrap:-webkit-full-screen, .fancybox-wrap, .fancybox-wrap {
+#remoteVideo:-webkit-full-screen,#remoteVideoIE:-webkit-full-screen,  #remoteVideoIE:mozFullScreen,#remoteVideoPatient:mozFullScreen,#remoteVideo:mozFullScreen,#localVideo:mozFullScreen, .fancybox-inner:-webkit-full-screen, .fancybox-wrap:-webkit-full-screen, .fancybox-wrap, .fancybox-wrap {
   width: 100% !important;
   height: 100% !important;
   position: fixed !important;
 }
 /*PRUEBAS */
-::-webkit-media-controls {
-  display:none !important;
-}
 video::-webkit-media-controls {
   display:none !important;
 }
@@ -394,31 +391,31 @@ video::-webkit-media-controls-enclosure {
 }
 
 
-.custom-videoChrome {
+.custom-videoPatient {
   width: 100%;
   background-color: white;
 }
 
-.custom-videChromeo::full-screen {
+.custom-videoPatient::full-screen {
   width: 100%;
   height: 100%;
 }
 
-::-moz-full-screen .custom-videoChrome {
+::-moz-full-screen .custom-videoPatient {
   width: 100%;
   height: 100%;
 }
 
-.custom-videoChrome::-moz-full-screen {
+.custom-videoPatient::-moz-full-screen {
   width: 100%;
   height: 100%;
 }
 
-.custom-videoChrome::-webkit-full-screen {
+.custom-videoPatient::-webkit-full-screen {
   width: 100%;
   height: 100%;
 }
-#custom-videoChrome > .buttons {
+#custom-videoPatient > .buttons {
 	bottom: 10px;
 	height: 50px;
 	left: 41%; /*29%;*/
@@ -426,8 +423,8 @@ video::-webkit-media-controls-enclosure {
 	width: 150px; /*350px;*/
 	z-index: 2147483647;
 }
-#custom-videoChrome > .buttons > #answerButton, 
-#custom-videoChrome > .buttons > #declineButton {
+#custom-videoPatient > .buttons > #answerButton, 
+#custom-videoPatient > .buttons > #declineButton {
 	background: #d63826 url('/img/phone.png') no-repeat center;
 	background-size: 30px;
 	border-radius: 50px;
@@ -441,11 +438,11 @@ video::-webkit-media-controls-enclosure {
 	-moz-border-radius:50px;
     -webkit-border-radius:50px; 
 }
-#custom-videoChrome > .buttons > #answerButton {
+#custom-videoPatient > .buttons > #answerButton {
 	background-color: #2b8c36;
 	margin-right: 50px;
 }
-#custom-videoChrome > .buttons > #declineButton {
+#custom-videoPatient > .buttons > #declineButton {
     -webkit-transform: rotate(130deg);
     -moz-transform: rotate(130deg);
     -ms-transform: rotate(130deg);
@@ -453,7 +450,7 @@ video::-webkit-media-controls-enclosure {
     transform: rotate(130deg);
     /*margin-right: 50px;*/
 }
-#custom-videoChrome > .buttons > #muteButton {
+#custom-videoPatient > .buttons > #muteButton {
 	background: #d63826 url('/img/soundw.png') no-repeat center;
 	background-size: 40px;
 	border-radius: 50px;
@@ -465,9 +462,9 @@ video::-webkit-media-controls-enclosure {
 	position: relative;
 	width: 50px;
 	-moz-border-radius:50px;
-    -webkit-border-radius:50px; 
+        -webkit-border-radius:50px; 
 }
-#custom-videoChrome > .buttons > #fullscreenButton {
+#custom-videoPatient > .buttons > #fullscreenButton {
 	background: #d63826 url('/img/fullscreenw.png') no-repeat center;
 	background-size: 30px;
 	border-radius: 50px;
@@ -481,7 +478,7 @@ video::-webkit-media-controls-enclosure {
 	-moz-border-radius:50px;
     -webkit-border-radius:50px; 
 }
-#remoteVideoChrome { 
+#remoteVideoPatient { 
   position: absolute;
   top: 110px;
   left: 0;
@@ -489,14 +486,100 @@ video::-webkit-media-controls-enclosure {
   height: 100%;
  
 }
+
 @media (min-aspect-ratio: 16/9) {
-  #remoteVideoChrome { height: 90%; top:  110px;}
+  #remoteVideoPatient { height: 90%;}
 }
 @media (max-aspect-ratio: 16/9) {
-  #remoteVideoChrome { width: 100%; }
+  #remoteVideoPatient { width: 100%; }
 }
 @supports (object-fit: cover) {
-  #remoteVideoChrome {
+  #remoteVideoPatient {
     object-fit: cover;
   }
+}
+#remoteVideoIE { 
+  position: absolute;
+  top: 110px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+ 
+}
+@-moz-document url-prefix(){
+    #remoteVideoPatient { 
+      position: absolute;
+      top: 0px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+}
+@media (min-aspect-ratio: 16/9) {
+  #remoteVideoIE { height: 90%; top:  110px;}
+}
+@media (max-aspect-ratio: 16/9) {
+  #remoteVideoIE { width: 100%; }
+}
+@supports (object-fit: cover) {
+  #remoteVideoIE {
+    object-fit: cover;
+  }
+}
+.dvsidenav {
+    height: 100%; /* 100% Full-height */
+    width: 10px; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 110px; /* Stay at the top */
+    right: -11px;
+    background-color: #FFFFFF;
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the dvsidenav */
+    background-repeat: no-repeat;
+    border-left: 20px solid #3051A6;
+}
+
+/* The navigation menu links */
+.dvsidenav a {
+    padding: 8px 8px 8px 45px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s; 
+    white-space:nowrap;
+}
+
+/* When you mouse over the navigation links, change their color */
+.dvsidenav a:hover {
+    color: #000;
+}
+.dvsidenav a img {
+    height:27px; 
+    width:27px;
+}
+/* On smaller screens, where height is less than 450px, change the style of the dvsidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .dvsidenav {padding-top: 15px;}
+    .dvsidenav a {font-size: 18px;}
+}
+
+#imgTool{
+    height:30px;
+    width: 30px;
+    position:absolute;
+    top: 4px;
+    left: 4px;
+}
+
+#divTool{
+    height: 38px;
+    width: 38px;
+    background-color: #FFFFFF;
+    position: absolute;
+    top: 25px;
+    left: -42px;
+    z-index: 2;
+    border-radius: 20px;
 }

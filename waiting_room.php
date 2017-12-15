@@ -79,6 +79,8 @@
         <link rel="stylesheet" type="text/css" href="/style/waiting_room.css" />
         <link rel="stylesheet" type="text/css" href="/style/sweetalert.css" />
         <link rel="manifest" href="/manifest.json" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     </head>
     <body>
         <div id="header">
@@ -89,25 +91,14 @@
                 </div>
             </div>
         </div>
-        <?php if($browser['browser']=='Chrome' && (intval($browser['browser_version'])>=50 || intval($browser['browser_version'])==0)) {   ?>
-        <div class="mainChrome" >
+        <div class="mainPatient" >
             <div id="msg">
                 <img src="includes/getProfileImage.php?id=<?php echo $physician['id']; ?>&type=3&time=<?php $var = new DateTime(); echo $var->getTimestamp(); ?>" />
                 <h1>Wait until <?php echo $physician['name']; ?> calls you.</h1>
                 <h3>Thank you</h3>
             </div>
-            <video id="remoteVideoChrome" autoplay class="hide" ></video>
+            
         </div>
-        <?php } else {?>
-        <div class="main" >
-            <div id="msg">
-                <img src="includes/getProfileImage.php?id=<?php echo $physician['id']; ?>&type=3&time=<?php $var = new DateTime(); echo $var->getTimestamp(); ?>" />
-                <h1>Wait until <?php echo $physician['name']; ?> calls you.</h1>
-                <h3>Thank you</h3>
-            </div>
-        </div>
-        <?php } ?>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
         <script type="text/javascript" src="/js/easytimer.min.js"></script>
         <script type="text/javascript" src="/js/sweetalert.min.js"></script>
         <script type="text/javascript" src="/js/waiting_room.js"></script>
@@ -117,4 +108,3 @@
         <?php include 'video_chat.php';?>
     </body>
 </html>
-

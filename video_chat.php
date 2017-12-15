@@ -8,13 +8,14 @@
         'platform' => $navigator['platform_description']
     ];
     ?>
-    <?php if($browser['browser']=='Chrome' && (intval($browser['browser_version'])>=50 || intval($browser['browser_version'])==0) && isset($ispatient)) {   ?>
+    <?php if(isset($ispatient)) {   ?>
             <link rel="stylesheet" type="text/css" href="/js/fancybox/jquery.fancybox.css" media="screen" />
             <link rel="stylesheet" type="text/css" href="/style/video_chat.css?time=<?php echo time() ?>" />
             <input type="hidden" id="caller"  value='<?php echo $caller ?>' />
             <input type="hidden" id="calling" value='<?php echo isset($calling)?json_encode($calling):"" ?>' />
-            <div id="videochatChrome" class="hide" >
-                <div class="custom-videoChrome" id="custom-videoChrome">
+            <div id="videochatPatient" class="hide" >
+                <div class="custom-videoPatient" id="custom-videoPatient">
+                    <video id="remoteVideoPatient" autoplay class="hide" ></video>
                     <video id="localVideo" autoplay muted></video>   
                     <div id="mycontrols">
                         <button id="playpause" class="icon-play"></button>
@@ -31,7 +32,16 @@
                         <div id="declineButton" class="disabled" title="End Call"></div>
                     </div>
                 </div>
-            </div>      
+            </div>   
+            <div id="divSidenav" class="dvsidenav" >
+                <div id="divTool">
+                    <img id="imgTool"  src="images/tool.png"/>
+                </div>  
+              <a href="javascript: void(0);" onclick="fncShowBandwDlg();return false;"><img id="imgbandwidth" src="images/bw_black.png"/>&nbsp;&nbsp;Bandwidth</a>
+              <a href="#" onclick="return false;"><img id="imgCamera" src="images/camera_black.png"/>&nbsp;&nbsp;Camera</a>
+              <a href="#" onclick="return false;"><img id="imgMic"   src="images/mic_black.png"/>&nbsp;&nbsp;&nbsp;Microphone</a>
+              <a href="javascript: void(0);" onclick="fncShowSoundDlg();return false;"><img id="imgSound" src="images/audio_icon.png"/>&nbsp;&nbsp;Sound</a>
+            </div>            
     <?php } else {?>
             <link rel="stylesheet" type="text/css" href="/js/fancybox/jquery.fancybox.css" media="screen" />
             <link rel="stylesheet" type="text/css" href="/style/video_chat.css?time=<?php echo time() ?>" />
@@ -60,16 +70,14 @@
                 </div>
             </div>
     <?php } ?>
-    <?php if($browser['browser']=='Chrome' && (intval($browser['browser_version'])>=50 || intval($browser['browser_version'])==0) && isset($ispatient)) {  ?>
-        <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+        <script type="text/javascript" src="/js/webRTC-over-websockets-master/js/bandwidth.js?time=<?php echo time(); ?>"></script> 
+        <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>    
         <script type="text/javascript" src="/js/fancybox/jquery.fancybox.pack.js"></script>
-        <script type="text/javascript" src="/js/video_chat_chrome.js?time=<?php echo time(); ?>"></script>    
-        <script type="text/javascript" src="/js/customvideo.js"></script>        
+        <script type="text/javascript" src="/js/customvideo.js"></script> 
+    <?php if(isset($ispatient)) {  ?>
+        <script type="text/javascript" src="/js/video_chat_patient.js?time=<?php echo time(); ?>"></script>    
     <?php } else {?>
-        <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-        <script type="text/javascript" src="/js/fancybox/jquery.fancybox.pack.js"></script>
         <script type="text/javascript" src="/js/video_chat.js?time=<?php echo time(); ?>"></script>    
-        <script type="text/javascript" src="/js/customvideo.js"></script>
     <?php } ?>
 <script type="text/javascript">
     var is_patient = <?php echo isset($ispatient)?'true':'false'; ?>;

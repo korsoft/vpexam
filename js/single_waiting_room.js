@@ -11,6 +11,12 @@ var tempResultOfFoo = {};
  * @return void
  **/
 $( window ).on( "load", function() {
+        $('#imgToolPhys').on('click', function () {
+        var intWidth = null;
+        intWidth = (document.getElementById("divSidenavPhys").style.right==='-11px' || document.getElementById("divSidenavPhys").style.right==='')?"266px":"-11px";
+        document.getElementById("divSidenavPhys").style.right = intWidth;
+    });
+    
     if(typeof(Worker) !== "undefined") {
         if(typeof(oWorker) == "undefined") {
             oWorker = new Worker('/js/single_waiting_room_worker.js');

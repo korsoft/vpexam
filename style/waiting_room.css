@@ -126,9 +126,7 @@ body {
         width: 90% !important;
     }
 }
-
-.mainChrome {
-  
+.mainPatient {
     height: 80%;
     max-height: 80%;
     width: 100%;
@@ -136,3 +134,47 @@ body {
     justify-content: center;
     overflow: hidden;
 }
+#divDevices {
+    font-size: 25px;
+    height: 25px;
+    float: left;
+}
+#divDevices img {
+    height: auto;
+    max-height: 100%;
+    width: auto;
+}
+#modalSoundTest{
+	background-color: black;
+	bottom: 0;
+	display: none;
+	left: 0;
+	right: 0;
+	top: 0;
+	opacity: 0.5;
+	position: absolute;
+	z-index: 8011;
+}
+#messageSoundTest {
+    background-color: #BEBEBE;
+    height: auto;
+    left: 40%;
+    position: absolute;
+    text-align: center;
+    top:  20%;
+    width: 282px;
+    z-index: 8012;
+}
+#messageSoundTest a{
+    right: 0;
+    position: absolute;
+}  
+#dlgTestSoundDialog p{
+    font-size: 20px;
+    font-weight: bold;
+}
+#audSoundTest{
+    width: 85%;
+}
+
+

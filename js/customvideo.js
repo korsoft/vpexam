@@ -11,8 +11,8 @@
 
     $(function () {
         var video = document.getElementById('localVideo'),
-            remoteVideo = ($('#remoteVideoChrome').length==1)?document.getElementById('remoteVideoChrome'):document.getElementById('remoteVideo'),
-            container = document.getElementById('custom-video'),
+            remoteVideo = ($('#remoteVideoPatient').length==1)?document.getElementById('remoteVideoPatient'):document.getElementById('remoteVideo'),
+            container = ($('#custom-videoPatient').length==1)?document.getElementById('custom-videoPatient'):document.getElementById('custom-video'),
             playbutton = document.getElementById('playpause'),
             mutebutton = document.getElementById('mute'),
             fullscreenbutton = document.getElementById('fullscreen'),
@@ -48,7 +48,9 @@
         video.addEventListener('click', playpause, false);
         var isFullscreen= false;
         fullscreenbutton.addEventListener('click', function() {
+            
             if(!isFullscreen){
+         
                 if (remoteVideo.requestFullscreen) {
                     remoteVideo.requestFullscreen();
                 } 
@@ -57,6 +59,9 @@
                 } 
                 else if (remoteVideo.webkitRequestFullscreen) {
                     remoteVideo.webkitRequestFullscreen(); // Chrome and Safari
+                }
+                else if (remoteVideo.msRequestFullscreen) {// IE
+                    container.msRequestFullscreen();                    
                 }
                 isFullscreen=true;
                 fullscreenbutton.classList.remove('icon-fullscreen-alt');
@@ -72,6 +77,9 @@
                 else if(document.webkitCancelFullScreen) {
                     document.webkitCancelFullScreen();
                 }
+                else if(document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }                
                 isFullscreen=false;
                 fullscreenbutton.classList.add('icon-fullscreen-alt');
                 fullscreenbutton.classList.remove('icon-fullscreen-exit-alt');

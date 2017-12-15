@@ -22,10 +22,7 @@ var WaitingRoom = {
                     //Cerramos el sweetalert
                     swal.close();
                     //Agregamos el cronometro para mostrar el tiempo de espera del paciente hasta que lo antiendan
-                    if(isChrome)
-                        var chronometer = $('<div id="chronometer"></div>');
-                    else
-                        var chronometer = $('<div id="chronometer"><img src="/img/waiting_room.png" alt="" /><img src="/img/indicator.gif" alt="" /></div>');
+                    var chronometer = $('<div id="chronometer"></div>');
                     WaitingRoom.timer = new Timer();
                     WaitingRoom.timer.start();
                     /*WaitingRoom.timer.addEventListener('secondsUpdated', function (e) {

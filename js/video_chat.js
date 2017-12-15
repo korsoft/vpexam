@@ -14,6 +14,7 @@ var isChrome    = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(naviga
       audio: true,
       video: true
     };
+    var netBandwidth =null;
 var muteMicbutton = document.getElementById('mute');
 var VideoChat = {
   audio     : null,
@@ -109,6 +110,19 @@ var VideoChat = {
         VideoChat.video.remote.stream = data.streams[0];
         VideoChat.video.remote.dom[0].srcObject = VideoChat.video.remote.stream;
       };
+        BANDWITDH.init(function(bandwitdh){
+            console.log('calculate bandwitdh');
+            if(bandwitdh>=5)
+                $("#imgbandwidth").attr("src","images/bw_green.png");
+            else if(bandwitdh>1 && bandwitdh<5)
+                $("#imgbandwidth").attr("src","images/bw_yellow.png");
+            else if(bandwitdh>0)
+                $("#imgbandwidth").attr("src","images/bw_red.png");
+            else
+                $("#imgbandwidth").attr("src","images/bw_black.png");
+            console.log('bandwitdh is ' + bandwitdh + ' [Mbps]');
+            netBandwidth=bandwitdh;
+        });      
       // Setup ice handling 
       this.pc.onicecandidate = function (event) {
         if(event.candidate) { 
@@ -496,7 +510,45 @@ var Permissions = {
     $('#message').remove();
   }
 }
-
+var blPlayed=false;
+var SoundTest = {
+  show : function() {
+    $('body').append('<script>blPlayed=false;var aud = document.getElementById("audSoundTest");aud.onended = function(){blPlayed=true;};</script><div id="modalSoundTest"></div><div id="messageSoundTest" ><a href="javascript:void(0);" onClick="SoundTest.hide();return false;">Close window </a><br /><br /><div id="dlgTestSoundDialog" title="Sound Test"><p style="margin: 0 0 1px 0;">Can you hear the sound?</p><br/><audio id="audSoundTest" controls="controls" controlsList="nodownload"><source src="sounds/bird_tweet.mp3" /></audio><br/><br/><div class="button-dark" id="btnYes" onclick="fncChangeImg(true);" >Yes</div>&nbsp;<div class="button-dark" id="btnNo"  onclick="fncChangeImg(false);" >No</div><br/></div><br/></div>');
+    $('#modalSoundTest').fadeIn('300');
+    $('#messageSoundTest').fadeIn('500');
+  },
+  hide : function() {
+    $('#modalSoundTest').remove();
+    $('#messageSoundTest').remove();
+  }
+}
+function fncShowBandwDlg()
+{
+    if(netBandwidth>=5)
+        swal ( "Bandwidth Test" ,  "You have a high internet connection!" ,  "success" )
+    else if(netBandwidth>1 && netBandwidth<5)
+        swal ( "Bandwidth Test" ,  "You have a regular internet connection!" ,  "warning" )
+    else if(netBandwidth>0)
+        swal ( "Bandwidth Test" ,  "You have a low internet connection!" ,  "error" )
+    else
+        swal ( "Bandwidth Test" ,  "No internet connection detected!" ,  "error" )
+}
+function fncChangeImg(blValue)
+{
+    $("#imgSound").attr("src","images/audio_red.png");
+    if(blValue && blPlayed)
+    {
+        $("#imgSound").attr("src","images/audio_green.png");
+    }
+    else if(blValue){
+        swal ( "Sound Test" ,  "Please, press play button!" ,  "error" )
+    }
+    SoundTest.hide();    
+}
+function fncShowSoundDlg()
+{
+    SoundTest.show();
+}
 $(document).ready(function() {
   //if(/^\/(patient_main|patient_view)\.php(.*)$/g.test(window.location.pathname)) {
   if(/^\/(patient_view)\.php(.*)$/g.test(window.location.pathname)) {
@@ -510,6 +562,21 @@ $(document).ready(function() {
           if(obj.id) {
             var audioTracks = obj.getAudioTracks();
             var videoTracks = obj.getVideoTracks();
+            
+            if(audioTracks[0].muted)
+                $("#imgMic").attr("src","images/mic_red.png");
+            else if(!audioTracks[0].muted)
+                $("#imgMic").attr("src","images/mic_green.png");
+            else
+                $("#imgMic").attr("src","images/mic_black.png");
+
+            if(videoTracks[0].enabled)
+                $("#imgCamera").attr("src","images/camera_green.png");
+            else if(!videoTracks[0].enabled)
+                $("#imgCamera").attr("src","images/camera_red.png");
+            else
+                $("#imgCamera").attr("src","images/camera_black.png");             
+
             devices = {
               audio: {
                 id         : audioTracks[0].id, 
@@ -538,7 +605,9 @@ $(document).ready(function() {
               }
             });
           }
-          else {
+          else { 
+                $("#imgCamera").attr("src","images/camera_red.png");
+                $("#imgMic").attr("src","images/mic_red.png");
             navigator.mediaDevices.enumerateDevices()
             .then(function(devices) {
               devices = devices.map(function(device) {
@@ -557,7 +626,7 @@ $(document).ready(function() {
               });
             })
             .catch(function(err) {
-              console.log(err.name + ": " + err.message);
+                console.log(err.name + ": " + err.message);
             });
           }
         };
