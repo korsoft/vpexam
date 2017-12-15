@@ -70,7 +70,7 @@
                 </div>
             </div>
     <?php } ?>
-        <script type="text/javascript" src="/js/webRTC-over-websockets-master/js/bandwidth.js?time=<?php echo time(); ?>"></script> 
+        <script type="text/javascript" src="/js/bandwidth.js?time=<?php echo time(); ?>"></script> 
         <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>    
         <script type="text/javascript" src="/js/fancybox/jquery.fancybox.pack.js"></script>
         <script type="text/javascript" src="/js/customvideo.js"></script> 
