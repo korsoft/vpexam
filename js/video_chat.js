@@ -513,7 +513,7 @@ var Permissions = {
 var blPlayed=false;
 var SoundTest = {
   show : function() {
-    $('body').append('<script>blPlayed=false;var aud = document.getElementById("audSoundTest");aud.onended = function(){blPlayed=true;};</script><div id="modalSoundTest"></div><div id="messageSoundTest" ><a href="javascript:void(0);" onClick="SoundTest.hide();return false;">Close window </a><br /><br /><div id="dlgTestSoundDialog" title="Sound Test"><p style="margin: 0 0 1px 0;">Can you hear the sound?</p><br/><audio id="audSoundTest" controls="controls" controlsList="nodownload"><source src="sounds/bird_tweet.mp3" /></audio><br/><br/><div class="button-dark" id="btnYes" onclick="fncChangeImg(true);" >Yes</div>&nbsp;<div class="button-dark" id="btnNo"  onclick="fncChangeImg(false);" >No</div><br/></div><br/></div>');
+    $('body').append('<script>blPlayed=false;var aud = document.getElementById("audSoundTest");aud.onended = function(){blPlayed=true;};</script><div id="modalSoundTest"></div><div id="messageSoundTest" ><a href="javascript:void(0);" onClick="SoundTest.hide();return false;">X</a><br /><br /><br /><div id="dlgTestSoundDialog" title="Sound Test"><p style="margin: 0 0 1px 0;">Can you hear the sound?</p><br/><audio id="audSoundTest" controls="controls" controlsList="nodownload"><source src="sounds/bird_tweet.mp3" /></audio><br/><br/><div class="button-dark" id="btnYes" onclick="fncChangeImg(true);" >Yes</div>&nbsp;<div class="button-dark" id="btnNo"  onclick="fncChangeImg(false);" >No</div><br/></div><br/></div>');
     $('#modalSoundTest').fadeIn('300');
     $('#messageSoundTest').fadeIn('500');
   },
