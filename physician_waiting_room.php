@@ -56,7 +56,27 @@
               <a href="javascript: void(0);" onclick="fncShowBandwDlg();return false;"><img id="imgbandwidth" src="images/bw_black.png"/>&nbsp;&nbsp;Bandwidth</a>
               <a href="#" onclick="return false;"><img id="imgCamera" src="images/camera_black.png"/>&nbsp;&nbsp;Camera</a>
               <a href="#" onclick="return false;"><img id="imgMic"   src="images/mic_black.png"/>&nbsp;&nbsp;&nbsp;Microphone</a>
-              <a href="javascript: void(0);" onclick="fncShowSoundDlg();return false;"><img id="imgSound" src="images/audio_icon.png"/>&nbsp;&nbsp;Sound</a>
+              <a href="javascript: void(0);" id="lnSound"><img id="imgSound" src="images/audio_icon.png"/>&nbsp;&nbsp;Sound</a>
+            </div>
+            <div id="modalSoundTest"  class="hide" ></div>
+            <div id="messageSoundTest" class="hide">
+                <a href="javascript:void(0);" onClick="SoundTest.hide();return false;">X</a>
+                <br />
+                <br />
+                <br />
+                <div id="dlgTestSoundDialog" title="Sound Test">
+                    <p style="margin: 0 0 1px 0;">Can you hear the sound?</p>
+                    <br/>
+                    <audio id="audSoundTest" controls="controls" controlsList="nodownload">
+                        <source src="sounds/bird_tweet.mp3" />
+                    </audio>
+                    <br/>
+                    <br/>
+                    <div class="button-dark" id="btnYes" onclick="fncChangeImg(true);" >Yes</div>&nbsp;
+                    <div class="button-dark" id="btnNo"  onclick="fncChangeImg(false);" >No</div>
+                    <br/>
+                </div>
+                <br/>
             </div>
             <div class="PatientsWaitingLoading "></div>
             <div class="PatientsWaitingEmpty Hide">There are no people in the waiting room at this moment. </div>

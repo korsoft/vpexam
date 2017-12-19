@@ -23,29 +23,30 @@ div.PatientsWaitingEmpty{
 }
 .dvsidenavPhys {
     height: 100%; /* 100% Full-height */
-    width: 10px; /* 0 width - change this with JavaScript */
-    position: absolute; /* Stay in place */
+    width: 200px; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
     z-index: 1; /* Stay on top */
     top: 145px; /* Stay at the top */
-    right: -11px;
+    right: -200px;
     background-color: #FFFFFF;
-    padding-top: 5px; /* Place content 60px from the top */
+    padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the dvsidenav */
     background-repeat: no-repeat;
     border-left: 20px solid #3051A6;
-    white-space:nowrap;
+    border-top: 1px solid #3051A6;
 }
 
 /* The navigation menu links */
 .dvsidenavPhys a {
-    padding: 8px 8px 8px 45px;
+    padding: 8px 8px 8px 10px;
+    width: 180px;
     text-decoration: none;
     font-size: 25px;
-    width: 200px;
     color: #818181;
     display: block;
-    transition: 0.3s;
     background-color: #FFFFFF;
+    transition: 0.3s; 
+    white-space:nowrap;
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -53,7 +54,6 @@ div.PatientsWaitingEmpty{
     color: #000;
 }
 .dvsidenavPhys a img {
-    float: left;
     height:27px; 
     width:27px;
 }

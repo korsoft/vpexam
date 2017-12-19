@@ -13,7 +13,7 @@ var tempResultOfFoo = {};
 $( window ).on( "load", function() {
         $('#imgToolPhys').on('click', function () {
         var intWidth = null;
-        intWidth = (document.getElementById("divSidenavPhys").style.right==='-11px' || document.getElementById("divSidenavPhys").style.right==='')?"266px":"-11px";
+        intWidth = (document.getElementById("divSidenavPhys").style.right==='-200px' || document.getElementById("divSidenavPhys").style.right==='')?"0px":"-200px";
         document.getElementById("divSidenavPhys").style.right = intWidth;
     });
     

@@ -551,13 +551,21 @@ var Permissions = {
 var blPlayed=false;
 var SoundTest = {
   show : function() {
-    $('body').append('<script>blPlayed=false;var aud = document.getElementById("audSoundTest");aud.onended = function(){blPlayed=true;};</script><div id="modalSoundTest"></div><div id="messageSoundTest" ><a href="javascript:void(0);" onClick="SoundTest.hide();return false;">X</a><br /><br /><br /><div id="dlgTestSoundDialog" title="Sound Test"><p style="margin: 0 0 1px 0;">Can you hear the sound?</p><br/><audio id="audSoundTest" controls="controls" controlsList="nodownload"><source src="sounds/bird_tweet.mp3" /></audio><br/><br/><div class="button-dark" id="btnYes" onclick="fncChangeImg(true);" >Yes</div>&nbsp;<div class="button-dark" id="btnNo"  onclick="fncChangeImg(false);" >No</div><br/></div><br/></div>');
-    $('#modalSoundTest').fadeIn('300');
-    $('#messageSoundTest').fadeIn('500');
+      $('#modalSoundTest').slideUp('fast',function(){
+    $('#modalSoundTest').removeClass('hide').slideDown('fast');
+  }); 
+  $('#messageSoundTest').slideUp('fast',function(){
+    $('#messageSoundTest').removeClass('hide').slideDown('fast');
+  }); 
+    
   },
   hide : function() {
-    $('#modalSoundTest').remove();
-    $('#messageSoundTest').remove();
+      $('#modalSoundTest').slideUp('fast',function(){
+    $('#modalSoundTest').addClass('hide').slideDown(0);
+  }); 
+  $('#messageSoundTest').slideUp('fast',function(){
+    $('#messageSoundTest').addClass('hide').slideDown(0);
+  }); 
   }
 }
 function fncShowBandwDlg()
@@ -578,21 +586,26 @@ function fncChangeImg(blValue)
     {
         $("#imgSound").attr("src","images/audio_green.png");
     }
-    else if(blValue){
+    else if(!blPlayed){
         swal ( "Sound Test" ,  "Please, press play button!" ,  "error" )
     }
-    SoundTest.hide();    
-}
-function fncShowSoundDlg()
-{
-    SoundTest.show();
+    SoundTest.hide();   
+    blPlayed=false;   
 }
 $(document).ready(function() { 
     $('#imgTool').on('click', function () {
         var intWidth = null;
-        intWidth = (document.getElementById("divSidenav").style.right==='-11px' || document.getElementById("divSidenav").style.right==='')?"266px":"-11px";
+        intWidth = (document.getElementById("divSidenav").style.right==='-200px' || document.getElementById("divSidenav").style.right==='')?"0px":"-200px";
         document.getElementById("divSidenav").style.right = intWidth;
     });
+       
+    $('#lnSound').on('click', function () {
+        SoundTest.show();
+    });
+    
+   document.getElementById('audSoundTest').addEventListener('play', function(){ blPlayed=true; });
+    
+    
   //if(/^\/(patient_main|patient_view)\.php(.*)$/g.test(window.location.pathname)) {
   if(/^\/(patient_view)\.php(.*)$/g.test(window.location.pathname)) {
    // $('#chat').removeClass('hide');

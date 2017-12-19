@@ -14,8 +14,9 @@ var isChrome    = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(naviga
       audio: true,
       video: true
     };
-    var netBandwidth =null;
-var muteMicbutton = document.getElementById('mute');
+var blPlayed        = false;
+var netBandwidth    = null;
+var muteMicbutton   = document.getElementById('mute');
 var VideoChat = {
   audio     : null,
   callback  : false,
@@ -513,13 +514,21 @@ var Permissions = {
 var blPlayed=false;
 var SoundTest = {
   show : function() {
-    $('body').append('<script>blPlayed=false;var aud = document.getElementById("audSoundTest");aud.onended = function(){blPlayed=true;};</script><div id="modalSoundTest"></div><div id="messageSoundTest" ><a href="javascript:void(0);" onClick="SoundTest.hide();return false;">X</a><br /><br /><br /><div id="dlgTestSoundDialog" title="Sound Test"><p style="margin: 0 0 1px 0;">Can you hear the sound?</p><br/><audio id="audSoundTest" controls="controls" controlsList="nodownload"><source src="sounds/bird_tweet.mp3" /></audio><br/><br/><div class="button-dark" id="btnYes" onclick="fncChangeImg(true);" >Yes</div>&nbsp;<div class="button-dark" id="btnNo"  onclick="fncChangeImg(false);" >No</div><br/></div><br/></div>');
-    $('#modalSoundTest').fadeIn('300');
-    $('#messageSoundTest').fadeIn('500');
+      $('#modalSoundTest').slideUp('fast',function(){
+    $('#modalSoundTest').removeClass('hide').slideDown('fast');
+  }); 
+  $('#messageSoundTest').slideUp('fast',function(){
+    $('#messageSoundTest').removeClass('hide').slideDown('fast');
+  }); 
+    
   },
   hide : function() {
-    $('#modalSoundTest').remove();
-    $('#messageSoundTest').remove();
+      $('#modalSoundTest').slideUp('fast',function(){
+    $('#modalSoundTest').addClass('hide').slideDown(0);
+  }); 
+  $('#messageSoundTest').slideUp('fast',function(){
+    $('#messageSoundTest').addClass('hide').slideDown(0);
+  }); 
   }
 }
 function fncShowBandwDlg()
@@ -540,21 +549,24 @@ function fncChangeImg(blValue)
     {
         $("#imgSound").attr("src","images/audio_green.png");
     }
-    else if(blValue){
+    else if(!blPlayed){
         swal ( "Sound Test" ,  "Please, press play button!" ,  "error" )
     }
-    SoundTest.hide();    
-}
-function fncShowSoundDlg()
-{
-    SoundTest.show();
+    SoundTest.hide();   
+    blPlayed=false;
 }
 $(document).ready(function() {
+    $('#lnSound').on('click', function () {
+        SoundTest.show();
+    });    
   //if(/^\/(patient_main|patient_view)\.php(.*)$/g.test(window.location.pathname)) {
   if(/^\/(patient_view)\.php(.*)$/g.test(window.location.pathname)) {
     $('#chat').removeClass('hide');
   }
-
+ 
+   document.getElementById('audSoundTest').addEventListener('play', function(){ blPlayed=true; });
+ 
+ 
   if('' != $('#caller').val()) {
     var caller           = JSON.parse($('#caller').val()),
         storeStreamError = function(obj) {
