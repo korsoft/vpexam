@@ -103,7 +103,7 @@ body.stop-scrolling {
     -webkit-transition: all 0.1s;
     transition: all 0.1s; }
     .sweet-alert .sa-input-error::before, .sweet-alert .sa-input-error::after {
-      content: "";
+      /*content: "";*/
       width: 20px;
       height: 6px;
       background-color: #f06e57;
@@ -124,7 +124,7 @@ body.stop-scrolling {
       -webkit-transform: scale(1);
       transform: scale(1); }
   .sweet-alert input {
-    width: 100%;
+    width: 60%;
     box-sizing: border-box;
     border-radius: 3px;
     border: 1px solid #d7d7d7;

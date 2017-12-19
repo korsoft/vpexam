@@ -36,7 +36,7 @@ self.addEventListener('message', function(e) {
  * @return void
  **/
 function getPatientsActived(){
-    // console.info('getPatientsActived() :: worker is working' );
+    //console.info('getPatientsActived() :: worker is working');
     load(function(xhr) {	
         var result      = JSON.parse( xhr.responseText );
         var arrPatients = result.patients;
@@ -57,6 +57,7 @@ function getPatientsActived(){
                 oPatient.command     = 'none';
                 oPatient.id          = item.id;
                 oPatient.name        = item.name;
+                //oPatient.lastName    = item.lastName;
                 oPatient.address     = item.address;   
                 oPatient.dob         = item.dob;       
                 oPatient.gender      = item.gender;    
@@ -66,6 +67,7 @@ function getPatientsActived(){
                 oPatient = {
                            id        : numIndex,
                            name      : item.name,
+                           lastName  : item.lastName,
                            address   : item.address,
                            dob       : item.dob,
                            gender    : item.gender,

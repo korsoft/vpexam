@@ -502,8 +502,9 @@ class PatientInfo {
     public $city = '';
     public $state = '';
     public $zip = '';
+    public $waitingroom = '';
 
-	function __construct($uname, $id, $fname, $mname, $lname, $gen, $db, $mrn, $ph, $phTp, $addr, $city, $st, $zip) {
+	function __construct($uname, $id, $fname, $mname, $lname, $gen, $db, $mrn, $ph, $phTp, $addr, $city, $st, $zip, $waitingroom) {
 		$this->firstName = $fname;
         $this->middleName = $mname;
 		$this->lastName = $lname;
@@ -518,6 +519,7 @@ class PatientInfo {
         $this->city = $city;
         $this->state = $st;
         $this->zip = $zip;
+        $this->waitingroom = $waitingroom;
 	}
 }
 
@@ -838,31 +840,47 @@ function removePatientsNotToDisplay(&$patientList, $physId, $mysqli) {
  **/
 function getPatientsOfPhysicianAndRemoveNotDisplay($id, $mysqli, $numOffSet = 0, $numLimit = 0) {
     $response = [];
-    $strQuery = 'SELECT pat.patient_id, pat.username, pat.first_name, pat.middle_name, ' .
+    /*$strQuery = 'SELECT CASE WHEN pat.patient_id IN  '.
+                '(SELECT patient_id from waiting_room) THEN \'yes\' ELSE \'no\' END AS waitingroom, '.
+                'pat.patient_id, pat.username, pat.first_name, pat.middle_name, ' .*/
+    
+    /*$strQuery = 'SELECT pat.patient_id, pat.username, pat.first_name, pat.middle_name, ' .
                 'pat.last_name, pat.gender, pat.dob, pat.mrn, pat.phone, pat.phone_type, ' .
                 'pat.address, pat.city, pat.state, pat.zip FROM patient_physicians pah ' .
                 'JOIN patients pat ON pah.id = pat.patient_id ' .
                 'LEFT JOIN patients_no_display pnd ON pnd.patient_id = pat.patient_id AND ' .
                 'pnd.phys_id = pah.physician_id ' .
                 'WHERE physician_id = ' . $id . ' AND pnd.patient_id IS NULL ' . 
+                'ORDER BY pat.patient_id DESC ';*/
+    
+    $strQuery = 'SELECT pat.patient_id, pat.username, pat.first_name, pat.middle_name, pat.last_name, pat.gender, pat.dob, ' .
+                'pat.mrn, pat.phone, pat.phone_type, pat.address, pat.city, pat.state, pat.zip ' .
+                'FROM (patient_physicians pah LEFT JOIN waiting_room war ON pah.id = war.patient_id) ' .
+                'LEFT JOIN patients pat ON pah.id = pat.patient_id  ' .
+                'LEFT JOIN patients_no_display pnd ON pnd.patient_id = pat.patient_id AND pnd.phys_id = pah.physician_id ' .
+                'WHERE pah.physician_id = ' . $id . ' AND pnd.patient_id IS NULL AND war.patient_id IS NULL ' .
                 'ORDER BY pat.patient_id DESC ';
+
     if( $numLimit > 0 ){
         $strQuery .=  ' LIMIT ' . $numLimit . ' OFFSET ' . $numOffSet;
     }
-    // error_log( __METHOD__ . ' :: $strQuery :: ' . $strQuery  );
+    error_log( __METHOD__ . ' :: $strQuery :: ' . $strQuery  );
     $result   = $mysqli->query($strQuery);
     if (is_object($result) && property_exists($result, 'num_rows') && $result->num_rows > 0) {
         $response = array_map(
             function($patient) {
-                extract($patient);
+                extract($patient); //
+                //error_log( __METHOD__ . ' :: $strQuery :: ' . $waitingroom  );
+                $waitingroom ='';
                 $dob = DateTime::createFromFormat('Y-m-d', $dob, new DateTimeZone('UTC'));
-                return new PatientInfo($username, $patient_id, $first_name, $middle_name, 
+                return new PatientInfo( $username, $patient_id, $first_name, $middle_name, 
                                        $last_name, $gender, $dob, $mrn, $phone, $phone_type, 
-                                       $address, $city, $state, $zip);
+                                       $address, $city, $state, $zip, $waitingroom);
             }, $result->fetch_all(MYSQLI_ASSOC)
         );
 
     }
+    //error_log( __METHOD__ . ' :: $strQuery :: ' . $response  );
     return $response;
 }
 
@@ -1646,6 +1664,7 @@ function checkInWaitingRoom($mysqli, $physicianid, $patient) {
     $sql = "INSERT IGNORE INTO waiting_room (physician_id, patient_id, patient_name, entered_at) VALUES ($physicianid, {$patient['id']}, '{$patient['name']}', UNIX_TIMESTAMP());";
     if (true == $mysqli->query($sql)) {
         $response['data'] = $patient;
+        error_log(__METHOD__ . ':: OK: waiting_room');
     }
     else {
         $response['success']  = false;
@@ -1659,7 +1678,7 @@ function getPatientsFromWaitingRoom($mysqli, $physicianid) {
     $result = $mysqli->query("
         SELECT 
         war.patient_id AS id, war.patient_name AS name, IFNULL(pat.gender, '') AS gender, 
-        IFNULL(pat.dob, '') AS dob, IFNULL(pat.mrn, '') AS mrn, IFNULL(pat.phone, '') AS phone,
+        IFNULL(pat.last_name, '') AS lastName, IFNULL(pat.dob, '') AS dob, IFNULL(pat.mrn, '') AS mrn, IFNULL(pat.phone, '') AS phone,
         IFNULL(pat.phone_type, '') AS phone_type, IFNULL(pat.address, '') AS address, 
         IFNULL(pat.city, '') AS city, IFNULL(pat.state,'') AS state, IFNULL( pat.zip, '') AS zip
         FROM waiting_room war
@@ -1672,6 +1691,7 @@ function getPatientsFromWaitingRoom($mysqli, $physicianid) {
             function($patient) {
                 extract($patient);
                 error_log($dob);
+                error_log($name.' - '.$lastName); //teodoro - gonzales
                 $oDate = DateTime::createFromFormat('Y-m-d', $dob, new DateTimeZone('UTC'));
                 if( !($oDate === false) ){
                     $dob = $oDate->format('m/d/Y');
@@ -1679,6 +1699,7 @@ function getPatientsFromWaitingRoom($mysqli, $physicianid) {
                 return array(
                         'id'         => $id,
                         'name'       => $name,
+                        'lastName'   => $lastName,
                         'gender'     => ucfirst($gender),
                         'dob'        => $dob,
                         'mrn'        => $mrn,
@@ -1690,6 +1711,7 @@ function getPatientsFromWaitingRoom($mysqli, $physicianid) {
             }, $result->fetch_all(MYSQLI_ASSOC)
         );
     }
+    //error_log('message :: getPatientsFromWaitingRoom:: response :: '.$response);
     return $response;
 }
 function isInWaitingRoom($mysqli, $patientid) {

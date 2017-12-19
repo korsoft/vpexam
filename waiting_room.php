@@ -25,6 +25,9 @@
         if(!empty($_SESSION['user_id']) && !empty($_SESSION['is_patient'])) {
             $patient['id']   = $_SESSION['user_id'];
             $patient['name'] = $_SESSION['first_name'];
+        }else if(!empty($_GET['user_id'])) {
+            $patient['id']   = $_GET['user_id'];
+            $patient['name'] = $_GET['first_name'];
         }
         //Definimos que es paciente
         $ispatient = true;
@@ -78,6 +81,7 @@
         <link rel="stylesheet" type="text/css" href="/style/style.css" />
         <link rel="stylesheet" type="text/css" href="/style/waiting_room.css" />
         <link rel="stylesheet" type="text/css" href="/style/sweetalert.css" />
+        <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link rel="manifest" href="/manifest.json" />
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -102,6 +106,11 @@
         <script type="text/javascript" src="/js/easytimer.min.js"></script>
         <script type="text/javascript" src="/js/sweetalert.min.js"></script>
         <script type="text/javascript" src="/js/waiting_room.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        <script src="js/sha512.js"></script>
+        <script src="js/jquery.inputmask/inputmask.js"></script>
+        <script src="js/jquery.inputmask/jquery.inputmask.js"></script>
+        <script src="js/numeric/jquery.numeric.js"></script>
         <script type="text/javascript">
             WaitingRoom.init(<?php echo json_encode($physician); ?>, <?php echo json_encode($patient); ?>);
         </script>

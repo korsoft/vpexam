@@ -15,6 +15,10 @@ $physicianid = isset($_POST['physician'])?$_POST['physician']:0;
 $patientid   = !empty($_SESSION['user_id'])?$_SESSION['user_id']:0;
 $patientname = 0 < $patientid?"{$_SESSION['first_name']} {$_SESSION['last_name']}":(isset($_POST['patientname'])?$_POST['patientname']:'');
 
+if(0 < $_POST['patientid']){
+	$patientid=$_POST['patientid'];
+}
+
 try {
 	if(0 >= $physicianid) {
 		throw new Exception("Invalid physician id { $physicianid }", 1);

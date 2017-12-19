@@ -120,6 +120,9 @@ body {
     height: auto;
     max-width: 300px;
 }
+.swal-input {
+    display: inline-block !important;
+}
 @media (max-width: 800px) {
     #logo img{
         max-height: 90% !important;
@@ -133,6 +136,12 @@ body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+}
+.sweet-alert span {
+    width: 22%;
+    display: inline-block;
+    text-align: right;
+    margin-right: 10px;
 }
 #divDevices {
     font-size: 25px;

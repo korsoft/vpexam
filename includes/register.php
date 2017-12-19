@@ -125,34 +125,34 @@ if (strcmp($pageName, "register_patient.php") === 0) {
 
         $userId = 0;
         /*
-        // Generate a random number 8-digit number between: 10^7 and (10^8) - 1, or 10000000-99999999.
-        // With an 8-digit number, there will be 89,999,999 unique possibilities
-        // Also, by using an 8-digit number, we can ensure that it fits into a standard INT column in MySql.
-        // This means there is a 1:89999999 chance of getting the same number
-        $digits = 8;
-        $num = 0;
-        // Force while statement to execute once
-        $userCount = 1;
-        while ($userCount > 0) {
-            $num = mt_rand(pow(10, $digits - 1), pow(10, $digits) - 1);
-            $prepStmtCheckId = "SELECT COUNT(*) FROM patients WHERE patient_id = ?";
-            $stmtCheckId = $mysqli->prepare($prepStmtCheckId);
-            if ($stmtCheckId) {
-                $stmtCheckId->bind_param('i', $num);
-                $stmtCheckId->execute();
-                $stmtCheckId->bind_result($userCount);
-                $stmtCheckId->fetch();
-                $stmtCheckId->close();
-            } else {
-                header('Location: ../error.php?error=2000&l='.__LINE__);
-                exit();
+            // Generate a random number 8-digit number between: 10^7 and (10^8) - 1, or 10000000-99999999.
+            // With an 8-digit number, there will be 89,999,999 unique possibilities
+            // Also, by using an 8-digit number, we can ensure that it fits into a standard INT column in MySql.
+            // This means there is a 1:89999999 chance of getting the same number
+            $digits = 8;
+            $num = 0;
+            // Force while statement to execute once
+            $userCount = 1;
+            while ($userCount > 0) {
+                $num = mt_rand(pow(10, $digits - 1), pow(10, $digits) - 1);
+                $prepStmtCheckId = "SELECT COUNT(*) FROM patients WHERE patient_id = ?";
+                $stmtCheckId = $mysqli->prepare($prepStmtCheckId);
+                if ($stmtCheckId) {
+                    $stmtCheckId->bind_param('i', $num);
+                    $stmtCheckId->execute();
+                    $stmtCheckId->bind_result($userCount);
+                    $stmtCheckId->fetch();
+                    $stmtCheckId->close();
+                } else {
+                    header('Location: ../error.php?error=2000&l='.__LINE__);
+                    exit();
+                }
             }
-        }
-        $userId = $num;
-        */
-        /*
-        if ($haveEmail)
-            $username = explode('@', $email)[0];
+            $userId = $num;
+            */
+            /*
+            if ($haveEmail)
+                $username = explode('@', $email)[0];
         */
 
         // Insert the new user into the database
@@ -204,6 +204,8 @@ if (strcmp($pageName, "register_patient.php") === 0) {
             $valuesToInsert['insurance_id_cert_num'] = $insID;
         if ($haveInsIssueDate)
             $valuesToInsert['insurance_issue_date'] = $insIssueDateFormatted;
+        //old_patient_id
+        $valuesToInsert['old_patient_id'] = 0;
 
         $prepStmtRegister = 'INSERT INTO patients(' . implode(',', array_keys($valuesToInsert)) . ') VALUES("' . implode('","', array_values($valuesToInsert)) .  '")';
         /*
@@ -296,7 +298,6 @@ if (strcmp($pageName, "register_patient.php") === 0) {
                 exit();
             }
         }
-
         // Now create the patient's upload folder
         if (file_exists(UPLOADS_LOCATION . $physId)) {
             if (!mkdir(UPLOADS_LOCATION . $physId . "/" . $userId)) {
@@ -338,26 +339,26 @@ if (strcmp($pageName, "register_patient.php") === 0) {
 
     // Physician Registration
     if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_POST['dob'], $_POST['gender'], $_POST['npi'], $_POST['hospital'])) {
-            // Check to see if email already exists in DB of both patients AND physicians
-            $prepStmtCheckEmail = "CALL sp_select_email_physician_patient(?);";
-            $stmtCheckEmail = $mysqli->prepare($prepStmtCheckEmail);
-            if ($stmtCheckEmail) {
-                $stmtCheckEmail->bind_param('s', $email);
-                $stmtCheckEmail->execute();
-                $result = $stmtCheckEmail->get_result();
+        // Check to see if email already exists in DB of both patients AND physicians
+        $prepStmtCheckEmail = "CALL sp_select_email_physician_patient(?);";
+        $stmtCheckEmail = $mysqli->prepare($prepStmtCheckEmail);
+        if ($stmtCheckEmail) {
+            $stmtCheckEmail->bind_param('s', $email);
+            $stmtCheckEmail->execute();
+            $result = $stmtCheckEmail->get_result();
 
-                # fetch object
-                $objResult = $result->fetch_object();
-                if ($objResult->intTotal!=0) {
-                    $stmtCheckEmail->close();
-                    header('Location: ../error.php?error=1002&l='.__LINE__);
-                    exit();
-                }
+            # fetch object
+            $objResult = $result->fetch_object();
+            if ($objResult->intTotal!=0) {
                 $stmtCheckEmail->close();
-            } else {
-                header('Location: ../error.php?error=2000&l='.__LINE__);
+                header('Location: ../error.php?error=1002&l='.__LINE__);
                 exit();
-            }        
+            }
+            $stmtCheckEmail->close();
+        } else {
+            header('Location: ../error.php?error=2000&l='.__LINE__);
+            exit();
+        }        
 
         $data = getNPIVerification($npi);
         if (is_null($data)) {
@@ -366,7 +367,7 @@ if (strcmp($pageName, "register_patient.php") === 0) {
         } else if (($data->errorNum !== -1) && ($data->line !== -1)) {
             header('Location: ../error.php?error=' . $data->errorNum . "&l=" . $data->line);
             exit();
-        } else {
+        }else{
             // NPI is valid, but it may already be in the database
             if (isNPIInDB($npi, $mysqli)) {
                 // Send to error page, NPI already exists in DB
@@ -456,12 +457,12 @@ if (strcmp($pageName, "register_patient.php") === 0) {
                            $strComp  = '["htt","mm","aas","aps","ats","ams","ala","alm","arm",' .
                                        '"rjva","ljva","rleek","lleek","mv1"]';
                            if ($oStmt) {
-                               $oStmt->bind_param('isssssi', $userId, $strDef, $strDef, $strDef, $strDef, $strComp, $numDef);
-                               
-                               if (!$oStmt->execute()) {
-                                   error_log( __METHOD__ . ':: Cant create a physician_prefs ::' ) ;
-                               }
-			       $oStmt->close();
+                                $oStmt->bind_param('isssssi', $userId, $strDef, $strDef, $strDef, $strDef, $strComp, $numDef);
+
+                                if (!$oStmt->execute()) {
+                                    error_log( __METHOD__ . ':: Cant create a physician_prefs ::' ) ;
+                                }
+                                $oStmt->close();
                            }else{
                                error_log( __FILE__ . ':: NO EXISTE EL OSTMT  :: ' );
                            }
@@ -469,14 +470,12 @@ if (strcmp($pageName, "register_patient.php") === 0) {
                             error_log( __METHOD__ . ':: Exception ::' . $e->getMessage()) ;
                         }
                         // Hay que insertar al doctor los componentes defaults
-
                     } else {
                         header('Location: ../error.php?error=2000&l='.__LINE__);
                         error_log("MySQL statement preparation failure: " . $prepStmtInsert);
                         error_log("MySQL statement preparation failure: " . $mysqli->error);
                         exit();
                     }
-
                     // Now create the physician's upload folder
                     if (!mkdir(UPLOADS_LOCATION . $userId)) {
                         header('Location: ../error.php?error=1005&l='.__LINE__);
@@ -485,11 +484,10 @@ if (strcmp($pageName, "register_patient.php") === 0) {
                 }
             }
         }
-    } else {
+    }else {
         header('Location: ../error.php?error=1000&l='.__LINE__);
         exit();
     }
-
     header('Location: ../register_success.php');
 }
 

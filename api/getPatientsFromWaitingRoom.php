@@ -28,4 +28,5 @@ header('Content-Type: application/json');
 $arrPatiencts = array(
                  'patients' => getPatientsFromWaitingRoom($mysqli, $numPhysicianId)
                 );
+error_log('********** getPatientsFromWaitingRoom php:: '.json_encode($arrPatiencts));
 echo json_encode($arrPatiencts);

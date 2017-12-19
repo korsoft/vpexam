@@ -71,11 +71,6 @@
                 <div class="welcomeDiv">
                     Welcome, <?php echo($_SESSION['first_name']); ?>!
                 </div>
-                <div class="button_content">
-                    <?php if($_blnShowWaitingRoom){ ?>
-                    <a class='button_waiting_room' href="/physician_waiting_room.php" target='_self'>Waiting Room</a>
-                    <?php }  ?>
-                </div>
                 <div class="submenu">
                     <span class="headerText"><?php echo $_strHeaderTitle; ?>
                     </span>

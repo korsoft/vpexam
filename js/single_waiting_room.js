@@ -11,12 +11,11 @@ var tempResultOfFoo = {};
  * @return void
  **/
 $( window ).on( "load", function() {
-        $('#imgToolPhys').on('click', function () {
+    $('#imgToolPhys').on('click', function () {
         var intWidth = null;
         intWidth = (document.getElementById("divSidenavPhys").style.right==='-200px' || document.getElementById("divSidenavPhys").style.right==='')?"0px":"-200px";
         document.getElementById("divSidenavPhys").style.right = intWidth;
     });
-    
     if(typeof(Worker) !== "undefined") {
         if(typeof(oWorker) == "undefined") {
             oWorker = new Worker('/js/single_waiting_room_worker.js');
@@ -51,21 +50,33 @@ $( window ).on( "load", function() {
  * @return void
  **/
 function removePatients( strKey ){
-    // console.info( 'removePatients( ' + strKey + ')' );
-    delete _patients[strKey];
-
-    $('#tr_menu-li-patient' + strKey).remove();
-
-    var numCount = $('div.PatientsWaiting table tbody').children('tr').length;
-    if(numCount > 0 ){
-        $('div.PatientsWaitingEmpty').addClass('Hide');
-        $('div.PatientsWaiting').removeClass('Hide');
-    }else{
-        $('div.PatientsWaitingEmpty').removeClass('Hide');
-        $('div.PatientsWaiting').addClass('Hide');
-    }
+    //Eliminar funcion de videollamada
+    $('#tr_menu-li-patient' + strKey + ' .chat_open').prop('onclick',null).off('click');
+    //Cambiar funcion de la "X" después de dar clic en eliminar de waiting room
+    $('.classRemoveWR_'+strKey).attr('onclick','removeFromMyPatients('+strKey+')');
+    //Ocultar icono de videollamada
+    $('#tr_menu-li-patient' + strKey + ' .chat_open > div').css('display','none');
 }
 
+function removeFromMyPatients(patientId){
+    console.log('removeFromMyPatients()');
+    $.ajax({
+        success: function(data, status, jqxhr) {
+            if (data) {
+                if (data.success)
+                    $('#tr_menu-li-patient' + patientId)[0].remove();
+                else
+                    alert("There was an error while deleting this row: " + data.error);
+            } else {
+                alert("There was an error while deleting this row");
+            }
+        },
+        data: 'physId=' + physicianId + '&patientId=' + patientId,
+        dataType: 'json',
+        method: 'POST',
+        url: 'includes/removeFromMyPatients.php'
+    });
+}
 /**
  * Funcion que agrega un paciente
  *
@@ -81,15 +92,22 @@ function appendPatient( strKey, oJsonPatient ){
                           }; 
     var strName    = (oJsonPatient.name).replace( /\"/g, "\\\"");
     var strElement = "<tr class=\"hoverableRow patientsTable\" id='tr_menu-li-patient" + oJsonPatient.id + "'>" +
-                     "<td class=\"shortColumn\" onclick='openWRChat( this );' data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
+                     "<td class=\"shortColumn patientsTable\" id='" + oJsonPatient.id + "'  data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "<img class=\"patientProfilePic\" src=\"/includes/getProfileImage.php?id=" + oJsonPatient.id + "&type=1\">" +
                      "<div class=\"nameMRNDiv\">" +
                      "<div style=\"margin: 20px 0 0 0;\"> " +
-                     "<div>" + oJsonPatient.name + "</div>" +
+                     "<div> <a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"\" target=\"_self\">" + oJsonPatient.name + "</a></div>" +
                      "</div>" +
                      "</div>" +
                      "</td>" +
-                     "<td class=\"shortColumn\" onclick='openWRChat( this );' data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
+                     "<td class=\"shortColumn\" data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
+                     "    <div class=\"nameMRNDiv\">" +
+                     "        <div style=\"margin: 20px 0 0 0;\">" +
+                     "            <div>" + oJsonPatient.lastName + "</div> " +
+                     "        </div>" +
+                     "    </div> " +
+                     "</td>" +
+                     "<td class=\"shortColumn\" data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "    <div class=\"nameMRNDiv\">" +
                      "        <div style=\"margin: 20px 0 0 0;\">" +
                      "            <div>" + oJsonPatient.dob + "</div> " +
@@ -97,7 +115,7 @@ function appendPatient( strKey, oJsonPatient ){
                      "        </div>" +
                      "    </div> " +
                      "</td>" +
-                     "<td class=\"longColumn\" onclick='openWRChat( this );' data-id='" + oJsonPatient.id + "' data-name='" + strName + "'> "+
+                     "<td class=\"longColumn\" data-id='" + oJsonPatient.id + "' data-name='" + strName + "'> "+
                      "    <div class=\"nameMRNDiv\">"+
                      "        <div style=\"margin: 20px 0 0 0;\">"+
                      "            <div>" + oJsonPatient.address + "</div>" +
@@ -112,14 +130,14 @@ function appendPatient( strKey, oJsonPatient ){
                      "        </div>" +
                      "    </div> " +
                      "</td>" +
-                     "<td onclick='removeFromWR(" + oJsonPatient.id + ");'>" +
-                     "    <div class=\"removePatientOuter\">" +
+                     "<td class=\"classRemoveWR classRemoveWR_" + oJsonPatient.id + "\" onclick='removeFromWR(" + oJsonPatient.id + ");'>" +
+                     "    <div id=\"" + oJsonPatient.id + "\" class=\"removePatientOuter\">" +
                      "        <div class=\"removePatientInner\">X</div>"+
                      "    </div>"+
                      " </td>" +
                      "</tr>" ;
 
-    $('div.PatientsWaiting table tbody').append(strElement);
+    $('div.PatientsWaiting table tbody').prepend(strElement);
 
     var numCount = $('div.PatientsWaiting table tbody').children('tr').length;
     if(numCount > 0 ){
