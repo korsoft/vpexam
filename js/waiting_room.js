@@ -62,19 +62,7 @@ var WaitingRoom = {
                         checkin(patient.name, patient.id);
                     });
                 }
-                else {
-                    /*swal({
-                        animation          : 'slide-from-top',
-                        closeOnConfirm     : false,
-                        confirmButtonColor : '#2b8c36',
-                        confirmButtonText  : 'Check In',
-                        imageUrl           : '/img/waiting_room.png',
-                        inputPlaceholder   : 'Enter your name here',
-                        showCancelButton   : false,
-                        text               : 'Please check in below to let ' + physician.name + ' know you are here:',
-                        title              : 'Welcome!',
-                        type               : 'input'
-                    }*/                    
+                else {                  
                     swal({
                         animation          : 'slide-from-top',
                         closeOnConfirm     : false,
@@ -85,7 +73,7 @@ var WaitingRoom = {
                         text               : 'Please check in below to let ' + physician.name + ' know you are here:',
                         title              : 'Welcome!',
                         html               : true,
-                        text: "<input id='swalpwdHashed'name='swalpwdHashed' type='hidden' /> <span>Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3'> <span>Lastname:</span> <input id='swal-lastname' type='text' class='swal-input' tabindex='4'> <span>Date of Birth:</span> <input id='swal-birthdate' name='dob' readonly='true' type='text' class='swal-input holo' tabindex='5'> <span>Email:</span> <input id='swal-email' name='email' type='email' class='swal-input' tabindex='6'> <span>Password:</span> <input id='swal-password' type='password' class='swal-input' tabindex='7'>"
+                        text: "<input id='swalpwdHashed'name='swalpwdHashed' type='hidden' /> <span class='specialspan'>Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3'> <span class='specialspan'>Lastname:</span> <input id='swal-lastname' type='text' class='swal-input' tabindex='4'> <span class='specialspan'>Date of Birth:</span> <input id='swal-birthdate' name='dob' readonly='true' type='text' class='swal-input holo' tabindex='5'> <span class='specialspan'>Email:</span> <input id='swal-email' name='email' type='email' class='swal-input' tabindex='6'> <span class='specialspan'>Password:</span> <input id='swal-password' type='password' class='swal-input' tabindex='7'>"
                      }, function(patientname) {
                             var name = document.getElementById('swal-name').value;
                             var lastname = document.getElementById('swal-lastname').value;
