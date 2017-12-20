@@ -37,7 +37,7 @@
                 <div id="divTool">
                     <img id="imgTool"  src="images/tool.png"/>
                 </div>  
-              <a href="javascript: void(0);" onclick="fncShowBandwDlg();return false;"><img id="imgbandwidth" src="images/bw_black.png"/>&nbsp;&nbsp;Bandwidth</a>
+              <a href="javascript: void(0);"  id="lnBandwidth"><img id="imgbandwidth" src="images/bw_black.png"/>&nbsp;&nbsp;Bandwidth</a>
               <a href="#" onclick="return false;"><img id="imgCamera" src="images/camera_black.png"/>&nbsp;&nbsp;Camera</a>
               <a href="#" onclick="return false;"><img id="imgMic"   src="images/mic_black.png"/>&nbsp;&nbsp;&nbsp;Microphone</a>
               <a href="javascript: void(0);"  id="lnSound"><img id="imgSound" src="images/audio_icon.png"/>&nbsp;&nbsp;Sound</a>

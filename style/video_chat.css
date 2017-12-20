@@ -493,11 +493,7 @@ video::-webkit-media-controls-enclosure {
 @media (max-aspect-ratio: 16/9) {
   #remoteVideoPatient { width: 100%; }
 }
-@supports (object-fit: cover) {
-  #remoteVideoPatient {
-    object-fit: cover;
-  }
-}
+
 #remoteVideoIE { 
   position: absolute;
   top: 110px;
@@ -521,11 +517,7 @@ video::-webkit-media-controls-enclosure {
 @media (max-aspect-ratio: 16/9) {
   #remoteVideoIE { width: 100%; }
 }
-@supports (object-fit: cover) {
-  #remoteVideoIE {
-    object-fit: cover;
-  }
-}
+
 .dvsidenav {
     height: 100%; /* 100% Full-height */
     width: 200px; /* 0 width - change this with JavaScript */
@@ -584,4 +576,16 @@ video::-webkit-media-controls-enclosure {
     left: -42px;
     z-index: 2;
     border-radius: 20px;
+}
+
+@supports (object-fit: cover) {
+  #remoteVideoPatient {
+    object-fit: cover;
+  }
+}
+
+@supports (object-fit: cover) {
+  #remoteVideoIE {
+    object-fit: cover;
+  }
 }

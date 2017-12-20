@@ -26,10 +26,10 @@ div.PatientsWaitingEmpty{
     width: 200px; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     z-index: 1; /* Stay on top */
-    top: 145px; /* Stay at the top */
+    top: 0px; /* Stay at the top */
     right: -200px;
     background-color: #FFFFFF;
-    padding-top: 60px; /* Place content 60px from the top */
+    padding-top: 120px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the dvsidenav */
     background-repeat: no-repeat;
     border-left: 20px solid #3051A6;
@@ -38,7 +38,7 @@ div.PatientsWaitingEmpty{
 
 /* The navigation menu links */
 .dvsidenavPhys a {
-    padding: 8px 8px 8px 10px;
+    padding: 60px 8px 8px 10px;
     width: 180px;
     text-decoration: none;
     font-size: 25px;
@@ -48,7 +48,6 @@ div.PatientsWaitingEmpty{
     transition: 0.3s; 
     white-space:nowrap;
 }
-
 /* When you mouse over the navigation links, change their color */
 .dvsidenavPhys a:hover {
     color: #000;
@@ -76,12 +75,11 @@ div.PatientsWaitingEmpty{
     width: 38px;
     background-color: #FFFFFF;
     position: absolute;
-    top: 25px;
+    top: 150px;
     left: -42px;
     z-index: 2;
     border-radius: 20px;
 }
-
 #modalSoundTest{
 	background-color: black;
 	bottom: 0;

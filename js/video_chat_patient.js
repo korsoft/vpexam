@@ -568,17 +568,6 @@ var SoundTest = {
   }); 
   }
 }
-function fncShowBandwDlg()
-{
-    if(netBandwidth>=5)
-        swal ( "Bandwidth Test" ,  "You have a high internet connection!" ,  "success" )
-    else if(netBandwidth>1 && netBandwidth<5)
-        swal ( "Bandwidth Test" ,  "You have a regular internet connection!" ,  "warning" )
-    else if(netBandwidth>0)
-        swal ( "Bandwidth Test" ,  "You have a low internet connection!" ,  "error" )
-    else
-        swal ( "Bandwidth Test" ,  "No internet connection detected!" ,  "error" )
-}
 function fncChangeImg(blValue)
 {
     $("#imgSound").attr("src","images/audio_red.png");
@@ -601,7 +590,20 @@ $(document).ready(function() {
        
     $('#lnSound').on('click', function () {
         SoundTest.show();
+        return false;        
     });
+    
+    $('#lnBandwidth').on('click', function () {
+        if(netBandwidth>=5)
+            swal ( "Bandwidth Test" ,  "You have a high internet connection!" ,  "success" )
+        else if(netBandwidth>1 && netBandwidth<5)
+            swal ( "Bandwidth Test" ,  "You have a regular internet connection!" ,  "warning" )
+        else if(netBandwidth>0)
+            swal ( "Bandwidth Test" ,  "You have a low internet connection!" ,  "error" )
+        else
+            swal ( "Bandwidth Test" ,  "No internet connection detected!" ,  "error" )
+        return false;        
+    });    
     
    document.getElementById('audSoundTest').addEventListener('play', function(){ blPlayed=true; });
     

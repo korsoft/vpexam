@@ -531,17 +531,6 @@ var SoundTest = {
   }); 
   }
 }
-function fncShowBandwDlg()
-{
-    if(netBandwidth>=5)
-        swal ( "Bandwidth Test" ,  "You have a high internet connection!" ,  "success" )
-    else if(netBandwidth>1 && netBandwidth<5)
-        swal ( "Bandwidth Test" ,  "You have a regular internet connection!" ,  "warning" )
-    else if(netBandwidth>0)
-        swal ( "Bandwidth Test" ,  "You have a low internet connection!" ,  "error" )
-    else
-        swal ( "Bandwidth Test" ,  "No internet connection detected!" ,  "error" )
-}
 function fncChangeImg(blValue)
 {
     $("#imgSound").attr("src","images/audio_red.png");
@@ -558,11 +547,23 @@ function fncChangeImg(blValue)
 $(document).ready(function() {
     $('#lnSound').on('click', function () {
         SoundTest.show();
+        return false;
     });    
   //if(/^\/(patient_main|patient_view)\.php(.*)$/g.test(window.location.pathname)) {
   if(/^\/(patient_view)\.php(.*)$/g.test(window.location.pathname)) {
     $('#chat').removeClass('hide');
   }
+ 
+    $('#lnBandwidth').on('click', function () {
+        if(netBandwidth>=5)
+            swal ( "Bandwidth Test" ,  "You have a high internet connection!" ,  "success" )
+        else if(netBandwidth>1 && netBandwidth<5)
+            swal ( "Bandwidth Test" ,  "You have a regular internet connection!" ,  "warning" )
+        else if(netBandwidth>0)
+            swal ( "Bandwidth Test" ,  "You have a low internet connection!" ,  "error" )
+        else
+            swal ( "Bandwidth Test" ,  "No internet connection detected!" ,  "error" )
+    });
  
    document.getElementById('audSoundTest').addEventListener('play', function(){ blPlayed=true; });
  
@@ -687,4 +688,3 @@ $(document).ready(function() {
 });
 
 //TODO: Stop rining for caller when user called decline
-

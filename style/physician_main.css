@@ -136,6 +136,8 @@ h2 {
 #panel header {
     background: #0082d2;
     height: 50px;
+    position: relative;
+z-index: 999;
 }
 
 .mainContent {
