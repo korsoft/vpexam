@@ -563,6 +563,7 @@ $(document).ready(function() {
             swal ( "Bandwidth Test" ,  "You have a low internet connection!" ,  "error" )
         else
             swal ( "Bandwidth Test" ,  "No internet connection detected!" ,  "error" )
+        return false;         
     });
  
    document.getElementById('audSoundTest').addEventListener('play', function(){ blPlayed=true; });
