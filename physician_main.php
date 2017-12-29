@@ -30,6 +30,9 @@
                         <th class="shortColumn">LAST NAME</th>
                         <th class="shortColumn">DOB</th>
                         <th class="longColumn">CONTACT INFO</th>
+                        <th class="longColumn">VPExam Uploaded</th>
+                        <th class="longColumn">WAITING ROOM</th>
+                        <th class="longColumn"></th>
                     </tr>
                     </thead>
                 </table>
@@ -107,6 +110,13 @@
                                         </div>
                                      </td>
                                     ";
+                                $col7 =
+                                    "<td>
+                                        <div class=\"waitingroom\" data-id=\"$id\" data-name=\"lala\" onclick=\"openWRChat( this );\">
+                                            <div class=\"waitingPatientInner\"> - </div>
+                                        </div>
+                                     </td>
+                                    ";
                                 $col5 =
                                     "<td>
                                         <div class=\"removePatientOuter\" id=\"$id\">
@@ -122,6 +132,7 @@
                                     $col2
                                     $col3
                                     $col4
+                                    $col7
                                     $col6
                                     $col5
                                 </tr>

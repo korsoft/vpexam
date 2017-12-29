@@ -1,0 +1,1 @@
+ALTER TABLE `waiting_room` ADD COLUMN `uploaded` tinyint(1) UNSIGNED DEFAULT 0 AFTER `patient_name`;

@@ -18,6 +18,7 @@ $patientname = 0 < $patientid?"{$_SESSION['first_name']} {$_SESSION['last_name']
 if(0 < $_POST['patientid']){
 	$patientid=$_POST['patientid'];
 }
+$uploaded = $_POST['app']; 
 
 try {
 	if(0 >= $physicianid) {
@@ -30,7 +31,7 @@ try {
 		error_log('API :: WAITING ROOM :: CHECK IN : User not logged, continue with a timesstamp value as provisional id.');
 		$patientid = time();
 	}
-	$response = checkInWaitingRoom($mysqli, $physicianid, ['id' => $patientid, 'name' => $patientname]);
+	$response = checkInWaitingRoom($mysqli, $physicianid, ['id' => $patientid, 'name' => $patientname, 'uploaded' => $uploaded]);
         include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/Mailer.php';
 	$infoforemail       = getInfoForEmail($mysqli, $patientid, $physicianid);
         $mailer             = new Mailer('waiting_room_patient', 

@@ -91,6 +91,10 @@ function appendPatient( strKey, oJsonPatient ){
                              pat_name: oJsonPatient.name
                           }; 
     var strName    = (oJsonPatient.name).replace( /\"/g, "\\\"");
+    var imguploaded='';
+    if(oJsonPatient.uploaded ==1){
+        imguploaded ="<img src='/img/green_check.png' width='30' height='30'>";
+    }
     var strElement = "<tr class=\"hoverableRow patientsTable\" id='tr_menu-li-patient" + oJsonPatient.id + "'>" +
                      "<td class=\"shortColumn patientsTable\" id='" + oJsonPatient.id + "'  data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "<img class=\"patientProfilePic\" src=\"/includes/getProfileImage.php?id=" + oJsonPatient.id + "&type=1\">" +
@@ -124,6 +128,13 @@ function appendPatient( strKey, oJsonPatient ){
                      "    </div>" +
                      "</td>" +
                      "<td class=\"shortColumn chat_open\" onclick='openWRChat( this );' data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
+                     "    <div class=\"nameMRNDiv\">" +
+                     "        <div style=\"margin: 6px 0 0 0;\">" +
+                     "            <div>" + imguploaded + "</div> " +
+                     "        </div>" +
+                     "    </div> " +
+                     "</td>" +
+                     "<td class=\"longColumn chat_open\" onclick='openWRChat( this );' data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "    <div class=\"nameMRNDiv\">" +
                      "        <div style=\"margin: 6px 0 0 0;\">" +
                      "            <div><img src='/img/video-camera4.png'></div> " +

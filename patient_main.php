@@ -209,7 +209,7 @@
             <script type="text/javascript" src="/js/jQueryFileUpload/js/jquery.fileupload.js"></script>
             <script type="text/javascript" src="/js/patient_main.js"></script>
             <script type="text/javascript" src="/js/sweetalert.min.js"></script>
-            <?php include 'video_chat.php';?>
+            <?php //include 'video_chat.php';?>
         <?php } else { ?>
             <p><span class="error">You are not authorized to access this page.</span> Please <a target="self" href="/main.php">login</a>.</p>
         <?php } ?>

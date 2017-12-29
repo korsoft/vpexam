@@ -1655,13 +1655,12 @@ function getInfoForEmail($mysqli, $senderid = 0, $recipientids = 0, $ispatientse
     return $response;
 }
 function checkInWaitingRoom($mysqli, $physicianid, $patient) {
-
     $patient['name'] = addslashes($patient['name']);
     $response = [
         'success'  => true,
         'errorMsg' => ''
     ];
-    $sql = "INSERT IGNORE INTO waiting_room (physician_id, patient_id, patient_name, entered_at) VALUES ($physicianid, {$patient['id']}, '{$patient['name']}', UNIX_TIMESTAMP());";
+    $sql = "INSERT IGNORE INTO waiting_room (physician_id, patient_id, patient_name, uploaded, entered_at) VALUES ($physicianid, {$patient['id']}, '{$patient['name']}', '{$patient['uploaded']}', UNIX_TIMESTAMP());";
     if (true == $mysqli->query($sql)) {
         $response['data'] = $patient;
         error_log(__METHOD__ . ':: OK: waiting_room');
@@ -1680,12 +1679,11 @@ function getPatientsFromWaitingRoom($mysqli, $physicianid) {
         war.patient_id AS id, war.patient_name AS name, IFNULL(pat.gender, '') AS gender, 
         IFNULL(pat.last_name, '') AS lastName, IFNULL(pat.dob, '') AS dob, IFNULL(pat.mrn, '') AS mrn, IFNULL(pat.phone, '') AS phone,
         IFNULL(pat.phone_type, '') AS phone_type, IFNULL(pat.address, '') AS address, 
-        IFNULL(pat.city, '') AS city, IFNULL(pat.state,'') AS state, IFNULL( pat.zip, '') AS zip
+        IFNULL(pat.city, '') AS city, IFNULL(pat.state,'') AS state, IFNULL( pat.zip, '') AS zip, war.uploaded
         FROM waiting_room war
         LEFT JOIN patients pat ON pat.patient_id = war.patient_id
         WHERE war.physician_id = $physicianid
     ");
-
     if (is_object($result) && property_exists($result, 'num_rows') && $result->num_rows > 0) {
         $response = array_map(
             function($patient) {
@@ -1707,6 +1705,7 @@ function getPatientsFromWaitingRoom($mysqli, $physicianid) {
                                         getFormattedPhone($phone)):''),
                         'address'    => ($address!=''?($address . ", " . $city . ", " . $state . 
                                         " " . $zip):''),
+                        'uploaded'   => $uploaded,  
                        );
             }, $result->fetch_all(MYSQLI_ASSOC)
         );

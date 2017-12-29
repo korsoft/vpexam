@@ -29,6 +29,7 @@
             $patient['id']   = $_GET['user_id'];
             $patient['name'] = $_GET['first_name'];
         }
+        $patient['app'] = $_GET['app'];
         //Definimos que es paciente
         $ispatient = true;
         

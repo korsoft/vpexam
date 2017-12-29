@@ -2,7 +2,7 @@
 include_once '../includes/db_connect.php';
 include_once '../includes/functions.php';
 //API para guardar pre-registro y despues enviar a waiting room ya logueada, 
-
+const BASE_PATH_PATIENTS = '/var/www/.uploads/profile/patients/img/';
 $success = false;
 $errorMsg = "";
 
@@ -31,8 +31,21 @@ if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($ema
     while ($row = $result->fetch_array()){
         $success = true;
         echo( json_encode(array("errorMsg" => $errorMsg, "success" => $success, "patient_id" =>$row['patient_id'] )));
+        $userId = $row['patient_id'];
     }
-
+    //Guardar imagen de profile si la trae
+    if (!empty($photo)) {
+        error_log("Profile picture uploaded. FILES parameter set.");
+        // We have a file upload. Retrieve it and move it to the proper directory.
+        $img = str_replace('data:image/png;base64,', '', $photo);
+        $img = str_replace(' ', '+', $img);
+        $data = base64_decode($img);
+        $file = BASE_PATH_PATIENTS . $userId . '.png';
+        $success = file_put_contents($file, $data);
+        error_log("Dest file location: " . $file);
+    } else {
+        error_log("No profile picture uploaded. FILES parameter not set." . $photo);
+    }
     
     exit();  
 }
