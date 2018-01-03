@@ -171,8 +171,8 @@
                 <a href="#" onclick="return false;"><img id="imgMic"   src="images/micro.png"/>&nbsp;&nbsp;&nbsp;Microphone</a>
                 <a href="javascript: void(0);" id="lnSound"><img id="imgSound"  src="images/sound.png"/>&nbsp;&nbsp;Sound</a>
             </div>
-            <div id="modalSoundTest"  class="hide" ></div>
-            <div id="messageSoundTest" class="hide">
+            <div id="modalSoundTest"  style="display: none"></div>
+            <div id="messageSoundTest" style="display: none">
                 <a href="javascript:void(0);" onClick="SoundTest.hide();return false;">X</a>
                 <br />
                 <br />
