@@ -62,7 +62,8 @@ function getPatientsActived(){
                 oPatient.dob         = item.dob;       
                 oPatient.gender      = item.gender;    
                 oPatient.mrn         = item.mrn;      
-                oPatient.phone       = item.phone;     
+                oPatient.phone       = item.phone;  
+                oPatient.uploaded    = item.uploaded;     
             }else{
                 oPatient = {
                            id        : numIndex,
@@ -73,6 +74,7 @@ function getPatientsActived(){
                            gender    : item.gender,
                            mrn       : item.mrn,
                            phone     : item.phone,
+                           uploaded  : item.uploaded,
                            command   : 'append'
                         }; 
             }
