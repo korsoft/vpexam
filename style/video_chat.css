@@ -1,29 +1,29 @@
 .hide {
-	display: none !important;
+  display: none !important;
 }
 .disabled {
-	background-color: #7a7a7a !important;
-	cursor: not-allowed !important;
+  background-color: #7a7a7a !important;
+  cursor: not-allowed !important;
 }
 #chat {
-	bottom: 30px;
-	position: fixed;
-	right: 30px;
-	z-index: 1;
+  bottom: 30px;
+  position: fixed;
+  right: 30px;
+  z-index: 1;
 }
 #chat img {
-	height: 80px;
-	width: 80px;
+  height: 80px;
+  width: 80px;
 }
 #videochat {
-	height: 100%;
-	text-align: center;
-	width: 100%;
+  height: 100%;
+  text-align: center;
+  width: 100%;
 }
 #videochat #localVideo, #videochat #remoteVideo {
-	height: 100%;
-	position: relative;
-	width: 100%;
+  height: 100%;
+  position: relative;
+  width: 100%;
 }
 #remoteVideo:-webkit-full-screen,#remoteVideoIE:-webkit-full-screen,  #remoteVideoIE:mozFullScreen,#remoteVideoPatient:mozFullScreen,#remoteVideo:mozFullScreen,#localVideo:mozFullScreen, .fancybox-inner:-webkit-full-screen, .fancybox-wrap:-webkit-full-screen, .fancybox-wrap, .fancybox-wrap {
   width: 100% !important;
@@ -261,40 +261,40 @@ video::-webkit-media-controls-enclosure {
 #playpause { display: none !important;}
 
 #videochat > div#title {
-	color: white;
-	font-size: 20px;
-	left: 40%;
-	position: absolute;
-	top: 3%;
-	width: 300px;
-	z-index: 2;
+  color: white;
+  font-size: 20px;
+  left: 40%;
+  position: absolute;
+  top: 3%;
+  width: 300px;
+  z-index: 2;
 }
 #custom-video > .buttons {
-	bottom: 10px;
-	height: 50px;
-	left: 41%; /*29%;*/
-	position: absolute;
-	width: 150px; /*350px;*/
-	z-index: 2147483647;
+  bottom: 10px;
+  height: 50px;
+  left: 41%; /*29%;*/
+  position: absolute;
+  width: 150px; /*350px;*/
+  z-index: 2147483647;
 }
 #custom-video > .buttons > #answerButton, 
 #custom-video > .buttons > #declineButton {
-	background: #d63826 url('/img/phone.png') no-repeat center;
-	background-size: 30px;
-	border-radius: 50px;
-	cursor: pointer;
-	display: block;
-	float: left;
-	height: 50px;
-	margin: 0;
-	position: relative;
-	width: 50px;
-	-moz-border-radius:50px;
+  background: #d63826 url('/img/phone.png') no-repeat center;
+  background-size: 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 50px;
+  margin: 0;
+  position: relative;
+  width: 50px;
+  -moz-border-radius:50px;
     -webkit-border-radius:50px; 
 }
 #custom-video > .buttons > #answerButton {
-	background-color: #2b8c36;
-	margin-right: 50px;
+  background-color: #2b8c36;
+  margin-right: 50px;
 }
 #custom-video > .buttons > #declineButton {
     -webkit-transform: rotate(130deg);
@@ -305,66 +305,66 @@ video::-webkit-media-controls-enclosure {
     /*margin-right: 50px;*/
 }
 #custom-video > .buttons > #muteButton {
-	background: #d63826 url('/img/soundw.png') no-repeat center;
-	background-size: 40px;
-	border-radius: 50px;
-	cursor: pointer;
-	display: block;
-	float: left;
-	height: 50px;
-	margin: 0 50px 0 0;
-	position: relative;
-	width: 50px;
-	-moz-border-radius:50px;
+  background: #d63826 url('/img/soundw.png') no-repeat center;
+  background-size: 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 50px;
+  margin: 0 50px 0 0;
+  position: relative;
+  width: 50px;
+  -moz-border-radius:50px;
     -webkit-border-radius:50px; 
 }
 #custom-video > .buttons > #fullscreenButton {
-	background: #d63826 url('/img/fullscreenw.png') no-repeat center;
-	background-size: 30px;
-	border-radius: 50px;
-	cursor: pointer;
-	display: block;
-	float: left;
-	height: 50px;
-	margin: 0;
-	position: relative;
-	width: 50px;
-	-moz-border-radius:50px;
+  background: #d63826 url('/img/fullscreenw.png') no-repeat center;
+  background-size: 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 50px;
+  margin: 0;
+  position: relative;
+  width: 50px;
+  -moz-border-radius:50px;
     -webkit-border-radius:50px; 
 }
 #error {
-	background-color: #f44242;
-	color: white;
-	display: none;
-	font-size: 16px;
-	padding: 20px;
-	text-align: center;
+  background-color: #f44242;
+  color: white;
+  display: none;
+  font-size: 16px;
+  padding: 20px;
+  text-align: center;
 }
 #loading {
-	display: flex;
-	height: 100%;
-	width: 100%;
+  display: flex;
+  height: 100%;
+  width: 100%;
 }
 #loading > img {
-	height: 221px;
-	margin: auto;
-	width: 221px;
+  height: 221px;
+  margin: auto;
+  width: 221px;
 }
 #modal {
-	background-color: black;
-	bottom: 0;
-	display: none;
-	left: 0;
-	right: 0;
-	top: 0;
-	opacity: 0.5;
-	position: absolute;
-	z-index: 8011;
+  background-color: black;
+  bottom: 0;
+  display: none;
+  left: 0;
+  right: 0;
+  top: 0;
+  opacity: 0.5;
+  position: absolute;
+  z-index: 8011;
 }
 #message {
-	display: none;
-	height: auto;
-	left: 5%;
+  display: none;
+  height: auto;
+  left: 5%;
     position: absolute;
     text-align: center;
     top: 23%;
@@ -372,19 +372,19 @@ video::-webkit-media-controls-enclosure {
     z-index: 8012;
 }
 #message > img {
-	height: 300px;
-	width: 282px;
+  height: 300px;
+  width: 282px;
 }
 #message > h1 {
-	color: white;
-	font-size: 27px;
-	font-weight: normal;
+  color: white;
+  font-size: 27px;
+  font-weight: normal;
 }
 #message > a {
-	color: white;
-	float: right;
-	font-size: 20px;
-	text-decoration: none;
+  color: white;
+  float: right;
+  font-size: 20px;
+  text-decoration: none;
 }
 .forChrome {
     top: 12% !important;
@@ -416,31 +416,31 @@ video::-webkit-media-controls-enclosure {
   height: 100%;
 }
 #custom-videoPatient > .buttons {
-	bottom: 10px;
-	height: 50px;
-	left: 41%; /*29%;*/
-	position: absolute;
-	width: 150px; /*350px;*/
-	z-index: 2147483647;
+  bottom: 10px;
+  height: 50px;
+  left: 41%; /*29%;*/
+  position: absolute;
+  width: 150px; /*350px;*/
+  z-index: 2147483647;
 }
 #custom-videoPatient > .buttons > #answerButton, 
 #custom-videoPatient > .buttons > #declineButton {
-	background: #d63826 url('/img/phone.png') no-repeat center;
-	background-size: 30px;
-	border-radius: 50px;
-	cursor: pointer;
-	display: block;
-	float: left;
-	height: 50px;
-	margin: 0;
-	position: relative;
-	width: 50px;
-	-moz-border-radius:50px;
+  background: #d63826 url('/img/phone.png') no-repeat center;
+  background-size: 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 50px;
+  margin: 0;
+  position: relative;
+  width: 50px;
+  -moz-border-radius:50px;
     -webkit-border-radius:50px; 
 }
 #custom-videoPatient > .buttons > #answerButton {
-	background-color: #2b8c36;
-	margin-right: 50px;
+  background-color: #2b8c36;
+  margin-right: 50px;
 }
 #custom-videoPatient > .buttons > #declineButton {
     -webkit-transform: rotate(130deg);
@@ -451,31 +451,31 @@ video::-webkit-media-controls-enclosure {
     /*margin-right: 50px;*/
 }
 #custom-videoPatient > .buttons > #muteButton {
-	background: #d63826 url('/img/soundw.png') no-repeat center;
-	background-size: 40px;
-	border-radius: 50px;
-	cursor: pointer;
-	display: block;
-	float: left;
-	height: 50px;
-	margin: 0 50px 0 0;
-	position: relative;
-	width: 50px;
-	-moz-border-radius:50px;
+  background: #d63826 url('/img/soundw.png') no-repeat center;
+  background-size: 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 50px;
+  margin: 0 50px 0 0;
+  position: relative;
+  width: 50px;
+  -moz-border-radius:50px;
         -webkit-border-radius:50px; 
 }
 #custom-videoPatient > .buttons > #fullscreenButton {
-	background: #d63826 url('/img/fullscreenw.png') no-repeat center;
-	background-size: 30px;
-	border-radius: 50px;
-	cursor: pointer;
-	display: block;
-	float: left;
-	height: 50px;
-	margin: 0;
-	position: relative;
-	width: 50px;
-	-moz-border-radius:50px;
+  background: #d63826 url('/img/fullscreenw.png') no-repeat center;
+  background-size: 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 50px;
+  margin: 0;
+  position: relative;
+  width: 50px;
+  -moz-border-radius:50px;
     -webkit-border-radius:50px; 
 }
 #remoteVideoPatient { 
@@ -534,7 +534,7 @@ video::-webkit-media-controls-enclosure {
 
 /* The navigation menu links */
 .dvsidenav a {
-    padding: 8px 8px 8px 10px;
+    padding: 60px 8px 8px 10px;
     width: 180px;
     text-decoration: none;
     font-size: 25px;
@@ -550,8 +550,23 @@ video::-webkit-media-controls-enclosure {
     color: #000;
 }
 .dvsidenav a img {
-    height:27px; 
-    width:27px;
+    cursor: pointer;
+    display: block;  
+    height:30px; 
+    width:30px;
+    float: left;
+}
+.normal {
+    background-color: #000000;    
+}
+.success {
+    background-color: #2b8c36;
+}
+.warning{
+    background-color: #f4df42;    
+}
+.error {
+    background-color:#d63826;  
 }
 /* On smaller screens, where height is less than 450px, change the style of the dvsidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
@@ -577,7 +592,17 @@ video::-webkit-media-controls-enclosure {
     z-index: 2;
     border-radius: 20px;
 }
-
+#divReconnect{
+    display: none;
+    position: absolute;
+    top: 150px;
+    left: 25px;
+    background-color: white;  
+    font-size: 30px;
+    width: 400px;
+    border-radius: 20px;
+    text-align: center;
+}
 @supports (object-fit: cover) {
   #remoteVideoPatient {
     object-fit: cover;

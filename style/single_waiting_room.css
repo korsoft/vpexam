@@ -32,7 +32,7 @@ div.PatientsWaitingEmpty{
     padding-top: 120px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the dvsidenav */
     background-repeat: no-repeat;
-    border-left: 20px solid #3051A6;
+    border-left: 20px solid #004987;
     border-top: 1px solid #3051A6;
 }
 
@@ -53,8 +53,23 @@ div.PatientsWaitingEmpty{
     color: #000;
 }
 .dvsidenavPhys a img {
-    height:27px; 
-    width:27px;
+    cursor: pointer;
+    display: block;  
+    height:30px; 
+    width:30px;
+    float: left;
+}
+.normal {
+    background-color: #000000;    
+}
+.success {
+    background-color: #2b8c36;
+}
+.warning{
+    background-color: #f4df42;    
+}
+.error {
+    background-color:#d63826;  
 }
 /* On smaller screens, where height is less than 450px, change the style of the dvsidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
@@ -81,15 +96,15 @@ div.PatientsWaitingEmpty{
     border-radius: 20px;
 }
 #modalSoundTest{
-	background-color: black;
-	bottom: 0;
-	display: none;
-	left: 0;
-	right: 0;
-	top: 0;
-	opacity: 0.5;
-	position: absolute;
-	z-index: 8011;
+    background-color: black;
+    bottom: 0;
+    display: none;
+    left: 0;
+    right: 0;
+    top: 0;
+    opacity: 0.5;
+    position: absolute;
+    z-index: 8011;
 }
 #messageSoundTest {
     background-color: #fafafa;
@@ -98,7 +113,7 @@ div.PatientsWaitingEmpty{
     position: absolute;
     text-align: center;
     top:  20%;
-    width: 282px;
+    width: 350px;
     z-index: 8012;
 }
 #messageSoundTest a {

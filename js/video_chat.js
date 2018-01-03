@@ -5,6 +5,7 @@ window.RTCPeerConnection     = window.webkitRTCPeerConnection     || window.RTCP
 window.RTCIceCandidate       = window.webkitRTCIceCandidate       || window.RTCIceCandidate;
 window.RTCSessionDescription = window.webkitRTCSessionDescription || window.RTCSessionDescription;
 window.SpeechRecognition     = window.webkitSpeechRecognition     || window.SpeechRecognition;
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var isChrome    = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
     isFirefox   = !!navigator.mozGetUserMedia,
@@ -14,9 +15,14 @@ var isChrome    = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(naviga
       audio: true,
       video: true
     };
-var blPlayed        = false;
-var netBandwidth    = null;
+    
+//Global variables
+var audioCtx        = null; //Manage ringtone audiocontext - Added to autoplay ringtone in chrome browser.
+var blPlayed        = false; //Flag to detect if audio is played.
+var flBandwidth     = null; //Manage internet bandwidth and display appropriate icon.
+var intHangup       = 0;    //Flag to detect if user hangs up call otherwise had a broken connection. [0=>initial value,1=>Clean hangup,2=>Videochat in progress,3=>Error in connection]
 var muteMicbutton   = document.getElementById('mute');
+
 var VideoChat = {
   audio     : null,
   callback  : false,
@@ -29,7 +35,7 @@ var VideoChat = {
     start : function() {
       if(0 < VideoChat.video.local.user.id) {
         //Establecer conexion con el servidor socket
-        //this.wsc = new WebSocket('https:' == location.protocol?'wss://vpexam.com:8443':'ws://vpexam.com:9090');
+       // this.wsc = new WebSocket('https:' == location.protocol?'wss://vpexam:8443':'ws://vpexam:9090');
         this.wsc = new WebSocket('https:' == location.protocol?'wss://vpexam.com/signal':'ws://vpexam.com:9090');
         //this.wsc.binaryType = 'arraybuffer';
         this.wsc.onopen    = function () { 
@@ -43,9 +49,24 @@ var VideoChat = {
             case 'login':
               if(data.success) {
                 console.log('Connected to the signaling server');
+                if(intHangup==3)/*if user comes from internet error*/
+                {
+                    intHangup=2;
+                    swal({title: 'Restored connection',
+                             text: 'The connection has been restored!',
+                             html: true,
+                             type: 'success' });
+                    document.getElementById("divSidenavPhys").style.right = '-200px';                     
+                }                 
               }
-              else {
-                VideoChat.alert({title : 'Another user is logged with this account', type : 'warning'});
+              else if(intHangup==0)//if user doesn't come from internet error.
+              {
+                VideoChat.alert({title : 'Another user is logged with this account.', type : 'warning'});   
+              }
+              else if(intHangup==3)//if user comes from internet error.
+              {
+                VideoChat.leave();
+                VideoChat.init($('#caller').val());
               }
             break; 
             //when somebody wants to call us 
@@ -90,8 +111,11 @@ var VideoChat = {
         }
       }
       this.wsc.onerror = function (error) { 
-          VideoChat.alert({title : 'You cannot connect to the video server', type : 'error'});
-          console.log('Error from socket server, error { ', error, ' }.'); 
+          flBandwidth = 1;
+          if(intHangup == 2)
+              VideoChat.alert({title : 'You cannot connect to the video server.', type : 'error'});          
+          intHangup=(intHangup==2)?3:intHangup;//If error came after videocall than intHangup value is 3
+          fncReLog();            
       };
       // setup stream listening 
       this.pc = new RTCPeerConnection(
@@ -112,17 +136,16 @@ var VideoChat = {
         VideoChat.video.remote.dom[0].srcObject = VideoChat.video.remote.stream;
       };
         BANDWITDH.init(function(bandwitdh){
-            console.log('calculate bandwitdh');
             if(bandwitdh>=5)
-                $("#imgbandwidth").attr("src","images/bw_green.png");
+                $("#imgbandwidth").removeClass().addClass('success'); 
             else if(bandwitdh>1 && bandwitdh<5)
-                $("#imgbandwidth").attr("src","images/bw_yellow.png");
+                 $("#imgbandwidth").removeClass().addClass('warning'); 
             else if(bandwitdh>0)
-                $("#imgbandwidth").attr("src","images/bw_red.png");
+                $("#imgbandwidth").removeClass().addClass('error'); 
             else
-                $("#imgbandwidth").attr("src","images/bw_black.png");
+                $("#imgbandwidth").removeClass().addClass('normal'); 
             console.log('bandwitdh is ' + bandwitdh + ' [Mbps]');
-            netBandwidth=bandwitdh;
+            flBandwidth=bandwitdh;
         });      
       // Setup ice handling 
       this.pc.onicecandidate = function (event) {
@@ -134,6 +157,29 @@ var VideoChat = {
           });
         }
       };
+        VideoChat.service.pc.oniceconnectionstatechange = function(e) {
+            $("#divReconnect").hide();
+            switch(VideoChat.service.pc.iceConnectionState) {
+                //when server response after login on it
+                case 'failed':
+                    swal({title: 'Broken connection',
+                             text: 'Your patient\'s internet connection was lost. Please try again!',
+                             html: true,
+                             type: 'error' });
+                     VideoChat.leave();
+                break; 
+                case 'disconnected':
+                    if(intHangup==2)//if conection is broken but user hasnt hungup
+                    {$("#divReconnect").show();}
+                    break; 
+                case 'connected':   
+                    intHangup=2;                     
+                    break; 
+                case 'new':    
+                    intHangup = 0;
+                    break;                     
+            }        
+        };       
     }
   },
   status    : 'initialized', //initialized, connected, is_incoming_call, finalized
@@ -249,6 +295,7 @@ var VideoChat = {
     VideoChat.service.start();
   },
   leave     : function(left) {
+    intHangup=(intHangup==0)?1:intHangup;  
     left = left || false;
     if('finalized' != VideoChat.status) {
       if(true !== left && undefined !== WaitingRoom && is_patient) {
@@ -431,7 +478,7 @@ var VideoChat = {
     }
   },
   ringing   : function() {
-    VideoChat.audio.play();
+    fncPlayRing();
     VideoChat.alert({
       cancelButtonText   : 'Decline',
       closeOnConfirm     : true,
@@ -533,10 +580,10 @@ var SoundTest = {
 }
 function fncChangeImg(blValue)
 {
-    $("#imgSound").attr("src","images/audio_red.png");
+    $("#imgSound").removeClass().addClass('error');
     if(blValue && blPlayed)
     {
-        $("#imgSound").attr("src","images/audio_green.png");
+        $("#imgSound").removeClass().addClass('success');
     }
     else if(!blPlayed){
         swal ( "Sound Test" ,  "Please, press play button!" ,  "error" )
@@ -545,6 +592,7 @@ function fncChangeImg(blValue)
     blPlayed=false;
 }
 $(document).ready(function() {
+    $("#imgSound").removeClass().addClass('normal');
     $('#lnSound').on('click', function () {
         SoundTest.show();
         return false;
@@ -555,17 +603,18 @@ $(document).ready(function() {
   }
  
     $('#lnBandwidth').on('click', function () {
-        if(netBandwidth>=5)
+        if(flBandwidth>=5)
             swal ( "Bandwidth Test" ,  "You have a high internet connection!" ,  "success" )
-        else if(netBandwidth>1 && netBandwidth<5)
+        else if(flBandwidth>1 && flBandwidth<5)
             swal ( "Bandwidth Test" ,  "You have a regular internet connection!" ,  "warning" )
-        else if(netBandwidth>0)
+        else if(flBandwidth>0)
             swal ( "Bandwidth Test" ,  "You have a low internet connection!" ,  "error" )
         else
             swal ( "Bandwidth Test" ,  "No internet connection detected!" ,  "error" )
         return false;         
     });
- 
+
+ if($('#audSoundTest').length==1)
    document.getElementById('audSoundTest').addEventListener('play', function(){ blPlayed=true; });
  
  
@@ -578,18 +627,20 @@ $(document).ready(function() {
             var videoTracks = obj.getVideoTracks();
             
             if(audioTracks[0].muted)
-                $("#imgMic").attr("src","images/mic_red.png");
+                $("#imgMic").removeClass().addClass('error'); 
             else if(!audioTracks[0].muted)
-                $("#imgMic").attr("src","images/mic_green.png");
+                $("#imgMic").removeClass().addClass('success'); 
             else
-                $("#imgMic").attr("src","images/mic_black.png");
+                $("#imgMic").removeClass().addClass('normal');   
+            
+
 
             if(videoTracks[0].enabled)
-                $("#imgCamera").attr("src","images/camera_green.png");
+                $("#imgCamera").removeClass().addClass('success'); 
             else if(!videoTracks[0].enabled)
-                $("#imgCamera").attr("src","images/camera_red.png");
+                $("#imgCamera").removeClass().addClass('error'); 
             else
-                $("#imgCamera").attr("src","images/camera_black.png");             
+                $("#imgCamera").removeClass().addClass('normal');             
 
             devices = {
               audio: {
@@ -619,9 +670,9 @@ $(document).ready(function() {
               }
             });
           }
-          else { 
-                $("#imgCamera").attr("src","images/camera_red.png");
-                $("#imgMic").attr("src","images/mic_red.png");
+          else {    
+                $("#imgCamera").removeClass().addClass('error');
+                $("#imgMic").removeClass().addClass('error');
             navigator.mediaDevices.enumerateDevices()
             .then(function(devices) {
               devices = devices.map(function(device) {
@@ -687,5 +738,34 @@ $(document).ready(function() {
     VideoChat.muteMic();
   });
 });
-
-//TODO: Stop rining for caller when user called decline
+//Function to autoplay ringtone iin browsers.
+function fncPlayRing() {
+    audioCtx = null;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var source = audioCtx.createBufferSource();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/sounds/ringing_sound.mp3');
+    xhr.responseType = 'arraybuffer';
+    xhr.addEventListener('load', function (r) {
+        console.log(xhr.response);
+        audioCtx.decodeAudioData(
+            xhr.response, 
+            function (buffer) {
+                source.buffer = buffer;
+                source.connect(audioCtx.destination);
+                source.loop = true;
+            });
+        playsound();
+    });
+    xhr.send();
+    var playsound = function () {
+            source.start(0);
+    };
+};
+//Function executed when connection to server is broken and it's necessary to reconnect.
+function fncReLog()
+{ 
+    $("#imgbandwidth").removeClass().addClass('error'); 
+    document.getElementById("divSidenavPhys").style.right = '0px';
+    setTimeout("VideoChat.init($('#caller').val());",7000);
+}

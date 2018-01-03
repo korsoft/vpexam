@@ -57,8 +57,8 @@
                                 $city = $info->city;
                                 $state = $info->state;
                                 $zip = $info->zip;
-                                $fullAddr = $address . ", " . $city . ", " . $state . " " . $zip;
-                                $phAndType = $phType . ": " . $phone;
+                                $fullAddr = $address . (($city!=null)?", ":'') . $city . (($state!=null)?", ":'') . $state . " " . $zip;
+                                $phAndType = (($phone!=null)?$phType .", ":'') . $phone;
                                 $fwaitingroom = $info->waitingroom;
 
                                 $col1 =
@@ -89,8 +89,8 @@
                                     "<td class=\"longColumn patientsTable\" id=\"$id\">
                                         <div class=\"nameMRNDiv\">
                                             <div style=\"margin: 20px 0 0 0;\">
-                                                <div>$fullAddr</div>
-                                                <div>$phAndType</div>
+                                                <div>".((trim($fullAddr)!='')?$fullAddr:'&nbsp;')."</div>
+                                                <div>".((trim($phAndType)!='')?$phAndType:'&nbsp;')."</div>
                                             </div>
                                         </div>
                                     </td>
@@ -155,10 +155,10 @@
                 <div id="divToolPhys">
                     <img id="imgToolPhys"  src="images/tool.png"/>
                 </div>  
-                <a href="javascript: void(0);"   id="lnBandwidth"><img id="imgbandwidth" src="images/bw_black.png"/>&nbsp;&nbsp;Bandwidth</a>
-                <a href="#" onclick="return false;"><img id="imgCamera" src="images/camera_black.png"/>&nbsp;&nbsp;Camera</a>
-                <a href="#" onclick="return false;"><img id="imgMic"   src="images/mic_black.png"/>&nbsp;&nbsp;&nbsp;Microphone</a>
-                <a href="javascript: void(0);" id="lnSound"><img id="imgSound" src="images/audio_icon.png"/>&nbsp;&nbsp;Sound</a>
+                <a href="javascript: void(0);"   id="lnBandwidth"><img id="imgbandwidth" src="images/wifi.png" class="normal"/>&nbsp;&nbsp;Bandwidth</a>
+                <a href="#" onclick="return false;"><img id="imgCamera" src="images/webcam.png"/>&nbsp;&nbsp;Camera</a>
+                <a href="#" onclick="return false;"><img id="imgMic"   src="images/micro.png"/>&nbsp;&nbsp;&nbsp;Microphone</a>
+                <a href="javascript: void(0);" id="lnSound"><img id="imgSound"  src="images/sound.png"/>&nbsp;&nbsp;Sound</a>
             </div>
             <div id="modalSoundTest"  class="hide" ></div>
             <div id="messageSoundTest" class="hide">

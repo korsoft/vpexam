@@ -37,7 +37,7 @@ $results = [];
 
 $query = $_GET['query'];
 
-if (!isset($query)) {
+if (empty($query)) {
     $success = false;
     $errorMsg = "Required parameter, 'query' is not set.";
     $results = [];
