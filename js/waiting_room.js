@@ -198,7 +198,7 @@ var WaitingRoom = {
                             else{
                                 
                                   // Request the camera. video-capture
-                                  navigator.getMedia({video: { width: 250, height: 250 }},
+                                  navigator.getMedia({video: { width: 250, height: 250 },audio: true},
                                     // Success Callback
                                     function(stream){
                                       // Create an object URL for the video stream and
@@ -209,10 +209,35 @@ var WaitingRoom = {
                                       video.onplay = function() {
                                         showVideo();
                                       };
+                                        var audioTracks = stream.getAudioTracks();
+                                        var videoTracks = stream.getVideoTracks();
+                                        if($('#imgMic').length==1)
+                                        {
+                                            if(audioTracks[0].muted)
+                                                $("#imgMic").removeClass().addClass('error');
+                                            else if(!audioTracks[0].muted)
+                                                $("#imgMic").removeClass().addClass('success');
+                                            else
+                                                $("#imgMic").removeClass().addClass('normal');
+                                        }
+                                        
+                                        if($('#imgCamera').length==1)
+                                        {
+                                            if(videoTracks[0].enabled)
+                                                $("#imgCamera").removeClass().addClass('success');
+                                            else if(!videoTracks[0].enabled)
+                                                $("#imgCamera").removeClass().addClass('error');
+                                            else
+                                                $("#imgCamera").removeClass().addClass('normal'); 
+                                        }
                                     },
                                     // Error Callback
                                     function(err){
                                       displayErrorMessage("There was an error with accessing the camera stream: " + err.name, err);
+                                      if($('#imgCamera').length==1)
+                                        $("#imgCamera").removeClass().addClass('error');
+                                      if($('#imgMic').length==1)
+                                        $("#imgMic").removeClass().addClass('error');
                                     }
                                   );
                             } 
