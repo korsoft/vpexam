@@ -27,7 +27,7 @@ if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($ema
     exit();
 }else{
     //error_log("API :: PREREGISTER2 :: POST { $name } CALL sp_register_patient('{$name}','{$lastname}','{$birthdateFormatted}','{$email}','{$password}','{$salt}',{$physicianid});");
-    $result = $mysqli->query("CALL sp_register_patient('{$name}','{$lastname}','{$birthdateFormatted}','{$email}','{$pwd_pat}','{$salt_pat}',{$physicianid});");
+    $result = $mysqli->query("CALL sp_register_patient('{$name}','{$lastname}','{$birthdateFormatted}','{$phone}','{$email}','{$pwd_pat}','{$salt_pat}',{$physicianid});");
     while ($row = $result->fetch_array()){
         $success = true;
         echo( json_encode(array("errorMsg" => $errorMsg, "success" => $success, "patient_id" =>$row['patient_id'] )));

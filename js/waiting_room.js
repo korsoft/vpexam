@@ -70,30 +70,51 @@ var WaitingRoom = {
                         closeOnConfirm     : false,
                         confirmButtonColor : '#2b8c36',
                         confirmButtonText  : 'Check In',
-                        imageUrl           : '/img/waiting_room.png',
+                        allowEscapeKey     : false,
+                        //imageUrl           : '/img/waiting_room.png',
                         showCancelButton   : false,
                         text               : 'Please check in below to let ' + physician.name + ' know you are here:',
                         title              : 'Welcome!',
                         html               : true,
                         text: "<input id='swalpwdHashed'name='swalpwdHashed' type='hidden' />" +
-                              "<div class='app'>" +
-                              "<a href='#' id='start-camera' class='visible'>Touch here to start the app.</a>"+
-                              "<video id='camera-stream'></video>"+
-                              "<img id='snap'>"+
-                              "<p id='error-message'></p>"+
-                              "<div class='controls'>"+
-                              "<a href='#' id='delete-photo' title='Delete Photo' class='disabled'><i class='material-icons'>delete</i></a>"+
-                              "<a href='#' id='take-photo' title='Take Photo'><i class='material-icons'>camera_alt</i></a>"+
-                              "<a href='#' id='download-photo' download='selfie.png' title='Save Photo' class='disabled'><i class='material-icons'>file_download</i></a>"+  
-                            "</div>"+
-                            "<canvas></canvas>"+
+                                "<div id='pwdInfo'>"+
+                                    "<h4>Password must meet the following requirements:</h4>"+
+                                    "<ul>"+
+                                        "<li id='letter' class='invalid'>At least <strong>one letter</strong></li>"+
+                                        "<li id='capital' class='invalid'>At least <strong>one capital letter</strong></li>"+
+                                        "<li id='number' class='invalid'>At least <strong>one number</strong></li>"+
+                                        "<li id='special' class='invalid'>At least <strong>one special character</strong></li>"+
+                                        "<li id='length' class='invalid'>Be at least <strong>8 characters</strong></li>"+
+                                    "</ul>"+
+                                "</div>"+
+                                "<div class='app'>" +
+                                "<a href='#' id='start-camera' class='visible'>Touch here to start the app.</a>"+
+                                "<video id='camera-stream'></video>"+
+                                "<img id='snap'>"+
+                                "<p id='error-message'></p>"+
+                                "<div class='controls'>"+
+                                "<a href='#' id='delete-photo' title='Delete Photo' class='disabled'><i class='material-icons'>delete</i></a>"+
+                                "<a href='#' id='take-photo' title='Take Photo'><i class='material-icons'>camera_alt</i></a>"+
+                                "<a href='#' id='download-photo' download='selfie.png' title='Save Photo' class='disabled'><i class='material-icons'>file_download</i></a>"+  
+                                "</div>"+
+                                "<canvas></canvas>"+
                           "</div>"+
                           "<span class='specialspan'>Photo:</span><input type='file' id='selectPhoto'>"+
-                          "<span class='specialspan'>Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3'> <span class='specialspan'>Lastname:</span> <input id='swal-lastname' type='text' class='swal-input' tabindex='4'> <span class='specialspan'>Date of Birth:</span> <input id='swal-birthdate' name='dob' readonly='true' type='text' class='swal-input holo' tabindex='5'> <span class='specialspan'>Email:</span> <input id='swal-email' name='email' type='email' class='swal-input' tabindex='6'> <span class='specialspan'>Password:</span> <input id='swal-password' type='password' class='swal-input' tabindex='7'>"
+                          "<span class='specialspan'>Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3'> "+
+                          "<span class='specialspan'>Lastname:</span><input id='swal-lastname' type='text' class='swal-input' tabindex='4'> "+
+                          "<span class='specialspan'>Date of Birth:</span><div class='smes'><input id='swal-birthmonth' name='dobm' type='text' class='swal-input sm holo' placeholder='MM' maxlength='2'>"+
+                            "<input id='swal-birthday' name='dobd' type='text' class='swal-input sm holo' placeholder='DD' maxlength='2'>"+
+                            "<input id='swal-birthyear' name='doby' type='text' class='swal-input sm holo' placeholder='YYYY' maxlength='4'> </div>"+
+                          "<span class='specialspan'>Phone:</span><input type='text' id='swal-phone' class='swal-input' tabindex='3' maxlength='15'> "+
+                          " <span class='specialspan'>Email:</span><input id='swal-email' name='email' type='email' class='swal-input' tabindex='6'> "+
+                          "<span class='specialspan'>Password:</span><input id='swal-password' type='password' class='swal-input' tabindex='7'>"
                      }, function(patientname) {
                             var name = document.getElementById('swal-name').value;
                             var lastname = document.getElementById('swal-lastname').value;
-                            var birthdate = document.getElementById('swal-birthdate').value;
+                            var birthmonth = document.getElementById('swal-birthmonth').value;
+                            var birthday = document.getElementById('swal-birthday').value;
+                            var birthyear = document.getElementById('swal-birthyear').value;
+                            var phone = document.getElementById('swal-phone').value;
                             var email = document.getElementById('swal-email').value;
                             var password = document.getElementById('swal-password').value;
                             var salt = document.getElementById('swalpwdHashed').value;
@@ -101,17 +122,50 @@ var WaitingRoom = {
                             var regexes = {
                                 email: /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i,
                                 address: "",
-                                zip: ""
+                                zip: "",
+                                phone: "^[0-9]*$",
+                                numbers:"^[0-9]",
+                                month:"(0[1-9]|1[012])",
+                                day:"(0[1-9]|[12]\d|3[01])",
+                                year:"[0-9]",
+                                birthdate:"^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$"
                             };
-                            //alert(document.getElementById('swal-input1').value);
-                            if('' === name){
+
+                            if(birthday.length==1 && (birthday>0 && birthday<10)){
+                                birthday='0'+birthday;
+                                $('#swal-birthday').val(birthday);
+                                console.log(birthday);
+                            }
+                            if(birthmonth.length==1 && (birthmonth>0 && birthmonth<10)){
+                                birthmonth='0'+birthmonth;
+                                $('#swal-birthmonth').val(birthmonth);
+                                console.log(birthmonth);
+                            }
+                            console.log('length')
+                            console.log( phone.length ) ;
+                            console.log($('#swal-phone').val());
+                            var birthdate = birthyear+'-'+birthmonth+'-'+birthday;
+                            if('' === name || name.trim().length == 0){
                                 swal.showInputError('You need to write your name!');
                                 return;
-                            }else if ('' === lastname){
+                            }else if ('' === lastname || lastname.trim().length == 0){
                                 swal.showInputError('You need to write your lastname!');
                                 return;
-                            }else if ('' === birthdate) {
-                                swal.showInputError('You need to write your birthdate!');
+                            }else if ('' === birthmonth || birthmonth >12) {
+                                swal.showInputError('You need to write a valid birth month!');
+                                return;
+                            }else if ('' === birthday || birthday > 31) {
+                                swal.showInputError('You need to write a valid birth day!');
+                                return;
+                            }else if ('' === birthyear || birthyear < 1900 || birthyear > (new Date()).getFullYear()) {
+                                swal.showInputError('You need to write a valid birth year!');
+                                return;
+                            }else if (!isValidDate(birthdate)){
+                                console.log(birthdate);
+                                swal.showInputError('You need to write a valid birthdate!');
+                                return;
+                            }else if ('' != ($('#swal-phone').val()) && (phone.length) < 10) {
+                                swal.showInputError('You need to write a valid phone!');
                                 return;
                             }else if ('' === email) {
                                 swal.showInputError('You need to write your email!');
@@ -119,10 +173,9 @@ var WaitingRoom = {
                             } else if (!new RegExp(regexes.email).test(email)) {
                                 swal.showInputError('You need to write a valid email!');
                                 return;
-                            }else if ('' === password) {
-                                swal.showInputError('You need to write your password!');
+                            }else if ('' === password || !testPassword(password)) {
+                                swal.showInputError('You need to write a valid password!');
                                 return;
-                            
                             }else{
                                 //Mandar llamar api para checar si el email existe si es false el email existe si es true sigue todo bien {"success":false,"result":{"errorMsg":"","intTotal":2}}
                                 $.get("api/getEmailPatient.php", { email: email })
@@ -135,21 +188,18 @@ var WaitingRoom = {
                                         swal.showInputError('Error: '+results.result.errorMsg);
                                         //return;
                                     } else {
-                                        //hashForm();
                                         var $pwd = $('#swal-password');
                                         if ($($pwd).val() !== "") {
                                             var hashedPwdElem=''; //= $('<input id="pwdHashed" name="pwdHashed" type="hidden" />');
                                             hashedPwdElem = hex_sha512($pwd.val());
                                             $pwd.val("");
-                                            //$('#pwdConfirmInput').val("");
-                                            //$('form').append($hashedPwdElem);
                                         }
                                         //Mandar llamar API para crear el usuario (preregistro) physician.id
-                                        console.log('name '+name+' lastname '+ lastname);
+                                        console.log('name '+name+' lastname '+ lastname+' Phone: '+phone);
                                         $.ajax({
                                             method      : 'POST',
                                             url         : '/api/savePatientWaitingRoom.php',
-                                            data        : { 'name' : name, 'lastname' : lastname, 'birthdate' : birthdate, 'email' : email, 'password' : hashedPwdElem, 'physicianid' : physician.id, 'photo' : profilePic}
+                                            data        : { 'name' : name, 'lastname' : lastname, 'birthdate' : birthdate, 'email' : email, 'password' : hashedPwdElem, 'physicianid' : physician.id, 'photo' : profilePic, 'phone' : phone}
                                         })
                                         .done(function(response) {
                                             response = JSON.parse(response);
@@ -173,7 +223,32 @@ var WaitingRoom = {
                             }
                         });
                         //Funciones para tomar una foto de perfil...
+                       //En keyup checar qe no tenga letras
+                        $('#swal-birthmonth').on('keyup', function(event) {
+                            $(this).val($(this).val().replace(/[^\d].+/, ""));
+                            if ((event.which < 48 || event.which > 57)) {
+                                event.preventDefault();
+                            }
+                        });
+                        $('#swal-birthday').on('keyup', function(event) {
+                            $(this).val($(this).val().replace(/[^\d].+/, ""));
+                            if ((event.which < 48 || event.which > 57)) {
+                                event.preventDefault();
+                            }
+                        });
+                        $('#swal-birthyear').on('keyup', function(event) {
+                            $(this).val($(this).val().replace(/[^\d].+/, ""));
+                            if ((event.which < 48 || event.which > 57)) {
+                                event.preventDefault();
+                            }
+                        });
 
+                        $('#swal-phone').inputmask({
+                            autoUnmask: true,
+                            mask: "(999) 999-9999",
+                            greedy: false,
+                            removeMaskOnSubmit: true
+                        });
                         var video = document.querySelector('#camera-stream'),
                         image = document.querySelector('#snap'),
                         start_camera = document.querySelector('#start-camera'),
@@ -209,7 +284,7 @@ var WaitingRoom = {
                                       video.onplay = function() {
                                         showVideo();
                                       };
-                                        var audioTracks = stream.getAudioTracks();
+                                      var audioTracks = stream.getAudioTracks();
                                         var videoTracks = stream.getVideoTracks();
                                         if($('#imgMic').length==1)
                                         {
@@ -346,25 +421,67 @@ var WaitingRoom = {
                                 }
                             }
                         }
+                        function testPassword(password) {
+                            var upperRegex = /[A-Z]/,
+                                lowerRegex = /[a-z]/,
+                                numberRegex = /[0-9]/,
+                                specialRegex = /[^A-Za-z0-9]/,
+                                minLength = 8;
+
+                            var lengthGood = (password.length >= minLength),
+                                haveUpper = upperRegex.test(password),
+                                haveLower = lowerRegex.test(password),
+                                haveNum = numberRegex.test(password),
+                                haveSpecial = specialRegex.test(password);
+
+                            if (lengthGood)
+                                $('#length').removeClass('invalid').addClass('valid');
+                            else
+                                $('#length').removeClass('valid').addClass('invalid');
+
+                            if (haveUpper)
+                                $('#capital').removeClass('invalid').addClass('valid');
+                            else
+                                $('#capital').removeClass('valid').addClass('invalid');
+
+                            if (haveLower)
+                                $('#letter').removeClass('invalid').addClass('valid');
+                            else
+                                $('#letter').removeClass('valid').addClass('invalid');
+
+                            if (haveNum)
+                                $('#number').removeClass('invalid').addClass('valid');
+                            else
+                                $('#number').removeClass('valid').addClass('invalid');
+
+                            if (haveSpecial)
+                                $('#special').removeClass('invalid').addClass('valid');
+                            else
+                                $('#special').removeClass('valid').addClass('invalid');
+
+                            return (lengthGood && haveUpper && haveLower && haveNum && haveSpecial);
+                        }
                         $("#selectPhoto").change(function () {
                             previewFile(this);
                         });
-                        /*Fin */
-
-                        //prueba para poner el datepicker
-                        $('#swal-birthdate').datepicker({
-                            changeMonth: true,
-                            changeYear: true,
-                            maxDate: 0,
-                            yearRange: "-120:+0"
-                        }).on('focus', function() {
-                            if ($(this).data('ui-tooltip')) {
-                                $(this).css({
-                                    "border": ""
-                                }).tooltip('destroy').attr("title", "");
-
-                            } 
+                        $('#swal-password').on('focus', function() {
+                            console.log('focus');
+                            $('#pwdInfo').fadeIn('slow');
+                            if ($(this).data('ui-tooltip'))
+                                $(this).removeClass('incomplete').tooltip('destroy').attr("title", "");
+                        }).on('keyup', function() {
+                            testPassword($(this).val());
+                        }).on('blur', function() {
+                            console.log('blur');
+                            $('#pwdInfo').fadeOut('slow');
                         });
+                        function isValidDate(dateString) {
+                          var regEx = /^\d{4}-\d{2}-\d{2}$/;
+                          if(!dateString.match(regEx)) return false;  // Invalid format
+                          var d = new Date(dateString);
+                          if(!d.getTime() && d.getTime() !== 0) return false; // Invalid date
+                          return d.toISOString().slice(0,10) === dateString;
+                        }
                     }
             }
         }
