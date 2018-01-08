@@ -45,6 +45,13 @@
     <body>
         <?php if (isset($_SESSION['user_id']) && 0 < $_SESSION['user_id'] && $_SESSION['is_patient'] == true) {
             $patientInfo = getExtendedPatientInfo($_SESSION['user_id'], $mysqli);
+            $physicianWRInfo = getPhysicianInfoWR($_SESSION['user_id'], $mysqli);
+            
+            $physician = true == $physicianWRInfo['success']?$physicianWRInfo['data']:false;
+            $strWR = '';
+            if(is_array($physician)) {
+                $strWR = ($physician['waiting_room']!=null)?$physician['waiting_room']:'';
+            }
         ?>
             <div id="header">
                 <div id="logo">
@@ -66,6 +73,7 @@
                             <img id="profileImg" src="/profile/1/<?php echo ($patientInfo->patientId); ?>" alt="" />
                             <form action="/includes/upload_image.php" id="myForm" name="frmupload" method="post" enctype="multipart/form-data">
                                 <input type="hidden" id="id" value="<?php echo ($patientInfo->patientId); ?>" />
+                                <input type="hidden" id="wr" value="<?php echo $strWR; ?>" />
                                 <input type="file" name="files[]" id="fileToUpload" style="display: none;">
                                 <div class="button-dark" id="btnChangeImg">Change Profile Picture</div>
                             </form>
@@ -201,6 +209,12 @@
                             </table>
                         </div>
                     </div>
+                    <?php if($strWR!='') { ?> 
+                        <a id="linkWR">
+                            <img id="imgLinkWR" src="images/flat_clock.png" />
+                            <label id="lblLinkWR">Go to Dr. Howser Waiting room</label>
+                        </a>
+                        <?php } ?> 
                 </div>
             </div>
             <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>

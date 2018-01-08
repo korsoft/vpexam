@@ -1916,3 +1916,18 @@ function getExamDocuments($examId, $mysqli) {
     }    
     return $selectedDocuments;
 }
+function getPhysicianInfoWR($patientId, $mysqli) {
+   $response = ['success'  => true,'errorMsg' => ''];
+    $sql = "CALL sp_select_physician_info_wr($patientId);";
+    if ($result = $mysqli->query($sql)) {
+        while ($wrinfo = $result->fetch_assoc()) {
+            $response['data'] = $wrinfo;
+        }
+    }
+    else {
+        $response['success']  = false;
+        $response['errorMsg'] = "Information for waitingroom and physician { $physicianid } not found.";
+        error_log(__METHOD__ . ':: Error: ' . $mysqli->error);
+    }
+    return $response;
+}

@@ -1,4 +1,10 @@
 $(document).on("ready", function() {
+    if($('#linkWR').length==1)
+    {
+        $('#linkWR').on('click', function() {
+           location.href =  $('#wr').val();
+       });  
+    }
     $('#btnChangeImg').on('click', function() {
     	var bar = $('#progress .progress-bar');
     	if(bar.hasClass('progress-bar-danger')) {

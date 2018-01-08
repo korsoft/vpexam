@@ -405,3 +405,21 @@ tr {
     margin-bottom: 6px !important;
     margin-top: 10px;
 }
+#linkWR{
+    float: right;
+    padding: 10px;
+    border-width: 4px;
+    border-radius: 20px;
+    background-color: #e73d4a;
+    border-color: #e31d2d;
+    cursor: pointer;
+}
+#imgLinkWR{
+    height: 30px;
+}
+#lblLinkWR{
+    color: white;
+    font-size: 20px;
+    margin: 0px 0 0 10px;
+    float: right;
+}
