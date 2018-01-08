@@ -1,16 +1,11 @@
-DROP PROCEDURE IF EXISTS sp_select_email_physician_patient;
+DROP PROCEDURE IF EXISTS sp_select_physician_info_wr;
 DELIMITER ;;
-CREATE  PROCEDURE sp_select_email_physician_patient(IN _email VARCHAR(150)) 
+CREATE  PROCEDURE sp_select_physician_info_wr(IN _patientid INT(10) UNSIGNED) 
 BEGIN 
-    DECLARE intTotal TINYINT(1) DEFAULT 0;
-    process1: BEGIN 
-        SELECT COUNT(*) INTO intTotal FROM patients WHERE email = _email LIMIT 1;
-    END;
-    process2: BEGIN 
-        IF (intTotal=0) THEN
-            SELECT COUNT(*) INTO intTotal FROM physicians WHERE email = _email LIMIT 1;
-        END IF;
-    END;
-    SELECT intTotal;
+    SELECT patient_physicians.physician_id as id, IFNULL(CONCAT(physicians.first_name , ' ', physicians.last_name), '') AS physicians_name,physicians.username AS waiting_room
+    FROM patients 
+    INNER JOIN patient_physicians ON id = patient_id 
+    INNER JOIN physicians ON physicians.physician_id = patient_physicians.physician_id
+    WHERE patient_id = _patientid;
 END ;;
 DELIMITER ;
