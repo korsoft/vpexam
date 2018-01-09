@@ -97,17 +97,17 @@ function appendPatient( strKey, oJsonPatient ){
     }
     var strElement = "<tr class=\"hoverableRow patientsTable\" id='tr_menu-li-patient" + oJsonPatient.id + "'>" +
                      "<td class=\"shortColumn patientsTable\" id='" + oJsonPatient.id + "'  data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
-                     "<img class=\"patientProfilePic\" src=\"/includes/getProfileImage.php?id=" + oJsonPatient.id + "&type=1\">" +
+                     "<a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"\" target=\"_self\"><img class=\"patientProfilePic\" src=\"/includes/getProfileImage.php?id=" + oJsonPatient.id + "&type=1\"></a>" +
                      "<div class=\"nameMRNDiv\">" +
                      "<div style=\"margin: 20px 0 0 0;\"> " +
-                     "<div> <a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"\" target=\"_self\">" + oJsonPatient.name + "</a></div>" +
+                     "<div><a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"\" target=\"_self\">" + oJsonPatient.name + "</a></div>" +
                      "</div>" +
                      "</div>" +
                      "</td>" +
                      "<td class=\"shortColumn\" data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "    <div class=\"nameMRNDiv\">" +
                      "        <div style=\"margin: 20px 0 0 0;\">" +
-                     "            <div>" + oJsonPatient.lastName + "</div> " +
+                     "            <div><a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"\" target=\"_self\">" + oJsonPatient.lastName + "</a></div> " +
                      "        </div>" +
                      "    </div> " +
                      "</td>" +
