@@ -6,7 +6,7 @@ BEGIN
     BEGIN 
         IF EXISTS (SELECT patient_id  FROM waiting_room WHERE patient_id = _patientid) THEN 
             INSERT IGNORE INTO waiting_room_history (physician_id, patient_id, patient_name, entered_at, leaved_at)
-            SELECT *, UNIX_TIMESTAMP()
+            SELECT physician_id, patient_id, patient_name, entered_at, UNIX_TIMESTAMP()
                     FROM waiting_room 
                     WHERE  patient_id = _patientid;
 

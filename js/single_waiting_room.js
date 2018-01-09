@@ -53,13 +53,13 @@ function removePatients( strKey ){
     //Eliminar funcion de videollamada
     $('#tr_menu-li-patient' + strKey + ' .chat_open').prop('onclick',null).off('click');
     //Cambiar funcion de la "X" después de dar clic en eliminar de waiting room
-    $('.classRemoveWR_'+strKey).attr('onclick','removeFromMyPatients('+strKey+')');
+    $('.classRemoveWR_'+strKey).attr('onclick','removeFromMyPatients2('+strKey+')');
     //Ocultar icono de videollamada
     $('#tr_menu-li-patient' + strKey + ' .chat_open > div').css('display','none');
 }
 
-function removeFromMyPatients(patientId){
-    console.log('removeFromMyPatients()');
+function removeFromMyPatients2(patientId){
+    console.log('removeFromMyPatients() '+ patientId);
     $.ajax({
         success: function(data, status, jqxhr) {
             if (data) {
