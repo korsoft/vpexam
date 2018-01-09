@@ -34,7 +34,7 @@
         $patient['app'] = $_GET['app'];
         //Definimos que es paciente
         $ispatient = true;
-        
+        $patient_access=($patient_access==0 && $_GET['app']==1)?1:$patient_access;
         //Detectamos el el navegador, version y SO.
         $navigator = get_browser(null, true);
         $browser   = [
