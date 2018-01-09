@@ -11,6 +11,8 @@
     <?php if(isset($ispatient)) {   ?>
             <link rel="stylesheet" type="text/css" href="/js/fancybox/jquery.fancybox.css" media="screen" />
             <link rel="stylesheet" type="text/css" href="/style/video_chat.css?time=<?php echo time() ?>" />
+            
+            <input type="hidden" id="patient_access"  value='<?php echo $patient_access ?>' />
             <input type="hidden" id="caller"  value='<?php echo $caller ?>' />
             <input type="hidden" id="calling" value='<?php echo isset($calling)?json_encode($calling):"" ?>' />
             <div id="videochatPatient" class="hide" >

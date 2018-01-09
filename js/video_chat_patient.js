@@ -711,8 +711,37 @@ $(document).ready(function() {
                   type: 'warning'
                 });
               });
+  }
+  else {
+      if($('#patient_access').val()==="1")
+      {
+        navigator.getUserMedia(constraints,
+        function(obj) {
+            var audioTracks = obj.getAudioTracks();
+            var videoTracks = obj.getVideoTracks();
+            if(audioTracks[0].muted)
+                $("#imgMic").removeClass().addClass('error');
+            else if(!audioTracks[0].muted)
+                $("#imgMic").removeClass().addClass('success');
+            else
+                $("#imgMic").removeClass().addClass('normal');
+
+            if(videoTracks[0].enabled)
+                $("#imgCamera").removeClass().addClass('success');
+            else if(!videoTracks[0].enabled)
+                $("#imgCamera").removeClass().addClass('error');
+            else
+                $("#imgCamera").removeClass().addClass('normal');                     
+
+        },
+        function(error){
+            console.log('getUserMedia() error', error);
+            $("#imgCamera").removeClass().addClass('error');
+            $("#imgMic").removeClass().addClass('error');
+        });
+    }
   }  
-  muteMicbutton.addEventListener('click', function(){
+    muteMicbutton.addEventListener('click', function(){
     VideoChat.muteMic();
   });
 });

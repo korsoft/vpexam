@@ -22,7 +22,9 @@
         sec_session_start();
         //Generamos el arreglo con los datos del paciente
         $patient = ['id' => 0, 'name' => ''];
+        $patient_access=0;
         if(!empty($_SESSION['user_id']) && !empty($_SESSION['is_patient'])) {
+            $patient_access=1;
             $patient['id']   = $_SESSION['user_id'];
             $patient['name'] = $_SESSION['first_name'];
         }else if(!empty($_GET['user_id'])) {
