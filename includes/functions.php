@@ -1746,7 +1746,7 @@ function leaveWaitingRoom($mysqli, $physicianid, $patientid) {
     ];
     $sql = "
         INSERT IGNORE INTO waiting_room_history (physician_id, patient_id, patient_name, entered_at, leaved_at)
-        SELECT *, UNIX_TIMESTAMP()
+        SELECT physician_id, patient_id, patient_name, entered_at, UNIX_TIMESTAMP()
         FROM waiting_room 
         WHERE physician_id = $physicianid AND patient_id = $patientid;
 
