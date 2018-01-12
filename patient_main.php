@@ -70,7 +70,7 @@
                 <div class="profile">
                     <div class="profileInner">
                         <div class="profileImgDiv">
-                            <img id="profileImg" src="/profile/1/<?php echo ($patientInfo->patientId); ?>" alt="" />
+                            <img id="profileImg" src="includes/getProfileImage.php?id=<?php echo ($patientInfo->patientId); ?>&type=4" alt="" />
                             <form action="/includes/upload_image.php" id="myForm" name="frmupload" method="post" enctype="multipart/form-data">
                                 <input type="hidden" id="id" value="<?php echo ($patientInfo->patientId); ?>" />
                                 <input type="hidden" id="wr" value="<?php echo $strWR; ?>" />

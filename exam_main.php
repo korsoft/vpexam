@@ -122,7 +122,7 @@ sec_session_start();
                 <div class="container">
                     <div class="left">
                         <div class="smallProfileDiv">
-                            <img id="profilePic" src="includes/getProfileImage.php?id=<?php echo($patientInfo->patientId); ?>&type=1">
+                            <img id="profilePic" src="includes/getProfileImage.php?id=<?php echo($patientInfo->patientId); ?>&type=4">
                             <div class="patientInfoBox">
                                 <span class="infoText infoTextName"><?php echo($fullName);  ?></span>
                                 <span class="infoText"><?php echo($gender); ?></span>

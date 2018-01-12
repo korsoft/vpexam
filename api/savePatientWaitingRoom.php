@@ -1,6 +1,13 @@
 <?php
 include_once '../includes/db_connect.php';
 include_once '../includes/functions.php';
+include_once '../libs/ImageResize.php';
+
+use \Eventviva\ImageResize;
+use \Eventviva\ImageResizeException;
+
+//$ct = new createThumbnail();
+
 //API para guardar pre-registro y despues enviar a waiting room ya logueada, 
 const BASE_PATH_PATIENTS = '/var/www/.uploads/profile/patients/img/';
 $success = false;
@@ -40,8 +47,18 @@ if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($ema
         $img = str_replace('data:image/png;base64,', '', $photo);
         $img = str_replace(' ', '+', $img);
         $data = base64_decode($img);
-        $file = BASE_PATH_PATIENTS . $userId . '.png';
+        $file = BASE_PATH_PATIENTS . $userId . '_original.png';
         $success = file_put_contents($file, $data);
+
+        $image = new ImageResize($file);
+        $image->crop(250, 250);
+        $image->save(BASE_PATH_PATIENTS .$userId.'_profile.png');
+
+        $image2 = new ImageResize($file);
+        $image2->crop(65, 65);
+        $image2->save(BASE_PATH_PATIENTS .$userId.'.png');
+
+
         error_log("Dest file location: " . $file);
     } else {
         error_log("No profile picture uploaded. FILES parameter not set." . $photo);

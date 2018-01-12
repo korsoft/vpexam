@@ -46,7 +46,7 @@ $(function () {
                 });
         	}
         	else {
-    			$('#profileImg').attr('src', '/profile/1/' + $('#id').val()+'?' + (new Date()).getTime());
+    			$('#profileImg').attr('src', 'includes/getProfileImage.php?id='+$('#id').val()+'&type=4&t='+ (new Date()).getTime());
     		}
         },
         progressall: function (e, data) {

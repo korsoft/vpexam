@@ -1,6 +1,11 @@
 <?php
 include_once 'functions.php';
 
+include_once '../libs/ImageResize.php';
+
+use \Eventviva\ImageResize;
+use \Eventviva\ImageResizeException;
+
 sec_session_start();
 
 function FileSizeConvert($bytes) {
@@ -58,8 +63,17 @@ try {
 		throw new Exception('Invalid file size: ' . FileSizeConvert($filesize), 4);
 	}
 	$filetmp = $_FILES['files']['tmp_name'][0];
-	$folder="/var/www/.uploads/profile/patients/img/{$_SESSION['user_id']}.png";
+	$folder="/var/www/.uploads/profile/patients/img/{$_SESSION['user_id']}_original.png";
 	move_uploaded_file($filetmp, $folder);
+    //Crear thumb profile
+    $image = new ImageResize($folder);
+    $image->crop(250, 250);
+    $image->save("/var/www/.uploads/profile/patients/img/{$_SESSION['user_id']}_profile.png");
+    //crear thumb 2
+    $image2 = new ImageResize($folder);
+    $image2->crop(65, 65);
+    $image2->save("/var/www/.uploads/profile/patients/img/{$_SESSION['user_id']}.png");
+
 	$response = ['success' => true];
 }
 catch(Exception $e) {
