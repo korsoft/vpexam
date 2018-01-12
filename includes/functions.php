@@ -1032,7 +1032,7 @@ function getPatientInfo($patientId, $mysqli) {
 
 function getExtendedPatientInfo($patientId, $mysqli) {
 	$prepStmtGetPatientInfoEx = "
-        SELECT patient_id, patients.username, CONCAT(patients.first_name, ' ', IF('' <> patients.middle_name, CONCAT(' ', patients.middle_name), ''), patients.last_name) AS name, patients.email, mrn, patients.gender, phone_type, patients.phone, patients.dob, address, city, state, zip, IFNULL(CONCAT(physicians.first_name , ' ', physicians.last_name), '') AS physicians_name 
+        SELECT patient_id, patients.username, CONCAT(patients.first_name, IF('' <> patients.middle_name, CONCAT(' ', patients.middle_name), ''),' ', patients.last_name) AS name, patients.email, mrn, patients.gender, phone_type, patients.phone, patients.dob, address, city, state, zip, IFNULL(CONCAT(physicians.first_name , ' ', physicians.last_name), '') AS physicians_name 
         FROM patients 
         LEFT JOIN patient_physicians ON id = patient_id 
         LEFT JOIN physicians         ON physicians.physician_id = patient_physicians.physician_id

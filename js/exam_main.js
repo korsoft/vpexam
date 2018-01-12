@@ -142,7 +142,8 @@ function setPhysicianId(id) {
 }
 
 function trMouseOver(elem) {
-    var src = "/images/exam/component/" + elem.dataset.time + "/" + elem.id + "/" +  patientGender + ".gif";
+    var src = "/images/exam/component/" + elem.dataset.time + "/" + elem.id + "/" +  patientGender;
+    console.log(src);
     $modelImg.attr("src", src);
 }
 
