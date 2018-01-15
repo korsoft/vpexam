@@ -49,6 +49,7 @@ var VideoChat = {
             case 'login':
               if(data.success) {
                 console.log('Connected to the signaling server');
+                VideoChat.send({ id : VideoChat.video.local.user.id,  type: 'check_status' });
                 if(intHangup==3)/*if user comes from internet error*/
                 {
                     intHangup=2;

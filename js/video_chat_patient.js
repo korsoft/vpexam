@@ -50,6 +50,11 @@ var VideoChat = {
               if(data.success)
               {
                 console.log('Connected to the signaling server');
+                VideoChat.send({
+                    type   : 'check',
+                    patientid   :  VideoChat.video.local.user.id,
+                    physicianid     : $("#physician_id").val()
+                  });
                 if(intHangup==3)/*if user comes from internet error*/
                 {
                     intHangup=2;
@@ -99,6 +104,10 @@ var VideoChat = {
               }
               VideoChat.answer(false);
             break; 
+            case 'check':
+                $("#spPhysicianStatus").removeClass().addClass(((data.success)?'success':'error'));
+                $("#spPhysicianStatus").text(((data.success)?'ONLINE':'OFFLINE'));
+            break;
             //when a remote peer sends an ice candidate to us 
             //when we got an ice candidate from a remote user 
             case 'candidate': 
@@ -112,6 +121,8 @@ var VideoChat = {
         }
       }
       this.wsc.onerror = function (error) { 
+          if($('#spPhysicianStatus').length==1)
+            $("#spPhysicianStatus").removeClass().addClass('error');
           flBandwidth = 1;
           if(intHangup == 2)
               VideoChat.alert({title : 'You cannot connect to the video server.', type : 'error'});          
@@ -605,6 +616,8 @@ function fncChangeImg(blValue)
     blPlayed=false;   
 }
 $(document).ready(function() { 
+    if($('#spPhysicianStatus').length==1)
+        $("#spPhysicianStatus").removeClass().addClass('normal');
     $("#imgSound").removeClass().addClass('normal');
     $('#imgTool').on('click', function () {
         var intWidth = null;

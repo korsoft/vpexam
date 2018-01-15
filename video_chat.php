@@ -11,10 +11,14 @@
     <?php if(isset($ispatient)) {   ?>
             <link rel="stylesheet" type="text/css" href="/js/fancybox/jquery.fancybox.css" media="screen" />
             <link rel="stylesheet" type="text/css" href="/style/video_chat.css?time=<?php echo time() ?>" />
-            
+            <input type="hidden" id="physician_id"  value='<?php echo $physician['id']; ?>' />
             <input type="hidden" id="patient_access"  value='<?php echo $patient_access ?>' />
             <input type="hidden" id="caller"  value='<?php echo $caller ?>' />
             <input type="hidden" id="calling" value='<?php echo isset($calling)?json_encode($calling):"" ?>' />
+            <div id="divPhysicianStatus">
+                <span id="spPhysicianStatusText">Your physician is&nbsp;</span>
+                <span id="spPhysicianStatus">ONLINE</span>
+            </div>
             <div id="videochatPatient" class="hide" >
                 <div class="custom-videoPatient" id="custom-videoPatient">
                     <video id="remoteVideoPatient" autoplay class="hide" ></video>

@@ -23,6 +23,8 @@ var	wss    = new WebSocketServer({
 	}),
 //all connected to the server users
 	users  = [],
+//all connected to the server users
+	usersPhysician  = [],                
 //Path to the uploaded files
 	path   = '/var/www/.uploads/';
 //Connection to the db
@@ -74,14 +76,14 @@ wss.on('connection', function(connection) {
 			         	}
 			         	else { 
 			         		console.log('User logged { ', data.id, ' }.');
-			            	//save user connection on the server  
-			            	connection.id     = data.id;
-			            	connection.status = 'available';
-			            	users[data.id]    = connection;
-			            	sendTo(connection, { 
-			               		type    : 'login',
-			               		success : true 
-			            	});	
+                                                //save user connection on the server  
+                                                connection.id     = data.id;
+                                                connection.status = 'available';
+                                                users[data.id]    = connection;
+                                                sendTo(connection, { 
+                                                        type    : 'login',
+                                                        success : true 
+                                                });	
 			         	}
 						break;
 					case 'offer' :
@@ -195,13 +197,44 @@ wss.on('connection', function(connection) {
 							);
 						}
 						break;*/
+                                        case 'check_status':
+                                            console.log('Physician id { ', data.id, ' }');
+                                            for (var i in usersPhysician) {//Cicle to get patients-physician array.
+                                               if(data.id==usersPhysician[i].physicianid){//if physician has patients waiting (patients id in array)
+                                                    var userPatient = users[usersPhysician[i].patientid];//get patient element from array
+                                                    if(null != userPatient) {//If patient is online, send message
+                                                        console.log('User { ',usersPhysician[i].patientid, ' } is  connected');
+                                                        sendTo(userPatient, {
+                                                            type    : 'check', 
+                                                            success : true
+                                                        });                             
+                                                    }
+                                                }
+                                            }
+                                        break;
+                                        case 'check' : //Register patient and his physician id in array.
+                                            if(typeof usersPhysician.find(function(item) {
+                                              return ((typeof item != 'undefined'  )?item.patientid:'') == data.patientid;
+                                              })== 'undefined')//If user is not in patients array.
+                                            {
+                                                usersPhysician.push({
+                                                    physicianid: data.physicianid, 
+                                                    patientid:  data.patientid
+                                                });
+                                                var userPatient = users[data.patientid];//get patient element from array
+                                                sendTo(userPatient, {
+                                                    type    : 'check', 
+                                                    success : true
+                                                });                                                 
+                                            }                                              
+                                        break;
 			      	default :
 			         	sendTo(connection, { 
 			            	type    : 'error', 
 			           	 	message : 'Command no found: ' + data.type 
 			        	 }); 
 			         	break; 
-			   }
+			   }         
 			}
 		}
 	});
@@ -217,7 +250,23 @@ wss.on('connection', function(connection) {
 					sendTo(conn, { type: 'leave' }); 
 				}  
 			} 
-                        con.query('CALL sp_delete_patient_in_waitingroom(' + connection.id + ');');
+                        con.query('CALL sp_delete_patient_in_waitingroom(' + connection.id + ');', function (error, results, fields) {if (error) console.log('Error on query { ', error, ' }. '+'CALL sp_delete_patient_in_waitingroom(' + connection.id + ');'); });
+                        for (var i in usersPhysician) {
+                            if(connection.id==usersPhysician[i].patientid)
+                            {
+                                delete(usersPhysician[i]);
+                            }
+                            else if(connection.id==usersPhysician[i].physicianid)
+                            {
+                                var userPatient = users[usersPhysician[i].patientid];//get patient element from array                                
+                                if(null !== userPatient) {
+                                    sendTo(userPatient, {
+                                        type    : 'check', 
+                                        success : false
+                                    });                                     
+                                }
+                            }
+                        }
 		}  
 	});
 });
