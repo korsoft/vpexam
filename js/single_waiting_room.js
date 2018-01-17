@@ -100,7 +100,7 @@ function appendPatient( strKey, oJsonPatient ){
     var strName    = (oJsonPatient.name).replace( /\"/g, "\\\"");
     var imguploaded='';
     if(oJsonPatient.uploaded ==1){
-        imguploaded ="<img src='/img/green_check.png' width='30' height='30'>";
+        imguploaded ="<img src='/img/check.png' width='30' height='30'>";
     }
     
     //If el oJsonPatient esta en la tabla solo poner el icono
@@ -156,7 +156,7 @@ function appendPatient( strKey, oJsonPatient ){
                      "<td class=\"longColumn chat_open\" onclick='openWRChat( this );' data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "    <div class=\"nameMRNDiv\">" +
                      "        <div style=\"margin: 6px 0 0 0;\">" +
-                     "            <div><img src='/img/video-camera4.png'></div> " +
+                     "            <div><button type='button' class='btnwr'>Go to Waiting room!</button></div> " +
                      "        </div>" +
                      "    </div> " +
                      "</td>" +

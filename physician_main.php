@@ -23,7 +23,7 @@
     var _numPhysicianId= <?php echo $_SESSION['user_id']; ?>;
 </script>
             <div class="tableHeaderDiv">
-                <table class="tableHeader">
+                <!--table class="tableHeader">
                     <thead>
                     <tr>
                         <th class="shortColumn fnameclass">FIRST NAME</th>
@@ -34,10 +34,20 @@
                         <th class="longColumn"></th>
                     </tr>
                     </thead>
-                </table>
+                </table-->
             </div>
             <div class="mainContent PatientsWaiting">
                 <table class="tableContent">
+                    <thead>
+                    <tr>
+                        <th class="shortColumn fnameclass">FIRST NAME</th>
+                        <th class="shortColumn">LAST NAME</th>
+                        <th class="shortColumn">DOB</th>
+                        <th class="longColumn">VPExam Uploaded</th>
+                        <th class="longColumn">WAITING ROOM</th>
+                        <th class="longColumn"></th>
+                    </tr>
+                    </thead>
                     <tbody>
                         <?php
                             $patientInfos = getPatientsOfPhysicianAndRemoveNotDisplay($_SESSION['user_id'], $mysqli, $numOffSet, $numLimit+1);
@@ -89,7 +99,7 @@
                                     </td>
                                     ";
                                 if($fwaitingroom != "") {
-                                    $retVal ='<img src="/img/video-camera4.png">';
+                                    $retVal ='<button type="button" class="btnwr">Go to Waiting room!</button>';
                                 } else{
                                     $retVal='';
                                 };
@@ -101,7 +111,7 @@
                                      </td>
                                     ";
                                 if($uploaded == 1) {
-                                    $upVal ='<img src="/img/green_check.png" width="30" height="30">';
+                                    $upVal ='<img src="/img/check.png" width="30" height="30">';
                                 } else{
                                     $upVal='-';
                                 };

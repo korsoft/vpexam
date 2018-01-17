@@ -160,12 +160,18 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
+    margin-top: 10px;
+    border-top-left-radius: 14px;
 }
 
 thead {
     background: #67c9e0;
+    border-top-left-radius: 14px;
 }
-
+.tableContent thead tr {
+    height: 52px;
+    border-top-right-radius: 6px;
+}
 tbody:before {
     line-height: 1em;
     content: "\200C";
@@ -177,6 +183,9 @@ thead tr {
     font-size: 16px;
     font-weight: bold;
     height: 45px;
+}
+thead tr th:last-child{
+    border-top-right-radius: 6px !important;
 }
 
 th {
@@ -205,6 +214,7 @@ th {
 }
 .shortColumn.fnameclass {
     padding-left: 80px;
+    border-top-left-radius: 6px;
 }
 .longColumn {
     width: calc(40% - 25px);
@@ -219,6 +229,17 @@ th {
 }
 .tableContent tbody tr:last-child {
     border-bottom: none;
+}
+.btnwr {
+    background-color: #014887;
+    border: 0 none;
+    line-height: 30px;
+    width: 100%;
+    font-weight: 300 !important;
+    padding: 5px 15px;
+    border-radius: 4px;
+    max-width: 192px;
+    cursor: pointer;
 }
 tbody:before{ display: none;}
 .tableHeaderDiv {
@@ -248,10 +269,10 @@ td {
 }
 
 .removePatientOuter {
-    border-radius: 5px;
-    width: 25px;
-    height: 25px;
-    background: red;
+    border-radius: 15px;
+    width: 30px;
+    height: 30px;
+    background: #de4d1f;
     margin-right: 10px;
 }
 
@@ -263,7 +284,7 @@ td {
     color: white;
     font-size: 16px;
     font-weight: bold;
-    line-height: 25px;
+    line-height: 30px;
     text-align: center;
     width: 100%;
 }
