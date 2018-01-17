@@ -117,14 +117,14 @@ function appendPatient( strKey, oJsonPatient ){
                      "<td class=\"shortColumn patientsTable\" id='" + oJsonPatient.id + "'  data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "<a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"\" target=\"_self\"><img class=\"patientProfilePic\" src=\"/includes/getProfileImage.php?id=" + oJsonPatient.id + "&type=1\"></a>" +
                      "<div class=\"nameMRNDiv\">" +
-                     "<div style=\"margin: 20px 0 0 0;\"> " +
+                     "<div style=\"margin: 33px 0 0 0;\"> " +
                      "<div><a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"\" target=\"_self\">" + oJsonPatient.name + "</a></div>" +
                      "</div>" +
                      "</div>" +
                      "</td>" +
                      "<td class=\"shortColumn\" data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "    <div class=\"nameMRNDiv\">" +
-                     "        <div style=\"margin: 20px 0 0 0;\">" +
+                     "        <div style=\"margin: 0px 0 0 0;\">" +
                      "            <div><a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"\" target=\"_self\">" + oJsonPatient.lastName + "</a></div> " +
                      "        </div>" +
                      "    </div> " +
@@ -137,7 +137,7 @@ function appendPatient( strKey, oJsonPatient ){
                      "        </div>" +
                      "    </div> " +
                      "</td>" +
-                     "<td class=\"longColumn\" data-id='" + oJsonPatient.id + "' data-name='" + strName + "'> "+
+                    /* "<td class=\"longColumn\" data-id='" + oJsonPatient.id + "' data-name='" + strName + "'> "+
                      "    <div class=\"nameMRNDiv\">"+
                      "        <div style=\"margin: 20px 0 0 0;\">"+
                      "            <div>" + oJsonPatient.address + "</div>" +
@@ -145,6 +145,7 @@ function appendPatient( strKey, oJsonPatient ){
                      "        </div>" +
                      "    </div>" +
                      "</td>" +
+                     */
                      "<td class=\"shortColumn chat_open\" data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "    <div class=\"nameMRNDiv\">" +
                      "        <div style=\"margin: 6px 0 0 0;\">" +

@@ -26,10 +26,9 @@
                 <table class="tableHeader">
                     <thead>
                     <tr>
-                        <th class="shortColumn">FIRST NAME</th>
+                        <th class="shortColumn fnameclass">FIRST NAME</th>
                         <th class="shortColumn">LAST NAME</th>
                         <th class="shortColumn">DOB</th>
-                        <th class="longColumn">CONTACT INFO</th>
                         <th class="longColumn">VPExam Uploaded</th>
                         <th class="longColumn">WAITING ROOM</th>
                         <th class="longColumn"></th>
@@ -69,7 +68,7 @@
                                     "<td class=\"shortColumn patientsTable\" id=\"$id\" data-id=\"$id\">
                                         <img class=\"patientProfilePic\" src=\"includes/getProfileImage.php?id=$id&type=1\">
                                         <div class=\"nameMRNDiv\">
-                                            <div style=\"margin: 20px 0 0 0;\">
+                                            <div style=\"margin: 33px 0 0 0;\">
                                                 <div>$fname</div>
                                                 <div>$mrn</div>
                                             </div>
@@ -85,16 +84,6 @@
                                             <div style=\"margin: 20px 0 0 0;\">
                                                 <div>$dob</div>
                                                 <div>$gender</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    ";
-                                $col4 =
-                                    "<td class=\"longColumn patientsTable\" id=\"$id\">
-                                        <div class=\"nameMRNDiv\">
-                                            <div style=\"margin: 20px 0 0 0;\">
-                                                <div>".((trim($fullAddr)!='')?$fullAddr:'&nbsp;')."</div>
-                                                <div>".((trim($phAndType)!='')?$phAndType:'&nbsp;')."</div>
                                             </div>
                                         </div>
                                     </td>
@@ -137,7 +126,6 @@
                                     $col1
                                     $col2
                                     $col3
-                                    $col4
                                     $col7
                                     $col6
                                     $col5

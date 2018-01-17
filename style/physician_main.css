@@ -185,8 +185,9 @@ th {
 
 .patientProfilePic {
     height: 65px;
-    margin: 0 15px 0 0;
+    margin: 10px 15px 8px 10px;
     width: 65px;
+    border-radius: 35px;
 }
 
 .nameMRNDiv {
@@ -202,7 +203,9 @@ th {
 .shortColumn {
     width: 20%;
 }
-
+.shortColumn.fnameclass {
+    padding-left: 80px;
+}
 .longColumn {
     width: calc(40% - 25px);
 }
@@ -210,7 +213,14 @@ th {
 .tableContent tr {
     height: 65px;
 }
-
+.tableContent tbody tr {
+    background: #ddedf3;
+    border-bottom: 1px solid #66c9e1;
+}
+.tableContent tbody tr:last-child {
+    border-bottom: none;
+}
+tbody:before{ display: none;}
 .tableHeaderDiv {
     background: #67c9e0;
     padding: 0 50px 0 50px;
