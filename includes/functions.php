@@ -503,8 +503,9 @@ class PatientInfo {
     public $state = '';
     public $zip = '';
     public $waitingroom = '';
+    public $uploaded = '';
 
-	function __construct($uname, $id, $fname, $mname, $lname, $gen, $db, $mrn, $ph, $phTp, $addr, $city, $st, $zip, $waitingroom) {
+	function __construct($uname, $id, $fname, $mname, $lname, $gen, $db, $mrn, $ph, $phTp, $addr, $city, $st, $zip, $waitingroom, $uploaded) {
 		$this->firstName = $fname;
         $this->middleName = $mname;
 		$this->lastName = $lname;
@@ -520,6 +521,7 @@ class PatientInfo {
         $this->state = $st;
         $this->zip = $zip;
         $this->waitingroom = $waitingroom;
+        $this->uploaded = $uploaded;
 	}
 }
 
@@ -840,26 +842,14 @@ function removePatientsNotToDisplay(&$patientList, $physId, $mysqli) {
  **/
 function getPatientsOfPhysicianAndRemoveNotDisplay($id, $mysqli, $numOffSet = 0, $numLimit = 0) {
     $response = [];
-    /*$strQuery = 'SELECT CASE WHEN pat.patient_id IN  '.
-                '(SELECT patient_id from waiting_room) THEN \'yes\' ELSE \'no\' END AS waitingroom, '.
-                'pat.patient_id, pat.username, pat.first_name, pat.middle_name, ' .*/
-    
-    /*$strQuery = 'SELECT pat.patient_id, pat.username, pat.first_name, pat.middle_name, ' .
-                'pat.last_name, pat.gender, pat.dob, pat.mrn, pat.phone, pat.phone_type, ' .
-                'pat.address, pat.city, pat.state, pat.zip FROM patient_physicians pah ' .
-                'JOIN patients pat ON pah.id = pat.patient_id ' .
-                'LEFT JOIN patients_no_display pnd ON pnd.patient_id = pat.patient_id AND ' .
-                'pnd.phys_id = pah.physician_id ' .
-                'WHERE physician_id = ' . $id . ' AND pnd.patient_id IS NULL ' . 
-                'ORDER BY pat.patient_id DESC ';*/
-    
     $strQuery = 'SELECT pat.patient_id, pat.username, pat.first_name, pat.middle_name, pat.last_name, pat.gender, pat.dob, ' .
-                'pat.mrn, pat.phone, pat.phone_type, pat.address, pat.city, pat.state, pat.zip ' .
-                'FROM (patient_physicians pah LEFT JOIN waiting_room war ON pah.id = war.patient_id) ' .
+                'pat.mrn, pat.phone, pat.phone_type, pat.address, pat.city, pat.state, pat.zip, war.entered_at, war.uploaded ' .
+                'FROM patient_physicians pah ' .
                 'LEFT JOIN patients pat ON pah.id = pat.patient_id  ' .
+                'LEFT JOIN waiting_room war ON pah.id = war.patient_id '.
                 'LEFT JOIN patients_no_display pnd ON pnd.patient_id = pat.patient_id AND pnd.phys_id = pah.physician_id ' .
-                'WHERE pah.physician_id = ' . $id . ' AND pnd.patient_id IS NULL AND war.patient_id IS NULL ' .
-                'ORDER BY pat.patient_id DESC ';
+                'WHERE pah.physician_id = ' . $id . ' AND pnd.patient_id IS NULL ' .
+                'ORDER BY war.entered_at DESC ';
 
     if( $numLimit > 0 ){
         $strQuery .=  ' LIMIT ' . $numLimit . ' OFFSET ' . $numOffSet;
@@ -871,11 +861,10 @@ function getPatientsOfPhysicianAndRemoveNotDisplay($id, $mysqli, $numOffSet = 0,
             function($patient) {
                 extract($patient); //
                 //error_log( __METHOD__ . ' :: $strQuery :: ' . $waitingroom  );
-                $waitingroom ='';
                 $dob = DateTime::createFromFormat('Y-m-d', $dob, new DateTimeZone('UTC'));
                 return new PatientInfo( $username, $patient_id, $first_name, $middle_name, 
                                        $last_name, $gender, $dob, $mrn, $phone, $phone_type, 
-                                       $address, $city, $state, $zip, $waitingroom);
+                                       $address, $city, $state, $zip, $entered_at, $uploaded);
             }, $result->fetch_all(MYSQLI_ASSOC)
         );
 

@@ -63,9 +63,10 @@
                                 $fullAddr = $address . (($city!=null)?", ":'') . $city . (($state!=null)?", ":'') . $state . " " . $zip;
                                 $phAndType = (($phone!=null)?$phType .", ":'') . $phone;
                                 $fwaitingroom = $info->waitingroom;
+                                $uploaded = $info->uploaded;
 
                                 $col1 =
-                                    "<td class=\"shortColumn patientsTable\" id=\"$id\">
+                                    "<td class=\"shortColumn patientsTable\" id=\"$id\" data-id=\"$id\">
                                         <img class=\"patientProfilePic\" src=\"includes/getProfileImage.php?id=$id&type=1\">
                                         <div class=\"nameMRNDiv\">
                                             <div style=\"margin: 20px 0 0 0;\">
@@ -98,22 +99,27 @@
                                         </div>
                                     </td>
                                     ";
-                                if($fwaitingroom == "yes") {
+                                if($fwaitingroom != "") {
                                     $retVal ='<img src="/img/video-camera4.png">';
                                 } else{
                                     $retVal='';
                                 };
                                 $col6 =
                                     "<td>
-                                        <div class=\"waitingroom\" data-id=\"$id\" data-name=\"lala\" onclick=\"openWRChat( this );\">
+                                        <div class=\"waitingroom\" data-id=\"$id\" data-name=\"$fname\" onclick=\"openWRChat( this );\">
                                             <div class=\"waitingPatientInner\"> $retVal</div>
                                         </div>
                                      </td>
                                     ";
+                                if($uploaded == 1) {
+                                    $upVal ='<img src="/img/green_check.png" width="30" height="30">';
+                                } else{
+                                    $upVal='-';
+                                };
                                 $col7 =
                                     "<td>
-                                        <div class=\"waitingroom\" data-id=\"$id\" data-name=\"lala\" onclick=\"openWRChat( this );\">
-                                            <div class=\"waitingPatientInner\"> - </div>
+                                        <div class=\"waitingroom\" data-id=\"$id\" data-name=\"$fname\">
+                                            <div class=\"waitingPatientInner\"> $upVal</div>
                                         </div>
                                      </td>
                                     ";

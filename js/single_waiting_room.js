@@ -21,10 +21,14 @@ $( window ).on( "load", function() {
             oWorker = new Worker('/js/single_waiting_room_worker.js');
         }
         oWorker.onmessage = function(event) {
-            // console.info( event.data) ;
+            //console.log($('.tableContent tbody tr td').find('').data('id'));
+            $(".tableContent tbody tr td:first-child").map(function() {
+                //console.log($(this).data('id'));
+
+            });
             if( event.data.command == 'patients' ){
                 var patients = event.data.result;
-                // console.info(patients);
+                //console.info(patients);
                 $.map(patients, function( item, numIndex) {
                     if( item.command == 'remove' ){
                         removePatients( numIndex );
@@ -86,6 +90,9 @@ function removeFromMyPatients2(patientId){
  * @return void
  **/
 function appendPatient( strKey, oJsonPatient ){
+    var strElement;
+    console.log('oJsonPatient');
+    console.log(oJsonPatient);
     _patients[ oJsonPatient.id ] = {
                              pat_id : oJsonPatient.id,
                              pat_name: oJsonPatient.name
@@ -95,7 +102,18 @@ function appendPatient( strKey, oJsonPatient ){
     if(oJsonPatient.uploaded ==1){
         imguploaded ="<img src='/img/green_check.png' width='30' height='30'>";
     }
-    var strElement = "<tr class=\"hoverableRow patientsTable\" id='tr_menu-li-patient" + oJsonPatient.id + "'>" +
+    
+    //If el oJsonPatient esta en la tabla solo poner el icono
+    var varCont = $(".tableContent tbody tr td:first-child").map(function() {
+    //console.log($(this).data('id'));
+        if( $(this).data('id') == oJsonPatient.id ){
+            console.log('ya existe');
+            //strElement='lala';
+            //return strElement;
+            return oJsonPatient.id;
+        }else{
+            console.log('no existe else');
+            strElement = "<tr class=\"hoverableRow patientsTable\" id='tr_menu-li-patient" + oJsonPatient.id + "'>" +
                      "<td class=\"shortColumn patientsTable\" id='" + oJsonPatient.id + "'  data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "<a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"\" target=\"_self\"><img class=\"patientProfilePic\" src=\"/includes/getProfileImage.php?id=" + oJsonPatient.id + "&type=1\"></a>" +
                      "<div class=\"nameMRNDiv\">" +
@@ -127,7 +145,7 @@ function appendPatient( strKey, oJsonPatient ){
                      "        </div>" +
                      "    </div>" +
                      "</td>" +
-                     "<td class=\"shortColumn chat_open\" onclick='openWRChat( this );' data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
+                     "<td class=\"shortColumn chat_open\" data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "    <div class=\"nameMRNDiv\">" +
                      "        <div style=\"margin: 6px 0 0 0;\">" +
                      "            <div>" + imguploaded + "</div> " +
@@ -147,8 +165,23 @@ function appendPatient( strKey, oJsonPatient ){
                      "    </div>"+
                      " </td>" +
                      "</tr>" ;
-
+                     
+        }
+    }).get();
+    console.log(varCont);
+    
+    if(varCont!=''){
+        if ($('#tr_menu-li-patient' + varCont).length){  
+            $('#tr_menu-li-patient' + varCont)[0].remove();
+        }else{
+            $('#' + varCont)[0].remove();
+        }
+    }
     $('div.PatientsWaiting table tbody').prepend(strElement);
+    
+    //else agregar el 
+
+    //$('div.PatientsWaiting table tbody').prepend(strElement);
 
     var numCount = $('div.PatientsWaiting table tbody').children('tr').length;
     if(numCount > 0 ){
