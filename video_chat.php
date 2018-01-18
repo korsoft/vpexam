@@ -97,6 +97,10 @@
                     <div id="divReconnect" class="divReconnect" >Reconnecting, please wait!</div>                    
                 </div>
             </div>
+            <div id="modalPhys" style="display: none"></div>
+            <div id="divBW" style="display: none"  >
+                <img id="imgLoading" src="img/loading.gif" /><br/>Testing your Internet connection.<br/>Please wait!
+            </div>            
     <?php } ?>
         <script type="text/javascript" src="/js/bandwidth.js?time=<?php echo time(); ?>"></script> 
         <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>    

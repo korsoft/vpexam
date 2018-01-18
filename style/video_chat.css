@@ -628,6 +628,33 @@ video::-webkit-media-controls-enclosure {
     color:#000;
     float: left
 }
+#divBW{
+    height: auto; 
+    left: 40%; 
+    position: absolute; 
+    text-align: center; 
+    top: 23%; 
+    width: 30%; 
+    z-index: 8012;
+    font-weight: bold;
+    font-size: 25px;
+    color: #FFFFFF;
+    display: none;
+}
+#imgLoading{
+    height:120px;
+}
+#modalPhys {
+  background-color: black;
+  bottom: 0;
+  display: none;
+  left: 0;
+  right: 0;
+  top: 0;
+  opacity: 0.5;
+  position: fixed;
+  z-index: 8011;
+}
 @supports (object-fit: cover) {
   #remoteVideoPatient {
     object-fit: cover;

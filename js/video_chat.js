@@ -14,8 +14,7 @@ var isChrome    = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(naviga
     constraints = window.constraints = {
       audio: true,
       video: true
-    };
-    
+    };        
 //Global variables
 var audioCtx        = null; //Manage ringtone audiocontext - Added to autoplay ringtone in chrome browser.
 var blPlayed        = false; //Flag to detect if audio is played.
@@ -112,6 +111,7 @@ var VideoChat = {
         }
       }
       this.wsc.onerror = function (error) { 
+          WaitBW.hide();
           flBandwidth = 1;
           if(intHangup == 2)
               VideoChat.alert({title : 'You cannot connect to the video server.', type : 'error'});          
@@ -136,18 +136,6 @@ var VideoChat = {
         VideoChat.video.remote.stream = data.streams[0];
         VideoChat.video.remote.dom[0].srcObject = VideoChat.video.remote.stream;
       };
-        BANDWITDH.init(function(bandwitdh){
-            if(bandwitdh>=5)
-                $("#imgbandwidth").removeClass().addClass('success'); 
-            else if(bandwitdh>1 && bandwitdh<5)
-                 $("#imgbandwidth").removeClass().addClass('warning'); 
-            else if(bandwitdh>0)
-                $("#imgbandwidth").removeClass().addClass('error'); 
-            else
-                $("#imgbandwidth").removeClass().addClass('normal'); 
-            console.log('bandwitdh is ' + bandwitdh + ' [Mbps]');
-            flBandwidth=bandwitdh;
-        });      
       // Setup ice handling 
       this.pc.onicecandidate = function (event) {
         if(event.candidate) { 
@@ -579,6 +567,25 @@ var SoundTest = {
   }); 
   }
 }
+var WaitBW = {
+  show : function() {
+      $('#divBW').slideUp('fast',function(){
+    $('#divBW').removeClass('hide').slideDown('fast');
+  }); 
+  $('#modalPhys').slideUp('fast',function(){
+    $('#modalPhys').removeClass('hide').slideDown('fast');
+  }); 
+    
+  },
+  hide : function() {
+      $('#divBW').slideUp('fast',function(){
+    $('#divBW').addClass('hide').slideDown(0);
+  }); 
+  $('#modalPhys').slideUp('fast',function(){
+    $('#modalPhys').addClass('hide').slideDown(0);
+  }); 
+  }    
+}
 function fncChangeImg(blValue)
 {
     $("#imgSound").removeClass().addClass('error');
@@ -603,18 +610,34 @@ $(document).ready(function() {
     $('#chat').removeClass('hide');
   }
  
-    $('#lnBandwidth').on('click', function () {
-        if(flBandwidth>=5)
-            swal ( "Bandwidth Test" ,  "You have a high internet connection!" ,  "success" )
-        else if(flBandwidth>1 && flBandwidth<5)
-            swal ( "Bandwidth Test" ,  "You have a regular internet connection!" ,  "warning" )
-        else if(flBandwidth>0)
-            swal ( "Bandwidth Test" ,  "You have a low internet connection!" ,  "error" )
-        else
-            swal ( "Bandwidth Test" ,  "No internet connection detected!" ,  "error" )
-        return false;         
-    });
+ 
 
+ 
+    $('#lnBandwidth').on('click', function(){ 
+         $("#imgbandwidth").removeClass().addClass('normal');
+         WaitBW.show();
+         BANDWITDH.init(function(bandwitdh){
+            if(bandwitdh>=5){
+                swal ( "Bandwidth Test" ,  "You have a high internet connection!" ,  "success" );
+                $("#imgbandwidth").removeClass().addClass('success'); 
+            } 
+            else if(bandwitdh>1 && bandwitdh<5){
+                swal ( "Bandwidth Test" ,  "You have a regular internet connection!" ,  "warning" );
+                $("#imgbandwidth").removeClass().addClass('warning');
+            }else if(bandwitdh>0){
+                swal ( "Bandwidth Test" ,  "You have a low internet connection!" ,  "error" );
+                $("#imgbandwidth").removeClass().addClass('error');
+            }
+            else{
+                swal ( "Bandwidth Test" ,  "No internet connection detected!" ,  "error" );
+                $("#imgbandwidth").removeClass().addClass('normal');
+            } 
+            console.log('bandwitdh is ' + bandwitdh + ' [Mbps]');
+            WaitBW.hide();
+            flBandwidth=bandwitdh;
+        });return false;}
+    );
+ 
  if($('#audSoundTest').length==1)
    document.getElementById('audSoundTest').addEventListener('play', function(){ blPlayed=true; });
  
@@ -739,7 +762,7 @@ $(document).ready(function() {
     VideoChat.muteMic();
   });
 });
-//Function to autoplay ringtone iin browsers.
+//Function to autoplay ringtone in browsers.
 function fncPlayRing() {
     audioCtx = null;
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
