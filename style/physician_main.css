@@ -268,7 +268,7 @@ td {
     width: 80%;
 }
 
-.removePatientOuter {
+.removePatientOuter, .removePatientOuter2 {
     border-radius: 15px;
     width: 30px;
     height: 30px;

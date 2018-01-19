@@ -22,20 +22,6 @@
 <script>
     var _numPhysicianId= <?php echo $_SESSION['user_id']; ?>;
 </script>
-            <div class="tableHeaderDiv">
-                <!--table class="tableHeader">
-                    <thead>
-                    <tr>
-                        <th class="shortColumn fnameclass">FIRST NAME</th>
-                        <th class="shortColumn">LAST NAME</th>
-                        <th class="shortColumn">DOB</th>
-                        <th class="longColumn">VPExam Uploaded</th>
-                        <th class="longColumn">WAITING ROOM</th>
-                        <th class="longColumn"></th>
-                    </tr>
-                    </thead>
-                </table-->
-            </div>
             <div class="mainContent PatientsWaiting">
                 <table class="tableContent">
                     <thead>
@@ -74,8 +60,21 @@
                                 $fwaitingroom = $info->waitingroom;
                                 $uploaded = $info->uploaded;
 
+                                if($fwaitingroom != "") {
+                                    $varwr='wrclass';
+                                    $retVal ='<button type="button" class="btnwr">Go to Waiting room!</button>';
+                                    $onclick=" onclick=\"removeFromWR($id);\"";
+                                    $idtable="tr_menu-li-patient$id";
+                                    $classremove="removePatientOuter2";
+                                } else{
+                                    $onclick='';
+                                    $varwr='';
+                                    $retVal='';
+                                    $idtable="$id";
+                                    $classremove="removePatientOuter";
+                                }
                                 $col1 =
-                                    "<td class=\"shortColumn patientsTable\" id=\"$id\" data-id=\"$id\">
+                                    "<td class=\"shortColumn patientsTable $varwr\" id=\"$id\" data-id=\"$id\">
                                         <img class=\"patientProfilePic\" src=\"includes/getProfileImage.php?id=$id&type=1\">
                                         <div class=\"nameMRNDiv\">
                                             <div style=\"margin: 33px 0 0 0;\">
@@ -98,14 +97,9 @@
                                         </div>
                                     </td>
                                     ";
-                                if($fwaitingroom != "") {
-                                    $retVal ='<button type="button" class="btnwr">Go to Waiting room!</button>';
-                                } else{
-                                    $retVal='';
-                                };
                                 $col6 =
                                     "<td>
-                                        <div class=\"waitingroom\" data-id=\"$id\" data-name=\"$fname\" onclick=\"openWRChat( this );\">
+                                        <div class=\"waitingroom chat_open\" data-id=\"$id\" data-name=\"$fname\" onclick=\"openWRChat( this );\">
                                             <div class=\"waitingPatientInner\"> $retVal</div>
                                         </div>
                                      </td>
@@ -123,16 +117,17 @@
                                      </td>
                                     ";
                                 $col5 =
-                                    "<td>
-                                        <div class=\"removePatientOuter\" id=\"$id\">
+                                    "<td $onclick>
+                                        <div class=\"$classremove\" id=\"$id\">
                                             <div class=\"removePatientInner\">X</div>
                                         </div>
                                      </td>
                                     ";
                                 $href = "patient_view.php?patientId=" . $id;
+                                
 
                                 print("
-                                <tr class=\"hoverableRow patientsTable2\" id=\"$id\">
+                                <tr class=\"hoverableRow patientsTable2\" id=\"$idtable\">
                                     $col1
                                     $col2
                                     $col3

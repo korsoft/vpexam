@@ -18,6 +18,11 @@ $(document).on("ready", function() {
             location.href = ("patient_view.php?patientId=" + $(this).attr('id'));
         });
     });
+    $('.patientsTable.wrclass').each(function(idx, val) {
+        $(val).on('click', function() {
+            location.href = ("patient_view.php?patientId=" + $(this).attr('id') + "&wr=1");
+        });
+    });
 
     $('#btnMenuConnectDoxy').on('click', function() {
         location.href = "https://doxy.me/sign-in";

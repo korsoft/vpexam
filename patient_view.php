@@ -6,9 +6,14 @@
     $_strPageTitle       = 'VPExam - Patient Overview';
     $_strHeaderTitle     = 'PATIENT OVERVIEW';
     $_arrStyles[]        = '/style/patient_view.css';
+
     $_arrScripts[]       = '/js/moment-with-locales.min.js';
     $_arrScripts[]       = '/js/moment-timezone-with-data.min.js';
     $_arrScripts[]       = '/js/patient_view.js';
+    // 
+    $_arrScripts[]   = '/js/waiting_room.js';
+    //$_arrScripts[]   = '/js/single_waiting_room.js';
+
     $_blnShowPatientMenu = true;
 
     include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/header_physician.php';
@@ -41,10 +46,18 @@
         'name' => $fullName
     ];
 ?>
+<script>
+    var _numPhysicianId= <?php echo $_SESSION['user_id']; ?>;
+</script>
                     <div class="mainContent">
                         <div class="container">
                             <div class="left">
                                 <div class="smallProfileDiv">
+                                    <?php if($_GET['wr']==1){?>
+                                    <a id="chat" href="#videochat">
+                                        <label id="lblLinkWR">Go to Waiting room</label>
+                                    </a><br>
+                                    <?php }?>
                                     <img id="profilePic" src="includes/getProfileImage.php?id=<?php echo($patientId); ?>&type=4">
                                     <div class="patientInfoBox">
                                         <span class="infoText infoTextName"><?php echo($fullName); ?></span>
@@ -126,6 +139,10 @@
                             </div>
                         </div>
                     </div>
+
 <?php
     include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/footer_physician.php';
+    if($_GET['wr']==1){
+        include_once $_SERVER['DOCUMENT_ROOT'] .'/video_chat.php';
+    }
 ?>

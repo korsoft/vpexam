@@ -216,6 +216,8 @@ td {
 #profilePic {
     height: 200px;
     width: 200px;
+    border: 4px #014787 solid;
+    border-radius: 2px;
 }
 
 .smallProfileDiv {
@@ -301,4 +303,21 @@ td {
     bottom: 50px;
     position: absolute;
     right: 50px;
+}
+a#chat {
+    background: #014887;
+    border-radius: 4px;
+    cursor: pointer;
+    line-height: 40px;
+    height: 40px;
+    display: block;
+    width: 208px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    right: inherit;
+    bottom: inherit;
+    text-decoration: none;
 }

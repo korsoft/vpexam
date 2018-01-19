@@ -56,7 +56,8 @@ $( window ).on( "load", function() {
 function removePatients( strKey ){
     //Eliminar funcion de videollamada
     $('#tr_menu-li-patient' + strKey + ' .chat_open').prop('onclick',null).off('click');
-    //Cambiar funcion de la "X" después de dar clic en eliminar de waiting room
+    $('#tr_menu-li-patient' + strKey + ' .chat_open').addClass('classRemoveWR_'+strKey);
+    //Cambiar funcion de la "X" después de dar clic en eliminar de waiting room classRemoveWR
     $('.classRemoveWR_'+strKey).attr('onclick','removeFromMyPatients2('+strKey+')');
     //Ocultar icono de videollamada
     $('#tr_menu-li-patient' + strKey + ' .chat_open > div').css('display','none');
@@ -91,8 +92,6 @@ function removeFromMyPatients2(patientId){
  **/
 function appendPatient( strKey, oJsonPatient ){
     var strElement;
-    console.log('oJsonPatient');
-    console.log(oJsonPatient);
     _patients[ oJsonPatient.id ] = {
                              pat_id : oJsonPatient.id,
                              pat_name: oJsonPatient.name
@@ -105,27 +104,22 @@ function appendPatient( strKey, oJsonPatient ){
     
     //If el oJsonPatient esta en la tabla solo poner el icono
     var varCont = $(".tableContent tbody tr td:first-child").map(function() {
-    //console.log($(this).data('id'));
         if( $(this).data('id') == oJsonPatient.id ){
-            console.log('ya existe');
-            //strElement='lala';
-            //return strElement;
             return oJsonPatient.id;
         }else{
-            console.log('no existe else');
             strElement = "<tr class=\"hoverableRow patientsTable\" id='tr_menu-li-patient" + oJsonPatient.id + "'>" +
                      "<td class=\"shortColumn patientsTable\" id='" + oJsonPatient.id + "'  data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
-                     "<a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"\" target=\"_self\"><img class=\"patientProfilePic\" src=\"/includes/getProfileImage.php?id=" + oJsonPatient.id + "&type=1\"></a>" +
+                     "<a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"&wr=1\" target=\"_self\"><img class=\"patientProfilePic\" src=\"/includes/getProfileImage.php?id=" + oJsonPatient.id + "&type=1\"></a>" +
                      "<div class=\"nameMRNDiv\">" +
                      "<div style=\"margin: 33px 0 0 0;\"> " +
-                     "<div><a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"\" target=\"_self\">" + oJsonPatient.name + "</a></div>" +
+                     "<div><a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"&wr=1\" target=\"_self\">" + oJsonPatient.name + "</a></div>" +
                      "</div>" +
                      "</div>" +
                      "</td>" +
                      "<td class=\"shortColumn\" data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "    <div class=\"nameMRNDiv\">" +
                      "        <div style=\"margin: 0px 0 0 0;\">" +
-                     "            <div><a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"\" target=\"_self\">" + oJsonPatient.lastName + "</a></div> " +
+                     "            <div><a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"&wr=1\" target=\"_self\">" + oJsonPatient.lastName + "</a></div> " +
                      "        </div>" +
                      "    </div> " +
                      "</td>" +
@@ -137,23 +131,14 @@ function appendPatient( strKey, oJsonPatient ){
                      "        </div>" +
                      "    </div> " +
                      "</td>" +
-                    /* "<td class=\"longColumn\" data-id='" + oJsonPatient.id + "' data-name='" + strName + "'> "+
-                     "    <div class=\"nameMRNDiv\">"+
-                     "        <div style=\"margin: 20px 0 0 0;\">"+
-                     "            <div>" + oJsonPatient.address + "</div>" +
-                     "            <div>" + oJsonPatient.phone + "</div>" +
-                     "        </div>" +
-                     "    </div>" +
-                     "</td>" +
-                     */
-                     "<td class=\"shortColumn chat_open\" data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
+                     "<td data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "    <div class=\"nameMRNDiv\">" +
                      "        <div style=\"margin: 6px 0 0 0;\">" +
                      "            <div>" + imguploaded + "</div> " +
                      "        </div>" +
                      "    </div> " +
                      "</td>" +
-                     "<td class=\"longColumn chat_open\" onclick='openWRChat( this );' data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
+                     "<td class=\"chat_open\" onclick='openWRChat( this );' data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "    <div class=\"nameMRNDiv\">" +
                      "        <div style=\"margin: 6px 0 0 0;\">" +
                      "            <div><button type='button' class='btnwr'>Go to Waiting room!</button></div> " +
@@ -169,7 +154,7 @@ function appendPatient( strKey, oJsonPatient ){
                      
         }
     }).get();
-    console.log(varCont);
+    //console.log(varCont);
     
     if(varCont!=''){
         if ($('#tr_menu-li-patient' + varCont).length){  
