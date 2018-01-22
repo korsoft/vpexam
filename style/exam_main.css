@@ -395,3 +395,20 @@ textarea {
     padding: 5px 20px 5px 20px;
 }
 .hide{display: none;}
+a#chat {
+    background: #014887;
+    border-radius: 4px;
+    cursor: pointer;
+    line-height: 40px;
+    height: 40px;
+    display: block;
+    width: 208px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    right: inherit;
+    bottom: inherit;
+    text-decoration: none;
+}

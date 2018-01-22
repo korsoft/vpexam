@@ -94,6 +94,7 @@
                                 </div>
                             </div>
                             <div class="examsDiv">
+                                <input id="inputwr" type="hidden" value="<?php echo $_GET['wr']; ?>">
                                 <?php
                                     if (is_null($exams) || count($exams) === 0) {
                                         echo('<span style="font-size: 20px; font-weight: bold;">No exams available</span>');

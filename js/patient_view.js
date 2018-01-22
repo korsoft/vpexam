@@ -14,7 +14,12 @@ $(document).ready(function(){
 
     $('.trExam').each(function(idx, obj) {
         $(obj).on('click', function() {
-            location.href = "exam_main.php?patientId=" + patientId + "&examId=" + $(this).attr('id');
+            if($('#inputwr').val()!=''){
+                location.href = "exam_main.php?patientId=" + patientId + "&examId=" + $(this).attr('id')+"&wr=1";
+            }else{
+                location.href = "exam_main.php?patientId=" + patientId + "&examId=" + $(this).attr('id');
+            }
+            
         });
     });
 

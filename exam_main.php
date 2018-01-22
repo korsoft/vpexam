@@ -3,6 +3,7 @@ include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
 sec_session_start();
+include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/constants.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,6 +39,7 @@ sec_session_start();
         <script src="js/exam_main.js"></script>
         <script src="js/slideout.min.js"></script>
         <script type="text/javascript" src="/js/sweetalert.min.js"></script>
+        <script src="js/waiting_room.js"></script>
 
         <title>Patient Overview</title>
 
@@ -58,6 +60,9 @@ sec_session_start();
     </head>
 
     <body>
+        <script>
+            var _numPhysicianId= <?php echo $_SESSION['user_id']; ?>;
+        </script>
         <?php if ((login_check($mysqli) == true) && ($_SESSION['is_patient'] == false)) :
             parse_str($_SERVER['QUERY_STRING']);
             $examParts = getExamParts($patientId, $examId, $mysqli);
@@ -85,7 +90,14 @@ sec_session_start();
             $respRate = $exam->respRate;
             $pulseOx = $exam->pulseOximetry;
             $painLevel = ($exam->painLevel . '/10');
+
+            //Variable para el video_chat.php
+            $calling = [
+                'id'   => $patientId, 
+                'name' => $fullName
+            ];
         ?>
+
         <script type="text/javascript">
             <?php
                 echo("setPatientGender(\"" . $patientInfo->gender . "\");");
@@ -122,6 +134,11 @@ sec_session_start();
                 <div class="container">
                     <div class="left">
                         <div class="smallProfileDiv">
+                            <?php if($_GET['wr']==1){?>
+                                <a id="chat" href="#videochat">
+                                    <label id="lblLinkWR">Go to Waiting room</label>
+                                </a><br>
+                            <?php }?>
                             <img id="profilePic" src="includes/getProfileImage.php?id=<?php echo($patientInfo->patientId); ?>&type=4">
                             <div class="patientInfoBox">
                                 <span class="infoText infoTextName"><?php echo($fullName);  ?></span>
@@ -310,6 +327,12 @@ sec_session_start();
         <p>
             <span class="error">You are not authorized to access this page.</span> Please <a href="main.php">login</a>.
         </p>
+        
     <?php endif; ?>
     </body>
 </html>
+<?php 
+if($_GET['wr']==1){
+    include_once $_SERVER['DOCUMENT_ROOT'] .'/video_chat.php';
+}
+?>
