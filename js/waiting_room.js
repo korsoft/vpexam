@@ -105,7 +105,7 @@ var WaitingRoom = {
                           "<span class='specialspan'>Date of Birth:</span><div class='smes'><input id='swal-birthmonth' name='dobm' type='text' class='swal-input sm holo' placeholder='MM' maxlength='2'>"+
                             "<input id='swal-birthday' name='dobd' type='text' class='swal-input sm holo' placeholder='DD' maxlength='2'>"+
                             "<input id='swal-birthyear' name='doby' type='text' class='swal-input sm holo' placeholder='YYYY' maxlength='4'> </div>"+
-                          "<span class='specialspan'>Phone:</span><input type='text' id='swal-phone' class='swal-input' tabindex='3' maxlength='15'> "+
+                          "<span class='specialspan'>Phone:</span><input type='number' id='swal-phone' class='swal-input' tabindex='3' maxlength='10'> "+
                           " <span class='specialspan'>Email:</span><input id='swal-email' name='email' type='email' class='swal-input' tabindex='6'> "+
                           "<span class='specialspan'>Password:</span><input id='swal-password' type='password' class='swal-input' tabindex='7'>"
                      }, function(patientname) {
@@ -242,13 +242,32 @@ var WaitingRoom = {
                                 event.preventDefault();
                             }
                         });
+                        /*$('#swal-phone').on('keyup', function(event) {
+                            $(this).val($(this).val().replace(/[^\d].+/, ""));
+                            if ((event.which < 48 || event.which > 57)) {
+                                event.preventDefault();
+                            }
+                        });*/
+                        $('#swal-phone').unbind('keyup change input paste').bind('keyup change input paste',function(e){
+                            $(this).val($(this).val().replace(/[^\d].+/, ""));
+                            if ((e.which < 48 || e.which > 57)) {
+                                e.preventDefault();
+                            }
+                            var $this = $(this);
+                            var val = $this.val();
+                            var valLength = val.length;
+                            var maxCount = $this.attr('maxlength');
+                            if(valLength>maxCount){
+                                $this.val($this.val().substring(0,maxCount));
+                            }
+                        }); 
 
-                        $('#swal-phone').inputmask({
+                       /*$('#swal-phone').inputmask({
                             autoUnmask: true,
                             mask: "(999) 999-9999",
                             greedy: false,
                             removeMaskOnSubmit: true
-                        });
+                        });*/
                         var video = document.querySelector('#camera-stream'),
                         image = document.querySelector('#snap'),
                         start_camera = document.querySelector('#start-camera'),
