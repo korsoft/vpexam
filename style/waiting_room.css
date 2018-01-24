@@ -125,6 +125,15 @@ body {
 .swal-input {
     display: inline-block !important;
 }
+#swal-gender {
+    width: 55%;
+}
+.sweet-alert span.specialspan.mandatory::after {
+    content: " (*)";
+    color: red;
+    font-size: 12px;
+    vertical-align: top;
+}
 @media (max-width: 800px) {
     #logo img{
         max-height: 90% !important;
@@ -140,7 +149,7 @@ body {
     overflow: hidden;
 }
 .sweet-alert span.specialspan {
-    width: 24%;
+    width: 31%;
     display: inline-block;
     text-align: right;
     margin-right: 10px;
@@ -243,12 +252,14 @@ h3{
 
 .app #error-message{
     width: 100%;
-    background-color: #ccc;
+    border: 3px #ccc solid;
+    background-color: #fff;
     color: #9b9b9b;
     font-size: 15px;
     padding: 20px 0;
     text-align: center;
     display: none;
+    height: 130px;
 }
 
 .app .controls{

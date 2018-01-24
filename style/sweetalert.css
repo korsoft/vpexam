@@ -953,7 +953,7 @@ body.stop-scrolling {
     display: none;
     position: absolute;
     left: 27%;
-    top: 205px;
+    top: 180px;
     width: 260px;
     padding: 15px;
     background: #FEFEFE;
@@ -991,6 +991,18 @@ body.stop-scrolling {
       padding-left: 22px;
       line-height: 24px;
       color: #3A7D34;
+  }
+  .radioscss{
+    width: 55%;
+    display: inline-block;
+    text-align: left;
+  }
+  .sweet-alert input[type="radio"] {
+    width: auto !important;
+    vertical-align: bottom;
+    line-height: 26px;
+    display: inline-block;
+    margin: 0;
   }
   @media (max-width: 540px) {
     .sweet-alert{

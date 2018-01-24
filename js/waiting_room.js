@@ -77,16 +77,6 @@ var WaitingRoom = {
                         title              : 'Welcome!',
                         html               : true,
                         text: "<input id='swalpwdHashed'name='swalpwdHashed' type='hidden' />" +
-                                "<div id='pwdInfo'>"+
-                                    "<h4>Password must meet the following requirements:</h4>"+
-                                    "<ul>"+
-                                        "<li id='letter' class='invalid'>At least <strong>one letter</strong></li>"+
-                                        "<li id='capital' class='invalid'>At least <strong>one capital letter</strong></li>"+
-                                        "<li id='number' class='invalid'>At least <strong>one number</strong></li>"+
-                                        "<li id='special' class='invalid'>At least <strong>one special character</strong></li>"+
-                                        "<li id='length' class='invalid'>Be at least <strong>8 characters</strong></li>"+
-                                    "</ul>"+
-                                "</div>"+
                                 "<div class='app'>" +
                                 "<a href='#' id='start-camera' class='visible'>Touch here to start the app.</a>"+
                                 "<video id='camera-stream'></video>"+
@@ -99,10 +89,11 @@ var WaitingRoom = {
                                 "</div>"+
                                 "<canvas></canvas>"+
                           "</div>"+
-                          "<span class='specialspan'>Photo:</span><input type='file' id='selectPhoto'>"+
-                          "<span class='specialspan'>Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3'> "+
-                          "<span class='specialspan'>Lastname:</span><input id='swal-lastname' type='text' class='swal-input' tabindex='4'> "+
-                          "<span class='specialspan'>Date of Birth:</span><div class='smes'><input id='swal-birthmonth' name='dobm' type='text' class='swal-input sm holo' placeholder='MM' maxlength='2'>"+
+                          "<span class='specialspan mandatory'>Photo:</span><input type='file' id='selectPhoto'>"+
+                          "<span class='specialspan mandatory'>First Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3'> "+
+                          "<span class='specialspan mandatory'>Last Name:</span><input id='swal-lastname' type='text' class='swal-input' tabindex='4'> "+
+                          "<span class='specialspan mandatory'>Gender:</span><div class='radioscss'><input type='radio' class='swal-input swal-gender' name='swal-gender' value='M'> Male  <input type='radio' class='swal-input swal-gender' name='swal-gender' value='F'> Female </div> "+
+                          "<span class='specialspan mandatory'>Date of Birth:</span><div class='smes'><input id='swal-birthmonth' name='dobm' type='text' class='swal-input sm holo' placeholder='MM' maxlength='2'>"+
                             "<input id='swal-birthday' name='dobd' type='text' class='swal-input sm holo' placeholder='DD' maxlength='2'>"+
                             "<input id='swal-birthyear' name='doby' type='text' class='swal-input sm holo' placeholder='YYYY' maxlength='4'> </div>"+
                           "<span class='specialspan'>Phone:</span><input type='number' id='swal-phone' class='swal-input' tabindex='3' maxlength='10'> "+
@@ -111,6 +102,9 @@ var WaitingRoom = {
                      }, function(patientname) {
                             var name = document.getElementById('swal-name').value;
                             var lastname = document.getElementById('swal-lastname').value;
+                            //var gender = document.getElementById('swal-gender').checked;
+                            //var gender = $('swal-gender').checked.val();
+                            var gender = $(".swal-gender:checked").val();
                             var birthmonth = document.getElementById('swal-birthmonth').value;
                             var birthday = document.getElementById('swal-birthday').value;
                             var birthyear = document.getElementById('swal-birthyear').value;
@@ -141,15 +135,18 @@ var WaitingRoom = {
                                 $('#swal-birthmonth').val(birthmonth);
                                 console.log(birthmonth);
                             }
-                            console.log('length')
-                            console.log( phone.length ) ;
+                            console.log('gender'+gender)
+                            //console.log( gender.length ) ;
                             console.log($('#swal-phone').val());
                             var birthdate = birthyear+'-'+birthmonth+'-'+birthday;
                             if('' === name || name.trim().length == 0){
-                                swal.showInputError('You need to write your name!');
+                                swal.showInputError('You need to write your first name!');
                                 return;
                             }else if ('' === lastname || lastname.trim().length == 0){
-                                swal.showInputError('You need to write your lastname!');
+                                swal.showInputError('You need to write your last name!');
+                                return;
+                            }else if ('' === gender || typeof gender === 'undefined'){
+                                swal.showInputError('You need to select your gender!');
                                 return;
                             }else if ('' === birthmonth || birthmonth >12) {
                                 swal.showInputError('You need to write a valid birth month!');
@@ -167,73 +164,111 @@ var WaitingRoom = {
                             }else if ('' != ($('#swal-phone').val()) && (phone.length) < 10) {
                                 swal.showInputError('You need to write a valid phone!');
                                 return;
-                            }else if ('' === email) {
-                                swal.showInputError('You need to write your email!');
-                                return;
-                            } else if (!new RegExp(regexes.email).test(email)) {
-                                swal.showInputError('You need to write a valid email!');
-                                return;
-                            }else if ('' === password || !testPassword(password)) {
-                                swal.showInputError('You need to write a valid password!');
-                                return;
-                            }else{
-                                //Mandar llamar api para checar si el email existe si es false el email existe si es true sigue todo bien {"success":false,"result":{"errorMsg":"","intTotal":2}}
-                                $.get("api/getEmailPatient.php", { email: email })
-                                .done(function(data) {
-                                    var results = $.parseJSON(data);
-                                    if (results == null) {
-                                        swal.showInputError('Error');
-                                        //return;
-                                    } else if (!results.success) {
-                                        swal.showInputError('Error: '+results.result.errorMsg);
-                                        //return;
-                                    } else {
-                                        var $pwd = $('#swal-password');
-                                        if ($($pwd).val() !== "") {
-                                            var hashedPwdElem=''; //= $('<input id="pwdHashed" name="pwdHashed" type="hidden" />');
-                                            hashedPwdElem = hex_sha512($pwd.val());
-                                            $pwd.val("");
-                                        }
-                                        //Mandar llamar API para crear el usuario (preregistro) physician.id
-                                        console.log('name '+name+' lastname '+ lastname+' Phone: '+phone);
-                                        $.ajax({
-                                            method      : 'POST',
-                                            url         : '/api/savePatientWaitingRoom.php',
-                                            data        : { 'name' : name, 'lastname' : lastname, 'birthdate' : birthdate, 'email' : email, 'password' : hashedPwdElem, 'physicianid' : physician.id, 'photo' : profilePic, 'phone' : phone}
-                                        })
-                                        .done(function(response) {
-                                            response = JSON.parse(response);
-                                            console.log('WaitingRoomJS :: patient :: init :: Error :');
-                                            console.log(response.success);
-                                            console.log(response.errorMsg);
-                                            console.log(response.patient_id);
-                                            if(response.success){
-                                                checkin(name, response.patient_id);
-                                            }else{
-                                                swal.showInputError('Error: '+response.errorMsg);
+                            }else if ('' != email) {
+                                if(!new RegExp(regexes.email).test(email)){
+                                    swal.showInputError('You need to write a valid email!');
+                                    return;
+                                }else if ('' === password ) {
+                                    swal.showInputError('You need to write a valid password!');
+                                    return;
+                                }else{
+                                    //Mandar llamar api para checar si el email existe si es false el email existe si es true sigue todo bien {"success":false,"result":{"errorMsg":"","intTotal":2}}
+                                    $.get("api/getEmailPatient.php", { email: email })
+                                    .done(function(data) {
+                                        var results = $.parseJSON(data);
+                                        if (results == null) {
+                                            swal.showInputError('Error');
+                                            //return;
+                                        } else if (!results.success) {
+                                            //Mandar a waiting room
+                                            checkin(results.result.firstName, results.result.patientId);
+                                            //swal.showInputError('Error: '+results.result.errorMsg);
+                                            //return;
+                                        } else {
+                                            var $pwd = $('#swal-password');
+                                            if ($($pwd).val() !== "") {
+                                                var hashedPwdElem=''; //= $('<input id="pwdHashed" name="pwdHashed" type="hidden" />');
+                                                hashedPwdElem = hex_sha512($pwd.val());
+                                                $pwd.val("");
                                             }
-                                        })
-                                        .fail(function(err) {
-                                            console.log('WaitingRoom :: patient :: init :: Error :', err);
-                                        });
-                                        //Enviar al paciente al waiting room
-                                        //checkin(name);
+                                            //Mandar llamar API para crear el usuario (preregistro) physician.id
+                                            console.log('name '+name+' lastname '+ lastname+' Phone: '+phone);
+                                            var username = name+lastname+birthmonth+birthday+birthyear+gender;
+                                            $.ajax({
+                                                method      : 'POST',
+                                                url         : '/api/savePatientWaitingRoom.php',
+                                                data        : { 'name' : name, 'lastname' : lastname, 'birthdate' : birthdate, 'username' : username ,'gender' : gender, 'email' : email, 'password' : hashedPwdElem, 'physicianid' : physician.id, 'photo' : profilePic, 'phone' : phone}
+                                            })
+                                            .done(function(response) {
+                                                response = JSON.parse(response);
+                                                console.log('WaitingRoomJS :: patient :: init :: Error :');
+                                                console.log(response.success);
+                                                console.log(response.errorMsg);
+                                                console.log(response.patient_id);
+                                                if(response.success){
+                                                    checkin(name, response.patient_id);
+                                                }else{
+                                                    swal.showInputError('Error: '+response.errorMsg);
+                                                }
+                                            })
+                                            .fail(function(err) {
+                                                console.log('WaitingRoom :: patient :: init :: Error :', err);
+                                            });
+                                            //Enviar al paciente al waiting room
+                                            //checkin(name);
+                                        }
+                                    });
+                                }
+                            }else{
+                                //Guardar usuario sin correo y contraseña
+                                //Mandar llamar API para crear el usuario (preregistro) physician.id
+                                console.log('name '+name+' lastname '+ lastname+' Phone: '+phone);
+                                var username = name+lastname+birthmonth+birthday+birthyear+gender;
+                                console.log(username);
+                                $.ajax({
+                                    method      : 'POST',
+                                    url         : '/api/savePatientWaitingRoom.php',
+                                    data        : { 'name' : name, 'lastname' : lastname, 'birthdate' : birthdate, 'username' : username ,'gender' : gender, 'physicianid' : physician.id, 'photo' : profilePic, 'phone' : phone}
+                                })
+                                .done(function(response) {
+                                    response = JSON.parse(response);
+                                    console.log('WaitingRoomJS :: patient :: init :: Error :');
+                                    console.log(response.success);
+                                    console.log(response.errorMsg);
+                                    console.log(response.patient_id);
+                                    if(response.success){
+                                        checkin(name, response.patient_id);
+                                    }else{
+                                        swal.showInputError('Error: '+response.errorMsg);
                                     }
+                                })
+                                .fail(function(err) {
+                                    console.log('WaitingRoom :: patient :: init :: Error :', err);
                                 });
+                                //Enviar al paciente al waiting room
+                                //checkin(name);
                             }
                         });
                         //Funciones para tomar una foto de perfil...
                        //En keyup checar qe no tenga letras
                         $('#swal-birthmonth').on('keyup', function(event) {
+                            
                             $(this).val($(this).val().replace(/[^\d].+/, ""));
                             if ((event.which < 48 || event.which > 57)) {
                                 event.preventDefault();
+                            }
+                            //console.log('birthmonth' + $(this).val().length);
+                            if($(this).val().length==2){
+                                $(this).next('input:text').focus();
                             }
                         });
                         $('#swal-birthday').on('keyup', function(event) {
                             $(this).val($(this).val().replace(/[^\d].+/, ""));
                             if ((event.which < 48 || event.which > 57)) {
                                 event.preventDefault();
+                            }
+                            if($(this).val().length==2){
+                                $(this).next('input:text').focus();
                             }
                         });
                         $('#swal-birthyear').on('keyup', function(event) {
@@ -242,12 +277,7 @@ var WaitingRoom = {
                                 event.preventDefault();
                             }
                         });
-                        /*$('#swal-phone').on('keyup', function(event) {
-                            $(this).val($(this).val().replace(/[^\d].+/, ""));
-                            if ((event.which < 48 || event.which > 57)) {
-                                event.preventDefault();
-                            }
-                        });*/
+
                         $('#swal-phone').unbind('keyup change input paste').bind('keyup change input paste',function(e){
                             $(this).val($(this).val().replace(/[^\d].+/, ""));
                             if ((e.which < 48 || e.which > 57)) {
@@ -260,9 +290,8 @@ var WaitingRoom = {
                             if(valLength>maxCount){
                                 $this.val($this.val().substring(0,maxCount));
                             }
-                        }); 
-
-                       /*$('#swal-phone').inputmask({
+                        });
+                        /*$('#swal-phone').inputmask({
                             autoUnmask: true,
                             mask: "(999) 999-9999",
                             greedy: false,
@@ -292,7 +321,7 @@ var WaitingRoom = {
                             else{
                                 
                                   // Request the camera. video-capture
-                                  navigator.getMedia({video: { width: 250, height: 250 },audio: true},
+                                  navigator.getMedia({video: { width: 250, height: 250 },audio: false},
                                     // Success Callback
                                     function(stream){
                                       // Create an object URL for the video stream and
@@ -305,7 +334,7 @@ var WaitingRoom = {
                                       };
                                       var audioTracks = stream.getAudioTracks();
                                         var videoTracks = stream.getVideoTracks();
-                                        if($('#imgMic').length==1)
+                                        /*if($('#imgMic').length==1)
                                         {
                                             if(audioTracks[0].muted)
                                                 $("#imgMic").removeClass().addClass('error');
@@ -313,7 +342,7 @@ var WaitingRoom = {
                                                 $("#imgMic").removeClass().addClass('success');
                                             else
                                                 $("#imgMic").removeClass().addClass('normal');
-                                        }
+                                        }*/
                                         
                                         if($('#imgCamera').length==1)
                                         {
@@ -327,11 +356,16 @@ var WaitingRoom = {
                                     },
                                     // Error Callback
                                     function(err){
-                                      displayErrorMessage("There was an error with accessing the camera stream: " + err.name, err);
-                                      if($('#imgCamera').length==1)
-                                        $("#imgCamera").removeClass().addClass('error');
-                                      if($('#imgMic').length==1)
-                                        $("#imgMic").removeClass().addClass('error');
+                                        if (err.name === 'TrackStartError') {
+                                            console.log('error');
+                                            displayErrorMessage(" " );
+                                        }else{
+                                            displayErrorMessage("There was an error with accessing the camera stream: " + err.name, err);
+                                        }
+                                        if($('#imgCamera').length==1)
+                                            $("#imgCamera").removeClass().addClass('error');
+                                        if($('#imgMic').length==1)
+                                            $("#imgMic").removeClass().addClass('error');
                                     }
                                   );
                             } 
@@ -342,7 +376,7 @@ var WaitingRoom = {
                           e.preventDefault();
                           // Start video playback manually.
                           video.play();
-                          showVideo();
+                          //showVideo();
                         });
                         take_photo_btn.addEventListener("click", function(e){
                           e.preventDefault();
@@ -485,14 +519,14 @@ var WaitingRoom = {
                         });
                         $('#swal-password').on('focus', function() {
                             console.log('focus');
-                            $('#pwdInfo').fadeIn('slow');
+                            //$('#pwdInfo').fadeIn('slow');
                             if ($(this).data('ui-tooltip'))
                                 $(this).removeClass('incomplete').tooltip('destroy').attr("title", "");
                         }).on('keyup', function() {
-                            testPassword($(this).val());
+                            //testPassword($(this).val());
                         }).on('blur', function() {
                             console.log('blur');
-                            $('#pwdInfo').fadeOut('slow');
+                            //$('#pwdInfo').fadeOut('slow');
                         });
                         function isValidDate(dateString) {
                           var regEx = /^\d{4}-\d{2}-\d{2}$/;

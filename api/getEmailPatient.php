@@ -29,7 +29,9 @@ if (isset($email)) {
             $errorMsg = "The email already exists";
             $array = array(
                 "errorMsg" => $errorMsg,
-                "intTotal" => $objResult->intTotal
+                "intTotal" => $objResult->intTotal,
+                "patientId" => $objResult->patientId,
+                "firstName" => $objResult->firstName
             );
             echo(json_encode(array("success" => $success, "result" => $array)));
         }else{

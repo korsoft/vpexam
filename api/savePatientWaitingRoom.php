@@ -21,20 +21,30 @@ $birthdateFormatted = (new DateTime($birthdate, new DateTimeZone("UTC")))->forma
 // Create salted password
 //$password = hash('sha512', $password . $randomSalt);
 //Mandar llamar funcion de random salt
+
 $havePwd = isset($password);
 if ($havePwd) {
     $arrPass = hashPassword($password);
     $pwd_pat = $arrPass['pwd'];
     $salt_pat = $arrPass['randomSalt'];
 }
-
-if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($email) || empty($physicianid)) {
+if(!isset($email)){ 
+    $email='';
+    $pwd_pat='';
+    $salt_pat='';
+    error_log('message::: no trae email y password');
+}
+if(!isset($phone)){ 
+    $phone='';
+}
+if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($gender) || empty($username) ||  empty($physicianid)) {
     $errorMsg = "One or more required parameters was not set.";
     echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
     exit();
 }else{
+    if ($gender == 'M'){$gender="male";}else{$gender="female";}
     //error_log("API :: PREREGISTER2 :: POST { $name } CALL sp_register_patient('{$name}','{$lastname}','{$birthdateFormatted}','{$email}','{$password}','{$salt}',{$physicianid});");
-    $result = $mysqli->query("CALL sp_register_patient('{$name}','{$lastname}','{$birthdateFormatted}','{$phone}','{$email}','{$pwd_pat}','{$salt_pat}',{$physicianid});");
+    $result = $mysqli->query("CALL sp_register_patient('{$username}','{$name}','{$lastname}','{$birthdateFormatted}','{$gender}','{$phone}','{$email}','{$pwd_pat}','{$salt_pat}',{$physicianid});");
     while ($row = $result->fetch_array()){
         $success = true;
         echo( json_encode(array("errorMsg" => $errorMsg, "success" => $success, "patient_id" =>$row['patient_id'] )));
