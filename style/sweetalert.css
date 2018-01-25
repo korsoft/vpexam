@@ -1024,8 +1024,9 @@ body.stop-scrolling {
       margin-top: 4px;
     }
     .swal-input.sm{
-      width: 27%;
-      margin-right: 10px;
+      width: 30%;
+      margin-right: 4px;
+      font-size: 12px;
     }
     .sweet-alert button{
       margin-top: 10px;
@@ -1034,7 +1035,7 @@ body.stop-scrolling {
       max-height: 125px !important;
       width: auto;
       text-align: center;
-      margin: auto;
+      margin: auto auto 20px auto;
     }
     .app{ width: 50%;}
     .app img#snap {

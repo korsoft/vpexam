@@ -6,8 +6,6 @@ include_once '../libs/ImageResize.php';
 use \Eventviva\ImageResize;
 use \Eventviva\ImageResizeException;
 
-//$ct = new createThumbnail();
-
 //API para guardar pre-registro y despues enviar a waiting room ya logueada, 
 const BASE_PATH_PATIENTS = '/var/www/.uploads/profile/patients/img/';
 $success = false;
@@ -16,12 +14,6 @@ $errorMsg = "";
 error_log('API :: PREREGISTER :: POST { ' . print_r($_POST, true) . ' }');
 extract($_POST);
 $birthdateFormatted = (new DateTime($birthdate, new DateTimeZone("UTC")))->format('Y-m-d');
-
-//$randomSalt = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
-// Create salted password
-//$password = hash('sha512', $password . $randomSalt);
-//Mandar llamar funcion de random salt
-
 $havePwd = isset($password);
 if ($havePwd) {
     $arrPass = hashPassword($password);
@@ -32,12 +24,16 @@ if(!isset($email)){
     $email='';
     $pwd_pat='';
     $salt_pat='';
-    error_log('message::: no trae email y password');
 }
 if(!isset($phone)){ 
     $phone='';
 }
-if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($gender) || empty($username) ||  empty($physicianid)) {
+if(empty($username) ){
+    //construir
+    $bd=str_replace('-', '', $birthdateFormatted); 
+    $username=$name.$lastname.$bd.$gender;
+}
+if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($gender) ||  empty($physicianid)) {
     $errorMsg = "One or more required parameters was not set.";
     echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
     exit();
@@ -54,7 +50,7 @@ if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($gen
     if (!empty($photo)) {
         error_log("Profile picture uploaded. FILES parameter set.");
         // We have a file upload. Retrieve it and move it to the proper directory.
-        $img = str_replace('data:image/png;base64,', '', $photo);
+        $img = preg_replace('/data:image\/(png|jpeg|jpg|gif);base64,/', '', $photo);
         $img = str_replace(' ', '+', $img);
         $data = base64_decode($img);
         $file = BASE_PATH_PATIENTS . $userId . '_original.png';
@@ -68,8 +64,7 @@ if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($gen
         $image2->crop(65, 65);
         $image2->save(BASE_PATH_PATIENTS .$userId.'.png');
 
-
-        error_log("Dest file location: " . $file);
+        //error_log("Dest file location: " . $file);
     } else {
         error_log("No profile picture uploaded. FILES parameter not set." . $photo);
     }

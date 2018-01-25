@@ -220,7 +220,8 @@ h3{
 .app{
     width: 40%;
     position: relative;
-    margin: auto;
+    margin: auto auto 20px auto;
+    min-height: 132px;
 }
 
 .app #start-camera{
@@ -239,13 +240,16 @@ h3{
 .app video#camera-stream{
     display: none;
     width: 100%;
+    min-height: 132px;
 }
 
 .app img#snap{
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    /*width: 100%;*/
+    width: 176px;
+    height: 132px;
     z-index: 10;
     display: none;
 }
@@ -356,7 +360,7 @@ h3{
     }
 
     .app #error-message{
-        padding: 80px 50px;
+        padding: 0;
         font-size: 18px;
     }
 

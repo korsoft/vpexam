@@ -77,7 +77,7 @@ var WaitingRoom = {
                         title              : 'Welcome!',
                         html               : true,
                         text: "<input id='swalpwdHashed'name='swalpwdHashed' type='hidden' />" +
-                                "<div class='app'>" +
+                                "<div id='app1' class='app'>" +
                                 "<a href='#' id='start-camera' class='visible'>Touch here to start the app.</a>"+
                                 "<video id='camera-stream'></video>"+
                                 "<img id='snap'>"+
@@ -139,7 +139,10 @@ var WaitingRoom = {
                             //console.log( gender.length ) ;
                             console.log($('#swal-phone').val());
                             var birthdate = birthyear+'-'+birthmonth+'-'+birthday;
-                            if('' === name || name.trim().length == 0){
+                            if(''===profilePic){
+                                swal.showInputError('You need to take a profile picture!');
+                                return;
+                            }else if('' === name || name.trim().length == 0){
                                 swal.showInputError('You need to write your first name!');
                                 return;
                             }else if ('' === lastname || lastname.trim().length == 0){
@@ -191,6 +194,7 @@ var WaitingRoom = {
                                                 hashedPwdElem = hex_sha512($pwd.val());
                                                 $pwd.val("");
                                             }
+
                                             //Mandar llamar API para crear el usuario (preregistro) physician.id
                                             console.log('name '+name+' lastname '+ lastname+' Phone: '+phone);
                                             var username = name+lastname+birthmonth+birthday+birthyear+gender;
@@ -334,15 +338,6 @@ var WaitingRoom = {
                                       };
                                       var audioTracks = stream.getAudioTracks();
                                         var videoTracks = stream.getVideoTracks();
-                                        /*if($('#imgMic').length==1)
-                                        {
-                                            if(audioTracks[0].muted)
-                                                $("#imgMic").removeClass().addClass('error');
-                                            else if(!audioTracks[0].muted)
-                                                $("#imgMic").removeClass().addClass('success');
-                                            else
-                                                $("#imgMic").removeClass().addClass('normal');
-                                        }*/
                                         
                                         if($('#imgCamera').length==1)
                                         {
@@ -453,6 +448,8 @@ var WaitingRoom = {
                         }
                         function previewFile() {
                             var regex = new RegExp("(.*?)\.(png|jpeg|jpg|gif)$");
+                            console.log('algo preview');
+                            console.log(document.querySelector('input[type=file]').files[0].type);
                             if(!(regex.test(document.querySelector('input[type=file]').files[0].type))) {
                                 //alert('The image format is not supported');
                                 swal.showInputError('The image format is not supported');
@@ -460,13 +457,19 @@ var WaitingRoom = {
                                 hideUI();
                                 image.setAttribute('src', snap);
                                 image.classList.add("visible");
-                                image.setAttribute('style', 'position:relative; max-height:150px;');
+                                
+                                //document.querySelector('#camera-stream').classList.add('visible');
+                                image.setAttribute('style', 'height:136px; width:132px;left:22px;');
+                                //image.setAttribute('style', 'transform: rotate(90deg); height:176px; width:132px;left:22px;'); //top: -22px;position:relative;     max-height:150px;
                                 var preview = document.querySelector('#snap');
                                 var file    = document.querySelector('input[type=file]').files[0];
                                 var reader  = new FileReader();
                                 reader.onloadend = function () {
+                                    //Se muestra imagen en img
                                     preview.src = reader.result;
+                                    console.log('lalalal');
                                 }
+
                                 if (file) {
                                     reader.readAsDataURL(file);
                                 } else {
