@@ -186,8 +186,12 @@ var WaitingRoom = {
                                             //return;
                                         } else if (!results.success) {
                                             //Mandar a waiting room
+                                            console.log(results);
+                                            if(results.result.patientId === null ){
+                                                swal.showInputError('Error: '+results.result.errorMsg);
+                                            }
                                             checkin(results.result.firstName, results.result.patientId);
-                                            //swal.showInputError('Error: '+results.result.errorMsg);
+                                            
                                             //return;
                                         } else {
                                             var $pwd = $('#swal-password');

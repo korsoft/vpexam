@@ -26,7 +26,7 @@ if (isset($email)) {
         $objResult = $result->fetch_object();
         if ($objResult->intTotal!=0) {
             //$stmtCheckEmail->close();
-            $errorMsg = "The email already exists";
+            $errorMsg = "The email is registered as a physician";
             $array = array(
                 "errorMsg" => $errorMsg,
                 "intTotal" => $objResult->intTotal,
