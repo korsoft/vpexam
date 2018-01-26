@@ -92,14 +92,14 @@ var WaitingRoom = {
                                 "<canvas></canvas>"+
                           "</div>"+
                           "<span class='specialspan mandatory'>Photo:</span><input type='file' id='selectPhoto' value=''>"+
-                          "<span class='specialspan mandatory'>First Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false'> "+
-                          "<span class='specialspan mandatory'>Last Name:</span><input id='swal-lastname' type='text' class='swal-input' tabindex='4' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false'> "+
+                          "<span class='specialspan mandatory'>First Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' maxlength='50'> "+
+                          "<span class='specialspan mandatory'>Last Name:</span><input id='swal-lastname' type='text' class='swal-input' tabindex='4' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' maxlength='50'> "+
                           "<span class='specialspan mandatory'>Gender:</span><div class='radioscss'><input type='radio' class='swal-input swal-gender' name='swal-gender' value='M'> Male  <input type='radio' class='swal-input swal-gender' name='swal-gender' value='F'> Female </div> "+
                           "<span class='specialspan mandatory'>Date of Birth:</span><div class='smes'><input id='swal-birthmonth' name='dobm' type='text' class='swal-input sm holo' placeholder='MM' maxlength='2' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' value=''>"+
                             "<input id='swal-birthday' name='dobd' type='text' class='swal-input sm holo' placeholder='DD' maxlength='2' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' value=''>"+
                             "<input id='swal-birthyear' name='doby' type='text' class='swal-input sm holo' placeholder='YYYY' maxlength='4' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' value=''> </div>"+
                           "<span class='specialspan'>Phone:</span><input type='number' id='swal-phone' class='swal-input' tabindex='3' maxlength='10' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false'> "+
-                          " <span class='specialspan'>Email:</span><input id='swal-email' name='email' type='email' class='swal-input' tabindex='6' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false'> "+
+                          " <span class='specialspan'>Email:</span><input id='swal-email' name='email' type='email' class='swal-input' tabindex='6' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' maxlength='100'> "+
                           "<span class='specialspan'>Password:</span><input id='swal-password' type='password' class='swal-input' tabindex='7'>"
                      }, function(patientname) {
                             var name = document.getElementById('swal-name').value;
@@ -257,7 +257,31 @@ var WaitingRoom = {
                                 //checkin(name);
                             }
                         });
+
                         //Funciones para tomar una foto de perfil...
+                        
+                        $('#swal-name').on('keyup', function(event) {
+                            var input = this,
+                                kc    = event.which || event.keyCode,
+                                removeLast = function() {
+                                    return input.value.slice(0, -1)
+                                }
+                            if(50 < input.value.length) {
+                                console.log('Nombre invalido')
+                                input.value = removeLast()
+                            }
+                        });
+                        $('#swal-lastname').on('keyup', function(event) {
+                            var input = this,
+                                kc    = event.which || event.keyCode,
+                                removeLast = function() {
+                                    return input.value.slice(0, -1)
+                                }
+                            if(50 < input.value.length) {
+                                console.log('Nombre invalido')
+                                input.value = removeLast()
+                            }
+                        });
                         //En keyup checar qe no tenga letras
                         $('#swal-birthmonth').on('keyup', function(event) {
                             var input = this,
@@ -295,8 +319,6 @@ var WaitingRoom = {
                                 $(this).next('input:text').focus();
                             }
                         });
-
-
 
                         $('#swal-birthday').on('keyup', function(event) {
                             var input = this,
@@ -336,16 +358,35 @@ var WaitingRoom = {
                             
                         });
                         $('#swal-birthyear').on('keyup', function(event) {
-                            $(this).val($(this).val().replace(/[^\d].+/, ""));
-                            if ((event.which < 48 || event.which > 57)) {
-                                event.preventDefault();
+                            var input = this,
+                                kc    = event.which || event.keyCode,
+                                removeLast = function() {
+                                    return input.value.slice(0, -1)
+                                }
+                            if( !kc || kc == 229 ) {
+                                kc = input.value.substr(input.selectionStart - 1 || 0, 1).charCodeAt(0)
                             }
-                            if($(this).val().length==4){
-                                console.log('anio '+$(this).val().length);
-                                event.preventDefault();
+                            console.log('kc { ', kc, ' }')
+                            console.log('input.value { ', input.value, ' }')
+                            console.log('input.value.length { ', input.value.length, ' }')
+                            if (13 == kc || 8 == kc) {
+                                event.preventDefault()
+                                return false
                             }
-                            if($(this).val().length>4){
-                                $(this).val($(this).val().substring(0,4));
+                            //Solo numeros
+                            if(48 > kc || 57 < kc) {
+                                console.log('No es numero')
+                                input.value = removeLast()
+                            }
+                            //Necesita empezar con 1 o 2
+                            if(1 == input.value.length && 49 != kc && 50 != kc){
+                                console.log('Necesita empezar con 0 o 1')
+                                input.value = removeLast()
+                            }
+                            //Si el valor en el input es mayor que 2018 < 
+                            else if((new Date().getFullYear()) < input.value) {
+                                console.log('Mes invalido')
+                                input.value = removeLast()
                             }
                         });
 

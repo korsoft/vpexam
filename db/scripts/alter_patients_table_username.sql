@@ -1,0 +1,1 @@
+ALTER TABLE patients MODIFY username varchar(150) NOT NULL;
