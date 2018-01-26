@@ -375,6 +375,11 @@ h3{
         font-size: 18px;
     }
 }
+@media(max-width: 500px){
+    #contentsnap canvas{
+        max-height: 146px;
+    }
+}
 
 #divReconnect{
     display: none;

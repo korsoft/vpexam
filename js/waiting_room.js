@@ -71,7 +71,8 @@ var WaitingRoom = {
                         confirmButtonColor : '#2b8c36',
                         confirmButtonText  : 'Check In',
                         allowEscapeKey     : false,
-                        showSpinner: true,
+                        showSpinner        : true,
+                        showLoaderOnConfirm: true,
                         //imageUrl           : '/img/waiting_room.png',
                         showCancelButton   : false,
                         text               : 'Please check in below to let ' + physician.name + ' know you are here:',
@@ -211,6 +212,7 @@ var WaitingRoom = {
                                                 console.log(response.errorMsg);
                                                 console.log(response.patient_id);
                                                 if(response.success){
+                                                    //swal.stopLoading();
                                                     checkin(name, response.patient_id);
                                                 }else{
                                                     swal.showInputError('Error: '+response.errorMsg);
@@ -242,6 +244,7 @@ var WaitingRoom = {
                                     console.log(response.errorMsg);
                                     console.log(response.patient_id);
                                     if(response.success){
+                                        //swal.stopLoading();
                                         checkin(name, response.patient_id);
                                     }else{
                                         swal.showInputError('Error: '+response.errorMsg);
@@ -359,12 +362,7 @@ var WaitingRoom = {
                                 $this.val($this.val().substring(0,maxCount));
                             }
                         });
-                        /*$('#swal-phone').inputmask({
-                            autoUnmask: true,
-                            mask: "(999) 999-9999",
-                            greedy: false,
-                            removeMaskOnSubmit: true
-                        });*/
+
                         var video = document.querySelector('#camera-stream'),
                         image = document.querySelector('#snap'),
                         start_camera = document.querySelector('#start-camera'),
