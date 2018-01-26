@@ -116,7 +116,7 @@
         <script src="js/jquery.inputmask/inputmask.js"></script>
         <script src="js/jquery.inputmask/jquery.inputmask.js"></script>
         <script src="js/numeric/jquery.numeric.js"></script>
-        <script src="https://blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
+        <script src="js/load-image.all.min.js"></script>
         <script type="text/javascript">
             WaitingRoom.init(<?php echo json_encode($physician); ?>, <?php echo json_encode($patient); ?>);
         </script>
