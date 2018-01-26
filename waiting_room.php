@@ -31,10 +31,12 @@
             $patient['id']   = $_GET['user_id'];
             $patient['name'] = $_GET['first_name'];
         }
-        $patient['app'] = $_GET['app'];
+        $patient['app'] = (!empty($_GET['app']))?$_GET['app']:0;
+        //error_log($patient['app']);
+        //error_log($_GET['app']);
         //Definimos que es paciente
         $ispatient = true;
-        $patient_access=($patient_access==0 && $_GET['app']==1)?1:$patient_access;
+        $patient_access=($patient_access==0 && $patient['app']==1)?1:$patient_access;
         //Detectamos el el navegador, version y SO.
         $navigator = get_browser(null, true);
         $browser   = [
@@ -114,6 +116,7 @@
         <script src="js/jquery.inputmask/inputmask.js"></script>
         <script src="js/jquery.inputmask/jquery.inputmask.js"></script>
         <script src="js/numeric/jquery.numeric.js"></script>
+        <script src="https://blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
         <script type="text/javascript">
             WaitingRoom.init(<?php echo json_encode($physician); ?>, <?php echo json_encode($patient); ?>);
         </script>

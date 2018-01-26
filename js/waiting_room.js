@@ -71,6 +71,7 @@ var WaitingRoom = {
                         confirmButtonColor : '#2b8c36',
                         confirmButtonText  : 'Check In',
                         allowEscapeKey     : false,
+                        showSpinner: true,
                         //imageUrl           : '/img/waiting_room.png',
                         showCancelButton   : false,
                         text               : 'Please check in below to let ' + physician.name + ' know you are here:',
@@ -80,7 +81,7 @@ var WaitingRoom = {
                                 "<div id='app1' class='app'>" +
                                 "<a href='#' id='start-camera' class='visible'>Touch here to start the app.</a>"+
                                 "<video id='camera-stream'></video>"+
-                                "<img id='snap'>"+
+                                "<div id='contentsnap'><img id='snap'></div>"+
                                 "<p id='error-message'></p>"+
                                 "<div class='controls'>"+
                                 "<a href='#' id='delete-photo' title='Delete Photo' class='disabled'><i class='material-icons'>delete</i></a>"+
@@ -89,15 +90,15 @@ var WaitingRoom = {
                                 "</div>"+
                                 "<canvas></canvas>"+
                           "</div>"+
-                          "<span class='specialspan mandatory'>Photo:</span><input type='file' id='selectPhoto'>"+
-                          "<span class='specialspan mandatory'>First Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3'> "+
-                          "<span class='specialspan mandatory'>Last Name:</span><input id='swal-lastname' type='text' class='swal-input' tabindex='4'> "+
+                          "<span class='specialspan mandatory'>Photo:</span><input type='file' id='selectPhoto' value=''>"+
+                          "<span class='specialspan mandatory'>First Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false'> "+
+                          "<span class='specialspan mandatory'>Last Name:</span><input id='swal-lastname' type='text' class='swal-input' tabindex='4' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false'> "+
                           "<span class='specialspan mandatory'>Gender:</span><div class='radioscss'><input type='radio' class='swal-input swal-gender' name='swal-gender' value='M'> Male  <input type='radio' class='swal-input swal-gender' name='swal-gender' value='F'> Female </div> "+
-                          "<span class='specialspan mandatory'>Date of Birth:</span><div class='smes'><input id='swal-birthmonth' name='dobm' type='text' class='swal-input sm holo' placeholder='MM' maxlength='2'>"+
-                            "<input id='swal-birthday' name='dobd' type='text' class='swal-input sm holo' placeholder='DD' maxlength='2'>"+
-                            "<input id='swal-birthyear' name='doby' type='text' class='swal-input sm holo' placeholder='YYYY' maxlength='4'> </div>"+
-                          "<span class='specialspan'>Phone:</span><input type='number' id='swal-phone' class='swal-input' tabindex='3' maxlength='10'> "+
-                          " <span class='specialspan'>Email:</span><input id='swal-email' name='email' type='email' class='swal-input' tabindex='6'> "+
+                          "<span class='specialspan mandatory'>Date of Birth:</span><div class='smes'><input id='swal-birthmonth' name='dobm' type='text' class='swal-input sm holo' placeholder='MM' maxlength='2' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' value=''>"+
+                            "<input id='swal-birthday' name='dobd' type='text' class='swal-input sm holo' placeholder='DD' maxlength='2' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' value=''>"+
+                            "<input id='swal-birthyear' name='doby' type='text' class='swal-input sm holo' placeholder='YYYY' maxlength='4' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' value=''> </div>"+
+                          "<span class='specialspan'>Phone:</span><input type='number' id='swal-phone' class='swal-input' tabindex='3' maxlength='10' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false'> "+
+                          " <span class='specialspan'>Email:</span><input id='swal-email' name='email' type='email' class='swal-input' tabindex='6' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false'> "+
                           "<span class='specialspan'>Password:</span><input id='swal-password' type='password' class='swal-input' tabindex='7'>"
                      }, function(patientname) {
                             var name = document.getElementById('swal-name').value;
@@ -254,31 +255,94 @@ var WaitingRoom = {
                             }
                         });
                         //Funciones para tomar una foto de perfil...
-                       //En keyup checar qe no tenga letras
+                        //En keyup checar qe no tenga letras
                         $('#swal-birthmonth').on('keyup', function(event) {
-                            
-                            $(this).val($(this).val().replace(/[^\d].+/, ""));
-                            if ((event.which < 48 || event.which > 57)) {
-                                event.preventDefault();
+                            var input = this,
+                                kc    = event.which || event.keyCode,
+                                removeLast = function() {
+                                    return input.value.slice(0, -1)
+                                }
+                            if( !kc || kc == 229 ) {
+                                kc = input.value.substr(input.selectionStart - 1 || 0, 1).charCodeAt(0)
                             }
-                            //console.log('birthmonth' + $(this).val().length);
-                            if($(this).val().length==2){
+                            console.log('kc { ', kc, ' }')
+                            console.log('input.value { ', input.value, ' }')
+                            console.log('input.value.length { ', input.value.length, ' }')
+                            if (13 == kc || 8 == kc) {
+                                event.preventDefault()
+                                return false
+                            }
+                            //Solo numeros
+                            if(48 > kc || 57 < kc) {
+                                console.log('No es numero')
+                                input.value = removeLast()
+                            }
+                            //Necesita empezar con 0 o 1
+                            if(1 == input.value.length && 48 != kc && 49 != kc){
+                                console.log('Necesita empezar con 0 o 1')
+                                input.value = removeLast()
+                            }
+                            //Si el valor en el input es mayor que 12
+                            else if(12 < input.value) {
+                                console.log('Mes invalido')
+                                input.value = removeLast()
+                            }
+                            if(2 == input.value.length && 13 > input.value){
+                                console.log('valor correcto');
                                 $(this).next('input:text').focus();
                             }
                         });
+
+
+
                         $('#swal-birthday').on('keyup', function(event) {
-                            $(this).val($(this).val().replace(/[^\d].+/, ""));
-                            if ((event.which < 48 || event.which > 57)) {
-                                event.preventDefault();
+                            var input = this,
+                                kc    = event.which || event.keyCode,
+                                removeLast = function() {
+                                    return input.value.slice(0, -1)
+                                }
+                            if( !kc || kc == 229 ) {
+                                kc = input.value.substr(input.selectionStart - 1 || 0, 1).charCodeAt(0)
                             }
-                            if($(this).val().length==2){
+                            console.log('kc { ', kc, ' }')
+                            console.log('input.value { ', input.value, ' }')
+                            console.log('input.value.length { ', input.value.length, ' }')
+                            if (13 == kc || 8 == kc) {
+                                event.preventDefault()
+                                return false
+                            }
+                            //Solo numeros
+                            if(48 > kc || 57 < kc) {
+                                console.log('No es numero')
+                                input.value = removeLast()
+                            }
+                            //Necesita empezar con 0, 1, 2 , 3
+                            if(1 == input.value.length && 48 != kc && 49 != kc && 50 != kc && 51 != kc){
+                                console.log('Necesita empezar con 0 ,1,2 o 3')
+                                input.value = removeLast()
+                            }
+                            //Si el valor en el input es mayor que 31
+                            else if(31 < input.value) {
+                                console.log('Dia invalido')
+                                input.value = removeLast()
+                            }
+                            if(2 == input.value.length && 32 > input.value){
+                                console.log('valor correcto');
                                 $(this).next('input:text').focus();
                             }
+                            
                         });
                         $('#swal-birthyear').on('keyup', function(event) {
                             $(this).val($(this).val().replace(/[^\d].+/, ""));
                             if ((event.which < 48 || event.which > 57)) {
                                 event.preventDefault();
+                            }
+                            if($(this).val().length==4){
+                                console.log('anio '+$(this).val().length);
+                                event.preventDefault();
+                            }
+                            if($(this).val().length>4){
+                                $(this).val($(this).val().substring(0,4));
                             }
                         });
 
@@ -456,7 +520,7 @@ var WaitingRoom = {
                             }else{
                                 hideUI();
                                 image.setAttribute('src', snap);
-                                image.classList.add("visible");
+                                //image.classList.add("visible");
                                 
                                 //document.querySelector('#camera-stream').classList.add('visible');
                                 image.setAttribute('style', 'height:136px; width:132px;left:22px;');
@@ -464,10 +528,47 @@ var WaitingRoom = {
                                 var preview = document.querySelector('#snap');
                                 var file    = document.querySelector('input[type=file]').files[0];
                                 var reader  = new FileReader();
+                                
+                                /*document.getElementById('selectPhoto').onchange = function (e) {
+                                    loadImage(
+                                        e.target.files[0],
+                                        function (img) {
+                                            //document.getElementById("snap").remove();
+                                             document.getElementById("contentsnap").appendChild(img);
+                                        },
+                                        {maxWidth: 176,
+                                        orientation: true} // Options
+                                    );
+                                };*/
+
+                                /*$('#selectPhoto').on('change',function(e){
+                                    console.log(e.target.files[0]);
+                                    loadImage(
+                                        e.target.files[0],
+                                        function (img) {
+                                            //console.log(img);
+                                            //document.getElementById("snap").remove();
+                                            $('#contentsnap canvas').remove();
+                                             document.getElementById("contentsnap").appendChild(img);
+                                        },
+                                        {maxWidth: 176,
+                                        orientation: true} // Options
+                                    );
+                                });*/
                                 reader.onloadend = function () {
                                     //Se muestra imagen en img
                                     preview.src = reader.result;
                                     console.log('lalalal');
+                                    
+                                    loadImage(
+                                        $('#selectPhoto')[0].files[0],
+                                        function (img) {
+                                            $('#contentsnap canvas').remove();
+                                             document.getElementById("contentsnap").appendChild(img);
+                                        },
+                                        {maxWidth: 176,
+                                        orientation: true} // Options
+                                    );
                                 }
 
                                 if (file) {

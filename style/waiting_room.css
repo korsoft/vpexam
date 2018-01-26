@@ -319,6 +319,9 @@ h3{
 .app canvas{
     display: none;
 }
+#contentsnap canvas{
+    display: block !important;
+}
 
 
 

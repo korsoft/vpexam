@@ -30,9 +30,14 @@ if(!isset($phone)){
 }
 if(empty($username) ){
     //construir
-    $bd=str_replace('-', '', $birthdateFormatted); 
+    $bd=str_replace('-', '', $birthdate); 
+    error_log($birthdate);
+    error_log($birthdateFormatted);
     $username=$name.$lastname.$bd.$gender;
+    error_log($username);
 }
+$username = str_replace(' ', '', $username);
+
 if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($gender) ||  empty($physicianid)) {
     $errorMsg = "One or more required parameters was not set.";
     echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
@@ -56,11 +61,13 @@ if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($gen
         $file = BASE_PATH_PATIENTS . $userId . '_original.png';
         $success = file_put_contents($file, $data);
 
-        $image = new ImageResize($file);
+        //$image = new ImageResize($file);
+        $image =  ImageResize::createFromString(base64_decode($img));
         $image->crop(250, 250);
         $image->save(BASE_PATH_PATIENTS .$userId.'_profile.png');
 
-        $image2 = new ImageResize($file);
+        //$image2 = new ImageResize($file);
+        $image2 = ImageResize::createFromString(base64_decode($img));
         $image2->crop(65, 65);
         $image2->save(BASE_PATH_PATIENTS .$userId.'.png');
 

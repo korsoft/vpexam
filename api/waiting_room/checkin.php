@@ -18,7 +18,7 @@ $patientname = 0 < $patientid?"{$_SESSION['first_name']} {$_SESSION['last_name']
 if(0 < $_POST['patientid']){
 	$patientid=$_POST['patientid'];
 }
-$uploaded = $_POST['app']; 
+$uploaded = isset($_POST['app'])?$_POST['app']:0;
 
 try {
 	if(0 >= $physicianid) {
