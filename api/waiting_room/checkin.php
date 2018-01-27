@@ -32,16 +32,20 @@ try {
 		$patientid = time();
 	}
 	$response = checkInWaitingRoom($mysqli, $physicianid, ['id' => $patientid, 'name' => $patientname, 'uploaded' => $uploaded]);
-        include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/Mailer.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/Mailer.php';
+	
 	$infoforemail       = getInfoForEmail($mysqli, $patientid, $physicianid);
-        $mailer             = new Mailer('waiting_room_patient', 
-                              'A new patient has checked into your waiting room.',                  
-                              $infoforemail[1], 
-                              [
-                               'url'        => 'https://vpexam.com/',
-                               'img_header' => 'https://vpexam.com/img/logo_img.png'
-                              ]);
-        $mailer->send();
+	error_log('API :: WAITING ROOM :: CHECK IN : Enviar correo al doctor. '.print_r($infoforemail[1],true));
+
+	$mailer     = new Mailer('waiting_room_patient', 
+                          'A new patient has checked into your waiting room.',                  
+                          $infoforemail[1], 
+                          [
+                           'url'        => 'https://vpexam.com/',
+                           'img_header' => 'https://vpexam.com/img/logo_img.png',
+                           'title'  => 'VPExam - New patient has checked into your waiting room'
+                          ]);
+    $mailer->send();
 }
 catch(Exception $e) {
  	$response['success']  = false;
