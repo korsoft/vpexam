@@ -1,3 +1,10 @@
+function html_entity_decode(str) {
+  var ta = document.createElement("textarea");
+  ta.innerHTML=str.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  toReturn = ta.value;
+  ta = null;
+  return toReturn
+}
 var WaitingRoom = {
     timer : null,
     init : function(physician, patient) {
@@ -64,7 +71,72 @@ var WaitingRoom = {
                         checkin(patient.name, patient.id, patient.app);
                     });
                 }
-                else {                  
+                else {         
+                    var blCookies = false;
+                    var response_data = null;
+                    $.ajax({
+                        method   : 'POST',
+                        url      : 'includes/getCookieInfo.php',
+                        async    : false
+                    })
+                    .done(function(response) {
+                        
+                        if('string' == typeof response) {
+                            response = JSON.parse(response);
+                        }
+                        blCookies = false == response.success ? false:true;
+                        response_data=response.data;
+                    })
+                    .fail(function(err) {
+                        console.log('WaitingRoom :: init :: Error Cookies Set:', err);
+                    });                                  
+                    
+                    var date = new Date();
+                    var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                    var strControl =  "" ;
+                   if(blCookies)       
+                    {  
+                        strControl +=  "" ;
+                        strControl += "<div id='divMainCookieList'>Continue as:";
+                        strControl += "<div id='divMainCookieListContainer'>";
+                        $.each(response_data, function(idx, obj) {
+                            var response_obj=null;
+                            response_obj=JSON.parse(html_entity_decode(obj.value));
+                            var dateFormat = response_obj.birthdate.replace(/(\d{4})-(\d{2})-(\d{2})/, '$2-$3-$1');
+                            strControl +="<div class='wruser' id='dv"+ response_obj.userId+"'><img  src=\"/includes/getProfileImage.php?id=" + response_obj.userId + "&type=1\" >&nbsp;<div class='wruserdiv'><span style=\"font-weight:bold\">"+(response_obj.name+' '+response_obj.lastname).replace(/(^|\s)[a-z]/g,function(f){return f.toUpperCase();})+"</span><br/> Gender: "+response_obj.gender+" Date of birth: "+dateFormat+"</div></div>";
+                        });
+                        
+                        strControl +=  "</div><br/>No account? <a  href=\"javascript: void(0);\" onclick=\"$('#dvRegisterPatient').toggle();$('#confirm_button').css('display', '');$('#divMainCookieList').toggle();return false;\" >Create one!</a>" ; 
+                        strControl += "</div>";
+                    }
+                    strControl += "<div id='dvRegisterPatient' ";
+                    if(blCookies){
+                       strControl += " style='display:none' ";}
+                    strControl += ">";
+                    strControl += "<input id='swalpwdHashed'name='swalpwdHashed' type='hidden' />" +
+                                        "<div id='app1' class='app'>" +
+                                            "<a href='#' id='start-camera' class='visible'>Touch here to start the app.</a>"+
+                                            "<video id='camera-stream'></video>"+
+                                "<div id='contentsnap'><img id='snap'></div>"+
+                                                "<p id='error-message'></p>"+
+                                                "<div class='controls'>"+
+                                                    "<a href='#' id='delete-photo' title='Delete Photo' class='disabled'><i class='material-icons'>delete</i></a>"+
+                                                    "<a href='#' id='take-photo' title='Take Photo'><i class='material-icons'>camera_alt</i></a>"+
+                                                    "<a href='#' id='download-photo' download='selfie.png' title='Save Photo' class='disabled'><i class='material-icons'>file_download</i></a>"+  
+                                                "</div>"+
+                                                "<canvas></canvas>"+
+                                        "</div>"+
+                          "<span class='specialspan mandatory'>Photo:</span><input type='file' id='selectPhoto' value=''>"+
+                          "<span class='specialspan mandatory'>First Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' maxlength='50'> "+
+                          "<span class='specialspan mandatory'>Last Name:</span><input id='swal-lastname' type='text' class='swal-input' tabindex='4' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' maxlength='50'> "+
+                          "<span class='specialspan mandatory'>Gender:</span><div class='radioscss'><input type='radio' class='swal-input swal-gender' name='swal-gender' value='M'> Male  <input type='radio' class='swal-input swal-gender' name='swal-gender' value='F'> Female </div> "+
+                                        "<span class='specialspan mandatory'>Date of Birth:</span><div class='smes'><input id='swal-birthmonth' name='dobm' type='text' class='swal-input sm holo' placeholder='MM' maxlength='2' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' value=''>"+
+                            "<input id='swal-birthday' name='dobd' type='text' class='swal-input sm holo' placeholder='DD' maxlength='2' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' value=''>"+
+                            "<input id='swal-birthyear' name='doby' type='text' class='swal-input sm holo' placeholder='YYYY' maxlength='4' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' value=''> </div>"+
+                          "<span class='specialspan'>Phone:</span><input type='number' id='swal-phone' class='swal-input' tabindex='3' maxlength='10' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false'> "+
+                          " <span class='specialspan'>Email:</span><input id='swal-email' name='email' type='email' class='swal-input' tabindex='6' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' maxlength='100'> "+
+                          "<span class='specialspan'>Password:</span><input id='swal-password' type='password' class='swal-input' tabindex='7'></div>" ;                 
+
                     swal({
                         animation          : 'slide-from-top',
                         closeOnConfirm     : false,
@@ -75,32 +147,11 @@ var WaitingRoom = {
                         showLoaderOnConfirm: true,
                         //imageUrl           : '/img/waiting_room.png',
                         showCancelButton   : false,
+                        showConfirmButton   : false,
                         text               : 'Please check in below to let ' + physician.name + ' know you are here:',
                         title              : 'Welcome!',
                         html               : true,
-                        text: "<input id='swalpwdHashed'name='swalpwdHashed' type='hidden' />" +
-                                "<div id='app1' class='app'>" +
-                                "<a href='#' id='start-camera' class='visible'>Touch here to start the app.</a>"+
-                                "<video id='camera-stream'></video>"+
-                                "<div id='contentsnap'><img id='snap'></div>"+
-                                "<p id='error-message'></p>"+
-                                "<div class='controls'>"+
-                                "<a href='#' id='delete-photo' title='Delete Photo' class='disabled'><i class='material-icons'>delete</i></a>"+
-                                "<a href='#' id='take-photo' title='Take Photo'><i class='material-icons'>camera_alt</i></a>"+
-                                "<a href='#' id='download-photo' download='selfie.png' title='Save Photo' class='disabled'><i class='material-icons'>file_download</i></a>"+  
-                                "</div>"+
-                                "<canvas></canvas>"+
-                          "</div>"+
-                          "<span class='specialspan mandatory'>Photo:</span><input type='file' id='selectPhoto' value=''>"+
-                          "<span class='specialspan mandatory'>First Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' maxlength='50'> "+
-                          "<span class='specialspan mandatory'>Last Name:</span><input id='swal-lastname' type='text' class='swal-input' tabindex='4' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' maxlength='50'> "+
-                          "<span class='specialspan mandatory'>Gender:</span><div class='radioscss'><input type='radio' class='swal-input swal-gender' name='swal-gender' value='M'> Male  <input type='radio' class='swal-input swal-gender' name='swal-gender' value='F'> Female </div> "+
-                          "<span class='specialspan mandatory'>Date of Birth:</span><div class='smes'><input id='swal-birthmonth' name='dobm' type='text' class='swal-input sm holo' placeholder='MM' maxlength='2' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' value=''>"+
-                            "<input id='swal-birthday' name='dobd' type='text' class='swal-input sm holo' placeholder='DD' maxlength='2' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' value=''>"+
-                            "<input id='swal-birthyear' name='doby' type='text' class='swal-input sm holo' placeholder='YYYY' maxlength='4' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' value=''> </div>"+
-                          "<span class='specialspan'>Phone:</span><input type='number' id='swal-phone' class='swal-input' tabindex='3' maxlength='10' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false'> "+
-                          " <span class='specialspan'>Email:</span><input id='swal-email' name='email' type='email' class='swal-input' tabindex='6' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' maxlength='100'> "+
-                          "<span class='specialspan'>Password:</span><input id='swal-password' type='password' class='swal-input' tabindex='7'>"
+                        text:               strControl
                      }, function(patientname) {
                             var name = document.getElementById('swal-name').value;
                             var lastname = document.getElementById('swal-lastname').value;
@@ -200,7 +251,6 @@ var WaitingRoom = {
                                                 hashedPwdElem = hex_sha512($pwd.val());
                                                 $pwd.val("");
                                             }
-
                                             //Mandar llamar API para crear el usuario (preregistro) physician.id
                                             console.log('name '+name+' lastname '+ lastname+' Phone: '+phone);
                                             var username = name+lastname+birthmonth+birthday+birthyear+gender;
@@ -216,7 +266,6 @@ var WaitingRoom = {
                                                 console.log(response.errorMsg);
                                                 console.log(response.patient_id);
                                                 if(response.success){
-                                                    //swal.stopLoading();
                                                     checkin(name, response.patient_id);
                                                 }else{
                                                     swal.showInputError('Error: '+response.errorMsg);
@@ -235,34 +284,145 @@ var WaitingRoom = {
                                 //Mandar llamar API para crear el usuario (preregistro) physician.id
                                 console.log('name '+name+' lastname '+ lastname+' Phone: '+phone);
                                 var username = name+lastname+birthmonth+birthday+birthyear+gender;
-                                console.log(username);
+                                
+                                
                                 $.ajax({
                                     method      : 'POST',
-                                    url         : '/api/savePatientWaitingRoom.php',
-                                    data        : { 'name' : name, 'lastname' : lastname, 'birthdate' : birthdate, 'username' : username ,'gender' : gender, 'physicianid' : physician.id, 'photo' : profilePic, 'phone' : phone}
+                                    url         : '/includes/searchpatientsbyusername.php',
+                                    data        : { 'strUsername' : username}
                                 })
-                                .done(function(response) {
-                                    response = JSON.parse(response);
-                                    console.log('WaitingRoomJS :: patient :: init :: Error :');
-                                    console.log(response.success);
-                                    console.log(response.errorMsg);
-                                    console.log(response.patient_id);
-                                    if(response.success){
-                                        //swal.stopLoading();
-                                        checkin(name, response.patient_id);
-                                    }else{
-                                        swal.showInputError('Error: '+response.errorMsg);
+                                .done(function(result) {
+                                   
+                                    if('string' == typeof result) {
+                                        response = JSON.parse(result);
+                                    } 
+                                    if (false == response.success) {
+                                        console.log(response.errorMsg);
+                                    }
+                                    else {                                    
+                                        if(response.success){
+                                            var result_data = response.results;
+                                            if(0==result_data.length) // Si es cero, es el primer username en base de datos e ingresa a la wr
+                                            {
+                                                console.log(username);
+                                                $.ajax({
+                                                    method      : 'POST',
+                                                    url         : '/api/savePatientWaitingRoom.php',
+                                                    data        : { 'name' : name, 'lastname' : lastname, 'birthdate' : birthdate, 'username' : username ,'gender' : gender, 'physicianid' : physician.id, 'photo' : profilePic, 'phone' : phone}
+                                                })
+                                                .done(function(response) {
+                                                    response = JSON.parse(response);
+                                                    console.log('WaitingRoomJS :: patient :: init :: Error :');
+                                                    console.log(response.success);
+                                                    console.log(response.errorMsg);
+                                                    console.log(response.patient_id);
+                                                    if(response.success){
+                                                        checkin(name, response.patient_id);
+                                                    }else{
+                                                        swal.showInputError('Error: '+response.errorMsg);
+                                                    }
+                                                })
+                                                .fail(function(err) {
+                                                    console.log('WaitingRoom :: patient :: init :: Error :', err);
+                                                });                                                
+                                            }
+                                            else
+                                            {
+                                                
+                                                var strControl=  "" ;
+                                                strControl += "<div id='divMainDBList'>Registered profiles with similar information, <br/> please select yours:";
+                                                strControl += "<div id='divMainDBListContainer'>";                                                
+                                                $.each(result_data, function(idx, obj) {
+                                                    var dateFormat = obj.dob.replace(/(\d{4})-(\d{2})-(\d{2})/, '$2-$3-$1');
+                                                    strControl +="<div class='wruserdb' id='dvDB"+ obj.patient_id+"'><img  src=\"/includes/getProfileImage.php?id=" + obj.patient_id + "&type=1\" >&nbsp;<div class='wruserdivdb'><span style=\"font-weight:bold\">"+(obj.first_name+' '+obj.middle_name+' '+obj.last_name).replace(/(^|\s)[a-z]/g,function(f){return f.toUpperCase();})+"</span><br/>Gender: "+obj.gender+" Date of birth: "+dateFormat+"</div></div>";                                                    
+                                                });
+                                                strControl += "</div></div>";                                                
+
+                                                swal({
+                                                    animation          : 'slide-from-top',
+                                                    closeOnConfirm     : false,
+                                                    confirmButtonColor : '#2b8c36',
+                                                    confirmButtonText  : 'Check In',
+                                                    allowEscapeKey     : false,
+                                                    //imageUrl           : '/img/waiting_room.png',
+                                                    showCancelButton   : false,
+                                                    showConfirmButton   : false,
+                                                    title              : 'Welcome!',
+                                                    html               : true,
+                                                    text:               strControl
+                                                });   
+
+                                                $.each(result_data, function(idx, obj) {
+                                                     var ctrl = document.querySelector('#dvDB'+ obj.patient_id);
+                                                     ctrl.addEventListener("click", function(e){
+                                                        if(obj.email=='')
+                                                            checkin(obj.first_name, obj.patient_id);
+                                                        else
+                                                        {
+                                                            swal({
+                                                              type: "input",
+                                                              showCancelButton: false,
+                                                              closeOnConfirm: false,
+                                                              allowEscapeKey: false,
+                                                              title: "Type your password!",
+                                                              showLoaderOnConfirm: true,
+                                                              inputType: "password"
+                                                            }, function (inputValue) {
+                                                              if (inputValue === false) return false;
+                                                              if (inputValue === "") {
+                                                                swal.showInputError("You need to write your password!");
+                                                                return false
+                                                              }
+                                                                if (inputValue.length > 100) {
+                                                                    swal.showInputError("You have exceeded 100 characters!");
+                                                                    return false;
+                                                                }                                                              
+                                                                $.ajax({
+                                                                    method      : 'POST',
+                                                                    url         : '/includes/getpatientspassword.php',
+                                                                    data        : { 'patientid':obj.patient_id,'password' : hex_sha512(inputValue) }
+                                                                })
+                                                                .done(function(response) {
+                                                                    if('string' == typeof response) {
+                                                                        response = JSON.parse(response);
+                                                                    } 
+                                                                    if (false == response.success) {
+                                                                        swal.showInputError("Incorrect password, please try again!");
+                                                                        return false                                                                        
+                                                                    }
+                                                                    else if(response.success){
+                                                                        checkin(obj.first_name, obj.patient_id);
+                                                                    }
+                                                                    else{
+                                                                        swal.showInputError('Error: '+response.errorMsg);
+                                                                    }
+                                                                })
+                                                                .fail(function(err) {
+                                                                    swal.showInputError('Error: '+response.errorMsg);
+                                                                });                                                                                                                            
+                                                            });
+                                                        }
+                                                     });
+                                                 });
+                                            }
+                                        }else{
+                                            swal.showInputError('Error: '+response.errorMsg);
+                                        }
                                     }
                                 })
                                 .fail(function(err) {
                                     console.log('WaitingRoom :: patient :: init :: Error :', err);
-                                });
-                                //Enviar al paciente al waiting room
-                                //checkin(name);
+                                });                                
                             }
                         });
-
-                        //Funciones para tomar una foto de perfil...
+                       if( document.querySelector(".confirm")){
+                           var element=document.querySelector(".confirm");
+                           element.id='confirm_button'; 
+                           
+                           if(!blCookies)
+                               $('#confirm_button').css('display', 'inline');
+                       }
+                       //Funciones para tomar una foto de perfil...
                         
                         $('#swal-name').on('keyup', function(event) {
                             var input = this,
@@ -286,8 +446,8 @@ var WaitingRoom = {
                                 input.value = removeLast()
                             }
                         });
-                        //En keyup checar qe no tenga letras
-                        $('#swal-birthmonth').on('keyup', function(event) {
+                       //En keyup checar qe no tenga letras
+                         $('#swal-birthmonth').on('keyup', function(event) {
                             var input = this,
                                 kc    = event.which || event.keyCode,
                                 removeLast = function() {
@@ -366,7 +526,7 @@ var WaitingRoom = {
                                 kc    = event.which || event.keyCode,
                                 removeLast = function() {
                                     return input.value.slice(0, -1)
-                                }
+                            }
                             if( !kc || kc == 229 ) {
                                 kc = input.value.substr(input.selectionStart - 1 || 0, 1).charCodeAt(0)
                             }
@@ -471,6 +631,20 @@ var WaitingRoom = {
                                     }
                                   );
                             } 
+                            
+                            if(blCookies)       
+                            {  
+                                 $.each(response_data, function(idx, obj) {
+                                     var response_obj=null;
+                                     response_obj=JSON.parse(html_entity_decode(obj.value));
+                                     var ctrl = document.querySelector('#dv'+ response_obj.userId);
+                                     ctrl.addEventListener("click", function(e){
+                                        checkin(response_obj.name, response_obj.userId);
+                                     });
+                                 });
+                            }                            
+                           
+                    
                        
                         // Mobile browsers cannot play video without user input,
                         // so here we're using a button to start it manually.

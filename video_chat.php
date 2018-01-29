@@ -17,7 +17,7 @@
             <input type="hidden" id="calling" value='<?php echo isset($calling)?json_encode($calling):"" ?>' />
             <div id="divPhysicianStatus">
                 <span id="spPhysicianStatusText">Your physician is&nbsp;</span>
-                <span id="spPhysicianStatus">ONLINE</span>
+                <span id="spPhysicianStatus">OFFLINE</span>
             </div>
             <div id="videochatPatient" class="hide" >
                 <div class="custom-videoPatient" id="custom-videoPatient">

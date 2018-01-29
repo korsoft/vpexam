@@ -44,6 +44,7 @@ if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($gen
     exit();
 }else{
     if ($gender == 'M'){$gender="male";}else{$gender="female";}
+    $username = preg_replace('/[^A-Za-z0-9\-]/', '', $username);
     //error_log("API :: PREREGISTER2 :: POST { $name } CALL sp_register_patient('{$name}','{$lastname}','{$birthdateFormatted}','{$email}','{$password}','{$salt}',{$physicianid});");
     $result = $mysqli->query("CALL sp_register_patient('{$username}','{$name}','{$lastname}','{$birthdateFormatted}','{$gender}','{$phone}','{$email}','{$pwd_pat}','{$salt_pat}',{$physicianid});");
     while ($row = $result->fetch_array()){
@@ -51,6 +52,9 @@ if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($gen
         echo( json_encode(array("errorMsg" => $errorMsg, "success" => $success, "patient_id" =>$row['patient_id'] )));
         $userId = $row['patient_id'];
     }
+        
+    setcookie("vpexam[".$username."]",json_encode(array("userId"=>$userId, "name" => $name,  "lastname" => $lastname,  "birthdate" => $birthdateFormatted,  "gender" => $gender,"email" => $email)), time() + 60 * 60 * 24 * 30, "/", false);
+
     //Guardar imagen de profile si la trae
     if (!empty($photo)) {
         error_log("Profile picture uploaded. FILES parameter set.");

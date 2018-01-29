@@ -392,3 +392,78 @@ h3{
     border-radius: 20px;
     text-align: center;
 }
+.wruser{
+    background-color: #395697;
+    border: none; 
+    padding-top: 8px;
+    padding-bottom: 11px;
+    border-radius: 8px;
+    border: 1px solid #d6d9dc;
+    text-align: left;
+    cursor: pointer;
+    width: 95%;
+    padding-left: 10px;
+    height: 50px;
+}
+.wruser img{
+    height: 50px;
+    vertical-align: middle;
+    float:left;
+}
+.wruserdiv{
+    vertical-align: middle;
+    color: #fff;
+    float: left;
+    padding-left: 10px;
+    position: inherit;
+}
+.wruserdiv:first-letter {
+    text-transform:capitalize;
+}
+#divMainCookieList{
+    height:395px;
+}
+#divMainCookieListContainer{
+    height:365px;
+    overflow:auto;
+}
+#divMainDBList{
+    height:395px;
+}
+#divMainDBListContainer{
+    height:365px;
+    overflow:auto;
+}
+.wruserdb{
+    background-color: #991717;
+    border: none; 
+    padding-top: 8px;
+    padding-bottom: 11px;
+    border-radius: 8px;
+    border: 1px solid #d6d9dc;
+    text-align: left;
+    cursor: pointer;
+    width: 95%;
+    padding-left: 10px;
+    height: 50px;
+}
+.wruserdb img{
+    height: 50px;
+    vertical-align: middle;
+    float:left;
+}
+.wruserdivdb{
+    vertical-align: middle;
+    color: #fff;
+    float: left;
+    padding-left: 10px;
+    position: inherit;
+}
+.wruserdivdb:first-letter {
+    text-transform:capitalize;
+}
+
+.sweet-alert.show-input input{
+    width: 100%;
+    text-align: center;
+}
