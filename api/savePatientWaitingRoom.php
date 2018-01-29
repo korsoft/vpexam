@@ -44,7 +44,7 @@ if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($gen
     exit();
 }else{
     if ($gender == 'M'){$gender="male";}else{$gender="female";}
-    $username = preg_replace('/[^A-Za-z0-9\-]/', '', $username);
+    $username = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $username));
     //error_log("API :: PREREGISTER2 :: POST { $name } CALL sp_register_patient('{$name}','{$lastname}','{$birthdateFormatted}','{$email}','{$password}','{$salt}',{$physicianid});");
     $result = $mysqli->query("CALL sp_register_patient('{$username}','{$name}','{$lastname}','{$birthdateFormatted}','{$gender}','{$phone}','{$email}','{$pwd_pat}','{$salt_pat}',{$physicianid});");
     while ($row = $result->fetch_array()){
