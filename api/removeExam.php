@@ -28,12 +28,10 @@ if (isset($physId) && isset($patientId) && isset($examId)) {
         // Now delete the physical exam files from disk
         $examDir = "/var/www/.uploads/" . $physId . "/" . $patientId . "/" . $examId;
         if (!file_exists($examDir)) {
-            $success = false;
-            $errorMsg = "Cannot delete exam directory. The directory doesn't exist.";
-            echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
-            exit();
+            error_log("Cannot delete exam directory. The directory doesn't exist.");     
         }
-        system('/bin/rm -rf ' . escapeshellarg($examDir));
+        else
+            system('/bin/rm -rf ' . escapeshellarg($examDir));
     } else {
         $success = false;
         $errorMsg = "Error preparing MySQL statement.";

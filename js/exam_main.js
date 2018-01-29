@@ -162,16 +162,27 @@ function removeExam() {
     $.ajax({
         async: true,
         error: function(jqxhr, textStatus, error) {
-            alert("There was an error while trying to delete the exam: " + textStatus + ": " + error);
+            swal.showInputError("There was an error while trying to delete the exam: " + textStatus + ": " + error);
         },
         method: 'GET',
         success: function(data, textStatus, jqxhr) {
             var rspObj = JSON.parse(data);
             if (rspObj.success) {
                 var patientId = getParameterByName('patientId');
-                location.href = ("patient_view.php?patientId=" + patientId);
+                $('#dialogConfirmDelete').dialog("close");
+                swal({
+                  title: "Exam deleted!",
+                  text: "",
+                  type: "success",
+                  showCancelButton: false,
+                  confirmButtonText: "Continue to patient overview",
+                  closeOnConfirm: false
+                },
+                function(){
+                  location.href = ("patient_view.php?patientId=" + patientId);
+                });
             } else {
-                alert("Error while deleting the exam: " + rspObj.errorMsg);
+                swal.showInputError("Error while deleting the exam: " + rspObj.errorMsg);
             }
         },
         url: "api/removeExam.php?physId=" + physicianId + "&patientId=" + getParameterByName("patientId") + "&examId=" + getParameterByName("examId")
