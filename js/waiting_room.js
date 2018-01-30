@@ -464,12 +464,18 @@ var WaitingRoom = {
                                 return false
                             }
                             //Solo numeros
-                            if(48 > kc || 57 < kc) {
+                            /*if(48 > kc || 57 < kc) {
+                                console.log('No es numero')
+                                input.value = removeLast()
+                            }*/
+                            if( (kc >= 48 &&  kc <= 57 ) || (kc >= 96 &&  kc <= 105 ) ) {
+                                console.log('Es numero')
+                            }else{
                                 console.log('No es numero')
                                 input.value = removeLast()
                             }
                             //Necesita empezar con 0 o 1
-                            if(1 == input.value.length && 48 != kc && 49 != kc){
+                            if(1 == input.value.length && 48 != kc && 49 != kc && 96 != kc && 97 != kc){
                                 console.log('Necesita empezar con 0 o 1')
                                 input.value = removeLast()
                             }
@@ -501,12 +507,14 @@ var WaitingRoom = {
                                 return false
                             }
                             //Solo numeros
-                            if(48 > kc || 57 < kc) {
+                            if( (kc >= 48 &&  kc <= 57 ) || (kc >= 96 &&  kc <= 105 ) ) {
+                                console.log('Es numero')
+                            }else{
                                 console.log('No es numero')
                                 input.value = removeLast()
                             }
                             //Necesita empezar con 0, 1, 2 , 3
-                            if(1 == input.value.length && 48 != kc && 49 != kc && 50 != kc && 51 != kc){
+                            if(1 == input.value.length && 48 != kc && 49 != kc && 50 != kc && 51 != kc && 96 != kc && 97 != kc && 98 != kc && 99 != kc){
                                 console.log('Necesita empezar con 0 ,1,2 o 3')
                                 input.value = removeLast()
                             }
@@ -538,12 +546,14 @@ var WaitingRoom = {
                                 return false
                             }
                             //Solo numeros
-                            if(48 > kc || 57 < kc) {
+                            if( (kc >= 48 &&  kc <= 57 ) || (kc >= 96 &&  kc <= 105 ) ) {
+                                console.log('Es numero')
+                            }else{
                                 console.log('No es numero')
                                 input.value = removeLast()
                             }
                             //Necesita empezar con 1 o 2
-                            if(1 == input.value.length && 49 != kc && 50 != kc){
+                            if(1 == input.value.length && 49 != kc && 50 != kc && 97 != kc && 98 != kc){
                                 console.log('Necesita empezar con 0 o 1')
                                 input.value = removeLast()
                             }
