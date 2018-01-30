@@ -239,15 +239,16 @@ h3{
 
 .app video#camera-stream{
     display: none;
+    height: 132px;
     width: 100%;
     min-height: 132px;
+    object-fit: fill;
 }
 
 .app img#snap{
     position: absolute;
     top: 0;
     left: 0;
-    /*width: 100%;*/
     width: 176px;
     height: 132px;
     z-index: 10;
