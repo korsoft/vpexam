@@ -1,0 +1,1 @@
+UPDATE patients SET username=CONCAT(LOWER(replace(first_name, ' ','')),LOWER(replace(last_name, ' ','')),DATE_FORMAT(dob,"%m%d%Y"),(if(gender='female','f','m')));
