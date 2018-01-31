@@ -29,7 +29,7 @@
         <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
         <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
         <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-        <link rel="stylesheet" type="text/css" href="/style/style.css">
+        <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/style.css');?>">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.0.7/css/swiper.min.css">
         <link rel="manifest" href="/manifest.json">
     </head>
@@ -197,7 +197,7 @@
         <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.0.7/js/swiper.jquery.min.js"></script>
         <script type="text/javascript" src="js/sha512.js?time=<?php echo time(); ?>"></script>
-        <script type="text/javascript" src="js/forms.js"></script>
+        <script type="text/javascript" src="<?php autoVerCss('/js/forms.js');?>"></script>
         <script type="text/javascript" src="js/main.js?time=<?php echo time(); ?>"></script>
     </body>
 </html>

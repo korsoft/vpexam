@@ -27,8 +27,8 @@
         <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
         <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
         <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-        <link rel="stylesheet" type="text/css" href="/style/contact.css">
-        <link rel="stylesheet" type="text/css" href="/style/style.css">
+        <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/contact.css');?>">
+        <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/style.css');?>">
         <link rel="manifest" href="/manifest.json">
     </head>
     <body>
@@ -107,7 +107,7 @@
     </body>
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/js/sha512.js"></script>
-    <script type="text/javascript" src="/js/forms.js"></script>
-    <script type="text/javascript" src="/js/contact.js"></script>
+    <script type="text/javascript" src="<?php autoVerCss('/js/sha512.js');?>"></script>
+    <script type="text/javascript" src="<?php autoVerCss('/js/forms.js');?>"></script>
+    <script type="text/javascript" src="<?php autoVerCss('/js/contact.js');?>"></script>
 </html>

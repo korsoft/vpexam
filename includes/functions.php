@@ -387,7 +387,22 @@ function esc_url($url) {
 		return $url;
 	}
 }
-
+function autoVer($url){
+    error_log('::::::::::: url'.$url);
+    if($url === '/js/exam_audio_view.js' || $url === '/js/exam_main.js' || $url === '/js/exam_video_view.js' || $url === '/js/patient_main.js' || $url === '/js/patient_view.js' || $url === '/js/physician_main.js' || $url === '/js/physician_settings.js' || $url === '/js/register_patients.js' || $url === '/js/register_physician.js' || $url === '/js/single_waiting_room.js' || $url === '/js/single_waiting_room_worker.js' || $url === '/js/waiting_room.js' || $url === '/style/exam_audio_view.css' || $url === '/style/exam_main.css' || $url === '/style/exam_video_view.css' || $url === '/style/patient_main.css' || $url === '/style/patient_view.css' || $url === '/style/physician_main.css' || $url === '/style/physician_settings.css' || $url === '/style/register_patient.css' || $url === '/style/register_physician.css' || $url === '/style/single_waiting_room.css' || $url === '/style/video_chat.css' || $url === '/style/waiting_room.css' || $url === '/style/sweetalert.css' || $url === '/style/physician_header_link.css'){
+        $path = pathinfo($url);
+        $ver = '.'.filemtime($_SERVER['DOCUMENT_ROOT'].$url).'.';
+        return $path['dirname'].'/'.str_replace('.', $ver, $path['basename']);
+    }else{
+        return $url;
+    }
+}
+function autoVerCss($url){
+    error_log('::::::::::: url'.$url);
+    $path = pathinfo($url);
+    $ver = '.'.filemtime($_SERVER['DOCUMENT_ROOT'].$url).'.';
+    echo $path['dirname'].'/'.str_replace('.', $ver, $path['basename']);
+}
 /**
  * This function will attempt to format the input into
  * a phone number of the format (000) 000-0000 x00000

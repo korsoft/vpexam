@@ -14,7 +14,7 @@
         </main>
         <?php 
             foreach( $_arrScripts as $strScripts ){
-                echo '<script type="text/javascript" src="' . $strScripts . '"></script>';
+                echo '<script type="text/javascript" src="' . autoVer($strScripts) . '"></script>';
             }
         ?>
         <script type="text/javascript">

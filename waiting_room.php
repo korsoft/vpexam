@@ -83,9 +83,9 @@
         <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
         <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
         <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-        <link rel="stylesheet" type="text/css" href="/style/style.css" />
-        <link rel="stylesheet" type="text/css" href="/style/waiting_room.css" />
-        <link rel="stylesheet" type="text/css" href="/style/sweetalert.css" />
+        <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/style.css');?>" />
+        <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/waiting_room.css');?>" />
+        <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/sweetalert.css');?>" />
         <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link rel="manifest" href="/manifest.json" />
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -110,7 +110,7 @@
         </div>
         <script type="text/javascript" src="/js/easytimer.min.js"></script>
         <script type="text/javascript" src="/js/sweetalert.min.js"></script>
-        <script type="text/javascript" src="/js/waiting_room.js"></script>
+        <script type="text/javascript" src="<?php autoVerCss('/js/waiting_room.js');?>"></script>
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/jquery.inputmask/inputmask.js"></script>

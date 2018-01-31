@@ -8,7 +8,7 @@ sec_session_start();
 <html>
 	<head>
 		<meta content="text/html" charset="UTF-8" http-equiv="content-type">
-		<link rel="stylesheet" type="text/css" href="style/exam_audio_view.css">
+		<link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/exam_audio_view.css');?>">
 		<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<link rel="stylesheet" type="text/css" href="js/jquery-simple-slider/css/simple-slider.css">
 		<link rel="stylesheet" type="text/css" href="js/jquery-simple-slider/css/simple-slider-volume.css">
@@ -35,7 +35,7 @@ sec_session_start();
 		<script src="js/wavesurfer.js/wavesurfer.min.js"></script>
 		<script src="js/slideout.min.js"></script>
 		<script src="js/jquery-simple-slider/js/simple-slider.js"></script>
-		<script src="js/exam_audio_view.js?v=1"></script>
+		<script src="<?php autoVerCss('/js/exam_audio_view.js');?>"></script>
 		<script src="js/jquery.fullscreen.js"></script>
         <script src="js/jquery.cookie.js"></script>
 		<title>Physical Exam Audio</title>

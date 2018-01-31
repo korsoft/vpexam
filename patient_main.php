@@ -36,9 +36,9 @@
         <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
         <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="/style/style.css" />
-        <link rel="stylesheet" type="text/css" href="/style/patient_main.css" />
-        <link rel="stylesheet" type="text/css" href="/style/sweetalert.css" />
+        <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/style.css');?>" />
+        <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/patient_main.css');?>" />
+        <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/sweetalert.css');?>" />
         <link rel="stylesheet" type="text/css" href="/js/jQueryFileUpload/css/jquery.fileupload.css" />
         <link rel="manifest" href="/manifest.json" />
     </head>
@@ -221,7 +221,7 @@
             <script type="text/javascript" src="/js/jQueryFileUpload/js/vendor/jquery.ui.widget.js"></script>
             <script type="text/javascript" src="/js/jQueryFileUpload/js/jquery.iframe-transport.js"></script>
             <script type="text/javascript" src="/js/jQueryFileUpload/js/jquery.fileupload.js"></script>
-            <script type="text/javascript" src="/js/patient_main.js"></script>
+            <script type="text/javascript" src="<?php autoVerCss('/js/patient_main.js');?>"></script>
             <script type="text/javascript" src="/js/sweetalert.min.js"></script>
             <?php //include 'video_chat.php';?>
         <?php } else { ?>

@@ -8,7 +8,7 @@ sec_session_start();
 <html>
 <head>
     <meta content="text/html" charset="UTF-8" http-equiv="content-type">
-    <link rel="stylesheet" type="text/css" href="style/history.css">
+    <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/history.css');?>">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
@@ -34,7 +34,7 @@ sec_session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script src="js/history.js"></script>
+    <script src="<?php autoVerCss('/js/history.js');?>"></script>
     <script src="js/slideout.min.js"></script>
     <script src="https://tinymce.cachefly.net/4.1/tinymce.min.js"></script>
     <script src="js/collapsible-list.js"></script>

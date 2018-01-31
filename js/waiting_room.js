@@ -3,6 +3,7 @@ function html_entity_decode(str) {
   ta.innerHTML=str.replace(/</g,"&lt;").replace(/>/g,"&gt;");
   toReturn = ta.value;
   ta = null;
+  console.log('nomas pa que cambie la version');
   return toReturn
 }
 var WaitingRoom = {

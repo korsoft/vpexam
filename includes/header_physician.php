@@ -39,9 +39,9 @@
         <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
         <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
         <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-        <?php 
+        <?php //"<?php autoVerCss('
             foreach( $_arrStyles as $strStyle ){
-                echo '<link rel="stylesheet" type="text/css" href="' . $strStyle . '" />';
+                echo '<link rel="stylesheet" type="text/css" href="' . autoVer($strStyle) . '" />';
             }
         ?>
         <link rel="manifest" href="/manifest.json" />

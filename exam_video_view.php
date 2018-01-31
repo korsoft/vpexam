@@ -8,7 +8,7 @@ sec_session_start();
 <html>
 <head>
     <meta content="text/html" charset="UTF-8" http-equiv="content-type">
-    <link rel="stylesheet" type="text/css" href="style/exam_video_view.css">
+    <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/exam_video_view.css');?>">
     <link href="https://vjs.zencdn.net/4.12/video-js.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
@@ -36,7 +36,7 @@ sec_session_start();
     <script src="https://code.jquery.com/jquery-latest.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://vjs.zencdn.net/4.12/video.js"></script>
-    <script src="js/exam_video_view.js"></script>
+    <script src="<?php autoVerCss('/js/exam_video_view.js');?>"></script>
     <script src="js/slideout.min.js"></script>
     <script src="https://tinymce.cachefly.net/4.1/tinymce.min.js"></script>
     <script src="js/jquery.fullscreen.js"></script>

@@ -25,10 +25,10 @@ sec_session_start();
         <meta name="msapplication-TileColor" content="#2d89ef">
         <meta name="msapplication-TileImage" content="/mstile-144x144.png">
         <meta name="theme-color" content="#ffffff">
-        <link rel="stylesheet" type="text/css" href="style/search_results.css">
+        <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/search_results.css');?>">
 		<script src="https://code.jquery.com/jquery-latest.js"></script>
 		<script src="js/jquery.tablesorter.js"></script>
-        <script src="js/search_results.js"></script>
+        <script src="<?php autoVerCss('/js/search_results.js');?>"></script>
 		<title>Physician Main</title>
 	</head>
 	<body>

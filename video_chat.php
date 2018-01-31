@@ -105,7 +105,7 @@
         <script type="text/javascript" src="/js/bandwidth.js?time=<?php echo time(); ?>"></script> 
         <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>    
         <script type="text/javascript" src="/js/fancybox/jquery.fancybox.pack.js"></script>
-        <script type="text/javascript" src="/js/customvideo.js"></script> 
+        <script type="text/javascript" src="<?php autoVerCss('/js/customvideo.js');?>"></script> 
     <?php if(isset($ispatient)) {  ?>
         <script type="text/javascript" src="/js/video_chat_patient.js?time=<?php echo time(); ?>"></script>    
     <?php } else {?>

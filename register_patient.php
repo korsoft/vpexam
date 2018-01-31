@@ -1,10 +1,10 @@
-
+<?php include_once 'includes/functions.php';?>
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="style/register_patient.css">
-    <link rel="stylesheet" type="text/css" href="style/holoInputs.css">
-    <link rel="stylesheet" type="text/css" href="style/strength.css">
+    <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/register_patient.css');?>">
+    <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/holoInputs.css');?>">
+    <link rel="stylesheet" type="text/css" href="<?php autoVerCss('/style/strength.css');?>">
     <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
@@ -26,11 +26,11 @@
     <!--<script src='https://www.google.com/recaptcha/api.js'></script>-->
     <script src="https://code.jquery.com/jquery-latest.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-    <script src="js/sha512.js"></script>
+    <script src="<?php autoVerCss('/js/sha512.js');?>"></script>
     <script src="js/jquery.inputmask/inputmask.js"></script>
     <script src="js/jquery.inputmask/jquery.inputmask.js"></script>
     <script src="js/numeric/jquery.numeric.js"></script>
-    <script src="js/register_patient.js"></script>
+    <script src="<?php autoVerCss('/js/register_patient.js');?>"></script>
     <style>
         /* Document-level CSS needed to override jQuery UI default CSS style for font color of tooltip */
         .ui-tooltip {
