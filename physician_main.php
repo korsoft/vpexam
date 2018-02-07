@@ -7,10 +7,11 @@
     $_strHeaderTitle = 'MY PATIENTS';
     $_arrStyles[]    = '/style/physician_main.css';
     $_arrStyles[]    = '/style/single_waiting_room.css';
+    $_arrStyles[]    = '/style/jquery.dataTables.min.css';
     $_arrScripts[]   = '/js/physician_main.js';
     $_arrScripts[]   = '/js/waiting_room.js';
     $_arrScripts[]   = '/js/single_waiting_room.js';
-
+    $_arrScripts[]   = '/js/jquery.dataTables.min.js';
 
     $numPage     = intval(empty($_GET['page'])?0:$_GET['page'] );
     $numPage     = $numPage<0?0:$numPage; 
@@ -31,7 +32,7 @@
                         <th class="shortColumn">DOB</th>
                         <th class="longColumn">VPExam Uploaded</th>
                         <th class="longColumn">WAITING ROOM</th>
-                        <th class="longColumn"></th>
+                        <th class="longColumn nosort"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -139,26 +140,7 @@
                             }
                         ?>
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="4" align='right'>
-                                <?php 
-                                if($numPage > 0 ){
-                                    $strBack = '/physician_main.php'; 
-                                    if($numPage > 1){
-                                        $strBack .= '?page=' . ($numPage -1 ); 
-                                    }
-                                ?>
-                                <a class='button_pagination' href="<?php echo $strBack ;?>" target='_self'>&laquo; Back</a>
-                                <?php 
-                                }
-                                if($blnHasNext ){  
-                                ?>
-                                <a class='button_pagination' href="/physician_main.php?page=<?php echo $numPage+1;?>" target='_self'>Next &raquo;</a>
-                                <?php } ?>
-                            </td>
-                        </tr>
-                    </tfoot>
+                   
                 </table>
             </div>
             <div id="divSidenavPhys" class="dvsidenavPhys" >
@@ -190,6 +172,13 @@
                 </div>
                 <br/>
             </div>
+
 <?php
     include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/footer_physician.php';
     include_once $_SERVER['DOCUMENT_ROOT'] .'/video_chat.php';
+?>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('.tableContent').DataTable();
+    });
+</script>

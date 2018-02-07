@@ -65,11 +65,13 @@ function removePatients( strKey ){
 
 function removeFromMyPatients2(patientId){
     console.log('removeFromMyPatients() '+ patientId);
+    var table = $('.tableContent').DataTable();
     $.ajax({
         success: function(data, status, jqxhr) {
             if (data) {
                 if (data.success)
-                    $('#tr_menu-li-patient' + patientId)[0].remove();
+                    //$('#tr_menu-li-patient' + patientId)[0].remove();
+                    table.row('#tr_menu-li-patient' + patientId).remove().draw();
                 else
                     alert("There was an error while deleting this row: " + data.error);
             } else {
@@ -107,7 +109,7 @@ function appendPatient( strKey, oJsonPatient ){
         if( $(this).data('id') == oJsonPatient.id ){
             return oJsonPatient.id;
         }else{
-            strElement = "<tr class=\"hoverableRow patientsTable\" id='tr_menu-li-patient" + oJsonPatient.id + "'>" +
+            strElement = "<tr class=\"hoverableRow patientsTable original\" id='tr_menu-li-patient" + oJsonPatient.id + "'>" +
                      "<td class=\"shortColumn patientsTable\" id='" + oJsonPatient.id + "'  data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "<a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"&wr=1\" target=\"_self\"><img class=\"patientProfilePic\" src=\"/includes/getProfileImage.php?id=" + oJsonPatient.id + "&type=1\"></a>" +
                      "<div class=\"nameMRNDiv\">" +
@@ -154,16 +156,27 @@ function appendPatient( strKey, oJsonPatient ){
                      
         }
     }).get();
-    //console.log(varCont);
-    
+    var table = $('.tableContent').DataTable();
+    console.log('entra agregar row varCont= ' + varCont); 
+
     if(varCont!=''){
+        console.log('remover algo si algo '+ $('#tr_menu-li-patient' + varCont).length);
         if ($('#tr_menu-li-patient' + varCont).length){  
-            $('#tr_menu-li-patient' + varCont)[0].remove();
+            table.row('#tr_menu-li-patient' + varCont).remove().draw();
+            //$('#tr_menu-li-patient' + varCont)[0].remove();
+            console.log('remover algo si algo IF '+'#tr_menu-li-patient' + varCont );
         }else{
-            $('#' + varCont)[0].remove();
+            console.log('remover algo si algo ELSE');
+            //$('#' + varCont)[0].remove();
+            table.row('#' + varCont).remove().draw();
         }
     }
-    $('div.PatientsWaiting table tbody').prepend(strElement);
+    setTimeout(function(){
+        table.row.add( ["<a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"&wr=1\" target=\"_self\"><img class=\"patientProfilePic\" src=\"/includes/getProfileImage.php?id=" + oJsonPatient.id + "&type=1\"></a><div class=\"nameMRNDiv\"><div style=\"margin: 33px 0 0 0;\"><div><a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"&wr=1\" target=\"_self\">" + oJsonPatient.name + " add</a></div></div></div>","<div class=\"nameMRNDiv\"> <div style=\"margin: 0px 0 0 0;\"> <div><a href=\"\/patient_view.php?patientId="+ oJsonPatient.id +"&wr=1\" target=\"_self\">" + oJsonPatient.lastName + "</a></div> </div></div> " , "<div class=\"nameMRNDiv\"><div style=\"margin: 20px 0 0 0;\"><div>" + oJsonPatient.dob + "</div><div>" + oJsonPatient.gender + "</div></div></div> ","<div class=\"nameMRNDiv\"><div style=\"margin: 6px 0 0 0;\"><div>" + imguploaded + "</div></div></div>","<div class=\"chat_open\" onclick='openWRChat( this );' data-id='" + oJsonPatient.id + "' data-name='" + strName + "'><div class=\"nameMRNDiv\"><div style=\"margin: 6px 0 0 0;\"><div><button type='button' class='btnwr'>Go to Waiting room!</button></div></div></div></div>", "<div class=\"classRemoveWR classRemoveWR_" + oJsonPatient.id + "\" onclick='removeFromWR(" + oJsonPatient.id + ");'><div id=\"" + oJsonPatient.id + "\" class=\"removePatientOuter\"><div class=\"removePatientInner\">X</div></div></div>"]).draw().nodes().to$().addClass( 'hoverableRow patientsTable2' ).attr('id', 'tr_menu-li-patient'+oJsonPatient.id );
+    
+        $('#tr_menu-li-patient'+oJsonPatient.id+' td:first-child').attr('data-id', oJsonPatient.id )
+    }, 200);
+    //$('div.PatientsWaiting table tbody').prepend(strElement);
     
     //else agregar el 
 
@@ -188,6 +201,7 @@ function appendPatient( strKey, oJsonPatient ){
  * @return void
  **/
 function removeFromWR( numId ){
+    console.log('remover del div');
     removePatients( numId );
     WaitingRoom.physician.removePatientFromWR(_numPhysicianId, numId );
 }
