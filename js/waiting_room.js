@@ -193,10 +193,7 @@ var WaitingRoom = {
                             //console.log( gender.length ) ;
                             console.log($('#swal-phone').val());
                             var birthdate = birthyear+'-'+birthmonth+'-'+birthday;
-                            if(''===profilePic){
-                                swal.showInputError('You need to take a profile picture!');
-                                return;
-                            }else if('' === name || name.trim().length == 0){
+                            if('' === name || name.trim().length == 0){
                                 swal.showInputError('You need to write your first name!');
                                 return;
                             }else if ('' === lastname || lastname.trim().length == 0){
