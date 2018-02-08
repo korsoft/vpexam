@@ -120,13 +120,17 @@ function removeFromRecentList(idx, patientId) {
 }
 
 function removeFromMyPatients(patientId) {
+    var table = $('.tableContent').DataTable();
     $.ajax({
         success: function(data, status, jqxhr) {
             if (data) {
-                if (data.success)
-                    $('#' + patientId)[0].remove();
-                else
+                if (data.success){
+                    //$('#' + patientId)[0].remove();
+                    
+                    table.row('#' + patientId).remove().draw();
+                }else{
                     alert("There was an error while deleting this row: " + data.error);
+                }  
             } else {
                 alert("There was an error while deleting this row");
             }
