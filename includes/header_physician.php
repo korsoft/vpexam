@@ -53,12 +53,12 @@
                     <img class="menuHeaderImg" src="img/logo_img_no_text.png" height="50">
                     <span class="menuHeaderText">VPExam</span>
                 </div>
-                <?php if($_blnShowPatientMenu){ ?>
-                    <div class="btn" id="btnMenuPatientOverview">Patient Overview</div>
-                    <div class="btn" id="btnMenuPatientDem">Patient Demographics</div>
-                <?php } ?>
+                
                 <?php if($_blnShowMenu){ ?>
                     <a href="/physician_main.php" target="_self"><div class="btn" id="btnMenuMyPatients">My Patients</div></a>
+                    <?php if($_blnShowPatientMenu){ ?>
+                    <div class="btn" id="btnMenuPatientOverview">Patient Overview</div>
+                    <?php } ?> 
                     <div class="btn" id="btnMenuSearch"><a href='/search.php' target="_self">Search</a></div>
                     <div class="btn" id="btnMenuSettings"><a href='/physician_settings.php' target="_self">My Account Settings</a></div>
                     <div class="btn" id="btnMenuLogout"><a href='/logout.php' target="_self">Logout</a></div>

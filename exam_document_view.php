@@ -107,12 +107,11 @@ sec_session_start();
 				<img class="menuHeaderImg" src="img/logo_img_no_text.png" height="50">
 				<span class="menuHeaderText">VPExam</span>
 			</div>
+			<div class="btn" id="btnMenuMyPatients">My Patients</div>
             <div class="btn" id="btnMenuPatientOverview">Patient Overview</div>
-            <div class="btn" id="btnMenuPatientDem">Patient Demographics</div>
             <div class="btn" id="btnMenuHistory">History</div>
             <div class="btn" id="btnMenuExam">Physical Exam</div>
             <div class="btn" id="btnMenuClipboard">Clipboard/Notes</div>
-            <div class="btn" id="btnMenuMyPatients">My Patients</div>
             <div class="btn" id="btnMenuSearch">Search</div>
             <div class="btn" id="btnMenuSettings">My Account Settings</div>
             <div class="btn" id="btnMenuLogout">Logout</div>
