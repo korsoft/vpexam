@@ -35,17 +35,21 @@ try {
     include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/Mailer.php';
 	
 	$infoforemail       = getInfoForEmail($mysqli, $patientid, $physicianid);
-	error_log('API :: WAITING ROOM :: CHECK IN : Enviar correo al doctor. '.print_r($infoforemail[1],true));
-
-	$mailer     = new Mailer('waiting_room_patient', 
-                          'A new patient has checked into your waiting room.',                  
-                          $infoforemail[1], 
-                          [
-                           'url'        => 'https://vpexam.com/',
-                           'img_header' => 'https://vpexam.com/img/logo_img.png',
-                           'title'  => 'VPExam - New patient has checked into your waiting room'
-                          ]);
-    $mailer->send();
+	if($infoforemail[1][0]['email_notification'] == 1){
+		error_log('API :: WAITING ROOM :: CHECK IN : Enviar correo al doctor. '.print_r($infoforemail[1],true));
+		$mailer     = new Mailer('waiting_room_patient', 
+	                          'A new patient has checked into your waiting room.',                  
+	                          $infoforemail[1], 
+	                          [
+	                           'url'        => 'https://vpexam.com/',
+	                           'img_header' => 'https://vpexam.com/img/logo_img.png',
+	                           'title'  => 'VPExam - New patient has checked into your waiting room'
+	                          ]);
+	    $mailer->send();
+	}else{
+		error_log('API WAITING ROOM :::::: THE DOCTOR DON\'T WANT EMAIL NOTIFICATION' );
+	}
+	
 }
 catch(Exception $e) {
  	$response['success']  = false;

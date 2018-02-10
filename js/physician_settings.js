@@ -1777,4 +1777,35 @@ function deleteExamComponent(idExamComponent) {
         },
         url: "includes/removeExamComponent.php"
     });   
-}       
+}
+
+$('#btnEmailNot').on('click', function() {
+        var target  = document.getElementById('spin'),
+            spinner = new Spinner(opts).spin(target);
+        $(target).data('spinner', spinner);
+        var emailnotification = $('input[name=emailnotification]:checked').val(); 
+        if(emailnotification != ''){
+            $.ajax({
+                async: true,
+                data: 'physId=' + physicianId + '&emailnotification=' + emailnotification,
+                error: function(xhr, textStatus, errorThrown) {
+                    alert("Error processing request: " + textStatus + ": " + errorThrown);
+                },
+                method: 'POST',
+                success: function(data) {
+                    var result = JSON.parse(data);
+                    if (!result.success) {
+
+                        alert("Error changing settings: " + result.errorMsg);
+                    } else {
+                        $('#spin').data('spinner').stop();
+                        $('#success_msgEN').show();
+                        //alert("Settings changed successfully!");
+                    }
+                },
+                url: "api/updatePhysicianEmailNotification.php"
+            });
+        }else{
+            alert("Error changing password: " + result.errorMsg);
+        }
+    });

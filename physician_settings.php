@@ -135,6 +135,17 @@
                                                 </div>
                                             </div>
                                             <div class="subSettingsDiv">
+                                                <span class="subHeader">Turn on/off the waiting room email notifications </span>
+                                                <div class="hr"></div>
+                                                <div class="innerSettingsDiv">
+                                                    <div id="turnEmailnotification">
+                                                        <input type="radio" name="emailnotification" value="1" <?php if($physInfo->email_notification == 1){?> checked<?php }?>> Yes &nbsp; &nbsp;
+                                                        <input type="radio" name="emailnotification" value="0" <?php if($physInfo->email_notification == 0){?> checked<?php }?>> No &nbsp; &nbsp;
+                                                        <div class="button-dark-smaller" id="btnEmailNot" style="display: inline; margin: 0 0 0 10px;">Save</div><label id="success_msgEN">Saved successfully</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="subSettingsDiv">
                                                 <span class="subHeader">Password</span>
                                                 <div class="hr"></div>
                                                 <div class="innerSettingsDiv">
