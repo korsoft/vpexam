@@ -46,6 +46,12 @@ $(document).on("ready", function() {
         event.preventDefault();
         removeDocument($(this).data('id'));
     });
+     $('.view_document').on('click', function(event) {
+        event.preventDefault();
+    // 14/155/1505782882568/documents/46.pdf
+    // data-physician   data-patient     data-exam   data-id    
+        showDocument($(this).data('physician'), $(this).data('patient'), $(this).data('exam'), $(this).data('id') );
+    });
     //Prueba editar
     $('.edit_document').click(function(){
         var trid ='#id_'+$(this).data('id');
@@ -245,4 +251,61 @@ function editDocument(id, name) {
         },
         url: "api/updateDocument.php?documentId=" + id + "&nameDocument=" + name
     });
+}
+function showDocument (PhyId, PatId, ExId, Id){
+    //showDocument($(this).data('physician'), $(this).data('patient'), $(this).data('exam'), $(this).data('id') );
+    
+    
+
+    swal({
+      animation          : 'slide-from-top',
+      closeOnConfirm     : true,
+      confirmButtonColor : '#2b8c36',
+      confirmButtonText  : 'Ok',
+      type               : 'warning',
+      imageUrl           : '',
+      html               : true,
+      text               : '<div id="showPdf"></div>',
+      title              : 'Exam Documents'
+    }, function(isConfirm) {
+        if (isConfirm) {
+            //
+        }
+    });
+    renderPDF("https://dev.vpexam.com/" + PhyId+"/"+PatId+"/"+ExId+"/documents/"+Id+".pdf", document.getElementById("showPdf"));
+}
+function renderPDF(url, canvasContainer, options) {
+    var options = options || { scale: 1 };
+
+    function renderPage(page) {
+        var desiredWidth = 400;
+        var viewport = page.getViewport(options.scale);
+        console.log('viewport' + viewport)
+        var scale = desiredWidth / viewport.width;
+        console.log('scale' + scale + '= desiredWidth= '+desiredWidth+'viewport.width = '+viewport.width)
+        var scaledViewport = page.getViewport(scale);
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        var renderContext = {
+            canvasContext: ctx,
+            viewport: viewport
+        };
+
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        console.log('viewport.height= '+viewport.height)
+        console.log('viewport.width= '+viewport.width)
+
+        canvasContainer.appendChild(canvas);
+
+        page.render(renderContext);
+    }
+
+    function renderPages(pdfDoc) {
+        for (var num = 1; num <= pdfDoc.numPages; num++)
+            pdfDoc.getPage(num).then(renderPage);
+    }
+
+    PDFJS.disableWorker = true;
+    PDFJS.getDocument(url).then(renderPages);
 }

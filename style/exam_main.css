@@ -412,3 +412,17 @@ a#chat {
     bottom: inherit;
     text-decoration: none;
 }
+.sweet-alert {
+    top: 18% !important;
+    max-width: 640px !important;
+    width: auto !important;
+    padding-left: 25px !important;
+    padding-right: 25px !important;
+}
+.sweet-alert .sa-icon.sa-warning {
+    display: none !important;
+}
+#showPdf {
+    overflow-y: auto;
+    max-height: 500px;
+}

@@ -41,6 +41,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/constants.php';
         <script type="text/javascript" src="/js/sweetalert.min.js"></script>
         <script src="<?php autoVerCss('/js/waiting_room.js');?>"></script>
 
+        <script src="/js/pdf.js/pdf.js"></script>
+
         <title>Patient Overview</title>
 
         <style>
@@ -308,9 +310,9 @@ include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/constants.php';
                                             echo("     <img data-id=\"".$examDocument[$i]->id."\" class=\"edit_document\" src=\"../images/pencil.jpg\" height=\"20\" width=\"20\"/>");
                                             echo("     <button data-id=\"".$examDocument[$i]->id."\" class=\"save button-dark-smaller\"><span class=\"glyphicon glyphicon-save\"></span> Save</button>");
                                             echo("     <button data-id=\"".$examDocument[$i]->id."\" class=\"cancel button-dark-smaller\"><span class=\"glyphicon glyphicon-save\"></span> Cancel</button>");
-                                            echo("     <a target=\"_blank\" href=\"".$aurl."\"><img class=\"download_document\" data-id=\"".$examDocument[$i]->id."\" src=\"../images/download.png\" height=\"20\" width=\"20\" />");
+                                            echo("     <img class=\"view_document\" data-physician=\"".$exam->physicianId."\" data-patient=\"".$patientId."\" data-exam=\"".$examId."\" data-id=\"".$examDocument[$i]->id."\" src=\"../img/file-pdf.png\" height=\"20\" width=\"20\" />");
+                                            echo("     <a target=\"_blank\" href=\"".$aurl."\"><img class=\"download_document\" data-id=\"".$examDocument[$i]->id."\" src=\"../images/download.png\" height=\"20\" width=\"20\" /></a>");
                                             echo("     <img class=\"remove_document\" data-id=\"".$examDocument[$i]->id."\" src=\"../images/trash.png\" height=\"20\" width=\"20\" />");
-                
                                             echo("  </td>");
                                             echo("</tr>");
                                         }
