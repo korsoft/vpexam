@@ -10,137 +10,31 @@
     $_arrStyles[]    = '/style/jquery.dataTables.min.css';
     $_arrScripts[]   = '/js/physician_main.js';
     $_arrScripts[]   = '/js/waiting_room.js';
-    $_arrScripts[]   = '/js/single_waiting_room.js';
     $_arrScripts[]   = '/js/jquery.dataTables.min.js';
 
-    $numPage     = intval(empty($_GET['page'])?0:$_GET['page'] );
-    $numPage     = $numPage<0?0:$numPage; 
-    $numLimit    = 20;
-    $numOffSet   = ($numPage)*$numLimit; 
-    $blnHasNext  = false;
+
     include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/header_physician.php';
 ?>
+<script src="https://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
 <script>
     var _numPhysicianId= <?php echo $_SESSION['user_id']; ?>;
+
 </script>
             <div class="mainContent PatientsWaiting">
-                <table class="tableContent">
+                <table id="example" class="tableContent" width="100%" cellspacing="0">
                     <thead>
-                    <tr>
-                        <th class="shortColumn fnameclass">FIRST NAME</th>
-                        <th class="shortColumn">LAST NAME</th>
-                        <th class="shortColumn">DOB</th>
-                        <th class="longColumn">VPExam Uploaded</th>
-                        <th class="longColumn">WAITING ROOM</th>
-                        <th class="longColumn nosort"></th>
-                    </tr>
+                        <tr>
+                            <th></th>
+                            <th>First name</th>
+                            <th>Last name</th>
+                            <th>Date of birth</th>
+                            <th>Gender</th>
+                            <th>Vpexam uploaded</th>
+                            <th>Waiting room</th>
+                            <th></th>
+                        </tr>
                     </thead>
-                    <tbody>
-                        <?php
-                            $patientInfos = getPatientsOfPhysicianAndRemoveNotDisplay($_SESSION['user_id'], $mysqli, $numOffSet, $numLimit+1);
-                            $num = count($patientInfos);
-                            if( $num > $numLimit ){
-                                $blnHasNext = true;
-                                array_pop($patientInfos);
-                            }
-                            foreach ($patientInfos as $info) {
-                                $fname = $info->firstName;
-                                $lname = $info->lastName;
-                                $id = $info->patientId;
-                                $mrn = $info->mrn;
-                                $gender = ($info->gender === "male") ? "Male" : "Female";
-                                $dob = $info->dob->format('m/d/Y');
-                                $phone = getFormattedPhone($info->phone);
-                                $phType = strtoupper($info->phoneType);
-                                $address = $info->address;
-                                $city = $info->city;
-                                $state = $info->state;
-                                $zip = $info->zip;
-                                $fullAddr = $address . (($city!=null)?", ":'') . $city . (($state!=null)?", ":'') . $state . " " . $zip;
-                                $phAndType = (($phone!=null)?$phType .", ":'') . $phone;
-                                $fwaitingroom = $info->waitingroom;
-                                $uploaded = $info->uploaded;
-
-                                if($fwaitingroom != "") {
-                                    $varwr='wrclass';
-                                    $retVal ='<button type="button" class="btnwr">Go to Waiting room!</button>';
-                                    $onclick=" onclick=\"removeFromWR($id);\"";
-                                    $idtable="tr_menu-li-patient$id";
-                                    $classremove="removePatientOuter2";
-                                } else{
-                                    $onclick='';
-                                    $varwr='';
-                                    $retVal='';
-                                    $idtable="$id";
-                                    $classremove="removePatientOuter";
-                                }
-                                $col1 =
-                                    "<td class=\"shortColumn patientsTable $varwr\" id=\"$id\" data-id=\"$id\">
-                                        <img class=\"patientProfilePic\" src=\"includes/getProfileImage.php?id=$id&type=1\">
-                                        <div class=\"nameMRNDiv\">
-                                            <div style=\"margin: 33px 0 0 0;\">
-                                                <div>$fname</div>
-                                                <div>$mrn</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    ";
-
-                                $col2 = "<td class=\"shortColumn patientsTable\" id=\"$id\">$lname</td>";
-                                $col3 =
-                                    "
-                                    <td class=\"shortColumn\">
-                                        <div class=\"nameMRNDiv\">
-                                            <div style=\"margin: 20px 0 0 0;\">
-                                                <div>$dob</div>
-                                                <div>$gender</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    ";
-                                $col6 =
-                                    "<td>
-                                        <div class=\"waitingroom chat_open\" data-id=\"$id\" data-name=\"$fname\" onclick=\"openWRChat( this );\">
-                                            <div class=\"waitingPatientInner\"> $retVal</div>
-                                        </div>
-                                     </td>
-                                    ";
-                                if($uploaded == 1) {
-                                    $upVal ='<img src="/img/check.png" width="30" height="30">';
-                                } else{
-                                    $upVal='-';
-                                };
-                                $col7 =
-                                    "<td>
-                                        <div class=\"waitingroom\" data-id=\"$id\" data-name=\"$fname\">
-                                            <div class=\"waitingPatientInner\"> $upVal</div>
-                                        </div>
-                                     </td>
-                                    ";
-                                $col5 =
-                                    "<td $onclick>
-                                        <div class=\"$classremove\" id=\"$id\">
-                                            <div class=\"removePatientInner\">X</div>
-                                        </div>
-                                     </td>
-                                    ";
-                                $href = "patient_view.php?patientId=" . $id;
-                                
-
-                                print("
-                                <tr class=\"hoverableRow patientsTable2\" id=\"$idtable\">
-                                    $col1
-                                    $col2
-                                    $col3
-                                    $col7
-                                    $col6
-                                    $col5
-                                </tr>
-                                ");
-                            }
-                        ?>
-                    </tbody>
-                   
                 </table>
             </div>
             <div id="divSidenavPhys" class="dvsidenavPhys" >
@@ -177,8 +71,3 @@
     include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/footer_physician.php';
     include_once $_SERVER['DOCUMENT_ROOT'] .'/video_chat.php';
 ?>
-    <script type="text/javascript">
-    $(document).ready(function() {
-        $('.tableContent').DataTable();
-    });
-</script>

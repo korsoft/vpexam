@@ -222,10 +222,20 @@ wss.on('connection', function(connection) {
                                                     patientid:  data.patientid
                                                 });
                                                 var userPatient = users[data.patientid];//get patient element from array
-                                                sendTo(userPatient, {
-                                                    type    : 'check', 
-                                                    success : true
-                                                });                                                 
+                                                var userPhysician = users[data.physicianid];//get physician element from array
+                                                if(null != userPatient) {//If patient is online, send message
+                                                    sendTo(userPatient, {
+                                                        type    : 'check', 
+                                                        success :  true
+                                                    });        
+                                                }
+                                                if(null != userPhysician) {//If physician is online, send message
+                                                    sendTo(userPhysician, {
+                                                        type    : 'patientlogged', 
+                                                        patientid:  data.patientid,
+                                                        success : true
+                                                    });
+                                                }
                                             }                                              
                                         break;
 			      	default :
@@ -254,6 +264,11 @@ wss.on('connection', function(connection) {
                         for (var i in usersPhysician) {
                             if(connection.id==usersPhysician[i].patientid)
                             {
+                                sendTo(users[usersPhysician[i].physicianid], {
+                                    type    : 'patientlogout', 
+                                    patientid:  usersPhysician[i].patientid,
+                                    success : true
+                                });   console.log('patientlogout { ', usersPhysician[i].physicianid, ' }. ');                             
                                 delete(usersPhysician[i]);
                             }
                             else if(connection.id==usersPhysician[i].physicianid)

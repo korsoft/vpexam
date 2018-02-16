@@ -69,6 +69,62 @@ var VideoChat = {
                 VideoChat.init($('#caller').val());
               }
             break; 
+            //
+            case 'patientlogged':
+              if(true === data.success) {
+                $.ajax({
+                    success: function(info) {
+                        if (info) {
+                            if (info.success){
+                                var blExist = false;
+                                $.each(dataSet0, function(key, value) {
+                                    var objDataSet = JSON.parse(JSON.stringify(value));
+                                    if(objDataSet.patientId==data.patientid)
+                                    {
+                                        blExist = true;
+                                        dataSet0[key].waitingroom = 1;
+                                    }
+                                });
+                                if(!blExist)
+                                {    dataSet0.unshift(info.data); }
+                                var myDataTable = $('#example').DataTable();
+                                myDataTable.clear().draw();
+                                myDataTable.rows.add(dataSet0); // Add new data
+                                myDataTable.columns.adjust().draw(); // Redraw the DataTable
+                             }else{
+                                alert("There was an error getting patient list.");
+                            }  
+                        } else {
+                            alert("There was an error getting patient list.");
+                        }
+                    },
+                    data: 'patientid=' + data.patientid,
+                    dataType: 'json',
+                    method: 'POST',
+                    url: '/includes/getpatientinfobyid.php'
+                });  
+              }
+            break;         
+            //
+            case 'patientlogout':
+              if(true === data.success) {
+                $.each(dataSet0, function(key, value) {
+                    var objDataSet = JSON.parse(JSON.stringify(value));
+                    if(objDataSet.patientId==data.patientid)
+                    {
+                        if(typeof dataSet0[key] === 'undefined') {
+                            console.log('Error : element no exist.'); 
+                        }
+                        else
+                            dataSet0[key].waitingroom = null;
+                    }
+                });
+                var myDataTable = $('#example').DataTable();
+                myDataTable.clear().draw();
+                myDataTable.rows.add(dataSet0); // Add new data
+                myDataTable.columns.adjust().draw(); // Redraw the DataTable 
+              }
+            break;        
             //when somebody wants to call us 
             case 'offer':
               if(false === data.success) {
@@ -76,6 +132,27 @@ var VideoChat = {
                     text  = 'Is not logged into the site';
                 if('busy' === data.status) {
                   text = 'Is on a call right now';
+                }
+                else
+                {
+                    $.each(dataSet0, function(key, value) {
+                        var objDataSet = JSON.parse(JSON.stringify(value));
+                        if(objDataSet.patientId==VideoChat.video.remote.user.id)
+                        {
+                            dataSet0[key].waitingroom = 0;
+                            $.ajax({
+                              url    : '/includes/removePatientFromWaitingRoom.php',
+                              method : 'POST',
+                              data   : {
+                                patientid      : objDataSet.patientId
+                              }
+                            });                            
+                        }
+                    });                    
+                    var myDataTable = $('#example').DataTable();
+                    myDataTable.clear().draw();
+                    myDataTable.rows.add(dataSet0); // Add new data
+                    myDataTable.columns.adjust().draw(); // Redraw the DataTable   
                 }
                 VideoChat.alert({title : title, text : text, type : 'warning'});
               }
