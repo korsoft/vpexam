@@ -789,3 +789,48 @@ function fncReLog()
     document.getElementById("divSidenav").style.right = '0px';
     setTimeout("VideoChat.init($('#caller').val());",7000);
 }
+
+window.onload = function() {
+
+        // check the visiblility of the page
+        var hidden, visibilityState, visibilityChange;
+
+        if (typeof document.hidden !== "undefined") {
+            hidden = "hidden", visibilityChange = "visibilitychange", visibilityState = "visibilityState";
+        }
+        else if (typeof document.mozHidden !== "undefined") {
+            hidden = "mozHidden", visibilityChange = "mozvisibilitychange", visibilityState = "mozVisibilityState";
+        }
+        else if (typeof document.msHidden !== "undefined") {
+            hidden = "msHidden", visibilityChange = "msvisibilitychange", visibilityState = "msVisibilityState";
+        }
+        else if (typeof document.webkitHidden !== "undefined") {
+            hidden = "webkitHidden", visibilityChange = "webkitvisibilitychange", visibilityState = "webkitVisibilityState";
+        }
+
+
+        if (typeof document.addEventListener === "undefined" || typeof hidden === "undefined") {
+            // not supported
+        }
+        else {
+            document.addEventListener(visibilityChange, function() {
+                switch (document[visibilityState]) {
+                case "visible":
+                    // visible
+                    break;
+                case "hidden":
+                    
+                    swal({title: '',
+                             text: 'Open more than one Vpexam window or changing to other tab can cause loss of connection with your physician!',
+                             html: true,
+                             type: 'warning' });
+                            
+                    break;
+                }
+            }, false);
+        }
+
+        if (document[visibilityState] === "visible") {
+        }
+
+    };
