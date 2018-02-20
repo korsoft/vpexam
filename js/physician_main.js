@@ -115,6 +115,15 @@ $(document).on("ready", function() {
                                 return (waitingroom!=null && waitingroom!='' ? '<button type="button" class="btnwr" onclick="openWRChat('+json.patientId+',\''+json.firstName+'\')">Go to Waiting room!</button>' : '');
                             }
                         },
+                        {
+                             data: 'register_at',
+                            'render': function ( waitingroom, type, row, meta ) {
+                                var json = JSON.parse(JSON.stringify(row));
+                                var value = (json.register_at).substr(0,10);
+                                var datereg = value.replace(/(\d{4})-(\d{2})-(\d{2})/, '$2-$3-$1');
+                                return(datereg);
+                            }
+                        },
                         {     
                             data: 'patientId',
                              'render': function (patientId) {

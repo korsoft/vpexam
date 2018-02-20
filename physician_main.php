@@ -32,6 +32,7 @@
                             <th>Gender</th>
                             <th>Vpexam uploaded</th>
                             <th>Waiting room</th>
+                            <th>Date of register</th>
                             <th></th>
                         </tr>
                     </thead>
