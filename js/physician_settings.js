@@ -1212,7 +1212,7 @@ function checkHaveBAAOrNotNeeded() {
                     display: 'block'
                 });
 
-                renderPDF("https://dev.vpexam.com/includes/getBAAPDF.php?physId=" + physicianId, document.getElementById("pdfContainer"));
+                renderPDF("/includes/getBAAPDF.php?physId=" + physicianId, document.getElementById("pdfContainer"));
             } else if (jsObj.needBAA && !jsObj.haveBAA) {
                 $('#cbNoBAA').prop('checked', false);
             } else if (!jsObj.needBAA) {
