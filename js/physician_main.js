@@ -3,6 +3,11 @@ var physicianId = -1,
 var dataSet0 = null;
 var tabla = null;
 $(document).on("ready", function() {
+     $('#imgToolPhys').on('click', function () {
+        var intWidth = null;
+        intWidth = (document.getElementById("divSidenavPhys").style.right==='-200px' || document.getElementById("divSidenavPhys").style.right==='')?"0px":"-200px";
+        document.getElementById("divSidenavPhys").style.right = intWidth;
+    });
     var slideout = new Slideout({
         'panel': $('#panel')[0],
         'menu': $('#menu')[0],
