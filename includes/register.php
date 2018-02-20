@@ -433,9 +433,10 @@ if (strcmp($pageName, "register_patient.php") === 0) {
 
                     // Insert the new user into the database
                     $prepStmtInsert = 'INSERT INTO physicians (npi, username, email, password, salt, first_name, middle_name, last_name, gender, dob, phone, practice_addr, practice_city, practice_state, practice_zip, assoc_hospital) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                    error_log('::::::::::::: $prepStmtInsert'.$prepStmtInsert);
                     $stmtInsert = $mysqli->prepare($prepStmtInsert);
                     if ($stmtInsert) {
-                        $stmtInsert->bind_param('issssssssssssssi', $npi, $username, $email, $arrPass['pwd'], $arrPass['randomSalt'], $fname, $mname, $lname, $gender, $dob, $phone, $addr, $city, $state, $zip, $hosp);
+                        $stmtInsert->bind_param('issssssssssssssi', $npi, $username, $email, $arrPass['pwd'], $arrPass['randomSalt'], $fname, $mname, $lname, $gender, $dobFormatted, $phone, $addr, $city, $state, $zip, $hosp);
                         if (!$stmtInsert->execute()) {
                             error_log("MySQL statement execution failure: {$stmtInsert->error}");
                             error_log("MySQL statement execution failure: {$mysqli->error}");
@@ -443,8 +444,61 @@ if (strcmp($pageName, "register_patient.php") === 0) {
                             header('Location: ../error.php?error=2001&l='.__LINE__);
                             exit();
                         }
-                        $userId = $mysqli->insert_id;
+                        $userId = $mysqli->insert_id; 
                         $stmtInsert->close();
+
+
+                         //Dar de alta paciente de prueba John doe patient_id,
+                        $prepStmtInsertDemo = 'INSERT INTO patients(username, first_name, last_name, gender, dob, old_patient_id) VALUES (?, ?, ?, ?, ?, ?)';
+                        error_log('::::::::'.$prepStmtInsertDemo);
+                        $stmtInsertDemo = $mysqli->prepare($prepStmtInsertDemo);
+                        // , , , , ,0
+                        $uname = "usernamedemo$userId";
+                        $firstnp='John';
+                        $lnp='Doe';
+                        $gnp='male';
+                        $fnp='1990-04-19';
+                        $onp=0;
+                        error_log(':::::::::'.$uname);
+                        $stmtInsertDemo->bind_param('ssssss', $uname, $firstnp, $lnp, $gnp, $fnp, $onp);
+                        if (!$stmtInsertDemo->execute()) {
+                            error_log("MySQL statement execution failure: {$stmtInsert->error}");
+                            error_log("MySQL statement execution failure: {$mysqli->error}");
+                            $stmtInsertDemo->close();
+                            header('Location: ../error.php?error=2002&l='.__LINE__);
+                            exit();
+                        }
+
+                        $userIdPat = $mysqli->insert_id; 
+
+
+
+                        // paciente doctor
+                        if (isset($userIdPat) && isset($userId)) {
+           
+                            $prepStmtCreateLink = "INSERT INTO patient_physicians(id, physician_id) VALUES(?, ?)";
+                            $stmtCreateLink = $mysqli->prepare($prepStmtCreateLink);
+                            if ($stmtCreateLink) {
+                                $stmtCreateLink->bind_param('ii', $userIdPat, $userId);
+                                if (!$stmtCreateLink->execute()) {
+                                    $array = array(
+                                        "registered" => false,
+                                        "errorMsg" => "Error while executing prepared SQL statement Line " . __LINE__,
+                                        "userId" => -1
+                                    );
+                                    $stmtCreateLink->close();
+                                    return $array;
+                                }
+                            } else {
+                                $array = array(
+                                    "registered" => false,
+                                    "errorMsg" => "Error while preparing SQL statement Line " . __LINE__,
+                                    "userId" => -1
+                                );
+                                return $array;
+                            }
+                        }
+                        /* Termina prueba*/
 
                         // Hay que insertar al doctor los componentes defaults
                         try{

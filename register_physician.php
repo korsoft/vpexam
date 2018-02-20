@@ -147,7 +147,7 @@ sec_session_start();
                     <td class="title">Practice State</td>
                     <td>
                         <select class="holo" id="selState" name="state">
-                            <option selected="selected" value="SEL">Select State:</option>
+                            <option selected="selected" value="">Select State:</option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AZ">Arizona</option>
