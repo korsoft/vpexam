@@ -17,10 +17,14 @@ function validateDate($date, $format = 'Y-m-d')
 try {
 	if (!isset($_POST['patient_id'])) {
         throw new Exception('One or more required parameters was not set.', 1);
-    }else if ($_POST['patient_id'] == ''){
-    	throw new Exception('One or more required parameters was not set.', 2);
+    }else {
+    	$patId = $_POST['patient_id'];
+    	if ($patId == ''){
+	    	error_log('sadasdasd'.$patId );
+	    	throw new Exception('The patient id must be an integer.', 2);
+    	}
     }
-    $patId = $_POST['patient_id'];
+    
     if (isset($_POST['first_name'])) {
     	$first_name = $_POST['first_name'];
     	if (strlen($first_name) > 50){
@@ -147,7 +151,7 @@ try {
     		throw new Exception('Invalid Insurance issue date.', 2);
     	}
     }
-    //error_log("CALL sp_update_patients_info({$patId},'{$first_name}','{$middle_name}','{$last_name}','{$email}','{$gender}','{$phone}','{$dob}','{$address}','{$city}','{$state}','{$zip}','{$insurance_company}','{$insurance_address}','{$insurance_phone}','{$insurance_ph_name}','{$ins_pat_relationship}','{$insurance_group_num}','{$insurance_id_cert_num}','{$insurance_issue_date}');");
+    error_log("CALL sp_update_patients_info({$patId},'{$first_name}','{$middle_name}','{$last_name}','{$email}','{$gender}','{$phone}','{$dob}','{$address}','{$city}','{$state}','{$zip}','{$insurance_company}','{$insurance_address}','{$insurance_phone}','{$insurance_ph_name}','{$ins_pat_relationship}','{$insurance_group_num}','{$insurance_id_cert_num}','{$insurance_issue_date}');");
 	$mysqli->query("CALL sp_update_patients_info({$patId},'{$first_name}','{$middle_name}','{$last_name}','{$email}','{$gender}','{$phone}','{$dob}','{$address}','{$city}','{$state}','{$zip}','{$insurance_company}','{$insurance_address}','{$insurance_phone}','{$insurance_ph_name}','{$ins_pat_relationship}','{$insurance_group_num}','{$insurance_id_cert_num}','{$insurance_issue_date}');");
 	error_log('::::::: Despues de llamar sp para cambiar settings');
 	$success = true;
