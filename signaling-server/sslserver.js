@@ -264,17 +264,19 @@ wss.on('connection', function(connection) {
                         for (var i in usersPhysician) {
                             if(connection.id==usersPhysician[i].patientid)
                             {
-                                sendTo(users[usersPhysician[i].physicianid], {
-                                    type    : 'patientlogout', 
-                                    patientid:  usersPhysician[i].patientid,
-                                    success : true
-                                });   console.log('patientlogout { ', usersPhysician[i].physicianid, ' }. ');                             
-                                delete(usersPhysician[i]);
+                                if(null != users[usersPhysician[i].physicianid]) {
+                                    sendTo(users[usersPhysician[i].physicianid], {
+                                        type    : 'patientlogout', 
+                                        patientid:  usersPhysician[i].patientid,
+                                        success : true
+                                    });   console.log('patientlogout { ', usersPhysician[i].physicianid, ' }. ');                             
+                                    delete(usersPhysician[i]);
+                                }
                             }
                             else if(connection.id==usersPhysician[i].physicianid)
                             {
                                 var userPatient = users[usersPhysician[i].patientid];//get patient element from array                                
-                                if(null !== userPatient) {
+                                if(null != userPatient) {
                                     sendTo(userPatient, {
                                         type    : 'check', 
                                         success : false
