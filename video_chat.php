@@ -10,6 +10,8 @@
     ?>
     <?php if(isset($ispatient)) {   ?>
             <link rel="stylesheet" type="text/css" href="/js/fancybox/jquery.fancybox.css" media="screen" />
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
             <link rel="stylesheet" type="text/css" href="/style/video_chat.css?time=<?php echo time() ?>" />
             <input type="hidden" id="physician_id"  value='<?php echo $physician['id']; ?>' />
             <input type="hidden" id="patient_access"  value='<?php echo $patient_access ?>' />

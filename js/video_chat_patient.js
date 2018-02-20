@@ -789,48 +789,32 @@ function fncReLog()
     document.getElementById("divSidenav").style.right = '0px';
     setTimeout("VideoChat.init($('#caller').val());",7000);
 }
+(function ($) {
+    var setCookie,
+        removeCookie,
+        // Create constants for things instead of having same string
+        // in multiple places in code.
+        COOKIE_NAME = 'TabOpen',
+        SITE_WIDE_PATH = { path : '/' };
 
-window.onload = function() {
-
-        // check the visiblility of the page
-        var hidden, visibilityState, visibilityChange;
-
-        if (typeof document.hidden !== "undefined") {
-            hidden = "hidden", visibilityChange = "visibilitychange", visibilityState = "visibilityState";
-        }
-        else if (typeof document.mozHidden !== "undefined") {
-            hidden = "mozHidden", visibilityChange = "mozvisibilitychange", visibilityState = "mozVisibilityState";
-        }
-        else if (typeof document.msHidden !== "undefined") {
-            hidden = "msHidden", visibilityChange = "msvisibilitychange", visibilityState = "msVisibilityState";
-        }
-        else if (typeof document.webkitHidden !== "undefined") {
-            hidden = "webkitHidden", visibilityChange = "webkitvisibilitychange", visibilityState = "webkitVisibilityState";
-        }
-
-
-        if (typeof document.addEventListener === "undefined" || typeof hidden === "undefined") {
-            // not supported
-        }
-        else {
-            document.addEventListener(visibilityChange, function() {
-                switch (document[visibilityState]) {
-                case "visible":
-                    // visible
-                    break;
-                case "hidden":
-                    
-                    swal({title: '',
-                             text: 'Open more than one Vpexam window or changing to other tab can cause loss of connection with your physician!',
-                             html: true,
-                             type: 'warning' });
-                            
-                    break;
-                }
-            }, false);
-        }
-
-        if (document[visibilityState] === "visible") {
-        }
-
+    setCookie = function () { 
+        $.cookie(COOKIE_NAME, '1', SITE_WIDE_PATH); 
     };
+
+    removeCookie = function () {
+        $.removeCookie(COOKIE_NAME, SITE_WIDE_PATH);
+    };
+    // We don't need to wait for DOM ready to check the cookie
+    if ($.cookie(COOKIE_NAME) === undefined) {
+        setCookie();
+      window.addEventListener("beforeunload", removeCookie);
+    } else {
+        // Replace the whole body with an error message when the DOM is ready.
+        $(function () { 
+            swal({title: 'Sorry!',
+                text: 'You can only have one instance of the waiting room page open at a time. Please, close this window and return to previous session.',
+                html: true,
+                type: 'warning' },function(){ $.removeCookie(COOKIE_NAME, SITE_WIDE_PATH); window.location.href = "/";});
+            });
+    }
+}(jQuery));
