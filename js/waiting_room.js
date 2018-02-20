@@ -127,7 +127,7 @@ var WaitingRoom = {
                                                 "</div>"+
                                                 "<canvas></canvas>"+
                                         "</div>"+
-                          "<span class='specialspan mandatory'>Photo:</span><input type='file' id='selectPhoto' value=''>"+
+                          "<span class='specialspan'>Photo:</span><input type='file' id='selectPhoto' value=''>"+
                           "<span class='specialspan mandatory'>First Name:</span><input type='text' id='swal-name' class='swal-input' tabindex='3' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' maxlength='50'> "+
                           "<span class='specialspan mandatory'>Last Name:</span><input id='swal-lastname' type='text' class='swal-input' tabindex='4' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' maxlength='50'> "+
                           "<span class='specialspan mandatory'>Gender:</span><div class='radioscss'><input type='radio' class='swal-input swal-gender' name='swal-gender' value='M'> Male  <input type='radio' class='swal-input swal-gender' name='swal-gender' value='F'> Female </div> "+
