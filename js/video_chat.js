@@ -83,7 +83,6 @@ var VideoChat = {
                                     {
                                         blExist = true;
                                         dataSet0[key].waitingroom = 1;
-                                        dataSet0[key].uploaded = 1;
                                     }
                                 });
                                 if(!blExist)
