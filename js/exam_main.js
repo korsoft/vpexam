@@ -272,7 +272,7 @@ function showDocument (PhyId, PatId, ExId, Id){
             //
         }
     });
-    renderPDF("https://dev.vpexam.com/" + PhyId+"/"+PatId+"/"+ExId+"/documents/"+Id+".pdf", document.getElementById("showPdf"));
+    renderPDF("/" + PhyId+"/"+PatId+"/"+ExId+"/documents/"+Id+".pdf", document.getElementById("showPdf"));
 }
 function renderPDF(url, canvasContainer, options) {
     var options = options || { scale: 1 };
