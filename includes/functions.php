@@ -1946,3 +1946,18 @@ function getPhysicianInfoWR($patientId, $mysqli) {
     }
     return $response;
 }
+function searchPatients($name, $mysqli) {
+    $response   = [];
+    $physicians = [];
+    $sql = "CALL sp_search_patients_by_name('$name');";
+    if ($result = $mysqli->query($sql)) {
+        while ($wrinfo = $result->fetch_assoc()) {
+            $wrinfo['assocPhys'] = json_decode($wrinfo['assocPhys']);
+            $response[] = $wrinfo;
+        }
+    }
+    else {
+        error_log(__METHOD__ . ':: Error: ' . $mysqli->error);
+    }
+    return $response;
+}
