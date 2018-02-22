@@ -79,10 +79,12 @@ var VideoChat = {
                                 var blExist = false;
                                 $.each(dataSet0, function(key, value) {
                                     var objDataSet = JSON.parse(JSON.stringify(value));
+                                    //console.log(objDataSet)
                                     if(objDataSet.patientId==data.patientid)
                                     {
                                         blExist = true;
                                         dataSet0[key].waitingroom = 1;
+                                        dataSet0[key].uploaded = objDataSet.uploaded;
                                     }
                                 });
                                 if(!blExist)

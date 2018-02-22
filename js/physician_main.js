@@ -80,7 +80,7 @@ $(document).on("ready", function() {
                     dataSet0 = info.data;
                     tabla = $('#example').DataTable( {
                         data: dataSet0,
-                        order: [[1, 'desc']],
+                        order: [[6, 'desc'], [7, 'desc']],
                         columns: [
                         {     data: 'patientId',
                              'render': function (patientId) {

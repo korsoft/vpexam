@@ -11,6 +11,6 @@ BEGIN
     LEFT JOIN patients_no_display pnd ON pnd.patient_id = pat.patient_id AND pnd.phys_id = pah.physician_id 
     WHERE pah.physician_id = _physicianid AND pnd.patient_id IS NULL 
     GROUP BY pat.patient_id 
-    ORDER BY war.entered_at DESC, pat.register_at DESC, pat.patient_id DESC;
+    ORDER BY war.entered_at DESC, pat.register_at DESC;
 END ;;
 DELIMITER ;
