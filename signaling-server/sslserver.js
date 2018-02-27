@@ -250,6 +250,7 @@ wss.on('connection', function(connection) {
 	});
    	connection.on('close', function() {
 	   	if(connection.id) { 
+                        var idRemove = null;
 	   		console.log('Closing connection id { ', connection.id, ' }. ');
 			delete users[connection.id]; 
 			if(connection.otherid) { 
@@ -264,13 +265,13 @@ wss.on('connection', function(connection) {
                         for (var i in usersPhysician) {
                             if(connection.id==usersPhysician[i].patientid)
                             {
-                                if(null != users[usersPhysician[i].physicianid]) {
+                                if(null != users[usersPhysician[i].physicianid]) { 
                                     sendTo(users[usersPhysician[i].physicianid], {
                                         type    : 'patientlogout', 
                                         patientid:  usersPhysician[i].patientid,
                                         success : true
-                                    });   console.log('patientlogout { ', usersPhysician[i].physicianid, ' }. ');                             
-                                    delete(usersPhysician[i]);
+                                    });              
+                                    idRemove = i;
                                 }
                             }
                             else if(connection.id==usersPhysician[i].physicianid)
@@ -284,11 +285,16 @@ wss.on('connection', function(connection) {
                                 }
                             }
                         }
+                         if(null != idRemove && conn != idRemove) {
+                            usersPhysician.splice(idRemove, 1);
+                        }
 		}  
 	});
 });
 function sendTo(connection, message) { 
+    if(null != connection) {
 	connection.send(JSON.stringify(message));
+    }
 }
 function toBuffer(ab) {
     var buffer = new Buffer(ab.byteLength);
