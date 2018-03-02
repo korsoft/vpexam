@@ -41,7 +41,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/constants.php';
         <script type="text/javascript" src="/js/sweetalert.min.js"></script>
         <script src="<?php autoVerCss('/js/waiting_room.js');?>"></script>
 
-        <script src="/js/pdf.js/pdf.js"></script>
+        <script src="/js/pdf.js/2.0.389/pdf.js"></script>
+        <!--script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.389/pdf.js"></script-->
 
         <title>Patient Overview</title>
 

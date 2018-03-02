@@ -162,7 +162,18 @@ if (strcmp($pageName, "register_patient.php") === 0) {
         if ($haveMname)
             $valuesToInsert['middle_name'] = $mname;
         $valuesToInsert['last_name'] = $lname;
-        if (isset($username))
+       
+        if(empty($username) ){
+            //construir
+            $bd=str_replace('-', '', dobFormatted ); 
+            //error_log($birthdate);
+            //error_log($birthdateFormatted);
+            $gn = ($gender=='male') ? 'm' : 'f' ;
+            $username=$fname.$lname.$bd.$gn;
+            error_log($username);
+        }
+        $username = str_replace(' ', '', $username);
+         if (isset($username))
             $valuesToInsert['username'] = $username;
         if ($haveEmail)
             $valuesToInsert['email'] = $email;
@@ -447,17 +458,16 @@ if (strcmp($pageName, "register_patient.php") === 0) {
                         $userId = $mysqli->insert_id; 
                         $stmtInsert->close();
 
-
                          //Dar de alta paciente de prueba John doe patient_id,
                         $prepStmtInsertDemo = 'INSERT INTO patients(username, first_name, last_name, gender, dob, old_patient_id) VALUES (?, ?, ?, ?, ?, ?)';
                         error_log('::::::::'.$prepStmtInsertDemo);
                         $stmtInsertDemo = $mysqli->prepare($prepStmtInsertDemo);
                         // , , , , ,0
                         $uname = "usernamedemo$userId";
-                        $firstnp='John';
-                        $lnp='Doe';
-                        $gnp='male';
-                        $fnp='1990-04-19';
+                        $firstnp='Kristen';
+                        $lnp='Chriswell';
+                        $gnp='female';
+                        $fnp='1984-02-14';
                         $onp=0;
                         error_log(':::::::::'.$uname);
                         $stmtInsertDemo->bind_param('ssssss', $uname, $firstnp, $lnp, $gnp, $fnp, $onp);
@@ -475,7 +485,11 @@ if (strcmp($pageName, "register_patient.php") === 0) {
 
                         // paciente doctor
                         if (isset($userIdPat) && isset($userId)) {
-           
+                            //Ponerle check a los siguientes exams components: mm,rjvl,ljvl,rleea,lleea,aas,aps,ats,ams,alm,arm,htt
+                            //CALL sp_set_physician_exam_components(27,'mm,rjvl,ljvl,rleea,lleea,aas,aps,ats,ams,alm,arm,htt');
+                            error_log('::::::: antes del call');
+                           $mysqli->query("CALL sp_set_physician_exam_components($userId,'mm,rjvl,ljvl,rleea,lleea,aas,aps,ats,ams,alm,arm,htt');");
+                            error_log('::::::: despues del call');
                             $prepStmtCreateLink = "INSERT INTO patient_physicians(id, physician_id) VALUES(?, ?)";
                             $stmtCreateLink = $mysqli->prepare($prepStmtCreateLink);
                             if ($stmtCreateLink) {
@@ -502,16 +516,20 @@ if (strcmp($pageName, "register_patient.php") === 0) {
 
                         // Hay que insertar al doctor los componentes defaults
                         try{
-                           $strQuery = 'INSERT INTO physician_prefs( id, normal, phone_home, ' .
+                            error_log(":::::::: register.php insertar a continuacion los componentes");
+                            $strQuery        = 'INSERT INTO physician_prefs( id, normal, phone_home, ' .
                                        'phone_work, phone_cell, exam_components, ' . 
                                        'max_steth_record_time) VALUES( ?, ?, ?, ?, ?, ?, ? );';
-                           $oStmt    = $mysqli->prepare($strQuery);
-                           $strDef   = '';
-                           $numDef   = 0;
-                           $strComp  = '["htt","mm","aas","aps","ats","ams","ala","alm","arm",' .
-                                       '"rjva","ljva","rleek","lleek","mv1"]';
+                            $oStmt           = $mysqli->prepare($strQuery);
+                            $strDefnormal    = '<p style="color: #666666; font-family: Calibri, Helvetica, sans-serif, Helvetica; font-size: 17px;"><span><strong>General:</strong> Patient is awake, alert, and oriented. No acute distress.</span><br /><span><strong>Head:</strong>&nbsp;Normocephalic.</span><br /><span><strong>Eyes:</strong> Pupils equal and reactive.</span><br /><span><strong>Oropharynx:</strong>&nbsp; Moist mucosa.</span><br /><span><strong>Neck:</strong> No thyromegaly. Normal Jugular Venous Pressure.</span><br /><span><strong>Cardiovascular:</strong> Regular rate and rhythm. Normal S1 and S2.</span><br /><span><strong>Pulmonary:</strong> Clear to auscultation bilaterally.</span><br /><span><strong>Lower Extremities:</strong>&nbsp; No varicosities or wounds.&nbsp; No lower extremity edema.</span><br /><span><strong>Skin:</strong> Normal and dry.</span><br />
+                                                <span><strong>Neurologic:</strong> Cranial nerves intact. No focal deficit.</span><br />
+                                                <span><strong>Psychiatric:</strong> Normal mood and affect.</span></p>';
+                            $strDef          = '';
+                            $numDef          = 0;
+                            $strComp         = '["htt","mm","aas","aps","ats","ams","ala","alm","arm",' .
+                                                '"rjva","ljva","rleek","lleek","mv1"]';
                            if ($oStmt) {
-                                $oStmt->bind_param('isssssi', $userId, $strDef, $strDef, $strDef, $strDef, $strComp, $numDef);
+                                $oStmt->bind_param('isssssi', $userId, $strDefnormal, $strDef, $strDef, $strDef, $strComp, $numDef);
 
                                 if (!$oStmt->execute()) {
                                     error_log( __METHOD__ . ':: Cant create a physician_prefs ::' ) ;
