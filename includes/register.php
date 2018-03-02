@@ -165,7 +165,8 @@ if (strcmp($pageName, "register_patient.php") === 0) {
        
         if(empty($username) ){
             //construir
-            $bd=str_replace('-', '', dobFormatted ); 
+            $dobFormatted2 = (new DateTime($dob, new DateTimeZone("UTC")))->format('m-d-Y');
+            $bd=str_replace('-', '', $dobFormatted2 ); 
             //error_log($birthdate);
             //error_log($birthdateFormatted);
             $gn = ($gender=='male') ? 'm' : 'f' ;
