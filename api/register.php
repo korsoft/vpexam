@@ -1,12 +1,16 @@
 <?php
 include_once '../includes/db_connect.php';
 include_once '../includes/functions.php';
+include_once '../libs/ImageResize.php';
+
+use \Eventviva\ImageResize;
+use \Eventviva\ImageResizeException;
  
 sec_session_start();
 
 const BASE_PATH_PATIENTS = '/var/www/.uploads/profile/patients/img/';
 
-error_log('API :: REGISTER :: POST { ' . print_r($_POST, true) . ' }');
+error_log('API OLD :: REGISTER :: POST api/register.php ::   { ' . print_r($_POST, true) . ' }');
 
 function registerAPI($fname, $lname, $dob, $gender, $mysqli) {
 	// Using prepared statements means that SQL injection is not possible.
@@ -72,8 +76,17 @@ function registerAPI($fname, $lname, $dob, $gender, $mysqli) {
     $userId = $num;
     */
 
-    if (isset($_POST['email']))
-	    $username = explode('@', $_POST['email'])[0];
+    /*if (isset($_POST['email']))
+	    $username = explode('@', $_POST['email'])[0];*/
+    if(empty($username) ){
+        //construir
+        $bd=str_replace('-', '', $dob); 
+        //error_log($birthdate);
+        //error_log($birthdateFormatted);
+        //$mf= ($gender== 'male')?'m':'f';
+        $username=$fname.$lname.$bd.(($gender== 'male')?'m':'f');
+        error_log($username);
+    }
 
 	$valuesToInsert = [];
 	//$valuesToInsert['patient_id'] = $userId;
@@ -103,7 +116,7 @@ function registerAPI($fname, $lname, $dob, $gender, $mysqli) {
         $valuesToInsert['state'] = $_POST['state'];
     if (isset($_POST['zip']))
         $valuesToInsert['zip'] = $_POST['zip'];
-
+    $valuesToInsert['old_patient_id']=0;
     /*
     $prepStmtRegister = "INSERT INTO patients(";
     $i = 0;
@@ -129,7 +142,7 @@ function registerAPI($fname, $lname, $dob, $gender, $mysqli) {
     */
 
     $prepStmtRegister = 'INSERT INTO patients(' . implode(',', array_keys($valuesToInsert)) . ') VALUES("' . implode('","', array_values($valuesToInsert)) .  '")';
-
+    error_log(":::::::::::: ".$prepStmtRegister);
     /*if (haveMRN() && havePassword()) {
         $prepStmtRegister = "INSERT INTO patients(patient_id, username, email, password, salt, first_name, middle_name, last_name, mrn, gender, phone, dob, address, city, state, zip) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     } else if (haveMRN() && !havePassword()) {
@@ -199,10 +212,18 @@ function registerAPI($fname, $lname, $dob, $gender, $mysqli) {
             // We have a file upload. Retrieve it and move it to the proper directory.
             if (isset($_FILES['profilePic'])) {
                 $tmpLocation = $_FILES['profilePic']['tmp_name'];
-                $destLocation = BASE_PATH_PATIENTS . $userId . '.png';
+                $destLocation = BASE_PATH_PATIENTS . $userId . '_original.png';
                 error_log("Temp file location: " . $tmpLocation);
                 error_log("Dest file location: " . $destLocation);
                 move_uploaded_file($tmpLocation, $destLocation);
+                //Pruebas
+                $image = new ImageResize($destLocation);
+                $image->crop(250, 250);
+                $image->save(BASE_PATH_PATIENTS .$userId.'_profile.png');
+
+                $image2 = new ImageResize($destLocation);
+                $image2->crop(65, 65);
+                $image2->save(BASE_PATH_PATIENTS .$userId.'.png');
             }
         } else {
 			error_log("No profile picture uploaded. FILES parameter not set.");
@@ -246,10 +267,12 @@ function haveEmail() {
 }
 
 if (isset($_POST['fname'], $_POST['lname'], $_POST['dob'], $_POST['gender'])) {
+    error_log('okeys');
 	$arr = registerAPI($_POST['fname'], $_POST['lname'], $_POST['dob'], $_POST['gender'], $mysqli);
 	echo json_encode($arr);
 } else {
-	$errorMsg = "One or more of the required parameters were not set in the POST data.";
+    error_log('else okeys');
+	$errorMsg = "One or more of the required parameters were not set in the POST data okeis.";
 	$registered = false;
 	$array = array(
 		"registered" => $registered,
