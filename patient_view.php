@@ -39,6 +39,7 @@
     $zip       = $pInfo->zip;
     $phoneType = strtoupper($pInfo->phoneType);
     $phone     = getFormattedPhone($pInfo->phone);
+    $email = $pInfo->email;
 
     //Variable para el video_chat.php
     $calling = [
@@ -64,34 +65,36 @@
                                         <span class="infoText"><?php echo($gender); ?></span>
                                         <span class="infoText"><?php echo($dob); ?></span>
                                         <span class="infoText">Age <?php echo($age); ?></span>
+                                        <span class="infoText">Phone: <?php echo($phoneType); ?></span> <?php echo($phone); ?>
+                                        <span class="infoText">Email: <?php echo($email); ?></span>
                                         <span class="infoText"><?php echo($mrn); ?></span>
                                     </div>
                                 </div>
-                                <div class="demographicsDiv">
+                                <!--div class="demographicsDiv">
                                     <span class="title">Demographics</span>
                                     <table class="demographicsTable">
                                         <tr>
                                             <td class="demographicsTitleTd">Address</td>
-                                            <td><?php echo($addr); ?></td>
+                                            <td><?php //echo($addr); ?></td>
                                         </tr>
                                         <tr>
                                             <td class="demographicsTitleTd">City</td>
-                                            <td><?php echo($city); ?></td>
+                                            <td><?php //echo($city); ?></td>
                                         </tr>
                                         <tr>
                                             <td class="demographicsTitleTd">State</td>
-                                            <td><?php echo($state); ?></td>
+                                            <td><?php //echo($state); ?></td>
                                         </tr>
                                         <tr>
                                             <td class="demographicsTitleTd">Zip</td>
-                                            <td><?php echo($zip); ?></td>
+                                            <td><?php //echo($zip); ?></td>
                                         </tr>
                                         <tr>
                                             <td>Phone</td>
-                                            <td><span style="font-size: 16px; font-weight: bold;"><?php echo($phoneType); ?></span> <?php echo($phone); ?></td>
+                                            <td><span style="font-size: 16px; font-weight: bold;"><?php //echo($phoneType); ?></span> <?php //echo($phone); ?></td>
                                         </tr>
                                     </table>
-                                </div>
+                                </div-->
                             </div>
                             <div class="examsDiv">
                                 <input id="inputwr" type="hidden" value="<?php echo $_GET['wr']; ?>">

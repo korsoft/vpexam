@@ -70,6 +70,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/constants.php';
             parse_str($_SERVER['QUERY_STRING']);
             $examParts = getExamParts($patientId, $examId, $mysqli);
             $patientInfo = getExtendedPatientInfo($patientId, $mysqli);
+            
+
             $exam = getSingleExam($patientId, $examId, $mysqli);
             $symptoms = getSymptomsForExam($patientId, $examId, $mysqli);
             $examDateLocal = $exam->examDate;
@@ -84,6 +86,9 @@ include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/constants.php';
             $city = $patientInfo->city;
             $state = $patientInfo->state;
             $zip = $patientInfo->zip;
+            $email = $patientInfo->email;
+            $phone = $patientInfo->phone;
+            //error_log("::::::::::::: $patientInfo".$email);
             $phoneType = strtoupper($patientInfo->phoneType);
             $phone = getFormattedPhone($patientInfo->phone);
 
@@ -147,10 +152,12 @@ include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/constants.php';
                                 <span class="infoText"><?php echo($gender); ?></span>
                                 <span class="infoText"><?php echo($dob); ?></span>
                                 <span class="infoText">Age <?php echo($age); ?></span>
+                                <span class="infoText">Phone: <?php echo($phoneType); ?></span> <?php echo($phone); ?>
+                                <span class="infoText">Email: <?php echo($email); ?></span>
                                 <span class="infoText"><?php echo($mrn); ?></span>
                             </div>
                         </div>
-                        <div class="demographicsDiv">
+                        <!--div class="demographicsDiv">
                             <span class="title">Demographics</span>
                             <table class="sideTable">
                                 <tr>
@@ -174,7 +181,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/constants.php';
                                     <td><span style="font-size: 16px; font-weight: bold;"><?php echo($phoneType); ?></span> <?php echo($phone); ?></td>
                                 </tr>
                             </table>
-                        </div>
+                        </div-->
                         <div class="vitalsDiv">
                             <span class="title">Vitals</span>
                             <table class="sideTable">
