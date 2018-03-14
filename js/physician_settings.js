@@ -1809,3 +1809,35 @@ $('#btnEmailNot').on('click', function() {
             alert("Error changing password: " + result.errorMsg);
         }
     });
+
+$('#btnExamNot').on('click', function() {
+        var target  = document.getElementById('spin'),
+            spinner = new Spinner(opts).spin(target);
+        $(target).data('spinner', spinner);
+        var examnotification = $('input[name=examnotification]:checked').val(); 
+        console.log(examnotification+' turnExamnotification');
+        if(examnotification != ''){
+            $.ajax({
+                async: true,
+                data: 'physId=' + physicianId + '&examnotification=' + examnotification,
+                error: function(xhr, textStatus, errorThrown) {
+                    alert("Error processing request: " + textStatus + ": " + errorThrown);
+                },
+                method: 'POST',
+                success: function(data) {
+                    var result = JSON.parse(data);
+                    if (!result.success) {
+
+                        alert("Error changing settings: " + result.errorMsg);
+                    } else {
+                        $('#spin').data('spinner').stop();
+                        $('#success_msgExN').show();
+                        //alert("Settings changed successfully!");
+                    }
+                },
+                url: "api/updatePhysicianExamNotification.php"
+            });
+        }else{
+            alert("Error changing password: " + result.errorMsg);
+        }
+    });

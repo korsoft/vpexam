@@ -146,6 +146,17 @@
                                                 </div>
                                             </div>
                                             <div class="subSettingsDiv">
+                                                <span class="subHeader">Turn on/off the exams uploads email notifications </span>
+                                                <div class="hr"></div>
+                                                <div class="innerSettingsDiv">
+                                                    <div id="turnExamnotification">
+                                                        <input type="radio" name="examnotification" value="1" <?php if($physInfo->exam_notification == 1){?> checked<?php }?>> Yes &nbsp; &nbsp;
+                                                        <input type="radio" name="examnotification" value="0" <?php if($physInfo->exam_notification == 0){?> checked<?php }?>> No &nbsp; &nbsp;
+                                                        <div class="button-dark-smaller" id="btnExamNot" style="display: inline; margin: 0 0 0 10px;">Save</div><label id="success_msgExN">Saved successfully</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="subSettingsDiv">
                                                 <span class="subHeader">Password</span>
                                                 <div class="hr"></div>
                                                 <div class="innerSettingsDiv">

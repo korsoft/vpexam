@@ -898,7 +898,7 @@ h3 {
     margin-left: 10px;
 }
 
-#success_msgWR,#success_msgEC, #success_msgEN {
+#success_msgWR,#success_msgEC, #success_msgEN, #success_msgExN {
     color: #2f913e;
     display: none;
     font-weight: bold;

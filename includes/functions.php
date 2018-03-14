@@ -477,10 +477,11 @@ class ExtendedPhysicianInfo {
     public $homeState = '';
     public $homeZip = '';
     public $email_notification ='';
+    public $exam_notification ='';
 
     function __construct($physId, $npi, $username, $email, $fname, $mname, $lname, $gender, $dob, $phone, $practiceName,
                          $practiceAddr, $practiceCity, $practiceState, $practiceZip, $homeAddr,
-                         $homeCity, $homeState, $homeZip, $email_notification) {
+                         $homeCity, $homeState, $homeZip, $email_notification, $exam_notification) {
         $this->physicianId = $physId;
         $this->npi = $npi;
         $this->username = $username;
@@ -501,6 +502,7 @@ class ExtendedPhysicianInfo {
         $this->homeState = $homeState;
         $this->homeZip = $homeZip;
         $this->email_notification = $email_notification;
+        $this->exam_notification = $exam_notification;
     }
 }
 
@@ -1460,7 +1462,7 @@ function setBAANeeded($physId, $baaNeeded, $mysqli) {
  * database fields for physician info.
  */
 function getExtendedPhysicianInfo($physId, $mysqli) {
-    $prepStmtGetPhysInfo = "SELECT physician_id, npi, username, email, first_name, middle_name, last_name, gender, dob, phone, practice_name, practice_addr, practice_city, practice_state, practice_zip, home_addr, home_city, home_state, home_zip, email_notification FROM physicians WHERE physician_id = ?";
+    $prepStmtGetPhysInfo = "SELECT physician_id, npi, username, email, first_name, middle_name, last_name, gender, dob, phone, practice_name, practice_addr, practice_city, practice_state, practice_zip, home_addr, home_city, home_state, home_zip, email_notification, exam_notification FROM physicians WHERE physician_id = ?";
     $stmtGetPhysInfo = $mysqli->prepare($prepStmtGetPhysInfo);
     if ($stmtGetPhysInfo) {
         $physicianId = -1;
@@ -1483,15 +1485,16 @@ function getExtendedPhysicianInfo($physId, $mysqli) {
         $homeState = '';
         $homeZip = '';
         $email_notification ='';
+        $exam_notification ='';
         $stmtGetPhysInfo->bind_param('i', $physId);
         $stmtGetPhysInfo->execute();
         $stmtGetPhysInfo->bind_result($physicianId, $npi, $username, $email, $firstName, $middleName, $lastName, $gender, $dob, $phone, $practiceName,
-            $practiceAddr, $practiceCity, $practiceState, $practiceZip, $homeAddr, $homeCity, $homeState, $homeZip, $email_notification);
+            $practiceAddr, $practiceCity, $practiceState, $practiceZip, $homeAddr, $homeCity, $homeState, $homeZip, $email_notification, $exam_notification);
         $stmtGetPhysInfo->fetch();
         $dob = DateTime::createFromFormat("Y-m-d", $dob);
 
         return new ExtendedPhysicianInfo($physId, $npi, $username, $email, $firstName, $middleName, $lastName, $gender, $dob, $phone, $practiceName,
-            $practiceAddr, $practiceCity, $practiceState, $practiceZip, $homeAddr, $homeCity, $homeState, $homeZip, $email_notification);
+            $practiceAddr, $practiceCity, $practiceState, $practiceZip, $homeAddr, $homeCity, $homeState, $homeZip, $email_notification, $exam_notification);
     } else {
         return NULL;
     }
@@ -1648,7 +1651,7 @@ function getInfoForEmail($mysqli, $senderid = 0, $recipientids = 0, $ispatientse
         FROM $sendertable 
         WHERE $sendercol = $senderid;
 
-        SELECT CONCAT(first_name, ' ', IF('' <> middle_name, CONCAT(' ', middle_name), ''), last_name) AS name, email, email_notification 
+        SELECT CONCAT(first_name, ' ', IF('' <> middle_name, CONCAT(' ', middle_name), ''), last_name) AS name, email, email_notification, exam_notification 
         FROM $recipienttable 
         WHERE $recipientcol IN ($filteredrecipients);");
     if ($mysqli->multi_query("
@@ -1656,7 +1659,7 @@ function getInfoForEmail($mysqli, $senderid = 0, $recipientids = 0, $ispatientse
         FROM $sendertable 
         WHERE $sendercol = $senderid;
 
-        SELECT CONCAT(first_name, ' ', IF('' <> middle_name, CONCAT(' ', middle_name), ''), last_name) AS name, email, email_notification 
+        SELECT CONCAT(first_name, ' ', IF('' <> middle_name, CONCAT(' ', middle_name), ''), last_name) AS name, email, email_notification, exam_notification  
         FROM $recipienttable 
         WHERE $recipientcol IN ($filteredrecipients);
     ")) {

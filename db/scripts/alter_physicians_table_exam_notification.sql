@@ -1,0 +1,1 @@
+ALTER TABLE `physicians` ADD COLUMN `exam_notification` tinyint(1) UNSIGNED DEFAULT 1 NOT NULL;

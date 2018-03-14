@@ -274,12 +274,16 @@ varErrorLog($returnVals);
 //Send notification email to physician
 try {
 	$infoforemail = getInfoForEmail($mysqli, $patientId, $physId);
-    $mailer = new Mailer('exam_uploaded', '{{sender}} has uploaded a VPExam', $infoforemail[1], [
-    	'url'    => 'https://vpexam.com/',
-    	'sender' => $infoforemail[0][0]['name'],
-    	'title'  => 'VPExam - New exam uploaded'
-    ]);
-    $mailer->send();
+	if($infoforemail[1][0]['exam_notification'] == 1){
+	    $mailer = new Mailer('exam_uploaded', '{{sender}} has uploaded a VPExam', $infoforemail[1], [
+	    	'url'    => 'https://vpexam.com/',
+	    	'sender' => $infoforemail[0][0]['name'],
+	    	'title'  => 'VPExam - New exam uploaded'
+	    ]);
+	    $mailer->send();
+	}else{
+		error_log('API EXAM UPLOAD :::::: THE DOCTOR DON\'T WANT EMAIL NOTIFICATION' );
+	}
 }
 catch(Exception $e) {
     error_log(__METHOD__ . $e->getMessage());
