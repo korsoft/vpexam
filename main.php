@@ -94,18 +94,6 @@
                         <br />
                         <div class="signUpContainerDiv">
                             <div class="signUpInnerDiv">
-                                <div class="signUpDiv">
-                                    <h3>Are you a patient?</h3>
-                                    <p>Register now for an account.</p>
-                                    <div class="button-dark" <?php echo (0 == $userloggedid?'id="btnRegister"':'') ?>>Register</div>
-                                    <br /><br />
-                                    <div class="signUpFeatureDiv" id="free">
-                                        <span>100% Free</span><img src="img/free.png">
-                                    </div>
-                                    <div class="signUpFeatureDiv" id="secure">
-                                        <span>100% Secure</span><img src="img/lock.png">
-                                    </div>
-                                </div>
                                 <div class="signUpDiv2">
                                     <h3>Are you a physician?</h3>
                                     <p>Request your free 30-day trial today.</p>
