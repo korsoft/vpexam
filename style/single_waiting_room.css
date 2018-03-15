@@ -47,6 +47,7 @@ div.PatientsWaitingEmpty{
     background-color: #FFFFFF;
     transition: 0.3s; 
     white-space:nowrap;
+    outline: none;
 }
 /* When you mouse over the navigation links, change their color */
 .dvsidenavPhys a:hover {

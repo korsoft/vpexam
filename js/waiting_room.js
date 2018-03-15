@@ -3,7 +3,6 @@ function html_entity_decode(str) {
   ta.innerHTML=str.replace(/</g,"&lt;").replace(/>/g,"&gt;");
   toReturn = ta.value;
   ta = null;
-  console.log('nomas pa que cambie la version');
   return toReturn
 }
 var WaitingRoom = {
@@ -117,7 +116,7 @@ var WaitingRoom = {
                     strControl += "<input id='swalpwdHashed'name='swalpwdHashed' type='hidden' />" +
                                         "<div id='app1' class='app'>" +
                                             "<a href='#' id='start-camera' class='visible'>Touch here to start the app.</a>"+
-                                            "<video id='camera-stream'></video>"+
+                                            "<video id='camera-stream' muted></video>"+
                                 "<div id='contentsnap'><img id='snap'></div>"+
                                                 "<p id='error-message'></p>"+
                                                 "<div class='controls'>"+
@@ -454,9 +453,9 @@ var WaitingRoom = {
                             if( !kc || kc == 229 ) {
                                 kc = input.value.substr(input.selectionStart - 1 || 0, 1).charCodeAt(0)
                             }
-                            console.log('kc { ', kc, ' }')
-                            console.log('input.value { ', input.value, ' }')
-                            console.log('input.value.length { ', input.value.length, ' }')
+                            //console.log('kc { ', kc, ' }')
+                            //console.log('input.value { ', input.value, ' }')
+                            //console.log('input.value.length { ', input.value.length, ' }')
                             if (13 == kc || 8 == kc) {
                                 event.preventDefault()
                                 return false
@@ -467,23 +466,23 @@ var WaitingRoom = {
                                 input.value = removeLast()
                             }*/
                             if( (kc >= 48 &&  kc <= 57 ) || (kc >= 96 &&  kc <= 105 ) ) {
-                                console.log('Es numero')
+                                //console.log('Es numero')
                             }else{
-                                console.log('No es numero')
+                                //console.log('No es numero')
                                 input.value = removeLast()
                             }
                             //Necesita empezar con 0 o 1
                             if(1 == input.value.length && 48 != kc && 49 != kc && 96 != kc && 97 != kc){
-                                console.log('Necesita empezar con 0 o 1')
+                                //console.log('Necesita empezar con 0 o 1')
                                 input.value = removeLast()
                             }
                             //Si el valor en el input es mayor que 12
                             else if(12 < input.value) {
-                                console.log('Mes invalido')
+                                //console.log('Mes invalido')
                                 input.value = removeLast()
                             }
                             if(2 == input.value.length && 13 > input.value){
-                                console.log('valor correcto');
+                                //console.log('valor correcto');
                                 $(this).next('input:text').focus();
                             }
                         });
@@ -497,18 +496,18 @@ var WaitingRoom = {
                             if( !kc || kc == 229 ) {
                                 kc = input.value.substr(input.selectionStart - 1 || 0, 1).charCodeAt(0)
                             }
-                            console.log('kc { ', kc, ' }')
-                            console.log('input.value { ', input.value, ' }')
-                            console.log('input.value.length { ', input.value.length, ' }')
+                            //console.log('kc { ', kc, ' }')
+                            //console.log('input.value { ', input.value, ' }')
+                            //console.log('input.value.length { ', input.value.length, ' }')
                             if (13 == kc || 8 == kc) {
                                 event.preventDefault()
                                 return false
                             }
                             //Solo numeros
                             if( (kc >= 48 &&  kc <= 57 ) || (kc >= 96 &&  kc <= 105 ) ) {
-                                console.log('Es numero')
+                                //console.log('Es numero')
                             }else{
-                                console.log('No es numero')
+                                //console.log('No es numero')
                                 input.value = removeLast()
                             }
                             //Necesita empezar con 0, 1, 2 , 3
@@ -518,11 +517,11 @@ var WaitingRoom = {
                             }
                             //Si el valor en el input es mayor que 31
                             else if(31 < input.value) {
-                                console.log('Dia invalido')
+                                //console.log('Dia invalido')
                                 input.value = removeLast()
                             }
                             if(2 == input.value.length && 32 > input.value){
-                                console.log('valor correcto');
+                                //console.log('valor correcto');
                                 $(this).next('input:text').focus();
                             }
                             
@@ -536,28 +535,28 @@ var WaitingRoom = {
                             if( !kc || kc == 229 ) {
                                 kc = input.value.substr(input.selectionStart - 1 || 0, 1).charCodeAt(0)
                             }
-                            console.log('kc { ', kc, ' }')
-                            console.log('input.value { ', input.value, ' }')
-                            console.log('input.value.length { ', input.value.length, ' }')
+                            //console.log('kc { ', kc, ' }')
+                            //console.log('input.value { ', input.value, ' }')
+                            //console.log('input.value.length { ', input.value.length, ' }')
                             if (13 == kc || 8 == kc) {
                                 event.preventDefault()
                                 return false
                             }
                             //Solo numeros
                             if( (kc >= 48 &&  kc <= 57 ) || (kc >= 96 &&  kc <= 105 ) ) {
-                                console.log('Es numero')
+                                //console.log('Es numero')
                             }else{
-                                console.log('No es numero')
+                                //console.log('No es numero')
                                 input.value = removeLast()
                             }
                             //Necesita empezar con 1 o 2
                             if(1 == input.value.length && 49 != kc && 50 != kc && 97 != kc && 98 != kc){
-                                console.log('Necesita empezar con 0 o 1')
+                                //console.log('Necesita empezar con 0 o 1')
                                 input.value = removeLast()
                             }
                             //Si el valor en el input es mayor que 2018 < 
                             else if((new Date().getFullYear()) < input.value) {
-                                console.log('Mes invalido')
+                                //console.log('Mes invalido')
                                 input.value = removeLast()
                             }
                         });
@@ -600,7 +599,7 @@ var WaitingRoom = {
                             else{
                                 
                                   // Request the camera. video-capture
-                                  navigator.getMedia({video: { width: 250, height: 250 },audio: false},
+                                  navigator.getMedia({video: { width: 250, height: 250 },audio: true},
                                     // Success Callback
                                     function(stream){
                                       // Create an object URL for the video stream and
@@ -622,6 +621,15 @@ var WaitingRoom = {
                                                 $("#imgCamera").removeClass().addClass('error');
                                             else
                                                 $("#imgCamera").removeClass().addClass('normal'); 
+                                        }
+                                        if($('#imgMic').length==1)
+                                        {
+                                            if(audioTracks[0].muted)
+                                                $("#imgMic").removeClass().addClass('error');
+                                            else if(!audioTracks[0].muted)
+                                                $("#imgMic").removeClass().addClass('success');
+                                            else
+                                                $("#imgMic").removeClass().addClass('normal'); 
                                         }
                                     },
                                     // Error Callback
