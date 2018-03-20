@@ -16,7 +16,9 @@ BEGIN
 	DECLARE _id INT(10) UNSIGNED;
 	INSERT INTO patients(username, email, password, salt, first_name, last_name, dob, gender, phone, old_patient_id ) VALUES(_username, _email, _password, _salt, _firstname, _lastname, _dob, _gender, _phone, 0);
 	SET _id = LAST_INSERT_ID();
-    INSERT INTO patient_physicians( id, physician_id ) VALUES(_id, _physicianid);
+        IF _physicianid>0 THEN
+            INSERT INTO patient_physicians( id, physician_id ) VALUES(_id, _physicianid);
+        END IF;
     SELECT _id AS patient_id;
 END ;;
 DELIMITER ;

@@ -38,11 +38,18 @@ if(empty($username) ){
 }
 $username = str_replace(' ', '', $username);
 
-if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($gender) ||  empty($physicianid)) {
+if (empty($name) || empty($lastname) || empty($birthdateFormatted) || empty($gender) ||  !isset($physicianid)) {
     $errorMsg = "One or more required parameters was not set.";
     echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
     exit();
-}else{
+}
+elseif(!preg_match("/^[0-9]+$/",$physicianid))
+{
+    $errorMsg = "One or more required parameters was not set.";
+    echo(json_encode(array("success" => $success, "errorMsg" => $errorMsg)));
+    exit(); 
+}
+else{
     if ($gender == 'M'){$gender="male";}else{$gender="female";}
     $username = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $username));
     //error_log("API :: PREREGISTER2 :: POST { $name } CALL sp_register_patient('{$name}','{$lastname}','{$birthdateFormatted}','{$email}','{$password}','{$salt}',{$physicianid});");
