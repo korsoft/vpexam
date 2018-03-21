@@ -7,6 +7,7 @@ $errorMsg = "";
 $first_name=""; $middle_name = ""; $last_name= ''; $email = ''; $gender = ''; $phone = ''; $dob = ''; $address = ''; $city = '';
 $state = ''; $zip = ''; $insurance_company = ''; $insurance_address = ''; $insurance_phone = '';$insurance_ph_name = ''; $ins_pat_relationship = ''; 
 $insurance_group_num = ''; $insurance_id_cert_num = ''; $insurance_issue_date = '';
+$password = '';$salt = '';
 function validateDate($date, $format = 'Y-m-d')
 {
     $d = DateTime::createFromFormat($format, $date);
@@ -151,8 +152,14 @@ try {
     		throw new Exception('Invalid Insurance issue date.', 2);
     	}
     }
-    error_log("CALL sp_update_patients_info({$patId},'{$first_name}','{$middle_name}','{$last_name}','{$email}','{$gender}','{$phone}','{$dob}','{$address}','{$city}','{$state}','{$zip}','{$insurance_company}','{$insurance_address}','{$insurance_phone}','{$insurance_ph_name}','{$ins_pat_relationship}','{$insurance_group_num}','{$insurance_id_cert_num}','{$insurance_issue_date}');");
-	$mysqli->query("CALL sp_update_patients_info({$patId},'{$first_name}','{$middle_name}','{$last_name}','{$email}','{$gender}','{$phone}','{$dob}','{$address}','{$city}','{$state}','{$zip}','{$insurance_company}','{$insurance_address}','{$insurance_phone}','{$insurance_ph_name}','{$ins_pat_relationship}','{$insurance_group_num}','{$insurance_id_cert_num}','{$insurance_issue_date}');");
+    if (!empty($_POST['password'])) {
+    	$password = hash('sha512',$_POST['password']);
+        $arrPass = hashPassword($password);
+        $password = $arrPass['pwd'];
+        $salt = $arrPass['randomSalt'];
+    }    
+    error_log("CALL sp_update_patients_info({$patId},'{$first_name}','{$middle_name}','{$last_name}','{$email}','{$gender}','{$phone}','{$dob}','{$address}','{$city}','{$state}','{$zip}','{$insurance_company}','{$insurance_address}','{$insurance_phone}','{$insurance_ph_name}','{$ins_pat_relationship}','{$insurance_group_num}','{$insurance_id_cert_num}','{$insurance_issue_date}','{$password}','{$salt}');");
+	$mysqli->query("CALL sp_update_patients_info({$patId},'{$first_name}','{$middle_name}','{$last_name}','{$email}','{$gender}','{$phone}','{$dob}','{$address}','{$city}','{$state}','{$zip}','{$insurance_company}','{$insurance_address}','{$insurance_phone}','{$insurance_ph_name}','{$ins_pat_relationship}','{$insurance_group_num}','{$insurance_id_cert_num}','{$insurance_issue_date}','{$password}','{$salt}');");
 	error_log('::::::: Despues de llamar sp para cambiar settings');
 	$success = true;
 }
