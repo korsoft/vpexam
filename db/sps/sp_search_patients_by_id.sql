@@ -8,8 +8,8 @@ BEGIN
         insurance_issue_date AS insuranceIssueDate, 
         CONCAT('[', GROUP_CONCAT(CONCAT('{"physicianId":', physicians.physician_id,', "email":"', physicians.email, '", "username":"', physicians.username, '", "firstName":"', physicians.first_name, '", "middleName":"', physicians.middle_name, '", "lastName":"', physicians.last_name, '", "practiceName":"', physicians.practice_name, '", "practiceAddress":"', physicians.practice_addr, '", "practiceCity":"', physicians.practice_city, '", "practiceState":"', physicians.practice_state, '", "practiceZip":"', physicians.practice_zip, '" }') SEPARATOR ','), ']') AS assocPhys
     FROM patients 
-    JOIN patient_physicians ON patient_physicians.id = patient_id 
-    JOIN physicians         ON physicians.physician_id = patient_physicians.physician_id
+    LEFT JOIN patient_physicians ON patient_physicians.id = patient_id 
+    LEFT JOIN physicians         ON physicians.physician_id = patient_physicians.physician_id
     WHERE patient_id = _id
     GROUP BY patient_id;
 END ;;

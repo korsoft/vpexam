@@ -9,6 +9,8 @@ $response = ['success' => false, 'errorMsg' => ''];
 try {
     if (!isset($_GET['patientId'])) {
         throw new Exception('One or more required parameters was not set.', 1);
+    }elseif(!preg_match( '/^-?[0-9]+$/', $_GET['patientId'])){
+        throw new Exception('The parameter patient id should be integer.', 1);
     }
     
     $response['success'] = true;
