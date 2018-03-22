@@ -20,7 +20,9 @@ CREATE  PROCEDURE sp_update_patients_info(
 	IN _insurance_patient_relationship VARCHAR(2048),
 	IN _insurance_group_num VARCHAR(2048),
 	IN _insurance_id_cert_num VARCHAR(2048),
-	IN _insurance_issue_date VARCHAR(2048)
+	IN _insurance_issue_date VARCHAR(2048),
+	IN _password VARCHAR(2048),
+	IN _salt VARCHAR(2048)
 	) 
 BEGIN 
 	DECLARE flag TINYINT(1) DEFAULT 0;
@@ -86,7 +88,12 @@ BEGIN
     IF (_insurance_issue_date IS NOT NULL AND _insurance_issue_date != '') THEN
         SET toupdate = CONCAT(toupdate, IF(toupdate != '',',',''),' insurance_issue_date = \'', _insurance_issue_date,'\'');
     END IF;
-
+    IF (_password IS NOT NULL AND _password != '') THEN
+        SET toupdate = CONCAT(toupdate, IF(toupdate != '',',',''),' password = \'', _password,'\'');
+    END IF;
+    IF (_salt IS NOT NULL AND _salt != '') THEN
+        SET toupdate = CONCAT(toupdate, IF(toupdate != '',',',''),' salt = \'', _salt,'\'');
+    END IF;
     IF '' != toupdate THEN
           SET @query = CONCAT('UPDATE patients SET ', toupdate,' WHERE patient_id = ',_patient_id);
           PREPARE stmt FROM @query;
