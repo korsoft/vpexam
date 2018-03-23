@@ -14,7 +14,6 @@ function validateDate($date, $format = 'Y-m-d')
     return $d && $d->format($format) == $date;
 }
 
-
 try {
 	if (empty($_POST['patient_id'])) {
         throw new Exception('One or more required parameters was not set.', 1);
@@ -25,6 +24,8 @@ try {
 	    	throw new Exception('The patient id must be an integer.', 2);
     	}
     }
+    
+    
     
     if (!empty($_POST['first_name'])) {
     	$first_name = $_POST['first_name'];
@@ -153,8 +154,7 @@ try {
     	}
     }
     if (!empty($_POST['password'])) {
-    	$password = hash('sha512',$_POST['password']);
-        $arrPass = hashPassword($password);
+        $arrPass = hashPassword($_POST['password']);
         $password = $arrPass['pwd'];
         $salt = $arrPass['randomSalt'];
     }    
