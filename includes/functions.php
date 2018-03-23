@@ -1964,3 +1964,20 @@ function searchPatients($name, $mysqli) {
     }
     return $response;
 }
+
+function searchPatientsbyId($id, $mysqli) {
+    $patientInfo ;
+    //$response   = [];
+    $physicians = [];
+    $sql = "CALL sp_search_patients_by_id($id);";
+    if ($result = $mysqli->query($sql)) {
+        while ($wrinfo = $result->fetch_assoc()) {
+            $wrinfo['assocPhys'] = json_decode($wrinfo['assocPhys']);
+            $patientInfo= $wrinfo;
+        }
+    }
+    else {
+        error_log(__METHOD__ . ':: Error: ' . $mysqli->error);
+    }
+    return $patientInfo;
+}
