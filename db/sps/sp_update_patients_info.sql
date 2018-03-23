@@ -100,7 +100,7 @@ BEGIN
         EXECUTE stmt;
         DEALLOCATE PREPARE stmt;
         IF flag = 1 THEN
-	    	UPDATE patients SET username = LOWER(CONCAT(first_name, last_name, DATE_FORMAT(dob,'%m%d%Y'), SUBSTRING(gender,1,1))) WHERE patient_id = _patient_id;
+	    	UPDATE patients SET username = REPLACE (LOWER(CONCAT(first_name, last_name, DATE_FORMAT(dob,'%m%d%Y'), SUBSTRING(gender,1,1))),' ','') WHERE patient_id = _patient_id;
 	    END IF;
     END IF;
 END ;;
