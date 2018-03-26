@@ -255,6 +255,18 @@ function openWRChat( numId,strName){
             type: 'warning'
         });
     }
+    else if((e.os.name=='Macintosh' || e.os.name==='iPhone' || e.os.name==='iPad') && (e.browser.name==='Safari' || e.browser.name==='Firefox') && e.browser.version<11)
+    {
+        swal({
+            title: 'Unsupported browser',
+            text: 'Your browser version does not support <span style="color: #3051a6;">VPExam Video call</span>. Please update to version 11 or higher!',
+            html: true,
+            type: 'warning'
+        },
+        function(){
+          window.location.href = "/";
+        });                
+    }
     else {
         var calling = {
             id   : numId,

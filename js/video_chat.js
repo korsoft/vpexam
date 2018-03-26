@@ -212,8 +212,8 @@ var VideoChat = {
       );
       //when a remote user adds stream to the peer connection, we display it
       this.pc.ontrack  = function(data) {
-        VideoChat.video.remote.stream = data.streams[0];
-        VideoChat.video.remote.dom[0].srcObject = VideoChat.video.remote.stream;
+            VideoChat.video.remote.stream = data.streams[0];
+            VideoChat.video.remote.dom[0].srcObject = VideoChat.video.remote.stream;
       };
       // Setup ice handling 
       this.pc.onicecandidate = function (event) {
@@ -685,9 +685,9 @@ $(document).ready(function() {
         return false;
     });    
   //if(/^\/(patient_main|patient_view)\.php(.*)$/g.test(window.location.pathname)) {
-  if(/^\/(patient_view)\.php(.*)$/g.test(window.location.pathname)) {
-    $('#chat').removeClass('hide');
-  }
+    if(/^\/(patient_view)\.php(.*)$/g.test(window.location.pathname)) {
+      $('#chat').removeClass('hide');
+    }
  
  
 
@@ -717,12 +717,12 @@ $(document).ready(function() {
         });return false;}
     );
  
- if($('#audSoundTest').length==1)
-   document.getElementById('audSoundTest').addEventListener('play', function(){ blPlayed=true; });
+    if($('#audSoundTest').length==1)
+        document.getElementById('audSoundTest').addEventListener('play', function(){ blPlayed=true; });
  
  
-  if('' != $('#caller').val()) {
-    var caller           = JSON.parse($('#caller').val()),
+    if('' != $('#caller').val()) {
+        var caller           = JSON.parse($('#caller').val()),
         storeStreamError = function(obj) {
           var devices;
           if(obj.id) {
@@ -798,12 +798,35 @@ $(document).ready(function() {
             });
           }
         };
-    VideoChat.init(caller);
-    // check browser WebRTC availability
-    navigator.mediaDevices
-    .getUserMedia(constraints)
-    .then(storeStreamError)
-    .catch(storeStreamError);
+
+            if(isIE) {
+                swal({
+                    title: 'Unsupported browser',
+                    text: 'Your browser does not support <span style="color: #3051a6;">VPExam Video call</span>. Please use Google Chrome or Firefox',
+                    html: true,
+                    type: 'warning'
+                });
+            }
+            else if((e.os.name=='Macintosh' || e.os.name==='iPhone' || e.os.name==='iPad') && (e.browser.name==='Safari' || e.browser.name==='Firefox') && e.browser.version<11)
+            {
+                swal({
+                    title: 'Unsupported browser',
+                    text: 'Your browser version does not support <span style="color: #3051a6;">VPExam Video call</span>. Please update to version 11 or higher!',
+                    html: true,
+                    type: 'warning'
+                },
+                function(){
+                  window.location.href = "/";
+                });                
+            }
+        else 
+        {
+            VideoChat.init(caller);
+            navigator.mediaDevices
+            .getUserMedia(constraints)
+            .then(storeStreamError)
+            .catch(storeStreamError);
+        }
   }
 
   if(isIE) {
