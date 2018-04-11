@@ -16,8 +16,9 @@ class PhysicianInfoResult {
     public $practiceCity = "";
     public $practiceState = "";
     public $practiceZip = "";
+    public $username = "";    
 
-    function __construct($id, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip) {
+    function __construct($id, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip, $pusername) {
         $this->physicianId = $id;
         $this->email = $email;
         $this->firstName = $fname;
@@ -28,6 +29,7 @@ class PhysicianInfoResult {
         $this->practiceCity = $pcity;
         $this->practiceState = $pstate;
         $this->practiceZip = $pzip;
+        $this->username = $pusername;
     }
 }
 
@@ -62,9 +64,9 @@ if (count($tokens) === 1) {
     if ($stmtPhysSearch) {
         $stmtPhysSearch->bind_param('sss', $tokens[0], $tokens[0], $tokens[0]);
         $stmtPhysSearch->execute();
-        $stmtPhysSearch->bind_result($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip);
+        $stmtPhysSearch->bind_result($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip, $pusername);
         while ($stmtPhysSearch->fetch())
-            $results[] = new PhysicianInfoResult($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip);
+            $results[] = new PhysicianInfoResult($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip, $pusername);
         $stmtPhysSearch->close();
 
     } else {
@@ -80,9 +82,9 @@ if (count($tokens) === 1) {
     if ($stmtPhysSearch) {
         $stmtPhysSearch->bind_param('ssss', $tokens[0], $tokens[1], $tokens[0], $tokens[1]);
         $stmtPhysSearch->execute();
-        $stmtPhysSearch->bind_result($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip);
+        $stmtPhysSearch->bind_result($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip, $pusername);
         while ($stmtPhysSearch->fetch())
-            $results[] = new PhysicianInfoResult($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip);
+            $results[] = new PhysicianInfoResult($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip, $pusername);
         $stmtPhysSearch->close();
 
     } else {
@@ -98,9 +100,9 @@ if (count($tokens) === 1) {
     if ($stmtPhysSearch) {
         $stmtPhysSearch->bind_param('sss', $tokens[0], $tokens[1], $tokens[2]);
         $stmtPhysSearch->execute();
-        $stmtPhysSearch->bind_result($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip);
+        $stmtPhysSearch->bind_result($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip, $pusername);
         while ($stmtPhysSearch->fetch())
-            $results[] = new PhysicianInfoResult($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip);
+            $results[] = new PhysicianInfoResult($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip, $pusername);
         $stmtPhysSearch->close();
 
     } else {
@@ -118,9 +120,9 @@ if (count($tokens) === 1) {
     if ($stmtPhysSearch) {
         $stmtPhysSearch->bind_param('sss', $tokens[0], $tokens[1], $tokens[2]);
         $stmtPhysSearch->execute();
-        $stmtPhysSearch->bind_result($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip);
+        $stmtPhysSearch->bind_result($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip, $pusername);
         while ($stmtPhysSearch->fetch())
-            $results[] = new PhysicianInfoResult($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip);
+            $results[] = new PhysicianInfoResult($physId, $email, $fname, $mname, $lname, $pname, $paddr, $pcity, $pstate, $pzip, $pusername);
         $stmtPhysSearch->close();
 
     } else {
