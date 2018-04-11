@@ -57,7 +57,7 @@ $pcity = "";
 $pstate = "";
 $pzip = "";
 if (count($tokens) === 1) {
-    $prepStmtPhysSearch = "SELECT physician_id, email, first_name, middle_name, last_name, practice_name, practice_addr, practice_city, practice_state, practice_zip FROM physicians WHERE first_name RLIKE ? OR middle_name RLIKE ? OR last_name RLIKE ?";
+    $prepStmtPhysSearch = "SELECT physician_id, email, first_name, middle_name, last_name, practice_name, practice_addr, practice_city, practice_state, practice_zip, username FROM physicians WHERE first_name RLIKE ? OR middle_name RLIKE ? OR last_name RLIKE ?";
     $stmtPhysSearch = $mysqli->prepare($prepStmtPhysSearch);
     if ($stmtPhysSearch) {
         $stmtPhysSearch->bind_param('sss', $tokens[0], $tokens[0], $tokens[0]);
@@ -75,7 +75,7 @@ if (count($tokens) === 1) {
         exit();
     }
 } else if (count($tokens) === 2) {
-    $prepStmtPhysSearch = "SELECT physician_id, email, first_name, middle_name, last_name, practice_name, practice_addr, practice_city, practice_state, practice_zip FROM physicians WHERE (first_name RLIKE ? AND middle_name RLIKE ?) OR (first_name RLIKE ? AND last_name RLIKE ?)";
+    $prepStmtPhysSearch = "SELECT physician_id, email, first_name, middle_name, last_name, practice_name, practice_addr, practice_city, practice_state, practice_zip, username FROM physicians WHERE (first_name RLIKE ? AND middle_name RLIKE ?) OR (first_name RLIKE ? AND last_name RLIKE ?)";
     $stmtPhysSearch = $mysqli->prepare($prepStmtPhysSearch);
     if ($stmtPhysSearch) {
         $stmtPhysSearch->bind_param('ssss', $tokens[0], $tokens[1], $tokens[0], $tokens[1]);
@@ -93,7 +93,7 @@ if (count($tokens) === 1) {
         exit();
     }
 } else if (count($tokens) === 3) {
-    $prepStmtPhysSearch = "SELECT physician_id, email, first_name, middle_name, last_name, practice_name, practice_addr, practice_city, practice_state, practice_zip FROM physicians WHERE first_name RLIKE ? AND middle_name RLIKE ? AND last_name RLIKE ?";
+    $prepStmtPhysSearch = "SELECT physician_id, email, first_name, middle_name, last_name, practice_name, practice_addr, practice_city, practice_state, practice_zip, username FROM physicians WHERE first_name RLIKE ? AND middle_name RLIKE ? AND last_name RLIKE ?";
     $stmtPhysSearch = $mysqli->prepare($prepStmtPhysSearch);
     if ($stmtPhysSearch) {
         $stmtPhysSearch->bind_param('sss', $tokens[0], $tokens[1], $tokens[2]);
@@ -113,7 +113,7 @@ if (count($tokens) === 1) {
 } else if (count($tokens) > 3) {
     // If the number of tokens is greater than three, only take the first three
     // and search the db using OR rather than AND
-    $prepStmtPhysSearch = "SELECT physician_id, email, first_name, middle_name, last_name, practice_name, practice_addr, practice_city, practice_state, practice_zip FROM physicians WHERE first_name RLIKE ? OR middle_name RLIKE ? OR last_name RLIKE ?";
+    $prepStmtPhysSearch = "SELECT physician_id, email, first_name, middle_name, last_name, practice_name, practice_addr, practice_city, practice_state, practice_zip, username FROM physicians WHERE first_name RLIKE ? OR middle_name RLIKE ? OR last_name RLIKE ?";
     $stmtPhysSearch = $mysqli->prepare($prepStmtPhysSearch);
     if ($stmtPhysSearch) {
         $stmtPhysSearch->bind_param('sss', $tokens[0], $tokens[1], $tokens[2]);
