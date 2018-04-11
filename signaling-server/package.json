@@ -9,6 +9,7 @@
   "author": "omar.meraz@korsoftcorp.com",
   "license": "ISC",
   "dependencies": {
-    "ws": "^2.2.3"
+    "ws": "^2.2.3",
+	"mysql":"^2.15.0"
   }
 }
