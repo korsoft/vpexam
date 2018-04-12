@@ -114,6 +114,7 @@ var VideoChat = {
               VideoChat.service.pc.addIceCandidate(new RTCIceCandidate(data.candidate)); 
             break; 
             case 'leave':
+                $("#divReconnect").hide();
               VideoChat.leave(true);
             default: 
             break; 
@@ -285,12 +286,18 @@ var VideoChat = {
         .removeClass('disabled')
         .unbind('click')
         .bind('click', function() { 
-            
         if(isFirefox) {document.mozCancelFullScreen();} 
         else if(isChrome) {document.webkitCancelFullScreen();}
         else if(isIE){document.msExitFullscreen();}
-        else {document.cancelFullScreen();} 
-        $('#videochatPatient').addClass('hide');$('#divSidenav').show();$('#msg').show();VideoChat.leave();});
+        else {
+            if(e.os.name!='iPhone'  && e.os.name!='iPad')
+                document.cancelFullScreen();
+            
+            } 
+        $('#videochatPatient').addClass('hide');
+        $('#divSidenav').show();
+        $('#msg').show();
+        VideoChat.leave();});
     }
     else { 
       declineBtn

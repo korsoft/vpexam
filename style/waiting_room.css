@@ -221,7 +221,7 @@ h3{
     width: 40%;
     position: relative;
     margin: auto auto 20px auto;
-    min-height: 132px;
+    /*min-height: 132px;*/
 }
 
 .app #start-camera{
@@ -365,7 +365,8 @@ h3{
 
     .app #error-message{
         padding: 0;
-        font-size: 18px;
+        font-size: 14px;
+    height: auto;
     }
 
     .app .controls a i{
@@ -373,12 +374,25 @@ h3{
     }
 
     .app .controls #take-photo i{
-        font-size: 18px;
+        font-size: 14px;
     }
 }
-@media(max-width: 500px){
+@media(max-width: 500px){ 
+    .app video#camera-stream .override{
+        height: 280px;
+    }
+    .sweet-alert span.specialspan {
+        font-size: 9px;
+        
+    }
+    .sweet-alert span.specialspan.mandatory::after {
+        content: " (*)";
+        color: red;
+        font-size: 9px;
+    }
     #contentsnap canvas{
         max-height: 146px;
+       
     }
 }
 

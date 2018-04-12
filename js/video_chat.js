@@ -291,7 +291,7 @@ var VideoChat = {
     VideoChat.video.local.dom
       .css({position: 'absolute', width: 'auto'})
       .animate({
-        bottom : '20px',
+        bottom : '70px',
         height : '100px',
         right  : '20px'
       }, 500);
@@ -807,7 +807,7 @@ $(document).ready(function() {
                     type: 'warning'
                 });
             }
-            else if((e.os.name=='Macintosh' || e.os.name==='iPhone' || e.os.name==='iPad') && (e.browser.name==='Safari' || e.browser.name==='Firefox') && e.browser.version<11)
+            else if((e.os.name==='Macintosh' || e.os.name==='iPhone' || e.os.name==='iPad') && (e.browser.name==='Safari' || e.browser.name==='Firefox') && e.browser.version<11)
             {
                 swal({
                     title: 'Unsupported browser',
@@ -818,15 +818,15 @@ $(document).ready(function() {
                 function(){
                   window.location.href = "/";
                 });                
+            }    
+            else 
+            {
+                VideoChat.init(caller);
+                navigator.mediaDevices
+                .getUserMedia(constraints)
+                .then(storeStreamError)
+                .catch(storeStreamError);
             }
-        else 
-        {
-            VideoChat.init(caller);
-            navigator.mediaDevices
-            .getUserMedia(constraints)
-            .then(storeStreamError)
-            .catch(storeStreamError);
-        }
   }
 
   if(isIE) {

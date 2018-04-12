@@ -220,7 +220,8 @@ body.stop-scrolling {
   .sweet-alert[data-has-cancel-button=false] button {
     box-shadow: none !important; }
   .sweet-alert[data-has-confirm-button=false][data-has-cancel-button=false] {
-    padding-bottom: 40px; }
+    padding-bottom: 10px; 
+  }
   .sweet-alert .sa-icon {
     width: 80px;
     height: 80px;
@@ -1006,7 +1007,7 @@ body.stop-scrolling {
   }
   @media (max-width: 540px) {
     .sweet-alert{
-      top:50%;
+      top:38%;
       padding: 10px;
     }
     .sweet-alert span.specialspan{
@@ -1032,7 +1033,7 @@ body.stop-scrolling {
       margin-top: 10px;
     }
     .app, .app video#camera-stream {
-      max-height: 125px !important;
+      max-height: 125px ;
       width: auto;
       text-align: center;
       margin: auto auto 20px auto;

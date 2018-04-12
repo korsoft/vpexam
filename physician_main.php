@@ -8,18 +8,16 @@
     $_arrStyles[]    = '/style/physician_main.css';
     $_arrStyles[]    = '/style/single_waiting_room.css';
     $_arrStyles[]    = '/style/jquery.dataTables.min.css';
+    $_arrStyles[]    = '/style/responsive.dataTables.min.css';    
     $_arrScripts[]   = '/js/physician_main.js';
     $_arrScripts[]   = '/js/waiting_room.js';
     $_arrScripts[]   = '/js/jquery.dataTables.min.js';
-
-
+    $_arrScripts[]   = '/js/dataTables.responsive.min.js';
+    
     include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/header_physician.php';
 ?>
-<script src="https://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
 <script>
     var _numPhysicianId= <?php echo $_SESSION['user_id']; ?>;
-
 </script>
             <div class="mainContent PatientsWaiting">
                 <table id="example" class="tableContent" width="100%" cellspacing="0">

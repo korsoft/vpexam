@@ -7,6 +7,7 @@
         'browser_version' => $navigator['majorver'],
         'platform' => $navigator['platform_description']
     ];
+   
     ?>
     <?php if(isset($ispatient)) {   ?>
             <link rel="stylesheet" type="text/css" href="/js/fancybox/jquery.fancybox.css" media="screen" />
@@ -23,9 +24,9 @@
             </div>
             <div id="videochatPatient" class="hide" >
                 <div class="custom-videoPatient" id="custom-videoPatient">
-                    <video id="remoteVideoPatient" autoplay class="hide" ></video>
-                    <video id="localVideo" autoplay muted></video>   
-                    <div id="mycontrols">
+                    <video id="remoteVideoPatient" <?PHP if(!empty($navigator['device_name']) && $navigator['device_name']=='iPhone'){ ?>controls="false" webkit-playsinline="true" playsinline="true"  <?PHP } ?> autoplay class="hide" ></video>
+                    <video id="localVideo" <?PHP if(!empty($navigator['device_name']) && $navigator['device_name']=='iPhone'){ ?>controls="false" webkit-playsinline="true" playsinline="true"  <?PHP } ?> autoplay muted></video>   
+                    <div id="mycontrols" class="hide">
                         <button id="playpause" class="icon-play"></button>
                         <div class="seeker">
                             <progress id="progressbar" class="progressbar" max="100" value="0"></progress>
@@ -33,7 +34,7 @@
                         </div>
                         <button id="mute" class="icon-volume-2"></button>
                         <input type="range" id="volumebar" class="volumebar" value="1" min="0" max="1" step="0.1">
-                        <button id="fullscreen" class="icon-fullscreen-alt"></button>
+                        <button id="fullscreen" class="icon-fullscreen-alt" ></button>
                     </div>
                     <div class="buttons">
                         <div id="answerButton" class="disabled" title="Accept"></div>
@@ -80,17 +81,17 @@
             <a href="#videochat" id="chat" class="hide"><img src="/img/video-camera.png" alt="Video chat" /></a>
             <div id="videochat" class="hide">
                 <div class="custom-video" id="custom-video">
-                    <video id="remoteVideo" autoplay class="hide"></video>
-                    <video id="localVideo" autoplay muted></video>
+                    <video id="remoteVideo" <?PHP if(!empty($navigator['device_name']) && $navigator['device_name']=='iPhone'){ ?>controls="false" webkit-playsinline="true" playsinline="true"  <?PHP } ?> autoplay class="hide"></video>
+                    <video id="localVideo"  <?PHP if(!empty($navigator['device_name']) && $navigator['device_name']=='iPhone'){ ?>controls="false" webkit-playsinline="true" playsinline="true"  <?PHP } ?> autoplay muted></video>
                     <div id="mycontrols">
                         <button id="playpause" class="icon-play"></button>
                         <div class="seeker">
                             <progress id="progressbar" class="progressbar" max="100" value="0"></progress>
                             <input type="range" id="seekbar" value="0" class="seekbar">
                         </div>
-                        <button id="mute" class="icon-volume-2"></button>
+                        <button id="mute" class="icon-volume-2" <?PHP if(!empty($navigator['device_name']) && $navigator['device_name']=='iPhone'){ ?>style="display: none" <?PHP } ?>></button>
                         <input type="range" id="volumebar" class="volumebar" value="1" min="0" max="1" step="0.1">
-                        <button id="fullscreen" class="icon-fullscreen-alt"></button>
+                        <button id="fullscreen" class="icon-fullscreen-alt" <?PHP if(!empty($navigator['device_name']) && $navigator['device_name']=='iPhone'){ ?>style="display: none" <?PHP } ?>></button>
                     </div>
                     <div class="buttons">
                         <div id="answerButton" class="disabled" title="Accept"></div>

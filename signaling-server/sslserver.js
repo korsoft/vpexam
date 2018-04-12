@@ -2,6 +2,7 @@
 var WebSocketServer = require('ws').Server,
 	MySQL           = require('mysql'),
 	FileSystem      = require('fs'),
+    util            = require('util'),
 	//Express         = require('express'),
 	Https           = require('https');
 
@@ -38,10 +39,10 @@ var con = MySQL.createConnection({
 //Connect to MySQL
 con.connect(function(err) {
   if(err) {
-    console.log('Error connecting to DB. ', err);
+    util.log('Error connecting to DB. ', err);
     return;
   }
-  console.log('MySQL Connection established.');
+  util.log('MySQL Connection established.');
 });
 //when a user connects to our sever
 wss.on('connection', function(connection) {
@@ -60,7 +61,7 @@ wss.on('connection', function(connection) {
 			   	try { 
 			      	data = JSON.parse(message); 
 			   	} catch (e) {
-			      	console.log('Invalid JSON, e { ', e, ' }.'); 
+			      	util.log('Invalid JSON, e { ', e, ' }.'); 
 			      	data = {}; 
 			   	}
 			   	//switching type of the user message 
@@ -68,14 +69,14 @@ wss.on('connection', function(connection) {
 			      	case 'login' :
 			         	//if anyone is logged in with this username then refuse 
 			         	if(users[data.id]) { 
-			         		console.log('User already logged { ', data.id, ' }.');
+			         		util.log('User already logged { ', data.id, ' }.');
 			            	sendTo(connection, {
 			               		type    : 'login',
 			               		success : false 
 		            		}); 
 			         	}
 			         	else { 
-			         		console.log('User logged { ', data.id, ' }.');
+			         		util.log('User logged { ', data.id, ' }.');
                                                 //save user connection on the server  
                                                 connection.id     = data.id;
                                                 connection.status = 'available';
@@ -88,12 +89,12 @@ wss.on('connection', function(connection) {
 						break;
 					case 'offer' :
 						//for ex. UserA wants to call UserB 
-						console.log('Sending offer from { ', data.from.id, ' } to { ', data.to, ' }');
+						util.log('Sending offer from { ', data.from.id, ' } to { ', data.to, ' }');
 						//Get the user to send the offer
 						var user = users[data.to];
 						//If not exists
 						if(null == user) {
-							console.log('User { ', data.to, ' } is not connected');
+							util.log('User { ', data.to, ' } is not connected');
 							sendTo(connection, { 
 								type    : 'offer',
 								success : false
@@ -101,7 +102,7 @@ wss.on('connection', function(connection) {
 						}
 						//Si no es nulo pero esta ocupado
 						else if('busy' == user.status) {
-							console.log('User { ', data.to, ' } is on a call');
+							util.log('User { ', data.to, ' } is on a call');
 							sendTo(connection, { 
 								type    : 'offer',
 								success : false,
@@ -121,7 +122,7 @@ wss.on('connection', function(connection) {
 						}
 						break;		 
 					case 'answer' :
-						console.log('Sending answer from { ', data.from, ' } to { ', data.to, ' } '); 
+						util.log('Sending answer from { ', data.from, ' } to { ', data.to, ' } '); 
 						var conn = users[data.to];
 						if(conn != null) {
 							conn.otherid   = data.from;
@@ -140,7 +141,7 @@ wss.on('connection', function(connection) {
 						}
 						break;
 					case 'candidate' :
-						console.log('Sending candidate to: ', data.id); 
+						util.log('Sending candidate to: ', data.id); 
 						var conn = users[data.id]; 
 						if(null != conn) {
 							sendTo(conn, { 
@@ -150,7 +151,7 @@ wss.on('connection', function(connection) {
 						}
 						break;
 					case 'leave' :
-						console.log('Disconnecting from: ', data.id);
+						util.log('Disconnecting from: ', data.id);
 						//notify the other user so he can disconnect his peer connection 
 						var conn = users[data.id];
 						if(null != conn) {
@@ -162,7 +163,7 @@ wss.on('connection', function(connection) {
 								conn.otherid   = null;
 								conn.status    = 'available';
 								users[data.id] = conn;
-								console.log('Set available the user ', conn.id);
+								util.log('Set available the user ', conn.id);
 								*/
 								sendTo(conn, { type : 'leave' });
 							}
@@ -175,12 +176,12 @@ wss.on('connection', function(connection) {
 						if(user != null) {
 							con.query('SET @id = 0; CALL dbcode.sp_add_patient_video_call(@id, ' + data.otherid + ', ' + user.id + '); SELECT @id AS id', function(err, rows) {
 							    if(err) {
-							    	console.log('Error execute query. ', err);
+							    	util.log('Error execute query. ', err);
 							    	return;
 							    }
-							    console.log('Video id { ', rows[2][0].id, ' }');
+							    util.log('Video id { ', rows[2][0].id, ' }');
 							    var chunks = users[data.id]['chunks'];
-							    console.log('Total of array buffers for user ', data.id, ', ', chunks.length);
+							    util.log('Total of array buffers for user ', data.id, ', ', chunks.length);
 							    if(0 < chunks.length) {
 							    	var calls_path = path + data.otherid + '/' + user.id + '/calls/';
 							    	if (!FileSystem.existsSync(calls_path)) {
@@ -190,7 +191,7 @@ wss.on('connection', function(connection) {
 							    	for(var i = 0; i < chunks.length; i++) {
 							    		video.write(toBuffer(chunks[i]));
 							    	}
-							    	console.log('Video created successfully!');
+							    	util.log('Video created successfully!');
 							    	video.end();
 								}
 							  }
@@ -198,12 +199,12 @@ wss.on('connection', function(connection) {
 						}
 						break;*/
                                         case 'check_status':
-                                            console.log('Physician id { ', data.id, ' }');
+                                            util.log('Physician id { ', data.id, ' }');
                                             for (var i in usersPhysician) {//Cicle to get patients-physician array.
                                                if(data.id==usersPhysician[i].physicianid){//if physician has patients waiting (patients id in array)
                                                     var userPatient = users[usersPhysician[i].patientid];//get patient element from array
                                                     if(null != userPatient) {//If patient is online, send message
-                                                        console.log('User { ',usersPhysician[i].patientid, ' } is  connected');
+                                                        util.log('User { ',usersPhysician[i].patientid, ' } is  connected');
                                                         sendTo(userPatient, {
                                                             type    : 'check', 
                                                             success : true
@@ -251,17 +252,27 @@ wss.on('connection', function(connection) {
    	connection.on('close', function() {
 	   	if(connection.id) { 
                         var idRemove = null;
-	   		console.log('Closing connection id { ', connection.id, ' }. ');
+	   		util.log('Closing connection id { ', connection.id, ' }. ');
 			delete users[connection.id]; 
 			if(connection.otherid) { 
-				console.log('Disconnecting from: ', connection.otherid); 
+				util.log('Disconnecting from: ', connection.otherid); 
 				var conn = users[connection.otherid]; 
 				if(conn != null) {
 					conn.otherid = null;
 					sendTo(conn, { type: 'leave' }); 
 				}  
 			} 
-                        con.query('CALL sp_delete_patient_in_waitingroom(' + connection.id + ');', function (error, results, fields) {if (error) console.log('Error on query { ', error, ' }. '+'CALL sp_delete_patient_in_waitingroom(' + connection.id + ');'); });
+                        util.log('Call sp ' + connection.id);
+                        con.query('CALL sp_delete_patient_in_waitingroom(' + connection.id + ');', 
+                            function (error, results) 
+                            {
+                                if (error) 
+                                    util.log('Error on query { ', error, ' }. '+'CALL sp_delete_patient_in_waitingroom(' + connection.id + ');'); 
+                                util.log("Result: " + JSON.stringify(results));
+                                
+                            }
+                        );
+                        util.log('End call sp ' + connection.id);
                         for (var i in usersPhysician) {
                             if(connection.id==usersPhysician[i].patientid)
                             {
@@ -286,9 +297,13 @@ wss.on('connection', function(connection) {
                             }
                         }
                          if(null != idRemove && conn != idRemove) {
+                             util.log('Closing connection splice ');
                             usersPhysician.splice(idRemove, 1);
+                            util.log('Closing connection after ');
                         }
 		}  
+                else
+                    util.log('Closing connection else if ');
 	});
 });
 function sendTo(connection, message) { 
@@ -315,9 +330,9 @@ function mkdir(path, root) {
 function setBusy(id) {
 	if(users[id]) {
 	    users[id].status = 'busy';
-	    console.log('Set as busy the user ', id);
+	    util.log('Set as busy the user ', id);
     }
     else {
-    	console.log('Trying to set busy the user ', id, ' but it does not exists');
+    	util.log('Trying to set busy the user ', id, ' but it does not exists');
     }
 }

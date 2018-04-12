@@ -133,9 +133,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] .'/includes/constants.php';
             <header>
                 <img class="toggle-button" src="img/menu_white.png" width="40">
                 <span class="headerText">EXAM OVERVIEW    |    <?php echo($examDate); ?></span>
-                <div class="welcomeDiv">
-                    Welcome, <?php echo($_SESSION['first_name']); ?>!
-                </div>
+                <div class="welcomeDiv">Welcome, <?php echo($_SESSION['first_name']); ?>!</div>
             </header>
             <div class="mainContent">
                 <div class="container">

@@ -80,6 +80,10 @@ $(document).on("ready", function() {
                     dataSet0 = info.data;
                     tabla = $('#example').DataTable( {
                         data: dataSet0,
+                        rowReorder: {
+                            selector: 'td:nth-child(2)'
+                        },
+                        responsive: true,
                         order: [[6, 'desc'], [7, 'desc']],
                         columns: [
                         {     data: 'patientId',
@@ -143,15 +147,14 @@ $(document).on("ready", function() {
                     ]
                     } );         
                     var table = $('#example').DataTable();
-                    $('#example tbody').on('click', 'td', function () {
-                       if(table.cell( this ).index().columnVisible<3)
+                   $('#example tbody').on('click', 'td', function () {
+                       if(table.cell( this ).index().columnVisible==1 || table.cell( this ).index().columnVisible==2)
                        {
                             var data = table.row( this ).data();
                             var json = JSON.parse(JSON.stringify(data));
                             location.href = ("patient_view.php?patientId=" + json.patientId+(json.waitingroom!=null && json.waitingroom!=''?'&wr=1':''));
                         }
-                    } );                    
-                    
+                    } );                   
                 }else{
                     alert("There was an error getting patient list");
                 }  

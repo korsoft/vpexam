@@ -181,6 +181,7 @@ var module = {
             { name: 'Palm', value: 'Palm', version: 'PalmOS' }
         ],
         databrowser: [
+            { name: 'CriOS', value: 'CriOS', version: 'CriOS' },
             { name: 'Chrome', value: 'Chrome', version: 'Chrome' },
             { name: 'Firefox', value: 'Firefox', version: 'Firefox' },
             { name: 'Safari', value: 'Safari', version: 'Version' },
@@ -193,7 +194,6 @@ var module = {
             var agent = this.header.join(' '),
                 os = this.matchItem(agent, this.dataos),
                 browser = this.matchItem(agent, this.databrowser);
-            
             return { os: os, browser: browser };
         },
         matchItem: function (string, data) {

@@ -201,8 +201,8 @@ var WaitingRoom = {
                     strControl += ">";
                     strControl += "<input id='swalpwdHashed'name='swalpwdHashed' type='hidden' />" +
                                         "<div id='app1' class='app'>" +
-                                            "<a href='#' id='start-camera' class='visible'>Touch here to start the app.</a>"+
-                                            "<video id='camera-stream' muted></video>"+
+                                          "<a href='#' id='start-camera' class='visible'>Touch here to start the app.</a>"+  
+                                            "<video id='camera-stream' controls='false' webkit-playsinline='true' playsinline='true' autoplay muted></video>"+
                                 "<div id='contentsnap'><img id='snap'></div>"+
                                                 "<p id='error-message'></p>"+
                                                 "<div class='controls'>"+
@@ -673,29 +673,23 @@ var WaitingRoom = {
 
                             // The getUserMedia interface is used for handling camera input.
                             // Some browsers need a prefix so here we're covering all the options
-                            navigator.getMedia = ( navigator.getUserMedia ||
-                                          navigator.webkitGetUserMedia ||
-                                          navigator.mozGetUserMedia ||
-                                          navigator.msGetUserMedia);
-                            
-                    
+
+                           navigator.getMedia = navigator.getUserMedia      || navigator.webkitGetUserMedia       || navigator.mozGetUserMedia || navigator.getUserMedia;
                             if(!navigator.getMedia){
                               displayErrorMessage("Your browser doesn't have support for the navigator.getUserMedia interface.");
                             }
                             else{
-                                
-                                  // Request the camera. video-capture
-                                  navigator.getMedia({video: { width: 250, height: 250 },audio: true},
-                                    // Success Callback
-                                    function(stream){
-                                      // Create an object URL for the video stream and
-                                      // set it as src of our HTLM video element.
-                                      video.src = window.URL.createObjectURL(stream);
-                                      // Play the video element to start the stream.
-                                      video.play();
+                    
+                                    var constraints = window.constraints = {audio: true,video: true};
+                                    navigator.mediaDevices.getUserMedia(constraints)
+                                    .then(function(stream) {
+                                      video.srcObject = stream;
                                       video.onplay = function() {
                                         showVideo();
-                                      };
+                                      };                              
+                                      video.onloadedmetadata = function(e) {
+                                        video.play();
+
                                       var audioTracks = stream.getAudioTracks();
                                         var videoTracks = stream.getVideoTracks();
                                         
@@ -716,10 +710,9 @@ var WaitingRoom = {
                                                 $("#imgMic").removeClass().addClass('success');
                                             else
                                                 $("#imgMic").removeClass().addClass('normal'); 
-                                        }
-                                    },
-                                    // Error Callback
-                                    function(err){
+                                        }                                      
+                                    }})
+                                    .catch(function(err) {
                                         if (err.name === 'TrackStartError') {
                                             console.log('error');
                                             displayErrorMessage(" " );
@@ -730,8 +723,7 @@ var WaitingRoom = {
                                             $("#imgCamera").removeClass().addClass('error');
                                         if($('#imgMic').length==1)
                                             $("#imgMic").removeClass().addClass('error');
-                                    }
-                                  );
+                                    });
                             } 
                             
                             if(blCookies)       
