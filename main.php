@@ -165,7 +165,7 @@
                             </div>
                             <div class="infoR">
                                 <img src="img/slider/laptop-exam-overview.jpg"><br>
-                                <a class="watchVideo">Watch Our Video </a>
+                                <a href="https://www.youtube.com/watch?v=CK6_Gcn5JCE" target="_blank" class="watchVideo">Watch Our Video </a>
                             </div>
                         </div>
                         <br /><br />
