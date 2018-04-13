@@ -61,13 +61,13 @@
                                     <h3>Login</h3>
                                     <form id="loginForm" class="loginForm" method="post" action="includes/process_login.php">
                                         <label for="user" class="loginW">Username:</label><br>
-                                        <input class="login" name="username" id="user" type="text"><br>
+                                        <input class="login" name="username" id="user" type="text">
                                         <br>
                                         <label for="user" class="loginW">Password:</label><br>
-                                        <input class="login" name="password" id="password" type="password"><br>
+                                        <input class="login" name="password" id="password" type="password">
                                         <br>
                                         <input name="remember" type="checkbox"><label for="remember" class="loginW">Remember
-                                        Me</label><br>
+                                        Me</label>
                                         <br>
                                         <div id="btnLogin" name="btnLogin" class="button-dark" value="Login" type="button">
                                             Login
