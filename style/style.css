@@ -37,18 +37,20 @@ body {
 
 #header {
     background: #0082d2;
-    height: 110px;
+    height: 148px;
+    padding-bottom: 22px;
+    max-width: 100%;
 }
 
 #logo {
-    height: 140px;
+    height: 126px;
     margin-left: 50px;
     background: transparent;
 }
 
 #logo #logo_text {
     display: inline-block;
-    top: 10px;
+    padding-top: 25px;
     left: 0;
 }
 
@@ -57,8 +59,20 @@ body {
     width: auto;
 }
 
-#site_content {
+/*#site_content {
   overflow: hidden;
+}.carousel, */
+.carousel-inner {
+    max-height: 460px;
+    height: 100%;
+}
+
+.carousel-caption {
+    bottom: 52% !important;
+}
+.carousel-caption h3 {
+    font-size: 66px;
+    font-weight: normal;
 }
 
 #sidebarLoginPhysician {
@@ -75,11 +89,20 @@ body {
     border-radius: 15px;
     border: 2px solid #67c9e0;
     padding: 0 15px;
-    width: 192px;
+    color: #555;
+    /*width: 192px;*/
 }
 
 .sidebar_item h3 {
     margin: 10px 0 10px 0;
+    font-size: 15px;
+    color: #555;
+    font-weight: bold;
+}
+.sidebar_item label { 
+    font-weight: 300;
+    margin-bottom: 0;
+    font-size: 13px;
 }
 
 #footer {
@@ -88,11 +111,12 @@ body {
     height: 30px;
     padding: 28px 0 5px 0;
     text-align: center;
-    background: #0082d2;/*#a6bddb;*/
+    /*background: #0082d2;*//*#a6bddb;*/
 }
 
 #footer p {
-    color: white;
+    color: #4a4a4a;
+    font-size: 15px;
     line-height: 1.7em;
     padding: 0 0 10px 0;
 }
@@ -133,17 +157,117 @@ body {
     background: #c2bdbb;
     cursor: pointer;
 }
-
+#contentAbout {
+    max-width: 1360px;
+    width: 100%;
+    margin: auto;
+    padding-top: 70px;
+}
+#contentAbout img {
+    vertical-align: top;
+}
+.info h6 {
+    font-size: 36px;
+    color: #868686;
+    font-weight: 400;
+    line-height: 53px;
+    text-align: center;
+}
+.info p {
+    font-size: 20px !important;
+    color: #868686;
+    text-align: center;
+    padding-top: 10px;
+}
+.aboutDiv img {
+    display: inline-block;
+}
+.aboutDiv .info {
+    display: inline-block;
+    max-width: 535px;
+    padding-left: 40px;
+    margin-right: 45px;
+    vertical-align: top;
+}
+.aboutDiv .infoR {
+    display: inline-block;
+    text-align: center;
+}
 .aboutDiv p {
     font-size: 150%;
     line-height: 1.4em;
 }
 
 .aboutDiv h1 {
-    color: #555555;
-    font-weight: bold;
+    color: #868686;
+    font-size: 28px;
+    line-height: 40px;
+    text-align: center;
+    font-weight: normal;
 }
-
+iframe.ytb-embed {
+    max-width: 96% !important;
+    display: block;
+    margin: 10px auto;
+}
+a.watchVideo {
+    background-color: rgba(57, 129, 212, 1);
+    border: solid transparent 2px;
+    cursor: pointer !important;
+    height: 40px;
+    width: 210px;
+    color: #fff;
+    display: block;
+    border-radius: 20px;
+    line-height: 36px;
+    font-size: 20px;
+    margin: auto; 
+    transition: border-color 0.4s ease 0s, background-color 0.4s ease 0s;
+}
+a.watchVideo:hover{
+    background-color: rgba(0, 93, 150, 1);
+    text-decoration: none;
+    color: #fff;
+}
+.createNewAccount {
+    background-color: rgba(255, 255, 255, 1);
+    border: solid transparent 2px;
+    cursor: pointer !important;
+    height: 40px;
+    width: 270px;
+    color: #3981D4;
+    display: block;
+    border-radius: 20px;
+    line-height: 36px;
+    font-size: 16px;
+    font-weight: 400;
+    margin: auto; 
+    transition: border-color 0.4s ease 0s, background-color 0.4s ease 0s;
+    box-shadow: 0px 5px 4px 0px rgba(0,0,0,0.38);
+}
+.createNewAccount:hover {
+    background-color: rgba(0, 93, 150, 1);
+    color: #fff;
+}
+.frameYoutube {
+    max-width: 730px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.infoY {
+    display: inline-block;
+    max-width: 540px;
+    color: #868686;
+    vertical-align: middle;
+    margin-left: 65px;
+}
+.infoY ul {
+    list-style: none;
+    margin-top: 12px;
+}
+.infoY ul li {
+    line-height: 30px;
+}
 .featuresDiv {
     margin-left: 30px;
 }
@@ -181,8 +305,11 @@ li {
 .blockDiv h1 {
     color: #ffffff;
     margin-bottom: 10px;
+    font-size: 49px;
 }
-
+.blockDiv p {
+    font-size: 25px;
+}
 .swiper-container {
     height: 600px;
     max-width: 1000px;
@@ -197,13 +324,13 @@ li {
     display: inline-block;
     float: right;
     padding: 10px;
+    margin-top: 69px;
 }
 
 .topmenuItem {
     color: white;
     display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 19px;
     padding: 5px 10px 5px 10px;
 }
 
@@ -228,12 +355,13 @@ li {
 }
 
 .descrDiv {
-    max-width: 1000px;
+    max-width: 1360px;
     margin: 20px auto 20px auto;
 }
 
 .descrDiv h1 {
     margin-bottom: 10px;
+    width: 100%;
 }
 
 .arrow-up {
@@ -246,6 +374,9 @@ li {
     margin: 0 auto 0 auto
 }
 
+div#centerContent {
+    height: 468px;
+}
 #centerContent img {
     width: 100%;
 }
@@ -336,5 +467,177 @@ li {
     right: 20px;
     text-align: right;
     width: 20%;
-    top: 75px;
+    top: 38px;
 }
+.contenedorAbout {
+    display: inline-block;
+    vertical-align: top;
+}
+.topmenuItem a:hover {
+    text-decoration: none;
+}
+@media screen and (min-width: 1540px){
+    .carousel-caption {
+        bottom: 62% !important;
+    }
+}
+@media (max-width: 1539px) and (min-width: 1199px) {
+    .carousel-caption h3 {
+        font-size: 54px !important;
+        font-weight: normal;
+    }
+     .carousel-caption {
+        bottom: 56% !important;
+    }
+}
+
+@media (max-width: 1200px) and (min-width: 700px) {
+    .carousel-caption h3 {
+        font-size: 32px !important;
+        font-weight: normal;
+    }
+     .carousel-caption {
+        bottom: 34% !important;
+    }
+    #contentAbout { 
+        padding-left: 25px; 
+        padding-top: 20px;
+    }
+    #contentAbout img {
+        max-width: 90%;
+    }
+    .info h6 { 
+        font-size: 29px; 
+        line-height: 38px;
+    }
+    .infoR{
+        display: block !important;
+        text-align: center;
+        padding-top: 60px;
+        margin: auto;
+        width: 90%;
+    }
+    .descrDiv { 
+        text-align: center;
+    }
+    #logo img {
+        max-height: 70px;
+        width: auto;
+    }
+    .contenedorAbout{
+        margin: auto;
+        width: 90%;
+        text-align: center;
+    }
+    .infoY {
+        margin-left: 0;
+    }
+    .welcomeDiv {
+        width: 27%;
+    }
+}
+
+@media (max-width: 699px) {
+    div#centerContent {
+        height: auto;
+        display: block;
+    }
+    .contenedorAbout {
+        vertical-align: middle;
+    }
+    .contenedorAbout img {
+        width: 32%;
+        padding-left: 10px;
+        vertical-align: middle !important;
+    }
+    #logo {
+        margin-left: 10px;
+    }
+    #logo #logo_text {
+        max-width: 185px;
+    }
+    #logo img {
+        max-width: 185px;
+        width: 100%;
+        height: auto;
+    }
+    .topmenu {
+        margin-top: 19px;
+    }
+    .topmenuItem {
+        font-size: 16px;
+    }
+    
+    .welcomeDiv {
+        width: 37%;
+    }
+    .aboutDiv h1 {
+        font-size: 22px;
+        line-height: 28px;
+    }
+    .info h6 {
+        font-size: 26px;
+        line-height: normal;
+    }
+    .info p {
+        font-size: 18px;
+    }
+    .aboutDiv .info{
+        max-width: 360px;
+        padding-left: 0;
+        padding-right: 0;
+        margin-right: 0;
+    }
+    .aboutDiv .infoR {
+        display: block;
+        text-align: center;
+    }
+    /*.infoY {
+        margin-left: 25px;
+    }*/
+    .infoY {
+        width: 90%;
+        margin: auto;
+        display: block;
+    }
+    .infoY ul li {
+        line-height: 24px;
+        font-size: 17px;
+        padding-bottom: 14px;
+        text-align: center;
+    }
+    .blockDiv h1 {
+        font-size: 30px;
+    }
+    .blockDiv p {
+        font-size: 20px;
+    }
+    
+    .carousel-caption h3 {
+        font-size: 20px !important;
+        font-weight: normal;
+    }
+    .carousel-caption {
+        bottom: 26% !important;
+    }
+ 
+}
+@media (max-width: 480px) {
+    .aboutDiv .info {
+        padding-left: 0;
+        margin-right: 0;
+        margin-bottom: 20px;
+        max-width: 240px;
+    }
+    .info h6 {
+        font-size: 18px;
+        line-height: normal;
+    }
+    .info p {
+        font-size: 15px !important;
+    }
+    .infoR img {
+        width: 100%;
+    }
+}
+
