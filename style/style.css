@@ -351,6 +351,16 @@ li {
     text-decoration: none;
 }
 
+.topmenuItem:hover {
+    background: #6bc9df;
+    text-decoration: none;
+    color: #fff;
+}
+
+.topmenuItem a:hover
+{
+    color: #fff;
+}
 #divAvailSoon p {
     display: inline-block;
     line-height: 60px;
