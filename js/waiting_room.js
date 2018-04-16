@@ -139,7 +139,7 @@ var WaitingRoom = {
                     type: 'warning'
                 },
                 function(){
-                  window.location.href = "/";
+                  window.location.href = "logout.php";
                 });                
             }
             else {

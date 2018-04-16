@@ -183,6 +183,7 @@ var VideoChat = {
               VideoChat.service.pc.addIceCandidate(new RTCIceCandidate(data.candidate)); 
             break; 
             case 'leave':
+              $("#divReconnect").hide();
               VideoChat.leave(true);
             default: 
             break; 
@@ -816,7 +817,7 @@ $(document).ready(function() {
                     type: 'warning'
                 },
                 function(){
-                  window.location.href = "/";
+                  window.location.href = "logout.php";
                 });                
             }    
             else 
