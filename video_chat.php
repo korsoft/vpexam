@@ -26,7 +26,7 @@
                 <div class="custom-videoPatient" id="custom-videoPatient">
                     <video id="remoteVideoPatient" <?PHP if(!empty($navigator['device_name']) && $navigator['device_name']=='iPhone'){ ?>controls="false" webkit-playsinline="true" playsinline="true"  <?PHP } ?> autoplay class="hide" ></video>
                     <video id="localVideo" <?PHP if(!empty($navigator['device_name']) && $navigator['device_name']=='iPhone'){ ?>controls="false" webkit-playsinline="true" playsinline="true"  <?PHP } ?> autoplay muted></video>   
-                    <div id="mycontrols" class="hide">
+                    <div id="mycontrols" <?PHP if(!empty($navigator['device_name']) && $navigator['device_name']=='iPhone'){ ?>class="hide"<?PHP } ?>>
                         <button id="playpause" class="icon-play"></button>
                         <div class="seeker">
                             <progress id="progressbar" class="progressbar" max="100" value="0"></progress>
