@@ -121,7 +121,7 @@ $(document).on("ready", function() {
                              data: 'waitingroom',
                             'render': function ( waitingroom, type, row, meta ) {
                                 var json = JSON.parse(JSON.stringify(row));
-                                return (waitingroom!=null && waitingroom!='' ? '<button type="button" class="btnwr" onclick="openWRChat('+json.patientId+',\''+json.firstName+'\')">Go to Waiting room!</button>' : '');
+                                return (waitingroom!=null && waitingroom!='' ? '<button type="button" class="btnwr" onclick="openWRChat('+json.patientId+',\''+json.firstName+'\')">Connect to Patient</button>' : '');
                             }
                         },
                         {

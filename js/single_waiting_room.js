@@ -143,7 +143,7 @@ function appendPatient( strKey, oJsonPatient ){
                      "<td class=\"chat_open\" onclick='openWRChat( this );' data-id='" + oJsonPatient.id + "' data-name='" + strName + "'>" +
                      "    <div class=\"nameMRNDiv\">" +
                      "        <div style=\"margin: 6px 0 0 0;\">" +
-                     "            <div><button type='button' class='btnwr'>Go to Waiting room!</button></div> " +
+                     "            <div><button type='button' class='btnwr'>Connect to Patient</button></div> " +
                      "        </div>" +
                      "    </div> " +
                      "</td>" +

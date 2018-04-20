@@ -56,7 +56,7 @@
                                 <div class="smallProfileDiv">
                                     <?php if($_GET['wr']==1){?>
                                     <a id="chat" href="#videochat">
-                                        <label id="lblLinkWR">Go to Waiting room</label>
+                                        <label id="lblLinkWR">Connect to Patient</label>
                                     </a><br>
                                     <?php }?>
                                     <img id="profilePic" src="includes/getProfileImage.php?id=<?php echo($patientId); ?>&type=4">
