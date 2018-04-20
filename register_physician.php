@@ -120,6 +120,7 @@ sec_session_start();
                 <tr>
                     <td class="title">Date of Birth</td>
                     <td><input class="holo" id="dobInput" name="dob" readonly="true" type="text" /></td>
+                    <td class="star">*</td>
                 </tr>
                 <tr>
                     <td class="title">Gender</td>

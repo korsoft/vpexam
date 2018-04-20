@@ -306,6 +306,13 @@ function validate() {
     var pwd = $('#pwdInput').val();
     var pwdConfirm = $('#pwdConfirmInput').val();
 
+    if (dob === "") {
+        returnObj.errors.push({
+            msg: "You must enter your date of birth.",
+            elem: "#dobInput"
+        });
+    }
+
     if (fname === "") {
         returnObj.errors.push({
             msg: "You must enter your first name.",

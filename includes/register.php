@@ -350,7 +350,7 @@ if (strcmp($pageName, "register_patient.php") === 0) {
     $pwd = $_POST['pwdHashed'];
 
     // Physician Registration
-    if (isset($_POST['fname'], $_POST['mname'], $_POST['lname'], $_POST['email'], $_POST['dob'], $_POST['gender'], $_POST['npi'], $_POST['hospital'])) {
+    if (!empty($_POST['fname']) && !empty($_POST['lname']) && !empty($_POST['email']) && !empty($_POST['dob']) && !empty($_POST['gender']) && !empty($_POST['npi']) && !empty($_POST['hospital'])) {
         // Check to see if email already exists in DB of both patients AND physicians
         $prepStmtCheckEmail = "CALL sp_select_email_physician_patient(?);";
         $stmtCheckEmail = $mysqli->prepare($prepStmtCheckEmail);
