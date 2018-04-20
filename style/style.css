@@ -499,6 +499,62 @@ div#centerContent {
 .topmenuItem a:hover {
     text-decoration: none;
 }
+#superplayer {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  z-index: 999999;
+  background-color: rgba(0, 0, 0, 0.9);
+  /*background-color: red;*/
+}
+#cerrarYB {
+    color: #fff;
+    font-weight: bold;
+    /* right: 10px; */
+    display: block;
+    float: right;
+    width: 27px;
+    height: 27px;
+    background: #fff;
+    border-radius: 17px;
+    margin-right: 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+#cerrarYB img{
+    padding: 5px;
+}
+.videoContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 10px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#superplayer iframe {
+  /* optional */
+  width: 97%;
+  height: 97%; 
+  padding-left: 3%;
+  padding-top: 2%;
+}
+
 @media screen and (min-width: 1540px){
     .carousel-caption {
         bottom: 62% !important;

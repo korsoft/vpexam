@@ -165,7 +165,13 @@
                             </div>
                             <div class="infoR">
                                 <img src="img/slider/laptop-exam-overview.jpg"><br>
-                                <a href="https://www.youtube.com/watch?v=CK6_Gcn5JCE" target="_blank" class="watchVideo">Watch Our Video </a>
+                                <a class="watchVideo">Watch Our Video </a>
+                                <div id="superplayer"><div id="cerrarYB"><img src="/img/cross.png"></div>
+                                    <div id="player">
+                                        
+                                        <div class="videoContainer"> </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <br /><br />
@@ -178,8 +184,10 @@
                         </div>
                         <div class="descrDiv">
                             <div class="frameYoutube">
-                                <iframe class="ytb-embed" src="https://www.youtube.com/embed/PNkMrz056X0?autoplay=1&controls=0&loop=1&showinfo=0&rel=0" width="730" height="390" frameborder="0" allow="autoplay; encrypted-media" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                            
+                                <!--<iframe class="ytb-embed" src="
+                                https://www.youtube.com/embed/PNkMrz056X0?autoplay=1&controls=0&loop=1&showinfo=0&rel=0&playlist=PNkMrz056X0&origin=https://dev.vpexam.com/" width="730" height="390" frameborder="0" allow="autoplay; encrypted-media" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                -->
+                                <div id="player2"></div>
                             </div>
                             <div class="infoY">
                                 <h1>VPExam.com is your Telemedicine Portal for Patients and Physicians​​</h1>
@@ -203,6 +211,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.0.7/js/swiper.jquery.min.js"></script>
         <script type="text/javascript" src="js/sha512.js?time=<?php echo time(); ?>"></script>
         <script type="text/javascript" src="<?php autoVerCss('/js/forms.js');?>"></script>
+        <script src="https://www.youtube.com/iframe_api"></script>
         <script type="text/javascript" src="js/main.js?time=<?php echo time(); ?>"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>
