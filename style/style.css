@@ -554,6 +554,11 @@ div#centerContent {
   padding-left: 3%;
   padding-top: 2%;
 }
+iframe#player2 {
+    max-width: 96% !important;
+    display: block;
+    margin: 10px auto;
+}
 
 @media screen and (min-width: 1540px){
     .carousel-caption {

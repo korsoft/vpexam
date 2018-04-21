@@ -103,8 +103,8 @@ function onYouTubeIframeAPIReady() {
     }
   });
   player2 = new YT.Player('player2', {
-    height: '200',
-    width: '300',
+    height: '390',
+    width: '730',
     videoId: 'PNkMrz056X0',
     origin: 'https://dev.vpexam.com/',
     playerVars : {
@@ -156,9 +156,9 @@ $('#cerrarYB').click(function(){
     player.stopVideo();
     $('#superplayer').css("display","none")
 });
-console.log('keyup');
+
 $(document).keyup(function(e) {
-    console.log(e.keyCode);
+    //console.log(e.keyCode);
     if (e.keyCode == 27) {
         player.stopVideo();
         $('#superplayer').css("display","none")
