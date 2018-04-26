@@ -83,7 +83,7 @@ $(document).on("ready", function() {
     });
 
     $('#btnMenuSearch').on('click', function() {
-        location.href = "settings.php";
+        location.href = "search.php";
     });
 
     $('#btnMenuSettings').on('click', function() {

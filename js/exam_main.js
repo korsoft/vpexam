@@ -111,7 +111,9 @@ $(document).on("ready", function() {
     });
 
     $('#btnMenuClipboard').on('click', function() {
-        // TODO: Implement this
+        var patientId = getParameterByName('patientId');
+        var examId = getParameterByName('examId');
+        location.href = ("clipboard.php?patientId=" + patientId + "&examId=" + examId);
     });
 
     $('#btnMenuConnectDoxy').on('click', function() {
@@ -123,7 +125,7 @@ $(document).on("ready", function() {
     });
 
     $('#btnMenuSearch').on('click', function() {
-        // TODO: Implement this
+        location.href = "search.php";
     });
 
     $('#btnMenuSettings').on('click', function() {

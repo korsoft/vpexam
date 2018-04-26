@@ -34,7 +34,7 @@ sec_session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script src="js/clipboard.js"></script>
+    <script src="<?php autoVerCss('/js/clipboard.js');?>"></script>
     <script src="js/slideout.min.js"></script>
     <script src="https://tinymce.cachefly.net/4.1/tinymce.min.js"></script>
     <script src="js/collapsible-list.js"></script>
