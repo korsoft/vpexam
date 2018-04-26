@@ -58,7 +58,7 @@
                     container.mozRequestFullScreen(); // Firefox
                 } 
                 else if (remoteVideo.webkitRequestFullscreen) {
-                    remoteVideo.webkitRequestFullscreen(); // Chrome and Safari
+                    container.webkitRequestFullscreen(); // Chrome and Safari
                 }
                 else if (remoteVideo.msRequestFullscreen) {// IE
                     container.msRequestFullscreen();                    
