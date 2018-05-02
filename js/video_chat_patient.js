@@ -797,31 +797,34 @@ function fncReLog()
     setTimeout("VideoChat.init($('#caller').val());",7000);
 }
 (function ($) {
-    var setCookie,
+   if(e.os.name!='iPhone' && e.os.name!='iPad' && e.os.name!='Android')
+   {
+        var setCookie,
         removeCookie,
         // Create constants for things instead of having same string
         // in multiple places in code.
         COOKIE_NAME = 'TabOpen',
         SITE_WIDE_PATH = { path : '/' };
 
-    setCookie = function () { 
-        $.cookie(COOKIE_NAME, '1', SITE_WIDE_PATH); 
-    };
+        setCookie = function () { 
+            $.cookie(COOKIE_NAME, '1', SITE_WIDE_PATH); 
+        };
 
-    removeCookie = function () {
-        $.removeCookie(COOKIE_NAME, SITE_WIDE_PATH);
-    };
-    // We don't need to wait for DOM ready to check the cookie
-    if ($.cookie(COOKIE_NAME) === undefined) {
-        setCookie();
-      window.addEventListener("beforeunload", removeCookie);
-    } else {
-        // Replace the whole body with an error message when the DOM is ready.
-        $(function () { 
-            swal({title: 'Sorry!',
-                text: 'You can only have one instance of the waiting room page open at a time. Please, close this window and return to previous session.',
-                html: true,
-                type: 'warning' },function(){ $.removeCookie(COOKIE_NAME, SITE_WIDE_PATH); window.location.href = "/";});
-            });
+        removeCookie = function () {
+            $.removeCookie(COOKIE_NAME, SITE_WIDE_PATH);
+        };
+        // We don't need to wait for DOM ready to check the cookie
+        if ($.cookie(COOKIE_NAME) === undefined) {
+            setCookie();
+          window.addEventListener("beforeunload", removeCookie);
+        } else {
+            // Replace the whole body with an error message when the DOM is ready.
+            $(function () { 
+                swal({title: 'Sorry!',
+                    text: 'You can only have one instance of the waiting room page open at a time. Please, close this window and return to previous session.',
+                    html: true,
+                    type: 'warning' },function(){ $.removeCookie(COOKIE_NAME, SITE_WIDE_PATH); window.location.href = "/";});
+                });
+        }
     }
 }(jQuery));
