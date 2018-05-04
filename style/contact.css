@@ -63,14 +63,14 @@ body {
     position: absolute;
     right: 0;
     width: 224px;
-    margin: 0 35px 0 0;
+    margin: 0 8px 0 0 !important;
 }
 
 .sidebar_item {
     background: white;
     border-radius: 15px;
     border: 2px solid #67c9e0;
-    padding: 0 15px;
+    padding: 0 0 0 15px !important;
     width: 192px;
 }
 
@@ -234,7 +234,7 @@ li {
     border-right: 10px solid transparent;
 
     border-bottom: 20px solid #67c9e0;
-    margin: 0 auto 0 auto
+    margin: 0 38px 0 auto !important;
 }
 
 #centerContent img {
@@ -414,4 +414,8 @@ table {
 .contactDiv p {
     font-size: 140%;
     margin: 10px 0 0 0;
+}
+#loginForm input[type="text"], #loginForm input[type="password"] {
+    height: auto !important;
+    width: 146px !important;
 }
