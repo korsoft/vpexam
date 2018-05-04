@@ -41,7 +41,7 @@
                     <div class="topmenu">
                         <!--<span class="topmenuItem split">|</span>-->
                         <div class="topmenuItem hoverable" id="btnTopContact">
-                            <a href="main.php"><span>Main</span></a>
+                            <a href="main.php"><span>Home</span></a>
                         </div>
                         <div class="topmenuItem hoverable">
                             <?php if(0 < $userloggedid) { ?>
@@ -109,5 +109,6 @@
     <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="<?php autoVerCss('/js/sha512.js');?>"></script>
     <script type="text/javascript" src="<?php autoVerCss('/js/forms.js');?>"></script>
-    <script type="text/javascript" src="<?php autoVerCss('/js/contact.js');?>"></script>
+    <!--script type="text/javascript" src="<?php autoVerCss('/js/contact.js');?>"></script-->
+    <script type="text/javascript" src="js/main.js?time=<?php echo time(); ?>"></script>
 </html>
