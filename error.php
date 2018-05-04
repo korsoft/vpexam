@@ -36,7 +36,7 @@
                 </div>
                 <div class="topmenu">
                     <div class="topmenuItem hoverable" id="btnTopHome">
-                        <a href="main.php"><span>Main</span></a>
+                        <a href="main.php"><span>Home</span></a>
                     </div>
                     <!--<span class="topmenuItem split">|</span>-->
                     <div class="topmenuItem hoverable" id="btnTopLogin">
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     <div class="topmenuItem hoverable" id="btnTopContact">
-                        <span>Contact Us</span>
+                        <a href="contact.php"><span>Contact Us</span></a>
                     </div>
                 </div>
             </div>

@@ -25,7 +25,8 @@ html {
 }
 
 body {
-    font: normal .80em encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    /*font: normal .80em encode-sans, 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;*/
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     background: #FFFFFF;/*#eeebff;*/
     color: #555;
     height: 100%;
@@ -33,7 +34,9 @@ body {
 
 #header {
     background: #0082d2;/*#a6bddb;*/
-    height: 110px;
+    height: 148px;
+    /*padding-bottom: 22px;*/
+    max-width: 100%;
 }
 
 #logo {
@@ -44,7 +47,8 @@ body {
 
 #logo #logo_text {
     display: inline-block;
-    top: 10px;
+    /*top: 10px;*/
+    padding-top: 25px;
     left: 0;
 }
 
@@ -191,13 +195,13 @@ li {
     display: inline-block;
     float: right;
     padding: 10px;
+    margin-top: 69px;
 }
 
 .topmenuItem {
     color: white;
     display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 19px;
     padding: 5px 10px 5px 10px;
 }
 
