@@ -413,3 +413,12 @@ table {
     font-size: 130%;
     padding: 20px 10px 20px 10px;
 }
+#loginForm input[type="text"], #loginForm input[type="password"] {
+    height: auto !important;
+    width: 146px !important;
+}
+.sidebar_item label {
+    font-weight: 300;
+    margin-bottom: 0;
+    font-size: 13px;
+}
