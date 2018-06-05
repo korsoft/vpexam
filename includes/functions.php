@@ -1981,3 +1981,7 @@ function searchPatientsbyId($id, $mysqli) {
     }
     return $patientInfo;
 }
+
+function asignDemoPatient($id, $mysqli) {
+    return $mysqli->query("CALL sp_assing_demo_patient($id)");
+}
