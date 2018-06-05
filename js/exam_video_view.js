@@ -156,7 +156,8 @@ $(document).on("ready", function() {
         vid.el().appendChild($elem[3]);
         $('#jumpDialog').dialog({
             autoOpen: false,
-            width: 'auto'
+            width: 'auto',
+            appendTo: '#examVid'
         });
         var tinymceHeight = (screen.height - 135) * 0.5;
 
