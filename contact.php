@@ -41,7 +41,7 @@
                     <div class="topmenu">
                         <!--<span class="topmenuItem split">|</span>-->
                         <div class="topmenuItem hoverable" id="btnTopContact">
-                            <a href="main.php"><span>Main</span></a>
+                            <a href="main.php"><span>Home</span></a>
                         </div>
                         <div class="topmenuItem hoverable">
                             <?php if(0 < $userloggedid) { ?>
@@ -58,13 +58,10 @@
                                     <form id="loginForm" class="loginForm" method="post" action="includes/process_login.php">
                                         <label for="user" class="loginW">Username:</label><br>
                                         <input class="login" name="username" id="user" type="text"><br>
-                                        <br>
                                         <label for="user" class="loginW">Password:</label><br>
                                         <input class="login" name="password" id="password" type="password"><br>
-                                        <br>
                                         <input name="remember" type="checkbox"><label for="remember" class="loginW">Remember
                                         Me</label><br>
-                                        <br>
                                         <div id="btnLogin" name="btnLogin" class="button-dark" value="Login" type="button">
                                             Login
                                         </div>
@@ -109,5 +106,6 @@
     <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="<?php autoVerCss('/js/sha512.js');?>"></script>
     <script type="text/javascript" src="<?php autoVerCss('/js/forms.js');?>"></script>
-    <script type="text/javascript" src="<?php autoVerCss('/js/contact.js');?>"></script>
+    <!--script type="text/javascript" src="<?php autoVerCss('/js/contact.js');?>"></script-->
+    <script type="text/javascript" src="js/main.js?time=<?php echo time(); ?>"></script>
 </html>
