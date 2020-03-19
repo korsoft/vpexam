@@ -514,6 +514,7 @@ if (strcmp($pageName, "register_patient.php") === 0) {
 }
 
 function getNPIVerification($npi) {
+    /*
     $url = "https://vpexam.com/includes/verify_npi.php?npi=" . $npi;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -526,7 +527,8 @@ function getNPIVerification($npi) {
         exit();
     }
     curl_close($ch);
-
+    */
+    $content = '{"errorNum": -1,"line":-1}';
     return json_decode($content);
 }
 
