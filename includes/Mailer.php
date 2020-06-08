@@ -12,7 +12,7 @@ class Mailer {
 	private $_template      = '';
 	private $_templatespath = 'templates/';
     public function __construct($templatename = '', $subject = '', $recipients = '', $content) {
-        $this->mimi = new MadMimi('louis@korsoftcorp.com', '11b0b9a05fcfedc1db23787742664991');
+        $this->mimi = new MadMimi(_MADMIMI_USER_, _MADMIMI_KEY_);
     	$this->setTemplate($templatename);
     	$this->setSubject($subject);
      	$this->setRecipients($recipients);
