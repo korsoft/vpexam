@@ -128,7 +128,7 @@ try {
         unlink($file); 
     }
     if ($_POST['typeFile']!=='A' && ($isVideoMale == true || $isVideoFemale == true)){
-        exec("/opt/local/bin/ffmpeg -i $filetmp -f mp4 $videoFile");
+        exec( _FFMPEG_PATH_ . " -i $filetmp -f mp4 $videoFile");
         $filetmp='';
     }else{
         move_uploaded_file($filetmp, $file);
@@ -137,7 +137,7 @@ try {
 
     $thumFile = COMPONENT_IMAGE_PATH.$_POST['idComponent']."/thumbnail";
     if($_POST['typeFile']==='M') {
-        exec("/opt/local/bin/ffmpeg -y -i $videoFile -f gif $thumFile");
+        exec( _FFMPEG_PATH_ . " -y -i $videoFile -f gif $thumFile");
         if(!file_exists($videoFile)){
             createThumbnail($file,$folder,$filetype);
         }
